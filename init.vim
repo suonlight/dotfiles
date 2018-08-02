@@ -9,6 +9,7 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'szw/vim-maximizer'
 Plug 'mtth/scratch.vim'
 Plug 'easymotion/vim-easymotion'
+Plug 'matze/vim-move'
 
 Plug 'danro/rename.vim'
 
@@ -555,7 +556,7 @@ nnoremap <Leader>tb :TestFile<CR>     " Run test in Buffer
 nnoremap <Leader>tt :TestNearest<CR>  " Run test at point
 
 " Register
-nnoremap <silent> <Space>re :registers<CR>     " Registers
+nnoremap <silent> <Space>re :registers<CR>|     " Registers
 
 " Text
 nmap <Space>xa: <Plug>(EasyAlign)ip:<CR>|  " Text > Align > :
@@ -563,6 +564,8 @@ nmap <Space>xa= <Plug>(EasyAlign)ip=<CR>|  " Text > Align > =
 nmap <Space>xa" <Plug>(EasyAlign)ip"<CR>|  " Text > Align > "
 
 " Global
-nmap gy yygccp               " Copy and Comment Lines
-nmap <silent> <Space>cl gcc  " Comment Lines
-vmap <silent> <Space>cl gcc  " Comment Lines
+nmap gy yygccp                           " Copy and Comment Lines
+nmap <silent> <Space>cl gcc              " Comment Lines
+vmap <silent> <Space>cl gcc              " Comment Lines
+vmap <silent> <S-k> <Plug>MoveBlockUp    " Move Block Up
+vmap <silent> <S-j> <Plug>MoveBlockDown  " Move Block Down
