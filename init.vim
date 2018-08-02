@@ -5,6 +5,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'benmills/vimux'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'szw/vim-maximizer'
 Plug 'mtth/scratch.vim'
@@ -357,7 +358,7 @@ tnoremap jk <C-\><C-n>
 "----------------------------------------------
 " Plug 'janko-m/vim-test'
 "----------------------------------------------
-let g:test#strategy = "neoterm"
+let g:test#strategy = 'vimux'
 let g:test#preserve_screen = 1
 
 " nnoremap <Leader>n :TestNearest<CR>
@@ -474,7 +475,7 @@ nnoremap <silent> <Space>hdf :Helptags<CR>  " Help > Describe > Tags Function
 nnoremap <silent> <Space>qq :q<CR>          " Quit Program
 
 " Windows
-nnoremap <silent> <Space>0 :NERDTreeToggle<CR>      " Tree > Select Window
+nnoremap <silent> <Space>0 :NERDTreeFind<CR>        " Tree > Select Window
 nnoremap <silent> <Space>1 :exe 1 . 'wincmd w'<CR>  " Window 1
 nnoremap <silent> <Space>2 :exe 2 . 'wincmd w'<CR>  " Window 2
 nnoremap <silent> <Space>3 :exe 3 . 'wincmd w'<CR>  " Window 3
