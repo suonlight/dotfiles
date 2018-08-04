@@ -13,6 +13,7 @@ Plug 'easymotion/vim-easymotion'
 Plug 'matze/vim-move'
 
 Plug 'danro/rename.vim'
+Plug 'vim-scripts/highlight.vim'
 
 Plug 'mhinz/vim-startify'
 Plug 'vim-airline/vim-airline'
@@ -528,7 +529,8 @@ nnoremap <silent> <Space>* :Ag <C-R><C-W><CR>
 map <silent> <Space>jj <Plug>(easymotion-s)
 map <silent> <Space>jw <Plug>(easymotion-bd-w)
 nnoremap <silent> <Space>ji :BTags<CR>
-
+nnoremap <silent> <Space>sh :call <SNR>62_Highlight("w") \| nohls<CR>
+nnoremap <silent> <Space>sc :call <SNR>62_Highlight("n")<CR>
 " Buffers
 nnoremap <silent> <Space>bb :Buffer<CR>|    " List Buffers
 nnoremap <silent> <Space>bd :bdelete<CR>    " Delete Buffer
@@ -550,7 +552,7 @@ nnoremap <silent> <Space>gll :Gbrowse<CR>  " Git Browse
 
 " Terminal
 nnoremap <silent> <Space>' :Ttoggle<CR>            " Open/Close shell
-tnoremap <silent> <Space>' <C-\><C-n>:Ttoggle<CR>  " Open/Close Shell
+" tnoremap <silent> <Space>' <C-\><C-n>:Ttoggle<CR>  " Open/Close Shell
 
 " Test
 nnoremap <Leader>tb :TestFile<CR>     " Run test in Buffer
