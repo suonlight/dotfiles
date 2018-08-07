@@ -271,7 +271,7 @@ let g:jsx_ext_required = 0
 " Plug 'prettier/vim-prettier'
 "----------------------------------------------
 let g:prettier#autoformat = 0
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue Prettier
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.less,*.json,*.graphql,*.md,*.vue Prettier
 
 "----------------------------------------------
 " Plug 'christoomey/vim-tmux-navigator'
@@ -289,6 +289,7 @@ let g:tmux_navigator_no_mappings = 1
 let g:tmux_navigator_save_on_switch = 1
 
 " Move between splits with ctrl+h,j,k,l
+set shell=/bin/bash\ -i
 nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
 nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
