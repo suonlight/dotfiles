@@ -63,17 +63,17 @@ values."
      ;;     ;; go-use-gometalinter t
      ;;     gofmt-command "goimports"
      ;;     go-tab-width 4)
-     ;; plantuml
      (org :variables org-want-todo-bindings t)
+     ;; plantuml
      shell-scripts
      (shell :variables
             shell-default-shell 'shell
             ;; shell-enable-smart-eshell t
-            ;; shell-default-position 'full
+            shell-default-position 'full
             shell-default-full-span t)
      ;; helm
      ivy
-     (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t)
+     ;; (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t)
      ;; ycmd
      ;; lsp
      (auto-completion :variables
@@ -94,16 +94,17 @@ values."
                       version-control-diff-side 'right
                       version-control-diff-tool 'diff-hl)
      search-engine
-     ;; tmux
+     tmux
+     treemacs
      (spacemacs-layouts :variables layouts-enable-autosave nil layouts-autosave-delay 300)
      ;; (ibuffer :variables ibuffer-group-buffers-by 'projects)
-     treemacs
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(
+                                      osx-clipboard
                                       read-aloud
                                       company-flow
                                       prettier-js
@@ -113,6 +114,7 @@ values."
                                       ;; kanban
                                       evil-terminal-cursor-changer
                                       pbcopy
+                                      base16-theme
                                       ;; eshell-git-prompt
                                       ;; doom-themes
                                       ;; spaceline-all-the-icons
@@ -335,7 +337,7 @@ values."
    ;;                       text-mode
    ;;   :size-limit-kb 1000)
    ;; (default nil)
-   dotspacemacs-line-numbers 'relative
+   dotspacemacs-line-numbers 'nil
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
@@ -376,7 +378,6 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
-  ;; (add-to-list 'exec-path "/usr/local/bin/" t)
   (push '("melpa-stable" . "stable.melpa.org/packages/") configuration-layer-elpa-archives)
   (push '(use-package . "melpa-stable") package-pinned-packages)
   (org-babel-do-load-languages
@@ -391,360 +392,109 @@ before packages are loaded. If you are unsure, you should try in setting them in
      (js . t)))
   )
 
-(defun dotspacemacs/user-config ()
-  "Configuration function for user code.
-This function is called at the very end of Spacemacs initialization after
-layers configuration.
-This is the place where most of your configurations should be done. Unless it is
- explicitly specified that a variable should be set before a package is loaded,
-you should place your code here."
-  (setq mode-require-final-newline t)
-  (setq require-final-newline t)
-  ;; (setq large-file-warning-threshold nil)
-  (setq tags-add-tables nil)
-  (setq gc-cons-threshold (* 100 1024 1024))
-  ;; (global-evil-mc-mode 1)
+(defun user-config-tui ()
+  "Configuration function for Terminal UI"
+  (setq powerline-default-separator 'utf-8)
+  ;; clipboard for emacs version >= 26
+  (use-package osx-clipboard
+     :config
+     (progn
+       (osx-clipboard-mode +1)
+       (diminish 'osx-clipboard-mode)))
 
-  (setq powerline-default-separator (if (display-graphic-p) 'contour 'utf-8))
+  (evil-leader/set-key "x t m" 'emamux:send-region)
 
-  (setq counsel-async-filter-update-time 100000)
+  (setq dotspacemacs-themes '(base16-monokai base16-default-dark))
+  (use-package base16-theme
+    :ensure t
+    :config
+    (load-theme 'base16-monokai t))
 
-  ;; ivy and counsel
-  (setq ivy-initial-inputs-alist nil)
-  (setq ivy-re-builders-alist '((ivy-switch-buffer . ivy--regex-plus)
-                                (swiper . ivy--regex-plus)
-                                (t . ivy--regex-fuzzy)))
+  (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
+  (global-set-key (kbd "<mouse-5>") 'scroll-up-line)
 
-  ;; (if (display-graphic-p)
-  ;;     (with-eval-after-load 'pbcopy
-  ;;       (turn-on-pbcopy)))
+  (setq treemacs-no-png-images t)
+  (defun my-treemacs-hash-icons ()
+    "Create and define all icons-related caches, hashes and stashes."
+    (setq-local treemacs-icons-hash (make-hash-table :size 100 :test #'equal))
+    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "vim")
+    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "svg")
+    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "md" "markdown")
+    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "js")
+    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "jsx")
+    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "css")
+    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "png" "pdf" "jpg")
+    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "ico")
+    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "html")
+    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "clj")
+    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "cljs")
+    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "go")
+    (treemacs-define-custom-icon
+     (propertize "" 'face 'font-lock-keyword-face)
+     "yml"
+     "yaml"
+     "DS_Store"
+     "properties"
+     "conf"
+     "config"
+     "gitignore"
+     "gitconfig"
+     "ini"
+     "xdefaults"
+     "xresources"
+     "terminalrc"
+     "org"
+     "toml")
+    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "rb" "ruby")
+    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "zsh" "bash" "sh")
+    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "py")
+    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "json")
+    treemacs-icons-hash)
 
+  (defun my-treemacs--create-file-button-strings (path prefix parent depth)
+    "Return the text to insert for a file button for PATH.
+PREFIX is a string inserted as indentation.
+PARENT is the (optional) button under which this one is inserted.
+DEPTH indicates how deep in the filetree the current button is."
+    (my-treemacs-hash-icons)
+    (list
+     prefix
+     (ht-get treemacs-icons-hash
+             (-> path (treemacs--file-extension) (downcase))
+             treemacs-icon-fallback)
+     (propertize (file-name-nondirectory path)
+                 'button '(t)
+                 'category 'default-button
+                 'help-echo nil
+                 'keymap nil
+                 :default-face 'treemacs-git-unmodified-face
+                 :state 'file-node-closed
+                 :path path
+                 :parent parent
+                 :depth depth)))
 
-  (evil-leader/set-key "s p" 'counsel-projectile-ag)
-  (evil-leader/set-key "/" 'counsel-ag)
-  ;; (evil-leader/set-key "p f" 'fiplr-find-file)
+  (advice-add 'treemacs--create-file-button-strings :override #'my-treemacs--create-file-button-strings )
 
-  ;; (when (window-system)
-  ;;   (set-frame-font "Fira Code"))
-  ;; (set-frame-font "-*-Fira Code-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
-  (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
-                 (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
-                 (36 . ".\\(?:>\\)")
-                 (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
-                 (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
-                 (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
-                 (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
-                 (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
-                 ;; (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
-                 (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
-                 (48 . ".\\(?:x[a-zA-Z]\\)")
-                 (58 . ".\\(?:::\\|[:=]\\)")
-                 (59 . ".\\(?:;;\\|;\\)")
-                 (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
-                 (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
-                 (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
-                 (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
-                 (91 . ".\\(?:]\\)")
-                 (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
-                 (94 . ".\\(?:=\\)")
-                 (119 . ".\\(?:ww\\)")
-                 (123 . ".\\(?:-\\)")
-                 (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
-                 (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
-                 )))
-    (dolist (char-regexp alist)
-      (set-char-table-range composition-function-table (car char-regexp)
-                            `([,(cdr char-regexp) 0 font-shape-gstring]))))
+  (with-eval-after-load "treemacs"
+    (setq
+     treemacs-icon-tag-node-open-txt   (propertize "▾ " 'face 'font-lock-keyword-face)
+     treemacs-icon-tag-node-closed-txt (propertize "▸ " 'face 'font-lock-keyword-face)
+     treemacs-icon-open-text   (propertize "▾ " 'face 'font-lock-keyword-face)
+     treemacs-icon-closed-text (propertize "▸ " 'face 'font-lock-keyword-face)
+     treemacs-icon-tag-leaf-txt (propertize "- " 'face 'font-lock-keyword-face)
+     treemacs-icon-fallback-text (propertize " " 'face 'font-lock-keyword-face)
 
-  ;; (setq golden-ratio-mode t)
-  (indent-guide-global-mode)
+     treemacs-icon-open-png   (propertize "▾ " 'face 'font-lock-keyword-face)
+     treemacs-icon-closed-png (propertize "▸ " 'face 'font-lock-keyword-face)
+     treemacs-icon-text (propertize " " 'face 'font-lock-keyword-face)))
 
-  ;; magit
-  (setq git-commit-summary-max-length 50)
+  ;; cursor shape
+  (require 'evil-terminal-cursor-changer)
+  (evil-terminal-cursor-changer-activate))
 
-  (unless (display-graphic-p)
-    (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
-    (global-set-key (kbd "<mouse-5>") 'scroll-up-line))
-
-  ;; (progn
-  ;;   ;; Linum
-  ;;   (setq-default
-  ;;    ;; linum-format "%4d \u2502"
-  ;;    linum-format "%4d  "
-  ;;    ;; linum-relative-format "%4s \u2502"
-  ;;    linum-relative-format "%4s  "
-  ;;    ))
-
-  ;; ;; Highlight regions at opening file
-  ;; (add-hook 'find-file-hook 'smeargle)
-
-  ;; ;; Updating after save buffer
-  ;; (add-hook 'after-save-hook 'smeargle)
-
-  ;; (progn
-  ;;   ;; Git Gutter
-  ;;   (set-face-attribute
-  ;;    'git-gutter:added nil :background nil :foreground "green")
-  ;;   (set-face-attribute
-  ;;    'git-gutter:deleted nil :background nil :foreground "red")
-  ;;   (set-face-attribute
-  ;;    'git-gutter:modified nil :background nil :foreground "blue")
-  ;;   (setq-default
-  ;;    git-gutter:modified-sign "!"
-  ;;    ))
-
-  (progn
-    (set-face-attribute
-     'diff-hl-insert nil :background nil :foreground "green")
-    (set-face-attribute
-     'diff-hl-delete nil :background nil :foreground "red")
-    (set-face-attribute
-     'diff-hl-change nil :background nil :foreground "blue"))
-
-  (with-eval-after-load  'diff-hl
-    (setq diff-hl-side 'right)
-    (add-hook 'prog-mode-hook 'diff-hl-mode)
-    (add-hook 'prog-mode-hook 'diff-hl-margin-mode)
-    (add-hook 'dired-mode-hook 'diff-hl-dired-mode))
-
-  ;; window
-  (evil-leader/set-key "w |" 'split-window-right)
-
-  (push (cons "\\*shell\\*" display-buffer--same-window-action) display-buffer-alist)
-
-  ;; vim word with underscore
-  (with-eval-after-load 'evil
-    (defalias #'forward-evil-word #'forward-evil-symbol))
-
-  ;; javascript
-  (setq-default
-   ;; js2-mode
-   js2-basic-offset 2
-   js-indent-level 2
-   ;; web-mode
-   css-indent-offset 2
-   web-mode-markup-indent-offset 2
-   web-mode-css-indent-offset 2
-   web-mode-code-indent-offset 2
-   web-mode-attr-indent-offset 2)
-
-  (setq projectile-enable-caching t)
-
-  (defun my/use-eslint-from-node-modules ()
-    (let* ((root (locate-dominating-file
-                  (or (buffer-file-name) default-directory)
-                  "node_modules"))
-           (eslint (and root
-                        (expand-file-name "node_modules/eslint/bin/eslint.js"
-                                          root))))
-      (when (and eslint (file-executable-p eslint))
-        (setq-local flycheck-javascript-eslint-executable eslint)
-        ;; (flycheck-select-checker 'javascript-eslint)
-        ;; (evil-leader/set-key "e n" 'flycheck-next-error)
-        )))
-
-  (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
-
-  (setq flycheck-javascript-eslint-executable "npm run lint")
-
-  ;; (add-hook 'rjsx-mode #'lsp-javascript-flow-enable) ;; for rjsx-mode support
-
-  (with-eval-after-load 'org
-    ;; (evil-leader/set-key-for-mode "p" "org-present")
-    (add-hook 'evil-org-mode-hook (lambda ()
-                                    (evil-define-key 'normal evil-org-mode-map "-" 'org-cycle-list-bullet)))
-    (require 'org-agenda)
-    (setq org-agenda-files (split-string (getenv "ORG_AGENDA_FILES") ":"))
-    (org-agenda-to-appt)
-    (appt-activate 1)
-    (setq appt-message-warning-time 10)
-    (setq appt-display-interval 2)
-    (setq appt-display-format 'window)
-    (display-time)
-    (add-hook 'org-finalize-agenda-hook 'org-agenda-to-appt)
-    (defun rgr/org-display (min-to-app new-time msg)
-      (shell-command
-       (concat "terminal-notifier "
-               "-title 'Reminder' "
-               "-message '" msg "' "
-               "-sound default "
-               ;; "-appIcon ~/org-modes/bot.jpg"
-               )))
-    (setq appt-disp-window-function (function rgr/org-display))
-
-    ;; org-capture
-    (setq org-capture-templates
-          '(
-            ("v"
-             "Vocabulary"
-             entry
-             (file "~/org-modes/flashcards.org")
-             "* %i%^{prompt} :drill: \n\nTranslate\n\n** Answer\n\n[[file:~/org-modes/images/%\\1.png]]\n\n** Image Source\n\n#+begin_src shell\ntest -f ~/org-modes/images/%\\1.png || wget -O ~/org-modes/images/%\\1.png \"%\\1%?\"\n#+end_src")
-            ("a"
-             "Appointment"
-             entry
-             (file+headline "~/org-modes/personal.org" "Appointments")
-             "* TODO %?\n:PROPERTIES:\n\n:END:\nDEADLINE: %^T \n %i\n"
-             )
-            ("l"
-             "learn"
-             entry
-             (file "~/org-modes/learn.org")
-             "* %? :drill:\n"
-             )
-            ("c"
-             "Reading List"
-             entry
-             (file+headline "~/org-modes/personal.org" "Reading List")
-             "* TODO %?\n")))
-
-    (require 'org-checklist)
-    ;; org-drill
-    (setq org-drill-maximum-items-per-session 40)
-    (setq org-drill-maximum-duration 30)   ; 30 minutes
-    (setq org-drill-learn-fraction 0.1)
-    ;; (setq org-drill-spaced-repetition-algorithm 'sm2)
-    )
-
-  (setq org-confirm-babel-evaluate nil)
-
-  ;; uml
-  (setq org-plantuml-jar-path "~/org-modes/plantuml.jar")
-
-  ;; google-translate
-  (setq google-translate-default-source-language "en")
-  (setq google-translate-default-target-language "vi")
-
-  ;; search engine
-  (push '(oxford-dictionary
-          :name "Oxford Dictionary"
-          :url  "http://www.oxfordlearnersdictionaries.com/definition/english/%s")
-        search-engine-alist)
-
-  (push '(vdict-dictionary
-          :name "Vdict Dictionary"
-          :url  "https://vdict.com/%s,1,0,0.html")
-        search-engine-alist)
-
-  (defengine search-workarround "") ;; work arround to define search-oxford-dictionary
-
-  (evil-leader/set-key "s w o" 'engine/search-oxford-dictionary)
-  (evil-leader/set-key "s w v" 'engine/search-vdict-dictionary)
-  (evil-leader/set-key "s w g" 'engine/search-google)
-  (evil-leader/set-key "s w i" 'engine/search-google-images)
-  (evil-leader/set-key "s w m" 'engine/search-google-maps)
-
-  ;; company
-  (setq company-idle-delay 0.1)
-
-  (with-eval-after-load 'company
-    (add-hook 'company-mode-hook (lambda ()
-                                   (define-key company-active-map (kbd "C-e") 'company-complete-selection)
-                                   ;; (add-to-list 'company-backends 'company-ycmd)
-                                   ;; (add-to-list 'company-backends 'company-flow)
-                                   (add-to-list 'company-backends 'company-shell))
-              )
-    )
-
-  ;; (add-hook 'rjsx-mode-hook
-  ;;           (lambda ()
-  ;;             (add-to-list 'company-backends 'company-flow)))
-
-  (setq js2-mode-show-parse-errors nil)
-  (setq js2-mode-show-strict-warnings nil)
-  (add-hook 'js2-init-hook
-            '(lambda ()
-               (setq next-error-function 'flycheck-next-error)
-               ))
-  (setq js-indent-align-list-continuation nil)
-
-  (add-hook 'js2-mode-hook 'prettier-js-mode)
-  (add-hook 'web-mode-hook 'prettier-js-mode)
-
-  (setq read-aloud-engine "say")
-  (evil-leader/set-key "x s" 'read-aloud-this)
-
-  ;; docker
-  (evil-leader/set-key "D b" 'dockerfile-build-buffer)
-
-  ;; ess
-  (add-hook 'ess-mode-hook
-            (lambda ()
-              (ess-toggle-underscore nil)))
-
-  (if (not (display-graphic-p))
-      (progn
-        ;; tmux
-        (defun tmux-smart-shell ()
-          "Invoke a tmux panel"
-          (interactive)
-          (let ((command "tmux split-window -p 25"))
-            (if (projectile-project-p)
-                (projectile-with-default-dir (projectile-project-root)
-                  (shell-command command))
-              (shell-command command))))
-        (evil-leader/set-key "t '" 'tmux-smart-shell)))
-
-  ;; (evil-leader/set-key "x t m" 'emamux:send-region)
-
-  (defun smart-shell-pop ()
-    "Invoke a shell with smart directory"
-    (interactive)
-    (if (projectile-project-p)
-        (spacemacs/projectile-shell-pop)
-      (spacemacs/default-pop-shell)))
-
-  (evil-leader/set-key "'" 'smart-shell-pop)
-
-  ;; (defun gutentags-hook ()
-  ;;   "Autoload tags file from gutentags ~/.cache/tags"
-  ;;   (if (projectile-project-p)
-  ;;       (let ((tags-file-name (concat
-  ;;                              "~/.cache/tags/"
-  ;;                              (replace-regexp-in-string "/" "-"
-  ;;                                                        (replace-regexp-in-string
-  ;;                                                         "^/" ""
-  ;;                                                         (projectile-project-root)))
-  ;;                              "tags")))
-  ;;         (message "tags-file-name %S" tags-file-name)
-  ;;         (setq projectile-tags-file-name tags-file-name))))
-
-  (defun javascript-find-spec ()
-      "Open spec file for current file"
-      (interactive)
-      (let* ((dir-name (file-name-directory buffer-file-name))
-             (test-dir-name (concat dir-name "__tests__/"))
-             (test-file-name (concat
-                              test-dir-name
-                              (file-name-base buffer-file-name)
-                              ".spec.js")))
-        (if (file-exists-p test-file-name)
-            (find-file test-file-name)
-          (counsel-find-file test-dir-name))))
-
-  (evil-leader/set-key-for-mode 'js2-mode "t" 'javascript-find-spec)
-  (evil-leader/set-key-for-mode 'rjsx-mode "t" 'javascript-find-spec)
-
-  ;; shell
-  (setq comint-input-ring-size 1000)
-  (add-hook 'shell-mode-hook 'my-shell-mode-hook)
-  (defun my-shell-mode-hook ()
-    (setq comint-input-ring-file-name "~/.zsh_history")  ;; or bash_history
-    (setq comint-input-ring-separator "\n: \\([0-9]+\\):\\([0-9]+\\);")
-    (comint-read-input-ring t))
-
-  (add-hook 'shell-mode-hook
-            '(lambda ()
-               (evil-declare-key 'insert shell-mode-map (kbd "C-r") 'counsel-shell-history)))
-
-  ;; clojure
-  ;; (setq cider-cljs-lein-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel [:dev :test :cards]))")
-  (setq cider-cljs-lein-repl "(do (use 'user) (start))")
-  (setq clojure-indent-style :align-arguments)
-
-  (autoload 'apib-moconde "apib-mode"
-    "Major mode for editing API Blueprint files" t)
-  (add-to-list 'auto-mode-alist '("\\.apib\\'" . apib-mode))
+(defun user-config-gui ()
+  "Configuration function for Graphical UI"
+  (setq powerline-default-separator 'contour)
 
   (with-eval-after-load "treemacs"
     (treemacs-define-custom-icon
@@ -776,7 +526,11 @@ you should place your code here."
                  )
      "apib")
     (treemacs-define-custom-icon
-     treemacs-icon-conf
+     (propertize " "
+                 'display (create-image "~/projects/icons/conf.png" 'png nil :ascent 'center :scale 1)
+                 'img-selected (create-image "~/projects/icons/conf.png" 'png nil :ascent 'center :scale 1)
+                 'img-unselected (create-image "~/projects/icons/conf.png" 'png nil :ascent 'center :scale 1)
+                 )
      "yml"
      "development"
      "test"
@@ -811,76 +565,492 @@ you should place your code here."
      "prettierrc"
      "mention-bot"
      ))
+  )
 
-  ;; (unless (display-graphic-p)
-;;     (with-eval-after-load "treemacs"
-;;       (defun my-treemacs--check-window-system ()
-;;         "Check if this treemacs instance is running in a GUI or TUI.
-;; If it's running in a TUI use terminal switch to simple text icons."
-;;         ;; (-let [no-images (or treemacs--image-creation-impossible
-;;         ;;                      treemacs-no-png-images)]
-;;         (-let [no-images t]
-;;           (with-no-warnings
-;;             (setq-local treemacs-icon-open            (if no-images treemacs-icon-open-text treemacs-icon-open-png))
-;;             (setq-local treemacs-icon-closed          (if no-images treemacs-icon-closed-text treemacs-icon-closed-png))
-;;             (setq-local treemacs-icon-fallback        (if no-images treemacs-icon-fallback-text treemacs-icon-text))
-;;             (setq-local treemacs-icons-hash           (if no-images (make-hash-table :test #'eq) (default-value 'treemacs-icons-hash)))
-;;             (setq-local treemacs-icon-tag-node-open   (if no-images treemacs-icon-tag-node-open-text treemacs-icon-tag-node-open-png))
-;;             (setq-local treemacs-icon-tag-node-closed (if no-images treemacs-icon-tag-node-closed-text treemacs-icon-tag-node-closed-png))
-;;             (setq-local treemacs-icon-tag-leaf        (if no-images treemacs-icon-tag-leaf-text treemacs-icon-tag-leaf-png)))))
+(defun dotspacemacs/user-config ()
+  "Configuration function for user code.
+This function is called at the very end of Spacemacs initialization after
+layers configuration.
+This is the place where most of your configurations should be done. Unless it is
+ explicitly specified that a variable should be set before a package is loaded,
+you should place your code here."
+  (setq mode-require-final-newline t)
+  (setq require-final-newline t)
+  ;; (setq large-file-warning-threshold nil)
+  (setq tags-add-tables nil)
+  (setq gc-cons-threshold (* 100 1024 1024))
+  ;; (global-evil-mc-mode 1)
 
-;;       (advice-add 'treemacs--check-window-system :override #'my-treemacs--check-window-system)
-;;       (setq
-;;        treemacs-icon-tag-node-open-txt   (propertize "▾ " 'face 'font-lock-keyword-face)
-;;        treemacs-icon-tag-node-closed-txt (propertize "▸ " 'face 'font-lock-keyword-face)
-;;        treemacs-icon-open-text   (propertize "▾ " 'face 'font-lock-keyword-face)
-;;        treemacs-icon-closed-text (propertize "▸ " 'face 'font-lock-keyword-face)
-;;        treemacs-icon-tag-leaf-txt (propertize "- " 'face 'font-lock-keyword-face)
-;;        treemacs-icon-fallback-text (propertize " " 'face 'font-lock-keyword-face)
 
-;;        treemacs-icon-open-png   (propertize "▾ " 'face 'font-lock-keyword-face)
-;;        treemacs-icon-closed-png (propertize "▸ " 'face 'font-lock-keyword-face)
-;;        treemacs-icon-text (propertize " " 'face 'font-lock-keyword-face))
+  ;; ivy and counsel
+  (setq counsel-async-filter-update-time 100000)
+  (setq ivy-initial-inputs-alist nil)
+  (setq ivy-re-builders-alist '((ivy-switch-buffer . ivy--regex-plus)
+                                (swiper . ivy--regex-plus)
+                                (t . ivy--regex-fuzzy)))
 
-;;       (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "vim")
-;;       (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "svg")
-;;       (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "md" "markdown")
-;;       (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "js")
-;;       (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "jsx")
-;;       (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "css")
-;;       (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "png" "pdf" "jpg")
-;;       (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "ico")
-;;       (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "html")
-;;       (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "clj")
-;;       (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "cljs")
-;;       (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "go")
-;;       (treemacs-define-custom-icon
-;;        (propertize "" 'face 'font-lock-keyword-face)
-;;        "yml"
-;;        "yaml"
-;;        "DS_Store"
-;;        "properties"
-;;        "conf"
-;;        "config"
-;;        "gitignore"
-;;        "gitconfig"
-;;        "ini"
-;;        "xdefaults"
-;;        "xresources"
-;;        "terminalrc"
-;;        "org"
-;;        "toml")
-;;       (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "rb")
-;;       (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "zsh" "bash" "sh")
-;;       (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "py")
-;;       (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "json"))
-;;     ;; )
+  ;; (when (window-system)
+  ;;   (set-frame-font "Fira Code"))
+  ;; (set-frame-font "-*-Fira Code-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
+  (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
+                 (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
+                 (36 . ".\\(?:>\\)")
+                 (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
+                 (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
+                 (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
+                 (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
+                 (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
+                 ;; (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
+                 (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
+                 (48 . ".\\(?:x[a-zA-Z]\\)")
+                 (58 . ".\\(?:::\\|[:=]\\)")
+                 (59 . ".\\(?:;;\\|;\\)")
+                 (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
+                 (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
+                 (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
+                 (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
+                 (91 . ".\\(?:]\\)")
+                 (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
+                 (94 . ".\\(?:=\\)")
+                 (119 . ".\\(?:ww\\)")
+                 (123 . ".\\(?:-\\)")
+                 (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
+                 (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
+                 )))
+    (dolist (char-regexp alist)
+      (set-char-table-range composition-function-table (car char-regexp)
+                            `([,(cdr char-regexp) 0 font-shape-gstring]))))
 
-  ;; cursor shape
-  (unless (display-graphic-p)
-    (require 'evil-terminal-cursor-changer)
-    (evil-terminal-cursor-changer-activate))
-)
+  (indent-guide-global-mode)
+
+  ;; magit
+  (setq git-commit-summary-max-length 50)
+
+  (if (display-graphic-p) (user-config-gui) (user-config-tui))
+
+  (progn
+    (set-face-attribute
+     'diff-hl-insert nil :background nil :foreground "green")
+    (set-face-attribute
+     'diff-hl-delete nil :background nil :foreground "red")
+    (set-face-attribute
+     'diff-hl-change nil :background nil :foreground "blue"))
+
+  (with-eval-after-load  'diff-hl
+    (setq diff-hl-side 'right)
+    (add-hook 'prog-mode-hook 'diff-hl-mode)
+    (add-hook 'prog-mode-hook 'diff-hl-margin-mode)
+    (add-hook 'dired-mode-hook 'diff-hl-dired-mode))
+
+  (push (cons "\\*shell\\*" display-buffer--same-window-action) display-buffer-alist)
+
+  ;; vim word with underscore
+  (with-eval-after-load 'evil
+    (defalias #'forward-evil-word #'forward-evil-symbol))
+
+  ;; javascript
+  (setq-default
+   ;; js2-mode
+   js2-basic-offset 2
+   js-indent-level 2
+   ;; web-mode
+   css-indent-offset 2
+   web-mode-markup-indent-offset 2
+   web-mode-css-indent-offset 2
+   web-mode-code-indent-offset 2
+   web-mode-attr-indent-offset 2)
+
+  (setq projectile-enable-caching t)
+
+  ;; (add-hook 'rjsx-mode #'lsp-javascript-flow-enable) ;; for rjsx-mode support
+
+  (with-eval-after-load 'org
+    (evil-leader/set-key-for-mode 'org-mode "l" 'org-drill)
+    (evil-leader/set-key "x a t" 'org-align-all-tags)
+    (add-hook 'evil-org-mode-hook (lambda ()
+                                    (evil-define-key 'normal evil-org-mode-map "-" 'org-cycle-list-bullet)))
+    (require 'org-agenda)
+    ;; (setq org-agenda-files (split-string (getenv "ORG_AGENDA_FILES") ":"))
+    (org-agenda-to-appt)
+    (appt-activate 1)
+    (setq appt-message-warning-time 10)
+    (setq appt-display-interval 2)
+    (setq appt-display-format 'window)
+    (display-time)
+    (add-hook 'org-finalize-agenda-hook 'org-agenda-to-appt)
+    (defun rgr/org-display (min-to-app new-time msg)
+      (shell-command
+       (concat "terminal-notifier "
+               "-title 'Reminder' "
+               "-message '" msg "' "
+               "-sound default "
+               ;; "-appIcon ~/org-modes/bot.jpg"
+               )))
+    (setq appt-disp-window-function (function rgr/org-display))
+
+    ;; org-capture
+    (setq org-capture-templates
+          '(
+            ("v"
+             "Vocabulary"
+             entry
+             (file "~/org-modes/flashcards.org")
+             "* %i%^{prompt} :drill: \n\nTranslate\n\n** Answer\n\n[[file:~/org-modes/images/%\\1.png]]\n\n** Image Source\n\n#+begin_src shell\ntest -f ~/org-modes/images/%\\1.png || wget -O ~/org-modes/images/%\\1.png \"%\\1%?\"\n#+end_src")
+            ("s"
+             "Speaking English"
+             entry
+             (file "~/org-modes/flashcards.org")
+             "* %i%^{sentence} :drill:speaking:\n:PROPERTIES:\n:DRILL_SOUND: ~/org-modes/english/%^{sound}\n:END:\n\nSpeaking loudly man\n\n** Answer\n\n[[file:~/org-modes/english/%\\2]]\n\n** Source\n\n#+begin_src shell\ntest -f ~/org-modes/english/%\\2 || wget -O ~/org-modes/english/%\\2 \"%^{link}\"\n#+end_src")
+            ("a"
+             "Appointment"
+             entry
+             (file+headline "~/org-modes/personal.org" "Appointments")
+             "* TODO %?\n:PROPERTIES:\n\n:END:\nDEADLINE: %^T \n %i\n"
+             )
+            ("l"
+             "learn"
+             entry
+             (file "~/org-modes/learn.org")
+             "* %? :drill:\n"
+             )
+            ("c"
+             "Reading List"
+             entry
+             (file+headline "~/org-modes/personal.org" "Reading List")
+             "* TODO %?\n")))
+
+    (require 'org-checklist)
+    ;; org-drill
+    (setq org-drill-maximum-items-per-session 40)
+    (setq org-drill-maximum-duration 30)   ; 30 minutes
+    (setq org-drill-learn-fraction 0.1)
+    (setq org-drill-spaced-repetition-algorithm 'sm2)
+    ;; customize
+    (with-eval-after-load 'org-drill
+      (require 'read-aloud)
+      (defun org-drill-sound ()
+        (interactive)
+        (let* ((sound-file (expand-file-name (org-entry-get (point) "DRILL_SOUND"))))
+          (if (stringp sound-file)
+              (start-process-shell-command "mplayer" "*sound*" "mplayer" sound-file)
+            (read-aloud--string (org-get-heading t t t t) "word"))))
+      (evil-leader/set-key-for-mode 'org-mode "r" 'org-drill-sound)
+      (defvar org-drill--repeat-key ?r "")
+      (defun org-drill-presentation-prompt (&rest fmt-and-args)
+        (let* ((item-start-time (current-time))
+               (input nil)
+               (ch nil)
+               (last-second 0)
+               (mature-entry-count (+ (length *org-drill-young-mature-entries*)
+                                      (length *org-drill-old-mature-entries*)
+                                      (length *org-drill-overdue-entries*)))
+               (status (first (org-drill-entry-status)))
+               (prompt
+                (if fmt-and-args
+                    (apply 'format
+                           (first fmt-and-args)
+                           (rest fmt-and-args))
+                  (format (concat "Press key for answer, "
+                                  "%c=edit, %c=tags, %c=skip, %c=repeat, %c=quit.")
+                          org-drill--edit-key
+                          org-drill--tags-key
+                          org-drill--skip-key
+                          org-drill--repeat-key
+                          org-drill--quit-key))))
+          (setq prompt
+                (format "%s %s %s %s %s %s"
+                        (propertize
+                         (char-to-string
+                          (cond
+                           ((eql status :failed) ?F)
+                           (*org-drill-cram-mode* ?C)
+                           (t
+                            (case status
+                              (:new ?N) (:young ?Y) (:old ?o) (:overdue ?!)
+                              (t ??)))))
+                         'face `(:foreground
+                                 ,(case status
+                                    (:new org-drill-new-count-color)
+                                    ((:young :old) org-drill-mature-count-color)
+                                    ((:overdue :failed) org-drill-failed-count-color)
+                                    (t org-drill-done-count-color))))
+                        (propertize
+                         (number-to-string (length *org-drill-done-entries*))
+                         'face `(:foreground ,org-drill-done-count-color)
+                         'help-echo "The number of items you have reviewed this session.")
+                        (propertize
+                         (number-to-string (+ (length *org-drill-again-entries*)
+                                              (length *org-drill-failed-entries*)))
+                         'face `(:foreground ,org-drill-failed-count-color)
+                         'help-echo (concat "The number of items that you failed, "
+                                            "and need to review again."))
+                        (propertize
+                         (number-to-string mature-entry-count)
+                         'face `(:foreground ,org-drill-mature-count-color)
+                         'help-echo "The number of old items due for review.")
+                        (propertize
+                         (number-to-string (length *org-drill-new-entries*))
+                         'face `(:foreground ,org-drill-new-count-color)
+                         'help-echo (concat "The number of new items that you "
+                                            "have never reviewed."))
+                        prompt))
+          (org-drill-sound)
+          (if (and (eql 'warn org-drill-leech-method)
+                   (org-drill-entry-leech-p))
+              (setq prompt (concat
+                            (propertize "!!! LEECH ITEM !!!
+  You seem to be having a lot of trouble memorising this item.
+  Consider reformulating the item to make it easier to remember.\n"
+                                        'face '(:foreground "red"))
+                            prompt)))
+          (while (memq ch '(nil org-drill--tags-key))
+            (setq ch nil)
+            (while (not (input-pending-p))
+              (let ((elapsed (time-subtract (current-time) item-start-time)))
+                (message (concat (if (>= (time-to-seconds elapsed) (* 60 60))
+                                     "++:++ "
+                                   (format-time-string "%M:%S " elapsed))
+                                 prompt))
+                (sit-for 1)))
+            (setq input (read-key-sequence nil))
+            (if (stringp input) (setq ch (elt input 0)))
+            (if (eql ch org-drill--tags-key)
+                (org-set-tags-command)))
+          (case ch
+            (org-drill--quit-key nil)
+            (org-drill--edit-key 'edit)
+            (org-drill--skip-key 'skip)
+            (org-drill--repeat-key 'sound)
+            (otherwise t))))
+      (defun org-drill-reschedule ()
+        "Returns quality rating (0-5), or nil if the user quit."
+        (let ((ch nil)
+              (input nil)
+              (next-review-dates (org-drill-hypothetical-next-review-dates))
+              (key-prompt (format "(0-5, %c=help, %c=edit, %c=tags, %c=repeat, %c=quit)"
+                                  org-drill--help-key
+                                  org-drill--edit-key
+                                  org-drill--tags-key
+                                  org-drill--repeat-key
+                                  org-drill--quit-key)))
+          (save-excursion
+            (while (not (memq ch (list org-drill--quit-key
+                                       org-drill--edit-key
+                                       org-drill--repeat-key
+                                       7          ; C-g
+                                       ?0 ?1 ?2 ?3 ?4 ?5)))
+              (setq input (read-key-sequence
+                           (if (eq ch org-drill--help-key)
+                               (format "0-2 Means you have forgotten the item.
+  3-5 Means you have remembered the item.
+
+  0 - Completely forgot.
+  1 - Even after seeing the answer, it still took a bit to sink in.
+  2 - After seeing the answer, you remembered it.
+  3 - It took you awhile, but you finally remembered. (+%s days)
+  4 - After a little bit of thought you remembered. (+%s days)
+  5 - You remembered the item really easily. (+%s days)
+
+  How well did you do? %s"
+                                       (round (nth 3 next-review-dates))
+                                       (round (nth 4 next-review-dates))
+                                       (round (nth 5 next-review-dates))
+                                       key-prompt)
+                             (format "How well did you do? %s" key-prompt))))
+              (cond
+               ((stringp input)
+                (setq ch (elt input 0)))
+               ((and (vectorp input) (symbolp (elt input 0)))
+                (case (elt input 0)
+                  (up (ignore-errors (forward-line -1)))
+                  (down (ignore-errors (forward-line 1)))
+                  (left (ignore-errors (backward-char)))
+                  (right (ignore-errors (forward-char)))
+                  (prior (ignore-errors (scroll-down))) ; pgup
+                  (next (ignore-errors (scroll-up)))))  ; pgdn
+               ((and (vectorp input) (listp (elt input 0))
+                     (eventp (elt input 0)))
+                (case (car (elt input 0))
+                  (wheel-up (ignore-errors (mwheel-scroll (elt input 0))))
+                  (wheel-down (ignore-errors (mwheel-scroll (elt input 0)))))))
+              (if (eql ch org-drill--tags-key)
+                  (org-set-tags-command))
+              ))
+          (cond
+           ((and (>= ch ?0) (<= ch ?5))
+            (let ((quality (- ch ?0))
+                  (failures (org-drill-entry-failure-count)))
+              (unless *org-drill-cram-mode*
+                (save-excursion
+                  (let ((quality (if (org-drill--entry-lapsed-p) 2 quality)))
+                    (org-drill-smart-reschedule quality
+                                                (nth quality next-review-dates))))
+                (push quality *org-drill-session-qualities*)
+                (cond
+                 ((<= quality org-drill-failure-quality)
+                  (when org-drill-leech-failure-threshold
+                    ;;(setq failures (if failures (string-to-number failures) 0))
+                    ;; (org-set-property "DRILL_FAILURE_COUNT"
+                    ;;                   (format "%d" (1+ failures)))
+                    (if (> (1+ failures) org-drill-leech-failure-threshold)
+                        (org-toggle-tag "leech" 'on))))
+                 (t
+                  (let ((scheduled-time (org-get-scheduled-time (point))))
+                    (when scheduled-time
+                      (message "Next review in %d days"
+                               (- (time-to-days scheduled-time)
+                                  (time-to-days (current-time))))
+                      (sit-for 0.5)))))
+                (org-set-property "DRILL_LAST_QUALITY" (format "%d" quality))
+                (org-set-property "DRILL_LAST_REVIEWED"
+                                  (time-to-inactive-org-timestamp (current-time))))
+              quality))
+           ((= ch org-drill--edit-key)
+            'edit)
+           ((= ch org-drill--repeat-key)
+            (progn (org-drill-again)))
+           (t
+            nil))))
+      )
+    )
+
+  (setq org-confirm-babel-evaluate nil)
+
+  ;; uml
+  (setq org-plantuml-jar-path "~/org-modes/plantuml.jar")
+
+  ;; google-translate
+  (setq google-translate-default-source-language "en")
+  (setq google-translate-default-target-language "vi")
+
+  ;; search engine
+  (push '(oxford-dictionary
+          :name "Oxford Dictionary"
+          :url  "http://www.oxfordlearnersdictionaries.com/definition/english/%s")
+        search-engine-alist)
+
+  (push '(vdict-dictionary
+          :name "Vdict Dictionary"
+          :url  "https://vdict.com/%s,1,0,0.html")
+        search-engine-alist)
+
+  (push '(sandbox-payroll
+          :name "Sandbox"
+          :url  "https://payroll.staging.ehrocks.com/")
+        search-engine-alist)
+
+  (defengine search-workarround "") ;; work arround to define search-oxford-dictionary
+
+  (evil-leader/set-key "s w o" 'engine/search-oxford-dictionary)
+  (evil-leader/set-key "s w v" 'engine/search-vdict-dictionary)
+  (evil-leader/set-key "s w g" 'engine/search-google)
+  (evil-leader/set-key "s w i" 'engine/search-google-images)
+  (evil-leader/set-key "s w m" 'engine/search-google-maps)
+
+  ;; company
+  (setq company-idle-delay 0.1)
+
+  ;; (with-eval-after-load 'company
+  ;;   (add-hook 'company-mode-hook (lambda ()
+  ;;                                  (define-key company-active-map (kbd "C-e") 'company-complete-selection)
+  ;;                                  ;; (add-to-list 'company-backends 'company-ycmd)
+  ;;                                  ;; (add-to-list 'company-backends 'company-flow)
+  ;;                                  (add-to-list 'company-backends 'company-shell))
+  ;;             )
+  ;;   )
+
+  ;; (add-hook 'rjsx-mode-hook
+  ;;           (lambda ()
+  ;;             (add-to-list 'company-backends 'company-flow)))
+
+  (setq js2-mode-show-parse-errors nil)
+  (setq js2-mode-show-strict-warnings nil)
+  (add-hook 'js2-init-hook
+            '(lambda ()
+               (setq next-error-function 'flycheck-next-error)
+               ))
+  (setq js-indent-align-list-continuation nil)
+
+  (add-hook 'js2-mode-hook 'prettier-js-mode)
+  (add-hook 'web-mode-hook 'prettier-js-mode)
+
+  (setq read-aloud-engine "say")
+  (evil-leader/set-key "x s" 'read-aloud-this)
+
+  ;; docker
+  (evil-leader/set-key "D b" 'dockerfile-build-buffer)
+
+  ;; ess
+  (add-hook 'ess-mode-hook
+            (lambda ()
+              (ess-toggle-underscore nil)))
+
+  (defun smart-shell-pop ()
+    "Invoke a shell with smart directory"
+    (interactive)
+    (if (projectile-project-p)
+        (spacemacs/projectile-shell-pop)
+      (spacemacs/default-pop-shell)))
+
+  (evil-leader/set-key "'" 'smart-shell-pop)
+
+  ;; (defun gutentags-hook ()
+  ;;   "Autoload tags file from gutentags ~/.cache/tags"
+  ;;   (if (projectile-project-p)
+  ;;       (let ((tags-file-name (concat
+  ;;                              "~/.cache/tags/"
+  ;;                              (replace-regexp-in-string "/" "-"
+  ;;                                                        (replace-regexp-in-string
+  ;;                                                         "^/" ""
+  ;;                                                         (projectile-project-root)))
+  ;;                              "tags")))
+  ;;         (message "tags-file-name %S" tags-file-name)
+  ;;         (setq projectile-tags-file-name tags-file-name))))
+
+  (defun javascript-find-spec ()
+    "Open spec file for current file"
+    (interactive)
+    (let* ((dir-name (file-name-directory buffer-file-name))
+           (test-dir-name (concat dir-name "__tests__/"))
+           (test-file-name (concat
+                            test-dir-name
+                            (file-name-base buffer-file-name)
+                            ".spec.js")))
+      (if (file-exists-p test-file-name)
+          (find-file test-file-name)
+        (counsel-find-file test-dir-name))))
+
+  (evil-leader/set-key-for-mode 'js2-mode "t" 'javascript-find-spec)
+  (evil-leader/set-key-for-mode 'rjsx-mode "t" 'javascript-find-spec)
+
+  ;; shell
+  (setq comint-input-ring-size 1000)
+  (add-hook 'shell-mode-hook 'my-shell-mode-hook)
+  (defun my-shell-mode-hook ()
+    (setq comint-input-ring-file-name "~/.zsh_history")  ;; or bash_history
+    (setq comint-input-ring-separator "\n: \\([0-9]+\\):\\([0-9]+\\);")
+    (comint-read-input-ring t))
+
+  (add-hook 'shell-mode-hook
+            '(lambda ()
+               (evil-declare-key 'insert shell-mode-map (kbd "C-r") 'counsel-shell-history)))
+
+  ;; clojure
+  ;; (setq cider-cljs-lein-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel [:dev :test :cards]))")
+  (setq cider-cljs-lein-repl "(do (use 'user) (start))")
+  (setq clojure-indent-style :align-arguments)
+
+  (autoload 'apib-moconde "apib-mode"
+    "Major mode for 'editing API Blueprint files" t)
+  (add-to-list 'auto-mode-alist '("\\.apib\\'" . apib-mode))
+
+  ;; custom mappings
+  (evil-leader/set-key "w |" 'split-window-right)
+  (global-set-key (kbd "C-l") 'evil-window-right)
+  (global-set-key (kbd "C-h") 'evil-window-left)
+  (global-set-key (kbd "C-j") 'evil-window-down)
+  (global-set-key (kbd "C-k") 'evil-window-up)
+  (define-key evil-normal-state-map (kbd "C-p") 'projectile-find-file))
 
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
@@ -892,30 +1062,9 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default bold shadow italic underline bold bold-italic bold])
- '(compilation-message-face 'default)
  '(evil-want-Y-yank-to-eol nil)
- '(fci-rule-color "#073642" t)
- '(flycheck-color-mode-line-face-to-color 'mode-line-buffer-id)
- '(highlight-changes-colors '("#d33682" "#6c71c4"))
- '(highlight-tail-colors
-   '(("#073642" . 0)
-     ("#546E00" . 20)
-     ("#00736F" . 30)
-     ("#00629D" . 50)
-     ("#7B6000" . 60)
-     ("#8B2C02" . 70)
-     ("#93115C" . 85)
-     ("#073642" . 100)))
- '(magit-diff-use-overlays nil)
  '(package-selected-packages
-   '(pbcopy yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic plantuml-mode clojure-snippets clj-refactor edn paredit peg cider-eval-sexp-fu cider seq queue clojure-mode airline-molokai-theme-theme airline-themes floobits nodejs-repl wgrep smex ivy-hydra counsel-projectile counsel swiper ivy doom-monokai-theme company-quickhelp flycheck-gometalinter all-the-icons-ivy all-the-icons memoize font-lock+ unfill mwim company-emacs-eclim eclim restclient-helm ob-restclient ob-http company-restclient restclient know-your-http-well emamux read-aloud zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme tronesque-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme pastels-on-dark-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme niflheim-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme firebelly-theme farmhouse-theme espresso-theme dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme dockerfile-mode docker tablist docker-tramp xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help projectile-rails inflections feature-mode helm-gtags ggtags vimrc-mode dactyl-mode engine-mode mmm-mode markdown-toc markdown-mode gh-md web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data yaml-mode web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern dash-functional tern coffee-mode robe bundler rvm ruby-tools ruby-test-mode rubocop rspec-mode rbenv rake minitest chruby inf-ruby smeargle alert log4e gntp magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter fuzzy flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit with-editor diff-hl company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed ace-link ace-jump-helm-line helm helm-core popup undo-tree hydra evil-unimpaired f s dash async aggressive-indent adaptive-wrap ace-window avy))
- '(paradox-automatically-star nil)
- '(pos-tip-background-color "#073642")
- '(pos-tip-foreground-color "#93a1a1")
- '(weechat-color-list
-   '(unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))
+   '(treemacs-projectile treemacs-evil treemacs pfuture yasnippet-snippets yaml-mode xterm-color ws-butler winum which-key wgrep web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill toc-org tagedit symon string-inflection sql-indent spaceline-all-the-icons smex smeargle slim-mode shell-pop seeing-is-believing scss-mode sayid sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe rjsx-mode reveal-in-osx-finder restart-emacs request read-aloud rbenv rainbow-delimiters pug-mode projectile-rails prettier-js popwin persp-mode pbcopy password-generator paradox osx-trash osx-dictionary osx-clipboard orgit org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file ob-coffeescript neotree mwim multi-term move-text mmm-mode minitest material-theme markdown-toc magithub magit-svn magit-gitflow magit-gh-pulls lorem-ipsum livid-mode link-hint launchctl json-navigator js2-refactor js-doc ivy-yasnippet ivy-xref ivy-purpose ivy-hydra insert-shebang indent-guide impatient-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-make gruvbox-theme google-translate golden-ratio gnuplot gitignore-templates gitignore-mode github-search github-clone gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md fuzzy font-lock+ flycheck-pos-tip flycheck-bashate flx-ido fish-mode fill-column-indicator feature-mode fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-terminal-cursor-changer evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-cleverparens evil-args evil-anzu ess-R-data-view eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode editorconfig dumb-jump dotenv-mode dockerfile-mode docker diff-hl csv-mode counsel-projectile counsel-css company-web company-tern company-statistics company-shell company-flow column-enforce-mode coffee-mode clojure-snippets clojure-cheatsheet clj-refactor clean-aindent-mode cider-eval-sexp-fu chruby centered-cursor-mode bundler browse-at-remote base16-theme auto-yasnippet auto-highlight-symbol atom-dark-theme apib-mode aggressive-indent add-node-modules-path ace-window ace-link ac-ispell)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
