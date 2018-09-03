@@ -69,6 +69,7 @@ Plug 'plasticboy/vim-markdown'
 "----------------------------------------------
 Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-rails'
+Plug 'hackhowtofaq/vim-solargraph'
 
 "----------------------------------------------
 " Language: JavaScript

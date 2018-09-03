@@ -33,7 +33,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(csv
+   '(
+     csv
      ;; php
      better-defaults
      osx
@@ -43,7 +44,7 @@ This function should only modify configuration layer settings."
      sql
      coffeescript
      ;; (c-c++ :variables c-c++-enable-clang-support t)
-     clojure
+     ;; clojure
      docker
      markdown
      html
@@ -51,30 +52,35 @@ This function should only modify configuration layer settings."
      (node :variables
            node-add-modules-path t)
      ;; lsp
+     prettier
      (javascript :variables
                  ;; javascript-backend 'lsp
                  ;; javascript-disable-tern-port-files t
                  node-add-modules-path t)
      (ruby :variables
-           ruby-version-manager 'rvm)
+           ruby-version-manager 'rvm
+           ruby-enable-enh-ruby-mode t)
      ruby-on-rails
-     react
-     ess
+     (react :variables javascript-fmt-tool 'prettier)
+     ;; ess
      ;; restclient
      ;; (go :variables
      ;;     ;; go-use-gometalinter t
      ;;     gofmt-command "goimports"
      ;;     go-tab-width 4)
+     copy-as-format
      (org :variables org-want-todo-bindings t)
+     spacemacs-org
      ;; plantuml
-     shell-scripts
+     ;; shell-scripts
+     prodigy
      (shell :variables
             shell-default-shell 'shell
             ;; shell-enable-smart-eshell t
             shell-default-position 'full
             shell-default-full-span t)
      ;; helm
-     ivy
+     (ivy :variables ivy-enable-advanced-buffer-information nil)
      ;; (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t)
      ;; ycmd
      ;; lsp
@@ -97,7 +103,9 @@ This function should only modify configuration layer settings."
                       version-control-diff-tool 'diff-hl)
      search-engine
      tmux
+     ;; vinegar
      treemacs
+     ;; themes-megapack
      (spacemacs-layouts :variables layouts-enable-autosave nil layouts-autosave-delay 300)
      ;; (ibuffer :variables ibuffer-group-buffers-by 'projects)
      )
@@ -106,20 +114,21 @@ This function should only modify configuration layer settings."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
+   ;; To use a local version of a package, use the `:location' property:
+   ;; '(your-package :location "~/path/to/your-package/")
+   ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(
-                                      osx-clipboard
+                                      ;; osx-clipboard
                                       read-aloud
-                                      company-flow
-                                      prettier-js
+                                      ;; company-flow
                                       ;; emamux
-                                      all-the-icons
+                                      ;; all-the-icons
                                       apib-mode
                                       ;; kanban
                                       evil-terminal-cursor-changer
-                                      pbcopy
-                                      base16-theme
+                                      ;; base16-theme
                                       ;; eshell-git-prompt
-                                      ;; doom-themes
+                                      doom-themes
                                       ;; spaceline-all-the-icons
                                       ;; nodejs-repl
                                       ;; company-shell
@@ -128,6 +137,7 @@ This function should only modify configuration layer settings."
                                       ;; atom-dark-theme
                                       ;; etags-select
                                       )
+
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
 
@@ -249,13 +259,20 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(
-                         misterioso
-                         material-light
-                         gruvbox-dark-soft
-                         atom-dark
-                         )
-   ;; If non nil the cursor color matches the state color in GUI Emacs.
+   dotspacemacs-themes (if (display-graphic-p)
+                           '(spacemacs-dark spacemacs-light)
+                         '(monokai doom-dracula))
+   ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
+   ;; `all-the-icons', `custom', `vim-powerline' and `vanilla'. The first three
+   ;; are spaceline themes. `vanilla' is default Emacs mode-line. `custom' is a
+   ;; user defined themes, refer to the DOCUMENTATION.org for more info on how
+   ;; to create your own spaceline theme. Value can be a symbol or list with\
+   ;; additional properties.
+   ;; (default '(spacemacs :separator wave :separator-scale 1.5))
+   dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)
+
+   ;; If non-nil the cursor color matches the state color in GUI Emacs.
+   ;; (default t)
    dotspacemacs-colorize-cursor-according-to-state t
 
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
@@ -268,7 +285,8 @@ It should only modify the values of Spacemacs settings."
                                :weight normal
                                :width normal
                                :powerline-scale 1.4)
-   ;; The leader key
+
+   ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
 
    ;; The key used for Emacs commands `M-x' (after pressing on the leader key).
@@ -406,7 +424,7 @@ It should only modify the values of Spacemacs settings."
    ;;                       text-mode
    ;;   :size-limit-kb 1000)
    ;; (default nil)
-   dotspacemacs-line-numbers nil
+   dotspacemacs-line-numbers 'relative
 
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
@@ -419,7 +437,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
    ;; over any automatically added closing parenthesis, bracket, quote, etc…
    ;; This can be temporary disabled by pressing `C-q' before `)'. (default nil)
-   dotspacemacs-smart-closing-parenthesis t
+   dotspacemacs-smart-closing-parenthesis nil
 
    ;; Select a scope to highlight delimiters. Possible values are `any',
    ;; `current', `all' or `nil'. Default is `all' (highlight any scope and
@@ -439,7 +457,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil, advise quit functions to keep server open when quitting.
    ;; (default nil)
-   dotspacemacs-persistent-server nil
+   dotspacemacs-persistent-server t
 
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `rg', `ag', `pt', `ack' and `grep'.
@@ -494,200 +512,201 @@ See the header of this file for more information."
   (spacemacs/load-spacemacs-env))
 
 (defun dotspacemacs/user-init ()
-  "Initialization function for user code.
-It is called immediately after `dotspacemacs/init', before layer configuration
-executes.
- This function is mostly useful for variables that need to be set
-before packages are loaded. If you are unsure, you should try in setting them in
-`dotspacemacs/user-config' first."
-  (push '("melpa-stable" . "stable.melpa.org/packages/") configuration-layer-elpa-archives)
-  (push '(use-package . "melpa-stable") package-pinned-packages)
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((emacs-lisp . t)
-     (dot . t)
-     (sql . t)
-     ;; (ruby . t)
-     (org . t)
-     (shell . t)
-     (C . t)
-     (js . t)))
+  "Initialization for user code:
+This function is called immediately after `dotspacemacs/init', before layer
+configuration.
+It is mostly for variables that should be set before packages are loaded.
+If you are unsure, try setting them in `dotspacemacs/user-config' first."
+  ;; (push '("melpa-stable" . "stable.melpa.org/packages/") configuration-layer-elpa-archives)
+  ;; (push '(use-package . "melpa-stable") package-pinned-packages)
+  (setq custom-file "~/.spacemacs.custom.el")
+  (load custom-file)
+  )
+
+(defun user-config-gui ()
+  "Configuration function for Graphical UI"
+  (setq powerline-default-separator 'contour)
+
+  ;; (with-eval-after-load "treemacs"
+  ;;   (treemacs-define-custom-icon
+  ;;    (propertize " "
+  ;;                'display (create-image "~/projects/icons/ruby.png" 'png nil :ascent 'center :scale 1)
+  ;;                'img-selected (create-image "~/projects/icons/ruby.png" 'png nil :ascent 'center :scale 1)
+  ;;                'img-unselected (create-image "~/projects/icons/ruby.png" 'png nil :ascent 'center :scale 1)
+  ;;                )
+  ;;    "rb" "ru" "Gemfile" "Gemfile.lock" "rake")
+  ;;   (treemacs-define-custom-icon
+  ;;    (propertize " "
+  ;;                'display (create-image "~/projects/icons/Makefile.png" 'png nil :ascent 'center :scale 1)
+  ;;                'img-selected (create-image "~/projects/icons/Makefile.png" 'png nil :ascent 'center :scale 1)
+  ;;                'img-unselected (create-image "~/projects/icons/Makefile.png" 'png nil :ascent 'center :scale 1)
+  ;;                )
+  ;;    "Makefile")
+  ;;   (treemacs-define-custom-icon
+  ;;    (propertize " "
+  ;;                'display (create-image "~/projects/icons/docker.png" 'png nil :ascent 'center :scale 1)
+  ;;                'img-selected (create-image "~/projects/icons/docker.png" 'png nil :ascent 'center :scale 1)
+  ;;                'img-unselected (create-image "~/projects/icons/docker.png" 'png nil :ascent 'center :scale 1)
+  ;;                )
+  ;;    "Dockerfile")
+  ;;   (treemacs-define-custom-icon
+  ;;    (propertize " "
+  ;;                'display (create-image "~/projects/icons/apib.png" 'png nil :ascent 'center :scale 1)
+  ;;                'img-selected (create-image "~/projects/icons/apib.png" 'png nil :ascent 'center :scale 1)
+  ;;                'img-unselected (create-image "~/projects/icons/apib.png" 'png nil :ascent 'center :scale 1)
+  ;;                )
+  ;;    "apib")
+  ;;   (treemacs-define-custom-icon
+  ;;    (propertize " "
+  ;;                'display (create-image "~/projects/icons/conf.png" 'png nil :ascent 'center :scale 1)
+  ;;                'img-selected (create-image "~/projects/icons/conf.png" 'png nil :ascent 'center :scale 1)
+  ;;                'img-unselected (create-image "~/projects/icons/conf.png" 'png nil :ascent 'center :scale 1)
+  ;;                )
+  ;;    "yml"
+  ;;    "development"
+  ;;    "test"
+  ;;    "production"
+  ;;    "yaml"
+  ;;    "DS_Store"
+  ;;    "properties"
+  ;;    "conf"
+  ;;    "config"
+  ;;    "gitignore"
+  ;;    "gitconfig"
+  ;;    "gitmodules"
+  ;;    "ini"
+  ;;    "xdefaults"
+  ;;    "xresources"
+  ;;    "terminalrc"
+  ;;    "org"
+  ;;    "toml"
+  ;;    "babelrc"
+  ;;    "eslintrc"
+  ;;    "eslintignore"
+  ;;    "eslintcache"
+  ;;    "dockerignore"
+  ;;    "flowconfig"
+  ;;    "projectile"
+  ;;    "hgignore"
+  ;;    "ruby-version"
+  ;;    "buildpacks"
+  ;;    "danger-whitelist"
+  ;;    "npmignore"
+  ;;    "npmrc"
+  ;;    "prettierrc"
+  ;;    "mention-bot"
+  ;;    ))
   )
 
 (defun user-config-tui ()
   "Configuration function for Terminal UI"
   (setq powerline-default-separator 'utf-8)
   ;; clipboard for emacs version >= 26
-  (use-package osx-clipboard
-     :config
-     (progn
-       (osx-clipboard-mode +1)
-       (diminish 'osx-clipboard-mode)))
-
+  ;; (use-package osx-clipboard
+  ;;    :config
+  ;;    (progn
+  ;;      (osx-clipboard-mode +1)
+  ;;      (diminish 'osx-clipboard-mode)))
   (evil-leader/set-key "x t m" 'emamux:send-region)
 
-  (setq dotspacemacs-themes '(base16-monokai base16-default-dark))
-  (use-package base16-theme
-    :ensure t
-    :config
-    (load-theme 'base16-monokai t))
+  ;; (setq dotspacemacs-themes '(base16-monokai base16-default-dark))
+  ;; (use-package base16-theme
+  ;;   :ensure t
+  ;;   :config
+  ;;   (load-theme 'base16-monokai t))
 
   (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
   (global-set-key (kbd "<mouse-5>") 'scroll-up-line)
 
-  (setq treemacs-no-png-images t)
-  (defun my-treemacs-hash-icons ()
-    "Create and define all icons-related caches, hashes and stashes."
-    (setq-local treemacs-icons-hash (make-hash-table :size 100 :test #'equal))
-    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "vim")
-    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "svg")
-    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "md" "markdown")
-    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "js")
-    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "jsx")
-    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "css")
-    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "png" "pdf" "jpg")
-    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "ico")
-    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "html")
-    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "clj")
-    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "cljs")
-    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "go")
-    (treemacs-define-custom-icon
-     (propertize "" 'face 'font-lock-keyword-face)
-     "yml"
-     "yaml"
-     "DS_Store"
-     "properties"
-     "conf"
-     "config"
-     "gitignore"
-     "gitconfig"
-     "ini"
-     "xdefaults"
-     "xresources"
-     "terminalrc"
-     "org"
-     "toml")
-    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "rb" "ruby")
-    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "zsh" "bash" "sh")
-    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "py")
-    (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "json")
-    treemacs-icons-hash)
+  ;; tmux
+  (defun tmux-smart-shell ()
+    "Invoke a tmux panel"
+    (interactive)
+    (let ((command "tmux split-window -p 25"))
+      (if (projectile-project-p)
+          (projectile-with-default-dir (projectile-project-root)
+            (shell-command command))
+        (shell-command command))))
+  (evil-leader/set-key "t '" 'tmux-smart-shell)
 
-  (defun my-treemacs--create-file-button-strings (path prefix parent depth)
-    "Return the text to insert for a file button for PATH.
-PREFIX is a string inserted as indentation.
-PARENT is the (optional) button under which this one is inserted.
-DEPTH indicates how deep in the filetree the current button is."
-    (my-treemacs-hash-icons)
-    (list
-     prefix
-     (ht-get treemacs-icons-hash
-             (-> path (treemacs--file-extension) (downcase))
-             treemacs-icon-fallback)
-     (propertize (file-name-nondirectory path)
-                 'button '(t)
-                 'category 'default-button
-                 'help-echo nil
-                 'keymap nil
-                 :default-face 'treemacs-git-unmodified-face
-                 :state 'file-node-closed
-                 :path path
-                 :parent parent
-                 :depth depth)))
+  ;; (setq treemacs-no-png-images t)
+  ;; (defun my-treemacs-hash-icons ()
+  ;;   "Create and define all icons-related caches, hashes and stashes."
+  ;;   (setq-local treemacs-icons-hash (make-hash-table :size 100 :test #'equal))
+  ;;   (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "vim")
+  ;;   (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "svg")
+  ;;   (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "md" "markdown")
+  ;;   (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "js")
+  ;;   (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "jsx")
+  ;;   (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "css")
+  ;;   (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "png" "pdf" "jpg")
+  ;;   (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "ico")
+  ;;   (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "html")
+  ;;   (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "clj")
+  ;;   (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "cljs")
+  ;;   (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "go")
+  ;;   (treemacs-define-custom-icon
+  ;;    (propertize "" 'face 'font-lock-keyword-face)
+  ;;    "yml"
+  ;;    "yaml"
+  ;;    "DS_Store"
+  ;;    "properties"
+  ;;    "conf"
+  ;;    "config"
+  ;;    "gitignore"
+  ;;    "gitconfig"
+  ;;    "ini"
+  ;;    "xdefaults"
+  ;;    "xresources"
+  ;;    "terminalrc"
+  ;;    "org"
+  ;;    "toml")
+  ;;   (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "rb" "ruby")
+  ;;   (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "zsh" "bash" "sh")
+  ;;   (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "py")
+  ;;   (treemacs-define-custom-icon (propertize "" 'face 'font-lock-keyword-face) "json")
+  ;;   treemacs-icons-hash)
 
-  (advice-add 'treemacs--create-file-button-strings :override #'my-treemacs--create-file-button-strings )
+;;   (defun my-treemacs--create-file-button-strings (path prefix parent depth)
+;;     "Return the text to insert for a file button for PATH.
+;; PREFIX is a string inserted as indentation.
+;; PARENT is the (optional) button under which this one is inserted.
+;; DEPTH indicates how deep in the filetree the current button is."
+;;     (my-treemacs-hash-icons)
+;;     (list
+;;      prefix
+;;      (ht-get treemacs-icons-hash
+;;              (-> path (treemacs--file-extension) (downcase))
+;;              treemacs-icon-fallback)
+;;      (propertize (file-name-nondirectory path)
+;;                  'button '(t)
+;;                  'category 'default-button
+;;                  'help-echo nil
+;;                  'keymap nil
+;;                  :default-face 'treemacs-git-unmodified-face
+;;                  :state 'file-node-closed
+;;                  :path path
+;;                  :parent parent
+;;                  :depth depth)))
 
-  (with-eval-after-load "treemacs"
-    (setq
-     treemacs-icon-tag-node-open-txt   (propertize "▾ " 'face 'font-lock-keyword-face)
-     treemacs-icon-tag-node-closed-txt (propertize "▸ " 'face 'font-lock-keyword-face)
-     treemacs-icon-open-text   (propertize "▾ " 'face 'font-lock-keyword-face)
-     treemacs-icon-closed-text (propertize "▸ " 'face 'font-lock-keyword-face)
-     treemacs-icon-tag-leaf-txt (propertize "- " 'face 'font-lock-keyword-face)
-     treemacs-icon-fallback-text (propertize " " 'face 'font-lock-keyword-face)
+;;   (advice-add 'treemacs--create-file-button-strings :override #'my-treemacs--create-file-button-strings )
 
-     treemacs-icon-open-png   (propertize "▾ " 'face 'font-lock-keyword-face)
-     treemacs-icon-closed-png (propertize "▸ " 'face 'font-lock-keyword-face)
-     treemacs-icon-text (propertize " " 'face 'font-lock-keyword-face)))
+;;   (with-eval-after-load "treemacs"
+;;     (setq
+;;      treemacs-icon-tag-node-open-txt   (propertize "▾ " 'face 'font-lock-keyword-face)
+;;      treemacs-icon-tag-node-closed-txt (propertize "▸ " 'face 'font-lock-keyword-face)
+;;      treemacs-icon-open-text   (propertize "▾ " 'face 'font-lock-keyword-face)
+;;      treemacs-icon-closed-text (propertize "▸ " 'face 'font-lock-keyword-face)
+;;      treemacs-icon-tag-leaf-txt (propertize "- " 'face 'font-lock-keyword-face)
+;;      treemacs-icon-fallback-text (propertize " " 'face 'font-lock-keyword-face)
+
+;;      treemacs-icon-open-png   (propertize "▾ " 'face 'font-lock-keyword-face)
+;;      treemacs-icon-closed-png (propertize "▸ " 'face 'font-lock-keyword-face)
+;;      treemacs-icon-text (propertize " " 'face 'font-lock-keyword-face)))
 
   ;; cursor shape
   (require 'evil-terminal-cursor-changer)
   (evil-terminal-cursor-changer-activate))
-
-(defun user-config-gui ()
-  "Configuration function for Graphical UI"
-  (setq powerline-default-separator 'contour)
-
-  (with-eval-after-load "treemacs"
-    (treemacs-define-custom-icon
-     (propertize " "
-                 'display (create-image "~/projects/icons/ruby.png" 'png nil :ascent 'center :scale 1)
-                 'img-selected (create-image "~/projects/icons/ruby.png" 'png nil :ascent 'center :scale 1)
-                 'img-unselected (create-image "~/projects/icons/ruby.png" 'png nil :ascent 'center :scale 1)
-                 )
-     "rb" "ru" "Gemfile" "Gemfile.lock" "rake")
-    (treemacs-define-custom-icon
-     (propertize " "
-                 'display (create-image "~/projects/icons/Makefile.png" 'png nil :ascent 'center :scale 1)
-                 'img-selected (create-image "~/projects/icons/Makefile.png" 'png nil :ascent 'center :scale 1)
-                 'img-unselected (create-image "~/projects/icons/Makefile.png" 'png nil :ascent 'center :scale 1)
-                 )
-     "Makefile")
-    (treemacs-define-custom-icon
-     (propertize " "
-                 'display (create-image "~/projects/icons/docker.png" 'png nil :ascent 'center :scale 1)
-                 'img-selected (create-image "~/projects/icons/docker.png" 'png nil :ascent 'center :scale 1)
-                 'img-unselected (create-image "~/projects/icons/docker.png" 'png nil :ascent 'center :scale 1)
-                 )
-     "Dockerfile")
-    (treemacs-define-custom-icon
-     (propertize " "
-                 'display (create-image "~/projects/icons/apib.png" 'png nil :ascent 'center :scale 1)
-                 'img-selected (create-image "~/projects/icons/apib.png" 'png nil :ascent 'center :scale 1)
-                 'img-unselected (create-image "~/projects/icons/apib.png" 'png nil :ascent 'center :scale 1)
-                 )
-     "apib")
-    (treemacs-define-custom-icon
-     (propertize " "
-                 'display (create-image "~/projects/icons/conf.png" 'png nil :ascent 'center :scale 1)
-                 'img-selected (create-image "~/projects/icons/conf.png" 'png nil :ascent 'center :scale 1)
-                 'img-unselected (create-image "~/projects/icons/conf.png" 'png nil :ascent 'center :scale 1)
-                 )
-     "yml"
-     "development"
-     "test"
-     "production"
-     "yaml"
-     "DS_Store"
-     "properties"
-     "conf"
-     "config"
-     "gitignore"
-     "gitconfig"
-     "gitmodules"
-     "ini"
-     "xdefaults"
-     "xresources"
-     "terminalrc"
-     "org"
-     "toml"
-     "babelrc"
-     "eslintrc"
-     "eslintignore"
-     "eslintcache"
-     "dockerignore"
-     "flowconfig"
-     "projectile"
-     "hgignore"
-     "ruby-version"
-     "buildpacks"
-     "danger-whitelist"
-     "npmignore"
-     "npmrc"
-     "prettierrc"
-     "mention-bot"
-     ))
-  )
 
 (defun user-config-general ()
   "General configurations"
@@ -697,13 +716,26 @@ DEPTH indicates how deep in the filetree the current button is."
   (setq tags-add-tables nil)
   ;; (setq gc-cons-threshold (* 100 1024 1024))
   ;; (global-evil-mc-mode 1)
+  (menu-bar-mode -1)
+
+  (require 'read-aloud)
+  (setq read-aloud-engine "say")
+
+  ;; vim word with underscore
+  (with-eval-after-load 'evil
+    (defalias #'forward-evil-word #'forward-evil-symbol))
 
   (global-evil-matchit-mode 1)
 
   ;; ivy and counsel
   ;; (setq counsel-async-filter-update-time 100000)
+  ;; (setq projectile-enable-caching t)
+
+  ;; company
+  (setq company-idle-delay 0.1)
+
   (setq ivy-initial-inputs-alist nil)
-  (setq ivy-re-builders-alist '((ivy-switch-buffer . ivy--regex-plus)
+  (setq ivy-re-builders-alist '((ivy-switch-buffer . ivy--regex-fuzzy)
                                 (swiper . ivy--regex-plus)
                                 (t . ivy--regex-fuzzy)))
 
@@ -727,34 +759,34 @@ DEPTH indicates how deep in the filetree the current button is."
     "Major mode for 'editing API Blueprint files" t)
   (add-to-list 'auto-mode-alist '("\\.apib\\'" . apib-mode))
 
-  (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
-                 (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
-                 (36 . ".\\(?:>\\)")
-                 (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
-                 (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
-                 (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
-                 (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
-                 (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
-                 ;; (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
-                 (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
-                 (48 . ".\\(?:x[a-zA-Z]\\)")
-                 (58 . ".\\(?:::\\|[:=]\\)")
-                 (59 . ".\\(?:;;\\|;\\)")
-                 (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
-                 (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
-                 (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
-                 (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
-                 (91 . ".\\(?:]\\)")
-                 (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
-                 (94 . ".\\(?:=\\)")
-                 (119 . ".\\(?:ww\\)")
-                 (123 . ".\\(?:-\\)")
-                 (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
-                 (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
-                 )))
-    (dolist (char-regexp alist)
-      (set-char-table-range composition-function-table (car char-regexp)
-                            `([,(cdr char-regexp) 0 font-shape-gstring]))))
+  ;; (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
+  ;;                (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
+  ;;                (36 . ".\\(?:>\\)")
+  ;;                (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
+  ;;                (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
+  ;;                (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
+  ;;                (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
+  ;;                (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
+  ;;                ;; (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
+  ;;                (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
+  ;;                (48 . ".\\(?:x[a-zA-Z]\\)")
+  ;;                (58 . ".\\(?:::\\|[:=]\\)")
+  ;;                (59 . ".\\(?:;;\\|;\\)")
+  ;;                (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
+  ;;                (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
+  ;;                (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
+  ;;                (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
+  ;;                (91 . ".\\(?:]\\)")
+  ;;                (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
+  ;;                (94 . ".\\(?:=\\)")
+  ;;                (119 . ".\\(?:ww\\)")
+  ;;                (123 . ".\\(?:-\\)")
+  ;;                (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
+  ;;                (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
+  ;;                )))
+  ;;   (dolist (char-regexp alist)
+  ;;     (set-char-table-range composition-function-table (car char-regexp)
+  ;;                           `([,(cdr char-regexp) 0 font-shape-gstring]))))
 
   (indent-guide-global-mode)
 
@@ -763,7 +795,66 @@ DEPTH indicates how deep in the filetree the current button is."
   (setq google-translate-default-target-language "vi")
 
   ;; magit
-  (setq git-commit-summary-max-length 50))
+  (setq git-commit-summary-max-length 50)
+  ;; docker
+  (evil-leader/set-key "D b" 'dockerfile-build-buffer)
+
+  ;; ess
+  (add-hook 'ess-mode-hook
+            (lambda ()
+              (ess-toggle-underscore nil)))
+
+  ;; clojure
+  ;; (setq cider-cljs-lein-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel [:dev :test :cards]))")
+  (setq cider-cljs-lein-repl "(do (use 'user) (start))")
+  (setq clojure-indent-style :align-arguments)
+
+  ;; custom mappings
+  (evil-leader/set-key "x s" 'read-aloud-this)
+  (evil-leader/set-key "w |" 'split-window-right)
+  (evil-leader/set-key "e f" 'rubocop-autocorrect-current-file)
+  (define-key evil-normal-state-map (kbd "C-p") 'projectile-find-file))
+
+(defun user-config-js ()
+  "Configurations for js"
+  ;; javascript
+  (setq-default
+   ;; js2-mode
+   js2-basic-offset 2
+   js-indent-level 2
+   ;; web-mode
+   css-indent-offset 2
+   web-mode-markup-indent-offset 2
+   web-mode-css-indent-offset 2
+   web-mode-code-indent-offset 2
+   web-mode-attr-indent-offset 2)
+
+  (setq js2-mode-show-parse-errors nil)
+  (setq js2-mode-show-strict-warnings nil)
+  (add-hook 'js2-init-hook
+            '(lambda ()
+               (setq next-error-function 'flycheck-next-error)
+               ))
+  (setq js-indent-align-list-continuation nil)
+
+  (add-hook 'js2-mode-hook 'prettier-js-mode)
+  ;; (add-hook 'web-mode-hook 'prettier-js-mode)
+
+  (defun javascript-find-spec ()
+    "Open spec file for current file"
+    (interactive)
+    (let* ((dir-name (file-name-directory buffer-file-name))
+           (test-dir-name (concat dir-name "__tests__/"))
+           (test-file-name (concat
+                            test-dir-name
+                            (file-name-base buffer-file-name)
+                            ".spec.js")))
+      (if (file-exists-p test-file-name)
+          (find-file test-file-name)
+        (counsel-find-file test-dir-name))))
+
+  (evil-leader/set-key-for-mode 'js2-mode "t" 'javascript-find-spec)
+  (evil-leader/set-key-for-mode 'rjsx-mode "t" 'javascript-find-spec))
 
 (defun user-config-search-engine ()
   "Config search engine"
@@ -791,6 +882,29 @@ DEPTH indicates how deep in the filetree the current button is."
   (evil-leader/set-key "s w i" 'engine/search-google-images)
   (evil-leader/set-key "s w m" 'engine/search-google-maps))
 
+(defun user-config-shell ()
+  ""
+  (defun smart-shell-pop ()
+    "Invoke a shell with smart directory"
+    (interactive)
+    (if (projectile-project-p)
+        (spacemacs/projectile-shell-pop)
+      (spacemacs/default-pop-shell)))
+
+  (evil-leader/set-key "'" 'smart-shell-pop)
+
+  ;; shell
+  (setq comint-input-ring-size 1000)
+  (add-hook 'shell-mode-hook 'my-shell-mode-hook)
+  (defun my-shell-mode-hook ()
+    (setq comint-input-ring-file-name "~/.zsh_history")  ;; or bash_history
+    (setq comint-input-ring-separator "\n: \\([0-9]+\\):\\([0-9]+\\);")
+    (comint-read-input-ring t))
+
+  (add-hook 'shell-mode-hook
+            '(lambda ()
+               (evil-declare-key 'insert shell-mode-map (kbd "C-r") 'counsel-shell-history))))
+
 (defun user-config-org ()
   "Config"
   (with-eval-after-load 'org
@@ -798,9 +912,22 @@ DEPTH indicates how deep in the filetree the current button is."
     (evil-leader/set-key "x a t" 'org-align-all-tags)
     (add-hook 'evil-org-mode-hook (lambda ()
                                     (evil-define-key 'normal evil-org-mode-map "-" 'org-cycle-list-bullet)))
-    (require 'org-agenda)
-    ;; (setq org-agenda-files (split-string (getenv "ORG_AGENDA_FILES") ":"))
-    (org-agenda-to-appt)
+    (add-hook 'org-mode-hook (lambda ()
+                               (display-line-numbers-mode -1)))
+
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((emacs-lisp . t)
+       (dot . t)
+       (sql . t)
+       ;; (ruby . t)
+       (org . t)
+       (shell . t)
+       (C . t)
+       (js . t)))
+
+    ;; (require 'org-agenda)
+    ;; (org-agenda-to-appt)
     (appt-activate 1)
     (setq appt-message-warning-time 10)
     (setq appt-display-interval 2)
@@ -854,15 +981,15 @@ DEPTH indicates how deep in the filetree the current button is."
     (setq org-drill-maximum-duration 30)   ; 30 minutes
     (setq org-drill-learn-fraction 0.1)
     (setq org-drill-spaced-repetition-algorithm 'sm2)
+
     ;; customize
     (with-eval-after-load 'org-drill
-      (require 'read-aloud)
       (defun org-drill-sound ()
         (interactive)
-        (let* ((sound-file (expand-file-name (org-entry-get (point) "DRILL_SOUND"))))
-          (if (stringp sound-file)
-              (start-process-shell-command "mplayer" "*sound*" "mplayer" sound-file)
-            (read-aloud--string (org-get-heading t t t t) "word"))))
+        (if-let ((drill-sound (org-entry-get (point) "DRILL_SOUND")))
+            (start-process-shell-command "mplayer" "*sound*" "mplayer"
+                                         (expand-file-name drill-sound))
+          (read-aloud--string (org-get-heading t t t t) "word")))
       (evil-leader/set-key-for-mode 'org-mode "r" 'org-drill-sound)
       (defvar org-drill--repeat-key ?r "")
       (defun org-drill-presentation-prompt (&rest fmt-and-args)
@@ -965,7 +1092,6 @@ DEPTH indicates how deep in the filetree the current button is."
           (save-excursion
             (while (not (memq ch (list org-drill--quit-key
                                        org-drill--edit-key
-                                       org-drill--repeat-key
                                        7          ; C-g
                                        ?0 ?1 ?2 ?3 ?4 ?5)))
               (setq input (read-key-sequence
@@ -1004,6 +1130,8 @@ DEPTH indicates how deep in the filetree the current button is."
                   (wheel-down (ignore-errors (mwheel-scroll (elt input 0)))))))
               (if (eql ch org-drill--tags-key)
                   (org-set-tags-command))
+              (if (eql ch org-drill--repeat-key)
+                  (org-drill-sound))
               ))
           (cond
            ((and (>= ch ?0) (<= ch ?5))
@@ -1036,8 +1164,6 @@ DEPTH indicates how deep in the filetree the current button is."
               quality))
            ((= ch org-drill--edit-key)
             'edit)
-           ((= ch org-drill--repeat-key)
-            (progn (org-drill-again)))
            (t
             nil))))
       )
@@ -1048,144 +1174,35 @@ DEPTH indicates how deep in the filetree the current button is."
   ;; uml
   (setq org-plantuml-jar-path "~/org-modes/plantuml.jar"))
 
+(defun dotspacemacs/user-load ()
+  "Library to load while dumping.
+This function is called only while dumping Spacemacs configuration. You can
+`require' or `load' the libraries of your choice that will be included in the
+dump."
+  )
+
 (defun dotspacemacs/user-config ()
-  "Configuration function for user code.
-This function is called at the very end of Spacemacs initialization after
-layers configuration.
-This is the place where most of your configurations should be done. Unless it is
- explicitly specified that a variable should be set before a package is loaded,
-you should place your code here."
+  "Configuration for user code:
+This function is called at the very end of Spacemacs startup, after layer
+configuration.
+Put your configuration code here, except for variables that should be set
+before packages are loaded."
   (if (display-graphic-p) (user-config-gui) (user-config-tui))
 
   (user-config-general)
   (user-config-search-engine)
   (user-config-org)
+  (user-config-js)
+  (user-config-shell))
 
-  ;; vim word with underscore
-  (with-eval-after-load 'evil
-    (defalias #'forward-evil-word #'forward-evil-symbol))
-
-  ;; javascript
-  (setq-default
-   ;; js2-mode
-   js2-basic-offset 2
-   js-indent-level 2
-   ;; web-mode
-   css-indent-offset 2
-   web-mode-markup-indent-offset 2
-   web-mode-css-indent-offset 2
-   web-mode-code-indent-offset 2
-   web-mode-attr-indent-offset 2)
-
-  ;; (setq projectile-enable-caching t)
-
-  ;; company
-  (setq company-idle-delay 0.1)
-
-  ;; (with-eval-after-load 'company
-  ;;   (add-hook 'company-mode-hook (lambda ()
-  ;;                                  (define-key company-active-map (kbd "C-e") 'company-complete-selection)
-  ;;                                  ;; (add-to-list 'company-backends 'company-ycmd)
-  ;;                                  ;; (add-to-list 'company-backends 'company-flow)
-  ;;                                  (add-to-list 'company-backends 'company-shell))
-  ;;             )
-  ;;   )
-
-  ;; (add-hook 'rjsx-mode-hook
-  ;;           (lambda ()
-  ;;             (add-to-list 'company-backends 'company-flow)))
-
-  (setq js2-mode-show-parse-errors nil)
-  (setq js2-mode-show-strict-warnings nil)
-  (add-hook 'js2-init-hook
-            '(lambda ()
-               (setq next-error-function 'flycheck-next-error)
-               ))
-  (setq js-indent-align-list-continuation nil)
-
-  (add-hook 'js2-mode-hook 'prettier-js-mode)
-  (add-hook 'web-mode-hook 'prettier-js-mode)
-
-  (setq read-aloud-engine "say")
-  (evil-leader/set-key "x s" 'read-aloud-this)
-
-  ;; docker
-  (evil-leader/set-key "D b" 'dockerfile-build-buffer)
-
-  ;; ess
-  (add-hook 'ess-mode-hook
-            (lambda ()
-              (ess-toggle-underscore nil)))
-
-  (defun smart-shell-pop ()
-    "Invoke a shell with smart directory"
-    (interactive)
-    (if (projectile-project-p)
-        (spacemacs/projectile-shell-pop)
-      (spacemacs/default-pop-shell)))
-
-  (evil-leader/set-key "'" 'smart-shell-pop)
-
-  (defun javascript-find-spec ()
-    "Open spec file for current file"
-    (interactive)
-    (let* ((dir-name (file-name-directory buffer-file-name))
-           (test-dir-name (concat dir-name "__tests__/"))
-           (test-file-name (concat
-                            test-dir-name
-                            (file-name-base buffer-file-name)
-                            ".spec.js")))
-      (if (file-exists-p test-file-name)
-          (find-file test-file-name)
-        (counsel-find-file test-dir-name))))
-
-  (evil-leader/set-key-for-mode 'js2-mode "t" 'javascript-find-spec)
-  (evil-leader/set-key-for-mode 'rjsx-mode "t" 'javascript-find-spec)
-
-  ;; shell
-  (setq comint-input-ring-size 1000)
-  (add-hook 'shell-mode-hook 'my-shell-mode-hook)
-  (defun my-shell-mode-hook ()
-    (setq comint-input-ring-file-name "~/.zsh_history")  ;; or bash_history
-    (setq comint-input-ring-separator "\n: \\([0-9]+\\):\\([0-9]+\\);")
-    (comint-read-input-ring t))
-
-  (add-hook 'shell-mode-hook
-            '(lambda ()
-               (evil-declare-key 'insert shell-mode-map (kbd "C-r") 'counsel-shell-history)))
-
-  ;; clojure
-  ;; (setq cider-cljs-lein-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel [:dev :test :cards]))")
-  (setq cider-cljs-lein-repl "(do (use 'user) (start))")
-  (setq clojure-indent-style :align-arguments)
-
-  ;; custom mappings
-  (evil-leader/set-key "w |" 'split-window-right)
-  (define-key evil-normal-state-map (kbd "C-p") 'projectile-find-file))
-
+;; Do not write anything past this comment. This is where Emacs will
+;; auto-generate custom variable definitions.
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(evil-want-Y-yank-to-eol nil)
- '(org-agenda-files
-   '("~/Dropbox/org-modes/speaking-basics-ii.org" "~/Dropbox/org-modes/speaking-basics-i.org"))
- '(org-modules
-   '(org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m org-drill))
- '(package-selected-packages
-   '(yasnippet-snippets yaml-mode xterm-color ws-butler winum wgrep web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen unfill treemacs-projectile treemacs-evil treemacs pfuture toc-org tagedit symon string-inflection sql-indent spaceline-all-the-icons spaceline powerline smex smeargle slim-mode shell-pop seeing-is-believing scss-mode sayid sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe rjsx-mode reveal-in-osx-finder restart-emacs request read-aloud rbenv rainbow-delimiters pug-mode projectile-rails rake prettier-js popwin persp-mode pbcopy password-generator paradox osx-trash osx-dictionary osx-clipboard orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-bullets org-brain open-junk-file ob-coffeescript mwim multi-term move-text mmm-mode minitest material-theme markdown-toc magithub ghub+ apiwrap magit-svn magit-gitflow magit-gh-pulls lorem-ipsum livid-mode skewer-mode link-hint launchctl json-navigator hierarchy js2-refactor js2-mode js-doc ivy-yasnippet ivy-xref ivy-purpose window-purpose imenu-list ivy-hydra insert-shebang indent-guide impatient-mode simple-httpd hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-make haml-mode gruvbox-theme autothemer google-translate golden-ratio gnuplot gitignore-templates gitignore-mode github-search github-clone gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gist gh marshal logito pcache ht gh-md fuzzy flycheck-pos-tip pos-tip flycheck-bashate flycheck flx-ido flx fish-mode fill-column-indicator feature-mode fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-terminal-cursor-changer evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit git-commit ghub with-editor evil-lisp-state evil-lion evil-indent-plus evil-iedit-state iedit evil-goggles evil-exchange evil-escape evil-cleverparens smartparens evil-args evil-anzu anzu ess-R-data-view ctable ess eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode editorconfig dumb-jump dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat diff-hl csv-mode counsel-projectile projectile counsel-css counsel swiper ivy company-web web-completion-data company-tern dash-functional tern company-statistics company-shell company-flow company column-enforce-mode coffee-mode clojure-snippets clojure-cheatsheet helm helm-core clj-refactor inflections edn multiple-cursors paredit peg clean-aindent-mode cider-eval-sexp-fu eval-sexp-fu highlight cider sesman spinner queue pkg-info clojure-mode epl chruby centered-cursor-mode bundler inf-ruby browse-at-remote f dash s base16-theme auto-yasnippet yasnippet auto-highlight-symbol atom-dark-theme apib-mode markdown-mode all-the-icons memoize aggressive-indent add-node-modules-path ace-window ace-link avy ac-ispell auto-complete popup which-key use-package pcre2el org-plus-contrib hydra font-lock+ evil goto-chg undo-tree dotenv-mode diminish bind-map bind-key async))
- '(safe-local-variable-values
-   '((org-drill-learn-fraction . 0.2)
-     (org-drill-spaced-repetition-algorithm . simple8)
-     (org-drill-maximum-items-per-session . 50)
-     (javascript-backend . tern)
-     (javascript-backend . lsp))))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
