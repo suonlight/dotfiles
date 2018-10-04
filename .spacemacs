@@ -69,14 +69,19 @@ This function should only modify configuration layer settings."
      ;;     gofmt-command "goimports"
      ;;     go-tab-width 4)
      copy-as-format
-     (org :variables org-want-todo-bindings t)
+     (org :variables
+          org-enable-github-support t
+          org-enable-reveal-js-support t
+          org-want-todo-bindings t
+          org-enable-hugo-support t)
      spacemacs-org
      ;; plantuml
      ;; shell-scripts
+     hero
      prodigy
      (shell :variables
-            shell-default-shell 'shell
-            ;; shell-enable-smart-eshell t
+            shell-default-shell 'multi-term
+            shell-enable-smart-eshell t
             shell-default-position 'full
             shell-default-full-span t)
      ;; helm
@@ -88,7 +93,7 @@ This function should only modify configuration layer settings."
                       ;; auto-completion-enable-help-tooltip t
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-sort-by-usage t
-                      ;; auto-completion-tab-key-behavior 'cycle
+                      auto-completion-tab-key-behavior 'cycle
                       ;; auto-completion-return-key-behavior nil
                       auto-completion-complete-with-key-sequence-delay 0.5
                       auto-completion-complete-with-key-sequence "jk")
@@ -118,17 +123,27 @@ This function should only modify configuration layer settings."
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(
-                                      ;; osx-clipboard
+                                      osx-clipboard
+                                      nord-theme
                                       read-aloud
+                                      format-sql
                                       ;; company-flow
                                       ;; emamux
-                                      ;; all-the-icons
+                                      ;; (all-the-icons :location (recipe :fetcher github :repo "ubolonton/all-the-icons.el" :branch "font-lock-fix"))
+                                      all-the-icons-dired
+                                      all-the-icons-ivy
                                       apib-mode
                                       ;; kanban
                                       evil-terminal-cursor-changer
-                                      ;; base16-theme
+                                      (eterm-256color :location (recipe :fetcher github
+                                                                        :repo "dieggsy/eterm-256color"
+                                                                        :branch "devel"))
+                                      ;; rebecca-theme
                                       ;; eshell-git-prompt
                                       doom-themes
+                                      rubocopfmt
+                                      ;; ewmctrl
+                                      ;; mplayer-mode
                                       ;; spaceline-all-the-icons
                                       ;; nodejs-repl
                                       ;; company-shell
@@ -142,7 +157,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages '(evil-escape)
 
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
@@ -260,8 +275,8 @@ It should only modify the values of Spacemacs settings."
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes (if (display-graphic-p)
-                           '(spacemacs-dark spacemacs-light)
-                         '(monokai doom-dracula))
+                           '(nord spacemacs-dark spacemacs-light)
+                         '(doom-vibrant wombat doom-nord-light))
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `vim-powerline' and `vanilla'. The first three
    ;; are spaceline themes. `vanilla' is default Emacs mode-line. `custom' is a
@@ -269,7 +284,11 @@ It should only modify the values of Spacemacs settings."
    ;; to create your own spaceline theme. Value can be a symbol or list with\
    ;; additional properties.
    ;; (default '(spacemacs :separator wave :separator-scale 1.5))
-   dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)
+   dotspacemacs-mode-line-theme (if (display-graphic-p)
+                                    '(spacemacs :separator wave :separator-scale 1.0)
+                                  '(spacemacs :separator alternate :separator-scale 1.2))
+   ;; dotspacemacs-mode-line-theme
+   ;; dotspacemacs-mode-line-theme '(vanilla)
 
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
    ;; (default t)
@@ -279,7 +298,9 @@ It should only modify the values of Spacemacs settings."
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '(
                                ;; "Source Code Pro"
-                               "Fira Code"
+                               ;; "Fira Code"
+                               "FuraCode Nerd Font"
+                               ;; "Monaco"
                                ;; "Inconsolata"
                                :size 14
                                :weight normal
@@ -446,7 +467,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil, start an Emacs server if one is not already running.
    ;; (default nil)
-   dotspacemacs-enable-server nil
+   dotspacemacs-enable-server t
 
    ;; Set the emacs server socket location.
    ;; If nil, uses whatever the Emacs default is, otherwise a directory path
@@ -525,8 +546,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
 (defun user-config-gui ()
   "Configuration function for Graphical UI"
-  (setq powerline-default-separator 'contour)
-
+  ;; (setq powerline-default-separator 'contour)
+  ;; (setq powerline-default-separator 'alternate)
   ;; (with-eval-after-load "treemacs"
   ;;   (treemacs-define-custom-icon
   ;;    (propertize " "
@@ -535,7 +556,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;;                'img-unselected (create-image "~/projects/icons/ruby.png" 'png nil :ascent 'center :scale 1)
   ;;                )
   ;;    "rb" "ru" "Gemfile" "Gemfile.lock" "rake")
-  ;;   (treemacs-define-custom-icon
+  ;; (treemacs-define-custom-icon
   ;;    (propertize " "
   ;;                'display (create-image "~/projects/icons/Makefile.png" 'png nil :ascent 'center :scale 1)
   ;;                'img-selected (create-image "~/projects/icons/Makefile.png" 'png nil :ascent 'center :scale 1)
@@ -602,18 +623,12 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   "Configuration function for Terminal UI"
   (setq powerline-default-separator 'utf-8)
   ;; clipboard for emacs version >= 26
-  ;; (use-package osx-clipboard
-  ;;    :config
-  ;;    (progn
-  ;;      (osx-clipboard-mode +1)
-  ;;      (diminish 'osx-clipboard-mode)))
+  (use-package osx-clipboard
+     :config
+     (progn
+       (osx-clipboard-mode +1)
+       (diminish 'osx-clipboard-mode)))
   (evil-leader/set-key "x t m" 'emamux:send-region)
-
-  ;; (setq dotspacemacs-themes '(base16-monokai base16-default-dark))
-  ;; (use-package base16-theme
-  ;;   :ensure t
-  ;;   :config
-  ;;   (load-theme 'base16-monokai t))
 
   (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
   (global-set-key (kbd "<mouse-5>") 'scroll-up-line)
@@ -718,8 +733,39 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; (global-evil-mc-mode 1)
   (menu-bar-mode -1)
 
+  (let ((gls "/usr/local/bin/gls"))
+    (if (file-exists-p gls) (setq insert-directory-program gls)))
+
   (require 'read-aloud)
   (setq read-aloud-engine "say")
+
+  ;;Issue: flycheck syntax checking makes editing files really slow
+  (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled))
+  (setq flycheck-idle-change-delay 10) ;; Set delay based on what suits you the best
+
+  ;; remove underline
+  (set-face-attribute hl-line-face nil :underline nil)
+  ;; Preserve syntax highlight when highlighting current line
+  (set-face-foreground 'highlight nil)
+  ;; Change visual selection's colors
+  (set-face-attribute 'region nil :background "#cbe587" :foreground "#000000")
+
+  (require 'font-lock+)
+  (use-package all-the-icons-ivy
+    :ensure t
+    :config
+    (progn
+      ;; (setq all-the-icons-ivy-file-commands
+      ;;       '(counsel-find-file counsel-file-jump counsel-recentf counsel-projectile-find-file counsel-projectile-find-dir))
+      (all-the-icons-ivy-setup)))
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+
+  (use-package all-the-icons
+    :ensure t
+    :config
+    (add-to-list 'all-the-icons-mode-icon-alist
+                 '(enh-ruby-mode all-the-icons-octicon "ruby" :face all-the-icons-lred)))
+
 
   ;; vim word with underscore
   (with-eval-after-load 'evil
@@ -738,6 +784,9 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq ivy-re-builders-alist '((ivy-switch-buffer . ivy--regex-fuzzy)
                                 (swiper . ivy--regex-plus)
                                 (t . ivy--regex-fuzzy)))
+  (add-to-list 'ivy-ignore-buffers "\\*Messages\\*")
+  (add-to-list 'ivy-ignore-buffers "TAGS")
+  (add-to-list 'ivy-ignore-buffers "\\*scratch\\*")
 
   (progn
     (set-face-attribute
@@ -759,35 +808,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     "Major mode for 'editing API Blueprint files" t)
   (add-to-list 'auto-mode-alist '("\\.apib\\'" . apib-mode))
 
-  ;; (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
-  ;;                (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
-  ;;                (36 . ".\\(?:>\\)")
-  ;;                (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
-  ;;                (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
-  ;;                (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
-  ;;                (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
-  ;;                (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
-  ;;                ;; (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
-  ;;                (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
-  ;;                (48 . ".\\(?:x[a-zA-Z]\\)")
-  ;;                (58 . ".\\(?:::\\|[:=]\\)")
-  ;;                (59 . ".\\(?:;;\\|;\\)")
-  ;;                (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
-  ;;                (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
-  ;;                (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
-  ;;                (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
-  ;;                (91 . ".\\(?:]\\)")
-  ;;                (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
-  ;;                (94 . ".\\(?:=\\)")
-  ;;                (119 . ".\\(?:ww\\)")
-  ;;                (123 . ".\\(?:-\\)")
-  ;;                (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
-  ;;                (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
-  ;;                )))
-  ;;   (dolist (char-regexp alist)
-  ;;     (set-char-table-range composition-function-table (car char-regexp)
-  ;;                           `([,(cdr char-regexp) 0 font-shape-gstring]))))
-
   (indent-guide-global-mode)
 
   ;; google-translate
@@ -799,6 +819,9 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; docker
   (evil-leader/set-key "D b" 'dockerfile-build-buffer)
 
+  ;; ruby
+  (add-hook 'ruby-mode-hook #'rubocopfmt-mode)
+
   ;; ess
   (add-hook 'ess-mode-hook
             (lambda ()
@@ -807,12 +830,51 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; clojure
   ;; (setq cider-cljs-lein-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel [:dev :test :cards]))")
   (setq cider-cljs-lein-repl "(do (use 'user) (start))")
-  (setq clojure-indent-style :align-arguments)
+  (setq clojure-indent-style :align-arguments))
 
-  ;; custom mappings
+(defun user-config-layout ()
+  "Configuraiton for custom layout"
+  )
+
+(defun user-config-mappings ()
+  "Configurations for custom mappings"
+
+  (defun osx-active-iterm-2 ()
+    "Active Iterm 2"
+    (interactive)
+    (shell-command "osascript -e 'activate application \"iterm 2\"'"))
+  (define-key evil-normal-state-map (kbd "C-SPC 1") 'osx-active-iterm-2)
+
+  (evil-leader/set-key-for-mode 'sql-mode "=" 'format-sql-region)
+  (define-key evil-insert-state-map (kbd "C-a") 'beginning-of-line)
+  (define-key evil-insert-state-map (kbd "C-e") 'end-of-line)
+  (evil-leader/set-key "a C" 'calendar)
   (evil-leader/set-key "x s" 'read-aloud-this)
   (evil-leader/set-key "w |" 'split-window-right)
   (evil-leader/set-key "e f" 'rubocop-autocorrect-current-file)
+  ;; (evil-leader/set-key "'" 'hero/smart-shell)
+
+  (defun rake-db-migrate ()
+    "Rake db migrate"
+    (interactive)
+    (let ((command "rake db:migrate"))
+      (if (projectile-project-p)
+          (projectile-with-default-dir (projectile-project-root)
+            (shell-command command))
+        (async-shell-command command))))
+  (evil-leader/set-key-for-mode 'enh-ruby-mode "r d m" 'rake-db-migrate)
+  (evil-leader/set-key-for-mode 'enh-ruby-mode "g g" 'dumb-jump-go)
+  (evil-leader/set-key-for-mode 'enh-ruby-mode "g G" 'dumb-jump-go-other-window)
+  (evil-leader/set-key-for-mode 'ruby-mode "g g" 'dumb-jump-go)
+  (evil-leader/set-key-for-mode 'ruby-mode "g G" 'dumb-jump-go-other-window)
+  (evil-leader/set-key-for-mode 'haml-mode "g g" 'dumb-jump-go)
+  (evil-leader/set-key-for-mode 'haml-mode "g G" 'dumb-jump-go-other-window)
+  (evil-leader/set-key-for-mode 'js2-mode "g g" 'dumb-jump-go)
+  (evil-leader/set-key-for-mode 'js2-mode "g G" 'dumb-jump-go-other-window)
+  (evil-leader/set-key-for-mode 'rjsx-mode "g g" 'dumb-jump-go)
+  (evil-leader/set-key-for-mode 'rjsx-mode "g G" 'dumb-jump-go-other-window)
+  (define-key evil-normal-state-map "gs" 'save-buffer)
+  (define-key evil-normal-state-map "gl" 'spacemacs/layouts-transient-state/body)
   (define-key evil-normal-state-map (kbd "C-p") 'projectile-find-file))
 
 (defun user-config-js ()
@@ -839,22 +901,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   (add-hook 'js2-mode-hook 'prettier-js-mode)
   ;; (add-hook 'web-mode-hook 'prettier-js-mode)
-
-  (defun javascript-find-spec ()
-    "Open spec file for current file"
-    (interactive)
-    (let* ((dir-name (file-name-directory buffer-file-name))
-           (test-dir-name (concat dir-name "__tests__/"))
-           (test-file-name (concat
-                            test-dir-name
-                            (file-name-base buffer-file-name)
-                            ".spec.js")))
-      (if (file-exists-p test-file-name)
-          (find-file test-file-name)
-        (counsel-find-file test-dir-name))))
-
-  (evil-leader/set-key-for-mode 'js2-mode "t" 'javascript-find-spec)
-  (evil-leader/set-key-for-mode 'rjsx-mode "t" 'javascript-find-spec))
+)
 
 (defun user-config-search-engine ()
   "Config search engine"
@@ -869,13 +916,21 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
           :url  "https://vdict.com/%s,1,0,0.html")
         search-engine-alist)
 
-  (push '(sandbox-payroll
-          :name "Sandbox"
-          :url  "https://payroll.staging.ehrocks.com/")
+  (push '(docs-lodash
+          :name "Docs Lodash"
+          :url  "https://lodash.com/docs/4.17.10#%s")
+        search-engine-alist)
+
+
+  (push '(docs-ruby
+          :name "Docs Ruby"
+          :url  "https://ruby-doc.org/core-2.2.0/%s.html")
         search-engine-alist)
 
   (defengine search-workarround "") ;; work arround to define search-oxford-dictionary
 
+  (evil-leader/set-key "s w d l" 'engine/search-docs-lodash)
+  (evil-leader/set-key "s w d r" 'engine/search-docs-ruby)
   (evil-leader/set-key "s w o" 'engine/search-oxford-dictionary)
   (evil-leader/set-key "s w v" 'engine/search-vdict-dictionary)
   (evil-leader/set-key "s w g" 'engine/search-google)
@@ -893,6 +948,58 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   (evil-leader/set-key "'" 'smart-shell-pop)
 
+  ;; ;; eterm
+  ;; (with-eval-after-load  'eterm-256color
+  ;;   (add-hook 'term-mode-hook #'eterm-256color-mode))
+  (require 'eterm-256color)
+  (add-hook 'term-mode-hook #'eterm-256color-mode)
+
+  ;; (add-to-list 'term-bind-key-alist '("C-c C-n" . multi-term-next))
+  ;; (add-to-list 'term-bind-key-alist '("C-c C-p" . multi-term-prev))
+
+  (defun evil-term-line-mode ()
+    (interactive)
+    (setq evil-insert-state-cursor '("chartreuse3" (bar . 2)))
+    (term-line-mode)
+    (evil-normal-state))
+
+  (defun evil-term-char-mode ()
+    (interactive)
+    (setq evil-insert-state-cursor '(box "yellow"))
+    (term-char-mode)
+    (evil-insert-state))
+
+  (defun evil-term-return ()
+    (interactive)
+    (evil-term-char-mode)
+    (term-send-input))
+
+
+  (add-hook 'term-mode-hook
+            '(lambda ()
+               ;; (setq term-unbind-key-list '("C-z" "C-x" "C-c" "C-h" "C-y"))
+               (add-to-list 'term-bind-key-alist '("C-c C-j" . term-line-mode))
+               (add-to-list 'term-bind-key-alist '("C-c C-k" . term-char-mode))
+
+               ;; From char mode
+               (evil-declare-key 'insert term-raw-map (kbd "<escape>") 'evil-term-line-mode)
+               ;; (evil-declare-key 'insert term-raw-map (kbd "RET") 'evil-term-return)
+               ;; (evil-declare-key 'insert term-raw-map (kbd "<return>") 'evil-term-return)
+
+               ;; From line mode
+               (evil-declare-key 'normal term-mode-map (kbd "i") 'evil-term-char-mode)
+               (evil-declare-key 'normal term-mode-map (kbd "a") 'evil-term-char-mode)
+               (evil-declare-key 'normal term-mode-map (kbd "o") 'evil-term-char-mode)
+               (evil-declare-key 'normal term-mode-map (kbd "a") 'evil-term-char-mode)
+               (evil-declare-key 'normal term-mode-map (kbd "cw") 'evil-term-char-mode)
+               (evil-declare-key 'normal term-mode-map (kbd "cc") 'evil-term-char-mode)
+
+               (evil-declare-key 'insert term-mode-map (kbd "RET") 'evil-term-return)
+               (evil-declare-key 'insert term-mode-map (kbd "<return>") 'evil-term-return)
+               (evil-declare-key 'normal term-mode-map (kbd "RET") 'evil-term-return)
+               (evil-declare-key 'normal term-mode-map (kbd "return") 'evil-term-return)
+               ))
+
   ;; shell
   (setq comint-input-ring-size 1000)
   (add-hook 'shell-mode-hook 'my-shell-mode-hook)
@@ -903,7 +1010,9 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   (add-hook 'shell-mode-hook
             '(lambda ()
-               (evil-declare-key 'insert shell-mode-map (kbd "C-r") 'counsel-shell-history))))
+               (evil-declare-key 'insert shell-mode-map (kbd "C-r") 'counsel-shell-history)
+               (evil-declare-key 'normal shell-mode-map (kbd "C-k") 'evil-window-up)
+               (evil-declare-key 'normal shell-mode-map (kbd "C-j") 'evil-window-down))))
 
 (defun user-config-org ()
   "Config"
@@ -973,7 +1082,12 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
              "Reading List"
              entry
              (file+headline "~/org-modes/personal.org" "Reading List")
-             "* TODO %?\n")))
+             "* TODO %?\n")
+            ("p"
+             "Article"
+             entry
+             (file+headline "~/org-modes/articles.org" "Articles")
+             "* %:link\n")))
 
     (require 'org-checklist)
     ;; org-drill
@@ -1193,7 +1307,9 @@ before packages are loaded."
   (user-config-search-engine)
   (user-config-org)
   (user-config-js)
-  (user-config-shell))
+  (user-config-shell)
+  (user-config-layout)
+  (user-config-mappings))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.

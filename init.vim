@@ -359,6 +359,11 @@ au TermOpen *neoterm* :tnoremap <buffer> <C-l> <C-\><C-n><C-w>l
 tnoremap jk <C-\><C-n>
 
 "----------------------------------------------
+" Plug 'mtth/scratch.vim'
+"----------------------------------------------
+let g:scratch_no_mappings = 0
+
+"----------------------------------------------
 " Plug 'janko-m/vim-test'
 "----------------------------------------------
 let g:test#strategy = 'vimux'
@@ -569,6 +574,7 @@ nmap <Space>xa= <Plug>(EasyAlign)ip=<CR>|  " Text > Align > =
 nmap <Space>xa" <Plug>(EasyAlign)ip"<CR>|  " Text > Align > "
 
 " Global
+nnoremap <silent> gs :update<CR>         " File > Save
 nmap gy yygccp                           " Copy and Comment Lines
 nmap <silent> <Space>cl gcc              " Comment Lines
 vmap <silent> <Space>cl gcc              " Comment Lines
