@@ -59,6 +59,7 @@ Plug 'tpope/vim-fugitive'                                        " Easily manipu
 Plug 'tpope/vim-rhubarb'
 Plug 'airblade/vim-gitgutter'
 
+Plug 'sheerun/vim-polyglot'
 "----------------------------------------------
 " Language: Markdown
 "----------------------------------------------
@@ -67,21 +68,21 @@ Plug 'plasticboy/vim-markdown'
 "----------------------------------------------
 " Language: Ruby
 "----------------------------------------------
-Plug 'vim-ruby/vim-ruby'
+" Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-rails'
-Plug 'hackhowtofaq/vim-solargraph'
+" Plug 'hackhowtofaq/vim-solargraph'
 
 "----------------------------------------------
 " Language: JavaScript
 "----------------------------------------------
-Plug 'pangloss/vim-javascript', { 'for': 'javascript' }          " vim-jsx
-Plug 'mxw/vim-jsx', { 'for': 'javascript' }
+" Plug 'pangloss/vim-javascript', { 'for': 'javascript' }          " vim-jsx
+" Plug 'mxw/vim-jsx', { 'for': 'javascript' }
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
 Plug 'epilande/vim-es2015-snippets', { 'for': 'javascript' }     " ES2015 code snippets (Optional)
 Plug 'epilande/vim-react-snippets', { 'for': 'javascript' }      " React code snippets
 Plug 'mattn/emmet-vim', { 'for': ['html', 'erb', 'javascript'] } " emmet-vim
-Plug 'kchmck/vim-coffee-script'
+" Plug 'kchmck/vim-coffee-script'
 
 call plug#end()
 
@@ -116,7 +117,7 @@ set ttimeoutlen=0
 "----------------------------------------------
 
 set background=dark
-colorscheme hybrid_material
+colorscheme gruvbox
 
 " Show status bar by default.
 set laststatus=2
