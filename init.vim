@@ -3,7 +3,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 " Core plugins
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'benmills/vimux'
 Plug 'ludovicchabant/vim-gutentags'
@@ -16,11 +16,13 @@ Plug 'danro/rename.vim'
 Plug 'vim-scripts/highlight.vim'
 
 Plug 'mhinz/vim-startify'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'flazz/vim-colorschemes'                                    " Color Schemes
-Plug 'ryanoasis/vim-devicons'
+Plug 'itchyny/lightline.vim'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
+" Plug 'flazz/vim-colorschemes'                                    " Color Schemes
+" Plug 'ryanoasis/vim-devicons'
 Plug 'Yggdroot/indentLine'
+Plug 'colepeters/spacemacs-theme.vim'
 
 " Plug 'SirVer/ultisnips'
 Plug 'Shougo/neosnippet'
@@ -44,12 +46,11 @@ Plug 'junegunn/vim-easy-align'
 Plug 'w0rp/ale'
 
 Plug 'janko-m/vim-test'
-Plug 'kassio/neoterm'
 
 Plug 'Shougo/deoplete.nvim'
-Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript' }
+" Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript' }
 
-Plug 'xolox/vim-session'
+" Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
 
 "----------------------------------------------
@@ -57,7 +58,6 @@ Plug 'xolox/vim-misc'
 "----------------------------------------------
 Plug 'tpope/vim-fugitive'                                        " Easily manipulate Git(hub)
 Plug 'tpope/vim-rhubarb'
-Plug 'airblade/vim-gitgutter'
 
 Plug 'sheerun/vim-polyglot'
 "----------------------------------------------
@@ -69,7 +69,7 @@ Plug 'plasticboy/vim-markdown'
 " Language: Ruby
 "----------------------------------------------
 " Plug 'vim-ruby/vim-ruby'
-Plug 'tpope/vim-rails'
+" Plug 'tpope/vim-rails'
 " Plug 'hackhowtofaq/vim-solargraph'
 
 "----------------------------------------------
@@ -95,8 +95,8 @@ set autoindent                    " take indent for new line from previous line
 set smartindent                   " enable smart indentation
 set autoread
 set clipboard=unnamed
-set number
-set relativenumber
+" set number
+" set relativenumber
 set expandtab                     " expands tabs to spaces
 set softtabstop=2
 set tabstop=2
@@ -117,33 +117,40 @@ set ttimeoutlen=0
 "----------------------------------------------
 
 set background=dark
-colorscheme gruvbox
+" colorscheme gruvbox
+if (has("termguicolors"))
+  set termguicolors
+endif
+colorscheme spacemacs-theme
 
 " Show status bar by default.
 set laststatus=2
+if !has('gui_running')
+  set t_Co=256
+endif
 
-" Set this. Airline will handle the rest.
-let g:airline_theme = 'luna'
+" " Set this. Airline will handle the rest.
+" let g:airline_theme = 'luna'
 
-" Enable top tabline.
-let g:airline#extensions#tabline#enabled = 1
+" " Enable top tabline.
+" let g:airline#extensions#tabline#enabled = 1
 
-" Disable showing tabs in the tabline. This will ensure that the buffers are
-" what is shown in the tabline at all times.
-let g:airline#extensions#tabline#show_tabs = 0
+" " Disable showing tabs in the tabline. This will ensure that the buffers are
+" " what is shown in the tabline at all times.
+" let g:airline#extensions#tabline#show_tabs = 0
 
-" Show only file name in tabline
-let g:airline#extensions#tabline#fnamemod = ':t'
+" " Show only file name in tabline
+" let g:airline#extensions#tabline#fnamemod = ':t'
 
-" Show buffer index next to file name
-let g:airline#extensions#tabline#buffer_nr_show = 1
+" " Show buffer index next to file name
+" let g:airline#extensions#tabline#buffer_nr_show = 1
 
-" Enable powerline fonts.
-let g:airline_powerline_fonts = 1
+" " Enable powerline fonts.
+" let g:airline_powerline_fonts = 1
 
-" Advanced separators (extra-powerline-symbols):
-let g:airline_left_sep = "\uE0B4"
-let g:airline_right_sep = "\uE0B6"
+" " Advanced separators (extra-powerline-symbols):
+" let g:airline_left_sep = "\uE0B4"
+" let g:airline_right_sep = "\uE0B6"
 
 "----------------------------------------------
 " Searching
@@ -168,14 +175,14 @@ nnoremap N Nzzzv
 "----------------------------------------------
 
 " Disable arrow keys
-inoremap <Up> <nop>
-inoremap <Down> <nop>
-inoremap <Left> <nop>
-inoremap <Right> <nop>
-noremap <Up> <nop>
-noremap <Down> <nop>
-noremap <Left> <nop>
-noremap <Right> <nop>
+" inoremap <Up> <nop>
+" inoremap <Down> <nop>
+" inoremap <Left> <nop>
+" inoremap <Right> <nop>
+" noremap <Up> <nop>
+" noremap <Down> <nop>
+" noremap <Left> <nop>
+" noremap <Right> <nop>
 
 "----------------------------------------------
 " Plug 'kana/vim-textobj-entire'
@@ -190,8 +197,8 @@ call textobj#user#plugin('entire', {
 "----------------------------------------------
 " Plug 'xolox/vim-session'
 "----------------------------------------------
-let g:session_autoload = 'no'
-let g:session_autosave = 'no'
+" let g:session_autoload = 'no'
+" let g:session_autosave = 'no'
 
 "----------------------------------------------
 " Snippets
@@ -255,6 +262,8 @@ if has('nvim')
     " Enable deoplete on startup
     let g:deoplete#enable_at_startup = 1
 endif
+let g:python3_host_prog = "/usr/local/bin/python3"
+let g:python2_host_prog = "/usr/local/bin/python2.7"
 
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
@@ -299,6 +308,16 @@ nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
 nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
 
 "----------------------------------------------
+" Plug 'scrooloose/nerdtree'
+"----------------------------------------------
+let g:NERDTreeSyntaxDisableDefaultExtensions = 1
+let g:NERDTreeDisableExactMatchHighlight = 1
+let g:NERDTreeDisablePatternMatchHighlight = 1
+let g:NERDTreeSyntaxEnabledExtensions = ['rb', 'js', 'html', 'haml', 'css', 'erb', 'jsx', 'scss']
+let g:NERDTreeLimitedSyntax = 1
+let g:NERDTreeHighlightCursorline = 0
+
+"----------------------------------------------
 " Plug 'mhinz/vim-startify'
 "----------------------------------------------
 let g:startify_change_to_vcs_root = 1
@@ -334,19 +353,6 @@ let g:user_emmet_settings = {
       \      'quote_char': "'",
       \  },
       \}
-
-"----------------------------------------------
-" Plug 'kassio/neoterm'
-"----------------------------------------------
-let g:neoterm_size='12'
-let g:neoterm_default_mod = 'belowright'
-
-" allow to navigation as normal
-au TermOpen *neoterm* :tnoremap <buffer> <Esc> <C-\><C-n>
-au TermOpen *neoterm* :tnoremap <buffer> <C-h> <C-\><C-n><C-w>h
-au TermOpen *neoterm* :tnoremap <buffer> <C-k> <C-\><C-n><C-w>k
-au TermOpen *neoterm* :tnoremap <buffer> <C-j> <C-\><C-n><C-w>j
-au TermOpen *neoterm* :tnoremap <buffer> <C-l> <C-\><C-n><C-w>l
 
 " augroup Term
 "   autocmd!
@@ -531,11 +537,15 @@ nnoremap <silent> <Space>pf :FZF<CR>
 nnoremap <silent> <C-p> :FZF<CR>
 
 " Searching
+nnoremap <silent> <Space>/ :Ag<CR>
 nnoremap <silent> <Space>sp :Ag<CR>
+nnoremap <silent> <Space>su :Ag<up><CR>
 nnoremap <silent> <Space>ss :BLines<CR>
 nnoremap <silent> <Space>* :Ag <C-R><C-W><CR>
 map <silent> <Space>jj <Plug>(easymotion-s)
 map <silent> <Space>jw <Plug>(easymotion-bd-w)
+" map <Space>jL <Plug>(easymotion-bd-jk)
+nmap <Space>jl <Plug>(easymotion-overwin-line)
 nnoremap <silent> <Space>ji :BTags<CR>
 nnoremap <silent> <Space>sh :call <SNR>62_Highlight("w") \| nohls<CR>
 nnoremap <silent> <Space>sc :call <SNR>62_Highlight("n")<CR>
