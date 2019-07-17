@@ -12,7 +12,45 @@ function spacemacs-upgrade() {
 
 function txsa() {
   tmuxinator start emacs &
+  tmuxinator start ehe &
   tmuxinator start services
+}
+
+function active-byebug() {
+    last_active=$1
+    for s in $(tmux list-sessions -F "#{session_name}")
+    do
+	for w in $(tmux list-windows -F "#{window_id}" -t $s)
+	do
+	    win=$s:$w
+	    for p in $(tmux list-panes -F "#{pane_id}" -t $win)
+	    do
+		x=$(tmux capture-pane -p -t "$win.$p" | tail -n 1 | grep byebug)
+		if [[ -n $x ]]; then
+		    tmux select-pane -t "$win.$p"
+		    tmux select-window -t "$win"
+		    tmux attach-session -t "$s"
+		    echo "$win.$p"
+		    if [[ "$last_active" != "$win.$p" ]]; then
+			continue
+		    fi
+		    return
+		fi
+	    done
+	done
+    done
+
+    return ""
+}
+
+function watch-byebug() {
+    last_active=""
+    for (( ; ; ))
+    do
+	last_active=$(active-byebug $last_active)
+	echo "xxx: " $last_active
+	sleep 2
+    done
 }
 
 capture() {
@@ -24,6 +62,7 @@ capture() {
     '
 }
 
+
 # source ~/.fonts/*.sh
 # POWERLEVEL9K_MODE='awesome-fontconfig'
 
@@ -34,7 +73,9 @@ capture() {
 # ZSH_THEME="powerlevel9k/powerlevel9k"
 # ZSH_THEME="bullet-train"
 # ZSH_THEME="amuse"
-ZSH_THEME="ys"
+ZSH_THEME="blinks"
+# ZSH_THEME="ys"
+# ZSH_THEME=""
 # ZSH_THEME="junkfood"
 # ZSH_THEME="agnoster"
 # ZSH_THEME="spaceship"
@@ -79,48 +120,64 @@ DISABLE_AUTO_TITLE="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
     git
-    git-open
-    autojump
     rake
     docker
     ruby
-    rails
     bundler
-    # golang
-    rvm
-    kubectl
-    zsh-autosuggestions
-    colored-man-pages
-    zsh-syntax-highlighting
-    yarn
-    docker-compose
-    vi-mode
+    rails
+    # vi-mode
     tmuxinator
     tmux
-    vundle
+    # git-open
+    # golang
+    # vundle
+    # rvm
+    # kubectl
+    # colored-man-pages
+    # alias-tips
+    # zsh-autosuggestions
+    # zsh-syntax-highlighting
+    # yarn
+    # docker-compose
 )
 
 if [[ -n $INSIDE_EMACS ]]; then
     plugins=(
         git
-        git-open
-        autojump
         rake
         docker
         ruby
         rails
         bundler
+	rust
+	cargo
+        # vi-mode
+        # git-open
         # golang
-        rvm
-        kubectl
-        zsh-autosuggestions
-        colored-man-pages
-        zsh-syntax-highlighting
-        yarn
-        docker-compose
-        vi-mode
+        # rvm
+        # kubectl
+        # colored-man-pages
+        # zsh-syntax-highlighting
+        # yarn
+        # docker-compose
     )
 fi
+
+# faster plugin
+# autojump
+function j() {
+  (( $+commands[brew] )) && {
+    local pfx=$(brew --prefix)
+    [[ -f "$pfx/etc/autojump.sh" ]] && . "$pfx/etc/autojump.sh"
+    j "$@"
+  }
+}
+
+source ~/.zplug/init.zsh
+zplug "djui/alias-tips", defer:3
+zplug "zsh-users/zsh-autosuggestions", defer:3
+
+zplug load
 
 source $ZSH/oh-my-zsh.sh
 
@@ -175,30 +232,62 @@ export VISUAL=nvim
 #export VISUAL="emacsclient -c -a emacs"         # $VISUAL opens in GUI with non-daemon as alternate
 # alias emacs-plus=~/projects/emacs/src/emacs
 alias e='emacs -nw'
-alias ec='emacsclient -a "" -t -c'
-alias ecw='emacsclient -a "" -c'
+# alias ecw='emacsclient -a "" -c -e "(user-config-gui)"'
+alias ec='node --version && ruby --version && emacsclient -a "" -c'
+alias ecn="emacsclient -c -F '(quote (name . \"capture\"))' -e '(activate-capture-frame)' & osascript -e 'activate application \"Emacs\"'"
 alias ek='emacsclient -e "(kill-emacs)"'
+alias ect='emacsclient -a "" -t -c'
 alias vim=nvim
 alias vimdiff='nvim -d'
 alias vi=vim
-alias k=kubectl
 alias cdu='cd "$(git rev-parse --show-cdup)"'
 alias c=clear
-alias gop='git open'
-alias ls='ls --color=auto'
+# alias gop='git open'
+# export FZF_DEFAULT_COMMAND='/usr/local/bin/rg'
+export FZF_DEFAULT_OPTS="--height 20% --reverse"
+# alias ls='ls --color=auto'
 # alias ssh='TERM=xterm-256color ssh'
 export EDITOR='nvim'
 export BUNDLER_EDITOR='nvim'
 
-export TERM=xterm-24bit
-
+# export TERM=xterm-24bit
+export TERM=xterm-256color
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=2'
+# export TERM=xterm
+# export TERM=screen-256color
+# export TERM=eterm-256color
 if [[ -n $INSIDE_EMACS ]]; then
-    # alias nvim='emacsclient $@'
-    # alias vim='emacsclient $@'
-    export EDITOR=emacsclient
-    export VISUAL=$EDITOR
-    # export TERM=dumb
-    export TERM=eterm-256color
+  alias nvim='emacsclient $@'
+  alias vim='emacsclient $@'
+  export EDITOR=emacsclient
+  export BUNDLER_EDITOR='emacsclient $@'
+  export VISUAL=$EDITOR
+  # export TERM=xterm-24bit
+  # export TERM=xterm
+  # export TERM=screen-256color
+  # export TERM=eterm-256color
+  # export TERM=xterm-256color
+  if [[ "vterm" == "$INSIDE_EMACS" ]]; then
+    # export TERM=xterm
+    ZSH_THEME=""
+    autoload -U promptinit; promptinit
+    prompt pure
+  fi
+  # export TERM=dumb
+  export FZF_DEFAULT_COMMAND='/usr/local/bin/rg'
+  export FZF_DEFAULT_OPTS="--height 20% --reverse"
+  #     export FZF_DEFAULT_OPTS="--height 20% --reverse --bind=\
+  # ctrl-j:accept,ctrl-k:kill-line,tab:toggle-up,btab:toggle-down,\
+  # ctrl-y:execute('echo {} | xclip -selection clipboard')+abort"
+  # alias gst="emacsclient -e '(magit-status)'"
+else
+  ZSH_THEME=""
+  autoload -U promptinit; promptinit
+  prompt pure
+fi
+
+if [[ -n $STY ]]; then
+  export TERM=xterm-256color
 fi
 
 # export GTAGSLABEL=ctags
@@ -213,12 +302,9 @@ export RPROMPT=""
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-export PATH="$PATH:$HOME/.editor/bin"
-export PATH="$PATH:$HOME/Library/Python/3.6/bin"
-export PATH="$PATH:/usr/local/bin"
-export PATH="$PATH:$GOPATH/bin"
-export PATH="$PATH:$HOME/.bin"
-# # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
-export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+source ~/projects/sandboxd/sandboxd
+# export PATH="$HOME/.rbenv/bin:$PATH"
+# eval "$(rbenv init -)"
+
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
