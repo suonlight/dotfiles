@@ -47,7 +47,7 @@ Plug 'w0rp/ale'
 
 Plug 'janko-m/vim-test'
 
-Plug 'Shougo/deoplete.nvim'
+" Plug 'Shougo/deoplete.nvim'
 " Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript' }
 
 " Plug 'xolox/vim-session'
@@ -96,7 +96,7 @@ set smartindent                   " enable smart indentation
 set autoread
 set clipboard=unnamed
 " set number
-" set relativenumber
+set relativenumber
 set expandtab                     " expands tabs to spaces
 set softtabstop=2
 set tabstop=2
@@ -513,7 +513,7 @@ nnoremap <silent> <Space>w<S-k> :wincmd <S-k><CR>   " Move Window Very Top
 nnoremap <silent> <Space>w<S-j> :wincmd <S-j><CR>   " Move Window Very Bottom
 nnoremap <silent> <Space>w<S-h> :wincmd <S-h><CR>   " Move Window Far Right
 nnoremap <silent> <Space>w<S-l> :wincmd <S-l><CR>   " Move Window Far Left
-nnoremap <silent> <Space>wd :close<CR>              " Window Close
+nnoremap <silent> <Space>wc :close<CR>              " Window Close
 nnoremap <silent> <Space>wm :MaximizerToggle<CR>    " Window Maximize
 
 " Files
@@ -543,7 +543,7 @@ nnoremap <silent> <Space>su :Ag<up><CR>
 nnoremap <silent> <Space>ss :BLines<CR>
 nnoremap <silent> <Space>* :Ag <C-R><C-W><CR>
 map <silent> <Space>jj <Plug>(easymotion-s)
-map <silent> <Space>jw <Plug>(easymotion-bd-w)
+map <silent> <Space>jw <Plug>(easymotion-overwin-f)
 " map <Space>jL <Plug>(easymotion-bd-jk)
 nmap <Space>jl <Plug>(easymotion-overwin-line)
 nnoremap <silent> <Space>ji :BTags<CR>
