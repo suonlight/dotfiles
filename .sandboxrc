@@ -1,0 +1,20 @@
+# https://github.com/benvan/sandboxd
+
+sandbox_init_nvm(){
+  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+}
+
+sandbox_init_rbenv() {
+  eval "$(rbenv init -)"
+}
+
+sandbox_hook nvm node
+sandbox_hook nvm yarn
+sandbox_hook nvm nodemon
+sandbox_hook nvm npm
+sandbox_hook nvm hero
+
+sandbox_hook rbenv ruby
+sandbox_hook rbenv gem
+sandbox_hook rbenv bundle
+sandbox_hook rbenv tmuxinator
