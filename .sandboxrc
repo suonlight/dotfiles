@@ -2,6 +2,7 @@
 
 sandbox_init_nvm(){
   [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+  nvm use v8.9.4
 }
 
 sandbox_init_rbenv() {

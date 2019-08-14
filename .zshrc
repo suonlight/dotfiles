@@ -2,55 +2,8 @@
 export ZSH=$HOME/.oh-my-zsh
 # User configuration
 
-function kong-start () {
-  cd ~/projects/kong && docker-compose up
-}
-
 function spacemacs-upgrade() {
   cd ~/.emacs.d && git pull -r
-}
-
-function txsa() {
-  tmuxinator start emacs &
-  tmuxinator start ehe &
-  tmuxinator start services
-}
-
-function active-byebug() {
-    last_active=$1
-    for s in $(tmux list-sessions -F "#{session_name}")
-    do
-	for w in $(tmux list-windows -F "#{window_id}" -t $s)
-	do
-	    win=$s:$w
-	    for p in $(tmux list-panes -F "#{pane_id}" -t $win)
-	    do
-		x=$(tmux capture-pane -p -t "$win.$p" | tail -n 1 | grep byebug)
-		if [[ -n $x ]]; then
-		    tmux select-pane -t "$win.$p"
-		    tmux select-window -t "$win"
-		    tmux attach-session -t "$s"
-		    echo "$win.$p"
-		    if [[ "$last_active" != "$win.$p" ]]; then
-			continue
-		    fi
-		    return
-		fi
-	    done
-	done
-    done
-
-    return ""
-}
-
-function watch-byebug() {
-    last_active=""
-    for (( ; ; ))
-    do
-	last_active=$(active-byebug $last_active)
-	echo "xxx: " $last_active
-	sleep 2
-    done
 }
 
 capture() {
@@ -61,7 +14,6 @@ capture() {
         }
     '
 }
-
 
 # source ~/.fonts/*.sh
 # POWERLEVEL9K_MODE='awesome-fontconfig'
@@ -241,6 +193,7 @@ alias ect='emacsclient -a "" -t -c'
 alias vimdiff='nvim -d'
 alias vim=nvim
 alias vi=vim
+alias v=vim
 alias cdu='cd "$(git rev-parse --show-cdup)"'
 alias c=clear
 # alias gop='git open'
@@ -258,12 +211,11 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=2'
 # export TERM=screen-256color
 # export TERM=eterm-256color
 if [[ -n $INSIDE_EMACS ]]; then
-  alias nvim='emacsclient -n $@'
-  alias vim='emacsclient -n $@'
-  export EDITOR=emacsclient
-  export BUNDLER_EDITOR='emacsclient -n $@'
-  export VISUAL=$EDITOR
-  export ALTERNATE_EDITOR=$EDITOR
+  alias vim='/usr/local/bin/emacsclient  -n $@'
+  alias nvim=$vim
+  # export EDITOR=emacsclient
+  export BUNDLER_EDITOR='/usr/local/bin/emacsclient  -n $@'
+  export VISUAL=$BUNDLER_EDITOR
   # export TERM=xterm-24bit
   # export TERM=xterm
   # export TERM=screen-256color
@@ -310,3 +262,13 @@ source ~/projects/sandboxd/sandboxd
 
 # export NVM_DIR="$HOME/.nvm"
 # [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+
+# function chpwd() {
+#     # print -Pn "\e]51;A$(pwd)\e\\";
+#     print -Pn "\e]51;$(pwd)\e\\";
+# }
+
+function chpwd() {
+    # print -Pn "\e]51A;$(whoami)@$(hostname):$(pwd)\e\\"
+    print -Pn "\e]51;$(whoami)@$(hostname):$(pwd)\e\\"
+}
