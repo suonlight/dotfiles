@@ -1,10 +1,9 @@
 # Path to your oh-my-zsh installation.
+# autoload -Uz compinit && compinit
+# zmodload zsh/zprof
+
 export ZSH=$HOME/.oh-my-zsh
 # User configuration
-
-function spacemacs-upgrade() {
-  cd ~/.emacs.d && git pull -r
-}
 
 capture() {
     sudo dtrace -p "$1" -qn '
@@ -25,7 +24,7 @@ capture() {
 # ZSH_THEME="powerlevel9k/powerlevel9k"
 # ZSH_THEME="bullet-train"
 # ZSH_THEME="amuse"
-ZSH_THEME="blinks"
+# ZSH_THEME="blinks"
 # ZSH_THEME="ys"
 # ZSH_THEME=""
 # ZSH_THEME="junkfood"
@@ -87,7 +86,7 @@ plugins=(
     # kubectl
     # colored-man-pages
     # alias-tips
-    # zsh-autosuggestions
+    zsh-autosuggestions
     # zsh-syntax-highlighting
     # yarn
     # docker-compose
@@ -101,9 +100,11 @@ if [[ -n $INSIDE_EMACS ]]; then
         ruby
         rails
         bundler
+	zsh-autosuggestions
+	alias-tips
 	rust
 	cargo
-        # vi-mode
+	# vi-mode
         # git-open
         # golang
         # rvm
@@ -125,11 +126,30 @@ function j() {
   }
 }
 
-source ~/.zplug/init.zsh
-zplug "djui/alias-tips", defer:3
-zplug "zsh-users/zsh-autosuggestions", defer:3
+# source ~/.zplug/init.zsh
 
-zplug load
+# zplug "mafredri/zsh-async", from:"github", use:"async.zsh"
+# zplug "sindresorhus/pure", use:pure.zsh, as:theme
+# zplug "djui/alias-tips", defer:1
+# zplug "zsh-users/zsh-autosuggestions", defer:3
+# zplug "zsh-users/zsh-completions", defer:3
+
+# Check for uninstalled plugins.
+# if ! zplug check --verbose; then
+#   printf "Install? [y/N]: "
+#  if read -q; then
+#    echo; zplug install
+#  fi
+# fi
+
+# zplug load --verbose
+
+autoload -Uz compinit
+if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' ${ZDOTDIR:-$HOME}/.zcompdump) ]; then
+    compinit
+else
+    compinit -C
+fi
 
 source $ZSH/oh-my-zsh.sh
 
@@ -139,50 +159,10 @@ bindkey "\C-f" forward-char
 bindkey '\ef' emacs-forward-word
 bindkey '\eb' emacs-backward-word
 
-# if ! [[ -n $INSIDE_EMACS ]]; then
-#     bindkey '^[f' vi-forward-word
-#     bindkey '^[b' backward-word
-#     bindkey '^e' end-of-line
-#     bindkey '^a' beginning-of-line
-#     bindkey '^k' forward-kill-word
-#     bindkey '^r' history-incremental-search-backward
-# fi
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-alias m=make
-
 # emacs
 export ALTERNATE_EDITOR=""
 export VISUAL=nvim
-# export EDITOR=vim
-# export EDITOR="emacsclient -t"                  # $EDITOR should open in terminal
-#export VISUAL="emacsclient -c -a emacs"         # $VISUAL opens in GUI with non-daemon as alternate
-# alias emacs-plus=~/projects/emacs/src/emacs
+alias m=make
 alias emacsclient=/usr/local/bin/emacsclient
 alias e='emacs -nw'
 # alias ecw='emacsclient -a "" -c -e "(user-config-gui)"'
@@ -196,48 +176,31 @@ alias vi=vim
 alias v=vim
 alias cdu='cd "$(git rev-parse --show-cdup)"'
 alias c=clear
-# alias gop='git open'
-# export FZF_DEFAULT_COMMAND='/usr/local/bin/rg'
 export FZF_DEFAULT_OPTS="--height 20% --reverse"
-# alias ls='ls --color=auto'
 # alias ssh='TERM=xterm-256color ssh'
 export EDITOR='nvim'
 export BUNDLER_EDITOR='nvim'
 
-# export TERM=xterm-24bit
-export TERM=xterm-256color
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=2'
 # export TERM=xterm
 # export TERM=screen-256color
 # export TERM=eterm-256color
+# export TERM=xterm-24bit
+export TERM=xterm-256color
+
 if [[ -n $INSIDE_EMACS ]]; then
   alias vim='/usr/local/bin/emacsclient  -n $@'
   alias nvim=$vim
-  # export EDITOR=emacsclient
   export BUNDLER_EDITOR='/usr/local/bin/emacsclient  -n $@'
   export VISUAL=$BUNDLER_EDITOR
-  # export TERM=xterm-24bit
-  # export TERM=xterm
-  # export TERM=screen-256color
-  # export TERM=eterm-256color
-  # export TERM=xterm-256color
-  if [[ "vterm" == "$INSIDE_EMACS" ]]; then
-    # export TERM=xterm
-    ZSH_THEME=""
-    autoload -U promptinit; promptinit
-    prompt pure
-  fi
-  # export TERM=dumb
+
   export FZF_DEFAULT_COMMAND='/usr/local/bin/rg'
   export FZF_DEFAULT_OPTS="--height 20% --reverse"
-  #     export FZF_DEFAULT_OPTS="--height 20% --reverse --bind=\
-  # ctrl-j:accept,ctrl-k:kill-line,tab:toggle-up,btab:toggle-down,\
-  # ctrl-y:execute('echo {} | xclip -selection clipboard')+abort"
-  # alias gst="emacsclient -e '(magit-status)'"
-else
-  ZSH_THEME=""
-  autoload -U promptinit; promptinit
-  prompt pure
+
+  function chpwd() {
+      # print -Pn "\e]51A;$(whoami)@$(hostname):$(pwd)\e\\"
+      print -Pn "\e]51;$(whoami)@$(hostname):$(pwd)\e\\"
+  }
 fi
 
 if [[ -n $STY ]]; then
@@ -250,25 +213,16 @@ fi
 export KEYTIMEOUT=0
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
-
 export RPROMPT=""
-# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+ZSH_THEME=""
+autoload -U promptinit; promptinit
+prompt pure
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-source ~/projects/sandboxd/sandboxd
-# export PATH="$HOME/.rbenv/bin:$PATH"
-# eval "$(rbenv init -)"
+# source ~/projects/sandboxd/sandboxd
 
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+. $HOME/.asdf/asdf.sh
 
-# function chpwd() {
-#     # print -Pn "\e]51;A$(pwd)\e\\";
-#     print -Pn "\e]51;$(pwd)\e\\";
-# }
-
-function chpwd() {
-    # print -Pn "\e]51A;$(whoami)@$(hostname):$(pwd)\e\\"
-    print -Pn "\e]51;$(whoami)@$(hostname):$(pwd)\e\\"
-}
+. $HOME/.asdf/completions/asdf.bash
