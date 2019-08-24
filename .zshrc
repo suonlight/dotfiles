@@ -59,14 +59,17 @@ function j() {
 bindkey jk vi-cmd-mode
 bindkey "\C-b" backward-char
 bindkey "\C-f" forward-char
+bindkey "\C-a" beginning-of-line
+bindkey "\C-e" end-of-line
 bindkey '\ef' emacs-forward-word
 bindkey '\eb' emacs-backward-word
 
 # config editor
 export ALTERNATE_EDITOR=""
-export VISUAL=nvim
-export EDITOR='nvim'
-export BUNDLER_EDITOR='nvim'
+# export VISUAL=nvim
+# export EDITOR='nvim'
+test -n "$TMUX" && export EDITOR=nvim
+export BUNDLER_EDITOR=nvim
 alias emacsclient=/usr/local/bin/emacsclient
 alias e='emacs -nw'
 alias ec='node --version && ruby --version && emacsclient -a "" -c'
@@ -83,10 +86,11 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=2'
 export TERM=xterm-256color
 
 if [[ -n $INSIDE_EMACS ]]; then
-  alias vim='/usr/local/bin/emacsclient  -n $@'
+  alias vim='/usr/local/bin/emacsclient -n $@'
   alias nvim=$vim
-  export BUNDLER_EDITOR='/usr/local/bin/emacsclient  -n $@'
-  export VISUAL=$BUNDLER_EDITOR
+  export BUNDLER_EDITOR='/usr/local/bin/emacsclient -n $@'
+  export EDITOR='/usr/local/bin/emacsclient -n $@'
+  # export VISUAL=$BUNDLER_EDITOR
 
   # export FZF_DEFAULT_COMMAND='/usr/local/bin/rg'
   export FZF_DEFAULT_COMMAND='/usr/local/bin/rg --files --no-ignore --hidden --follow --glob "!{.git, node_modules}"'
