@@ -29,15 +29,23 @@ zt 0a; zplugin snippet OMZ::lib/git.zsh
 zt 0b; zplugin snippet OMZ::plugins/git/git.plugin.zsh
 zt 0b; zplugin snippet OMZ::plugins/ruby/ruby.plugin.zsh
 zt 0b; zplugin snippet OMZ::plugins/rake/rake.plugin.zsh
-zt 0b; zplugin snippet OMZ::plugins/rails/rails.plugin.zsh
+zt 0b; zplugin snippet OMZ::plugins/tmuxinator/tmuxinator.plugin.zsh
+zt 1b; zplugin snippet OMZ::plugins/rails/rails.plugin.zsh
 zt 0b; zplugin snippet OMZ::plugins/bundler/bundler.plugin.zsh
+zt 0b; zplugin snippet OMZ::plugins/docker-compose/docker-compose.plugin.zsh
 zt 1a; zplugin light djui/alias-tips
-# zplugin snippet OMZ::plugins/docker/_docker
+zt 0b atload'unalias help'; zplugin snippet OMZ::plugins/common-aliases/common-aliases.plugin.zsh
+
+zplugin ice as"completion"
+zplugin snippet OMZ::plugins/docker/_docker
 # zplugin snippet OMZ::plugins/rust/rust.plugin.zsh
 # zplugin snippet OMZ::plugins/cargo/cargo.plugin.zsh
 
 zt 0b compile'{src/*.zsh,src/strategies/*}' atload'_zsh_autosuggest_start'; zplugin light zsh-users/zsh-autosuggestions
-zt 1a blockf atpull'zplugin creinstall -q .' lucid; zplugin light zsh-users/zsh-completions
+zt 0b blockf atpull'zplugin creinstall -q .'; zplugin light zsh-users/zsh-completions
+
+zt 1a atinit'zpcompinit; zpcdreplay'
+zplugin light zdharma/fast-syntax-highlighting
 
 # faster plugin
 # autojump
@@ -87,7 +95,7 @@ export TERM=xterm-256color
 
 if [[ -n $INSIDE_EMACS ]]; then
   alias vim='/usr/local/bin/emacsclient -n $@'
-  alias nvim=$vim
+  alias nvim=vim
   export BUNDLER_EDITOR='/usr/local/bin/emacsclient -n $@'
   export EDITOR='/usr/local/bin/emacsclient -n $@'
   # export VISUAL=$BUNDLER_EDITOR
