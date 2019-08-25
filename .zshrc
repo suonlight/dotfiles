@@ -36,10 +36,10 @@ zt 0b; zplugin snippet OMZ::plugins/docker-compose/docker-compose.plugin.zsh
 zt 1a; zplugin light djui/alias-tips
 zt 0b atload'unalias help'; zplugin snippet OMZ::plugins/common-aliases/common-aliases.plugin.zsh
 
-zplugin ice as"completion"
-zplugin snippet OMZ::plugins/docker/_docker
-# zplugin snippet OMZ::plugins/rust/rust.plugin.zsh
-# zplugin snippet OMZ::plugins/cargo/cargo.plugin.zsh
+zplugin ice as"completion"; zplugin snippet OMZ::plugins/docker/_docker
+zplugin ice as"completion"; zplugin snippet OMZ::plugins/bundler/_bundler
+zplugin ice as"completion"; zplugin snippet OMZ::plugins/rust/_rust
+zplugin ice as"completion"; zplugin snippet OMZ::plugins/cargo/_cargo
 
 zt 0b compile'{src/*.zsh,src/strategies/*}' atload'_zsh_autosuggest_start'; zplugin light zsh-users/zsh-autosuggestions
 zt 0b blockf atpull'zplugin creinstall -q .'; zplugin light zsh-users/zsh-completions
@@ -56,13 +56,6 @@ function j() {
     j "$@"
   }
 }
-
-# autoload -Uz compinit
-# if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' ${ZDOTDIR:-$HOME}/.zcompdump) ]; then
-#     compinit
-# else
-#     compinit -C
-# fi
 
 bindkey jk vi-cmd-mode
 bindkey "\C-b" backward-char
