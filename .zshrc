@@ -32,6 +32,7 @@ zt 0b; zplugin snippet OMZ::plugins/rake/rake.plugin.zsh
 zt 0b; zplugin snippet OMZ::plugins/tmuxinator/tmuxinator.plugin.zsh
 zt 1b; zplugin snippet OMZ::plugins/rails/rails.plugin.zsh
 zt 0b; zplugin snippet OMZ::plugins/bundler/bundler.plugin.zsh
+zt 0b; zplugin snippet OMZ::plugins/postgres/postgres.plugin.zsh
 zt 0b; zplugin snippet OMZ::plugins/docker-compose/docker-compose.plugin.zsh
 zt 1a; zplugin light djui/alias-tips
 zt 0b atload'unalias help'; zplugin snippet OMZ::plugins/common-aliases/common-aliases.plugin.zsh
