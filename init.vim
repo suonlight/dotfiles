@@ -6,7 +6,9 @@ Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'benmills/vimux'
-Plug 'ludovicchabant/vim-gutentags'
+" Plug 'ludovicchabant/vim-gutentags'
+Plug 'neoclide/coc-neco'
+Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
 Plug 'szw/vim-maximizer'
 Plug 'mtth/scratch.vim'
 Plug 'easymotion/vim-easymotion'
@@ -17,12 +19,9 @@ Plug 'vim-scripts/highlight.vim'
 
 Plug 'mhinz/vim-startify'
 Plug 'itchyny/lightline.vim'
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
-" Plug 'flazz/vim-colorschemes'                                    " Color Schemes
 " Plug 'ryanoasis/vim-devicons'
 Plug 'Yggdroot/indentLine'
-Plug 'colepeters/spacemacs-theme.vim'
+Plug 'tyrannicaltoucan/vim-deep-space'
 
 " Plug 'SirVer/ultisnips'
 Plug 'Shougo/neosnippet'
@@ -43,12 +42,9 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-commentary'
 Plug 'junegunn/vim-easy-align'
-Plug 'w0rp/ale'
-
+Plug 'dense-analysis/ale'
+Plug 'brooth/far.vim'
 Plug 'janko-m/vim-test'
-
-" Plug 'Shougo/deoplete.nvim'
-" Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript' }
 
 " Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
@@ -121,7 +117,7 @@ set background=dark
 if (has("termguicolors"))
   set termguicolors
 endif
-colorscheme spacemacs-theme
+colorscheme deep-space
 
 " Show status bar by default.
 set laststatus=2
@@ -591,3 +587,13 @@ nmap <silent> <Space>cl gcc              " Comment Lines
 vmap <silent> <Space>cl gcc              " Comment Lines
 vmap <silent> <S-k> <Plug>MoveBlockUp    " Move Block Up
 vmap <silent> <S-j> <Plug>MoveBlockDown  " Move Block Down
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
