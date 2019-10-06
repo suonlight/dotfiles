@@ -78,6 +78,7 @@ Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
 Plug 'epilande/vim-es2015-snippets', { 'for': 'javascript' }     " ES2015 code snippets (Optional)
 Plug 'epilande/vim-react-snippets', { 'for': 'javascript' }      " React code snippets
 Plug 'mattn/emmet-vim', { 'for': ['html', 'erb', 'javascript'] } " emmet-vim
+Plug 'editorconfig/editorconfig-vim'
 " Plug 'kchmck/vim-coffee-script'
 
 call plug#end()
@@ -241,16 +242,17 @@ let g:ale_fixers = {
 let g:ale_linters = {
       \   'javascript': ['eslint'],
       \   'json': ['jsonlint'],
-      \   'ruby': ['rubocop'],
       \}
 
-" Configure signs.
-let g:ale_sign_error   = '✘'
-let g:ale_sign_warning = '⚠'
-highlight ALEErrorSign ctermbg=NONE ctermfg=red
-highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
-
-let g:ale_json_jq_options = '--indent 4'
+let g:ale_lint_on_text_changed="never"
+let g:ale_echo_cursor = 1
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_set_highlights = 0
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+highlight SignColumn guibg=255
 "----------------------------------------------
 " Plug 'Shougo/deoplete.nvim'
 "----------------------------------------------
@@ -303,6 +305,33 @@ nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
 nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
 
+"----------------------------------------------
+" Plug 'itchyny/lightline.vim'
+"----------------------------------------------
+function! LinterStatus() abort
+    let l:counts = ale#statusline#Count(bufnr(''))
+
+    let l:all_errors = l:counts.error + l:counts.style_error
+    let l:all_non_errors = l:counts.total - l:all_errors
+
+    return l:counts.total == 0 ? '✓' : printf(
+    \   'Linter %d🚸 %d⛔️',
+    \   all_non_errors,
+    \   all_errors
+    \)
+endfunction
+
+let g:lightline = {
+      \ 'colorscheme': 'deepspace',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'readonly', 'filename', 'modified', 'alestatus'] ]
+      \ },
+      \ 'component_function': {
+      \   'alestatus': 'LinterStatus'
+      \ },
+      \ }
+"=========
 "----------------------------------------------
 " Plug 'scrooloose/nerdtree'
 "----------------------------------------------
@@ -372,16 +401,9 @@ let g:scratch_no_mappings = 0
 let g:test#strategy = 'vimux'
 let g:test#preserve_screen = 1
 
-" nnoremap <Leader>n :TestNearest<CR>
-" nnoremap <Leader>tb :TestFile<CR>
-" nnoremap <Leader>ts :TestSuite<CR>
-" nnoremap <Leader>l :TestLast<CR>
-" nnoremap <Leader>v :TestVisit<CR>
-
 "----------------------------------------------
 " Plug 'junegunn/vim-easy-align'
 "----------------------------------------------
-
 let g:easy_align_delimiters = {
       \ '"': { 'pattern': '\s"', 'delimiter_align': 'l' }
       \ }
@@ -391,90 +413,6 @@ xmap ga <Plug>(EasyAlign)
 
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
-
-"----------------------------------------------
-" Language: apiblueprint
-"----------------------------------------------
-au FileType apiblueprint set expandtab shiftwidth=4 softtabstop=4 tabstop=4
-
-"----------------------------------------------
-" Language: Bash
-"----------------------------------------------
-au FileType sh set expandtab shiftwidth=2 softtabstop=2 tabstop=2
-
-"----------------------------------------------
-" Language: gitcommit
-"----------------------------------------------
-au FileType gitcommit setlocal spell
-au FileType gitcommit setlocal textwidth=80
-
-"----------------------------------------------
-" Language: gitconfig
-"----------------------------------------------
-au FileType gitconfig set noexpandtab shiftwidth=4 softtabstop=4 tabstop=4
-
-"----------------------------------------------
-" Language: HTML
-"----------------------------------------------
-au FileType html set expandtab shiftwidth=2 softtabstop=2 tabstop=2
-"au FileType html imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
-
-"----------------------------------------------
-" Language: CSS
-"----------------------------------------------
-au FileType css set expandtab shiftwidth=2 softtabstop=2 tabstop=2
-au FileType css nmap <silent> <Leader>; <Plug>(cosco-commaOrSemiColon)
-au FileType css imap <silent> <Leader>; <c-o><Plug>(cosco-commaOrSemiColon)
-
-"----------------------------------------------
-" Language: JavaScript
-"----------------------------------------------
-au FileType javascript.* set expandtab shiftwidth=2 softtabstop=2 tabstop=2
-au FileType javascript.* nmap <silent> <Leader>; <Plug>(cosco-commaOrSemiColon)
-au FileType javascript.* imap <silent> <Leader>; <c-o><Plug>(cosco-commaOrSemiColon)
-" au FileType javascript.jsx imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
-
-"----------------------------------------------
-" Language: JSON
-"----------------------------------------------
-au FileType json set expandtab shiftwidth=2 softtabstop=2 tabstop=2
-
-"----------------------------------------------
-" Language: LESS
-"----------------------------------------------
-au FileType less set expandtab shiftwidth=2 softtabstop=2 tabstop=2
-
-"----------------------------------------------
-" Language: Make
-"----------------------------------------------
-au FileType make set noexpandtab shiftwidth=4 softtabstop=4 tabstop=4
-
-"----------------------------------------------
-" Language: Markdown
-"----------------------------------------------
-au FileType markdown setlocal spell
-au FileType markdown set expandtab shiftwidth=4 softtabstop=4 tabstop=4 syntax=markdown
-
-"----------------------------------------------
-" Language: Ruby
-"----------------------------------------------
-au FileType ruby set expandtab shiftwidth=2 softtabstop=2 tabstop=2
-
-"----------------------------------------------
-" Language: SQL
-"----------------------------------------------
-au FileType sql set expandtab shiftwidth=2 softtabstop=2 tabstop=2
-
-"----------------------------------------------
-" Language: vimscript
-"----------------------------------------------
-au FileType vim set expandtab shiftwidth=2 softtabstop=2 tabstop=2
-
-"----------------------------------------------
-" Language: YAML
-"----------------------------------------------
-au FileType yaml set expandtab shiftwidth=2 softtabstop=2 tabstop=2
-
 "----------------------------------------------
 " Space Mapping
 "----------------------------------------------
@@ -510,6 +448,7 @@ nnoremap <silent> <Space>w<S-j> :wincmd <S-j><CR>   " Move Window Very Bottom
 nnoremap <silent> <Space>w<S-h> :wincmd <S-h><CR>   " Move Window Far Right
 nnoremap <silent> <Space>w<S-l> :wincmd <S-l><CR>   " Move Window Far Left
 nnoremap <silent> <Space>wc :close<CR>              " Window Close
+nnoremap <silent> <Space><BS> :close<CR>              " Window Close
 nnoremap <silent> <Space>wm :MaximizerToggle<CR>    " Window Maximize
 
 " Files
@@ -538,6 +477,7 @@ nnoremap <silent> <Space>sp :Ag<CR>
 nnoremap <silent> <Space>su :Ag<up><CR>
 nnoremap <silent> <Space>ss :BLines<CR>
 nnoremap <silent> <Space>* :Ag <C-R><C-W><CR>
+nmap s <Plug>(easymotion-overwin-f)
 map <silent> <Space>jj <Plug>(easymotion-s)
 map <silent> <Space>jw <Plug>(easymotion-overwin-f)
 " map <Space>jL <Plug>(easymotion-bd-jk)
