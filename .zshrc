@@ -32,10 +32,11 @@ zt 0b; zplugin snippet OMZ::plugins/rake/rake.plugin.zsh
 zt 0b; zplugin snippet OMZ::plugins/tmuxinator/tmuxinator.plugin.zsh
 zt 1b; zplugin snippet OMZ::plugins/rails/rails.plugin.zsh
 zt 0b; zplugin snippet OMZ::plugins/bundler/bundler.plugin.zsh
+zt 0b; zplugin snippet OMZ::plugins/yarn/yarn.plugin.zsh
 zt 0b; zplugin snippet OMZ::plugins/postgres/postgres.plugin.zsh
 zt 0b; zplugin snippet OMZ::plugins/docker-compose/docker-compose.plugin.zsh
 zt 1a; zplugin light djui/alias-tips
-zt 0b atload'unalias help'; zplugin snippet OMZ::plugins/common-aliases/common-aliases.plugin.zsh
+zt 0b atload'unalias help; unalias fd'; zplugin snippet OMZ::plugins/common-aliases/common-aliases.plugin.zsh
 
 zplugin ice as"completion"; zplugin snippet OMZ::plugins/docker/_docker
 zplugin ice as"completion"; zplugin snippet OMZ::plugins/bundler/_bundler
@@ -56,6 +57,11 @@ function j() {
     [[ -f "$pfx/etc/autojump.sh" ]] && . "$pfx/etc/autojump.sh"
     j "$@"
   }
+}
+
+cd() {
+  builtin cd "$@" || return
+  [ "$OLDPWD" = "$PWD" ] || echo -e "\e]51;A$(pwd)\e\\"
 }
 
 bindkey jk vi-cmd-mode
@@ -84,6 +90,8 @@ alias vi=vim
 alias v=vim
 
 export FZF_DEFAULT_OPTS="--height 20% --reverse"
+# export FZF_DEFAULT_COMMAND='/usr/local/bin/rg --files --no-ignore --hidden --follow --glob "!{.git, node_modules}"'
+export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=2'
 export TERM=xterm-256color
 
@@ -94,8 +102,8 @@ if [[ -n $INSIDE_EMACS ]]; then
   export EDITOR='/usr/local/bin/emacsclient -n $@'
   # export VISUAL=$BUNDLER_EDITOR
 
-  # export FZF_DEFAULT_COMMAND='/usr/local/bin/rg'
-  export FZF_DEFAULT_COMMAND='/usr/local/bin/rg --files --no-ignore --hidden --follow --glob "!{.git, node_modules}"'
+  # export FZF_DEFAULT_COMMAND='/usr/local/bin/rg --files --no-ignore --hidden --follow --glob "!{.git, node_modules}"'
+  export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
 
   function chpwd() {
       print -Pn "\e]51;$(whoami)@$(hostname):$(pwd)\e\\"
@@ -110,6 +118,7 @@ fi
 alias cdu='cd "$(git rev-parse --show-cdup)"'
 alias m=make
 alias c=clear
+alias find=fd
 
 # other tools
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
