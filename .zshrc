@@ -36,12 +36,13 @@ zt 0b; zplugin snippet OMZ::plugins/yarn/yarn.plugin.zsh
 zt 0b; zplugin snippet OMZ::plugins/postgres/postgres.plugin.zsh
 zt 0b; zplugin snippet OMZ::plugins/docker-compose/docker-compose.plugin.zsh
 zt 1a; zplugin light djui/alias-tips
-zt 0b atload'unalias help; unalias fd'; zplugin snippet OMZ::plugins/common-aliases/common-aliases.plugin.zsh
+zt 0b atload'unalias help; unalias fd; unalias cp'; zplugin snippet OMZ::plugins/common-aliases/common-aliases.plugin.zsh
 
 zplugin ice as"completion"; zplugin snippet OMZ::plugins/docker/_docker
 zplugin ice as"completion"; zplugin snippet OMZ::plugins/bundler/_bundler
 zplugin ice as"completion"; zplugin snippet OMZ::plugins/rust/_rust
 zplugin ice as"completion"; zplugin snippet OMZ::plugins/cargo/_cargo
+zplugin ice as"completion"; zplugin snippet OMZ::plugins/terraform/_terraform
 
 zt 0b compile'{src/*.zsh,src/strategies/*}' atload'_zsh_autosuggest_start'; zplugin light zsh-users/zsh-autosuggestions
 zt 0b blockf atpull'zplugin creinstall -q .'; zplugin light zsh-users/zsh-completions
@@ -74,39 +75,52 @@ bindkey '\eb' emacs-backward-word
 
 # config editor
 export ALTERNATE_EDITOR=""
-# export VISUAL=nvim
-# export EDITOR='nvim'
+export EDITOR=nvim
 test -n "$TMUX" && export EDITOR=nvim
 export BUNDLER_EDITOR=nvim
 alias emacsclient=/usr/local/bin/emacsclient
 alias e='emacs -nw'
 alias ec='node --version && ruby --version && emacsclient -a "" -c'
-alias ecn="emacsclient -c -F '(quote (name . \"capture\"))' -e '(activate-capture-frame)' & osascript -e 'activate application \"Emacs\"'"
 alias ek='emacsclient -e "(kill-emacs)"'
 alias ect='emacsclient -a "" -t -c'
 alias vimdiff='nvim -d'
 alias vim=nvim
-alias vi=vim
 alias v=vim
 
 export FZF_DEFAULT_OPTS="--height 20% --reverse"
-# export FZF_DEFAULT_COMMAND='/usr/local/bin/rg --files --no-ignore --hidden --follow --glob "!{.git, node_modules}"'
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=2'
 export TERM=xterm-256color
 
 if [[ -n $INSIDE_EMACS ]]; then
-  alias vim='/usr/local/bin/emacsclient -n $@'
-  alias nvim=vim
+  alias nvim='/usr/local/bin/emacsclient -n $@'
   export BUNDLER_EDITOR='/usr/local/bin/emacsclient -n $@'
   export EDITOR='/usr/local/bin/emacsclient -n $@'
-  # export VISUAL=$BUNDLER_EDITOR
 
   # export FZF_DEFAULT_COMMAND='/usr/local/bin/rg --files --no-ignore --hidden --follow --glob "!{.git, node_modules}"'
   export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
+  alias clear='printf "\e]51;Evterm-clear-scrollback\e\\";tput clear'
+  vterm_prompt_end() {
+      printf "\e]51;A$(whoami)@$(hostname):$(pwd)\e\\";
+  }
+  PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'
+  vterm_cmd() {
+      printf "\e]51;E"
+      local r
+      while [[ $# -gt 0 ]]; do
+	  r="${1//\\/\\\\}"
+	  r="${r//\"/\\\"}"
+	  printf '"%s" ' "$r"
+	  shift
+      done
+      printf "\e\\"
+  }
+  find_file() {
+      vterm_cmd find-file "$(realpath "$@")"
+  }
 
-  function chpwd() {
-      print -Pn "\e]51;$(whoami)@$(hostname):$(pwd)\e\\"
+  say() {
+      vterm_cmd message "%s" "$*"
   }
 fi
 

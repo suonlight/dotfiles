@@ -56,10 +56,6 @@ Plug 'tpope/vim-fugitive'                                        " Easily manipu
 Plug 'tpope/vim-rhubarb'
 
 Plug 'sheerun/vim-polyglot'
-"----------------------------------------------
-" Language: Markdown
-"----------------------------------------------
-Plug 'plasticboy/vim-markdown'
 
 "----------------------------------------------
 " Language: Ruby
