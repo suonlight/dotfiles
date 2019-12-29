@@ -63,7 +63,7 @@ scrolling:
   # to allow mouse scrolling for applications like `man`.
   #
   # Specifying `0` will disable faux scrolling.
-  faux_multiplier: 3
+  # faux_multiplier: 3
 
   # Scroll to the bottom when new text is written to the terminal.
   auto_scroll: false
@@ -471,8 +471,10 @@ key_bindings:
   - { key: L,         mods: Alt,       chars: "\x1bl"                       }
   - { key: M,         mods: Alt,       chars: "\x1bm"                       }
   - { key: N,         mods: Alt,       chars: "\x1bn"                       }
+  - { key: N,         mods: Control,   chars: "\x1b[B"                      }
   - { key: O,         mods: Alt,       chars: "\x1bo"                       }
   - { key: P,         mods: Alt,       chars: "\x1bp"                       }
+  - { key: P,         mods: Control,   chars: "\x1b[A"                      }
   - { key: Q,         mods: Alt,       chars: "\x1bq"                       }
   - { key: R,         mods: Alt,       chars: "\x1br"                       }
   - { key: S,         mods: Alt,       chars: "\x1bs"                       }
