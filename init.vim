@@ -390,6 +390,7 @@ tnoremap jk <C-\><C-n>
 " Plug 'mtth/scratch.vim'
 "----------------------------------------------
 let g:scratch_no_mappings = 0
+let g:scratch_height = 100
 
 "----------------------------------------------
 " Plug 'janko-m/vim-test'
@@ -468,11 +469,11 @@ nnoremap <silent> <Space>pf :FZF<CR>
 nnoremap <silent> <C-p> :FZF<CR>
 
 " Searching
-nnoremap <silent> <Space>/ :Ag<CR>
-nnoremap <silent> <Space>sp :Ag<CR>
-nnoremap <silent> <Space>su :Ag<up><CR>
+nnoremap <silent> <Space>/ :Rg<CR>
+nnoremap <silent> <Space>sp :Rg<CR>
+nnoremap <silent> <Space>su :Rg<up><CR>
 nnoremap <silent> <Space>ss :BLines<CR>
-nnoremap <silent> <Space>* :Ag <C-R><C-W><CR>
+nnoremap <silent> <Space>* :Rg <C-R><C-W><CR>
 nmap s <Plug>(easymotion-overwin-f)
 map <silent> <Space>jj <Plug>(easymotion-s)
 map <silent> <Space>jw <Plug>(easymotion-overwin-f)
@@ -517,7 +518,6 @@ nmap <Space>xa= <Plug>(EasyAlign)ip=<CR>|  " Text > Align > =
 nmap <Space>xa" <Plug>(EasyAlign)ip"<CR>|  " Text > Align > "
 
 " Global
-nnoremap <silent> gs :update<CR>         " File > Save
 nmap gy yygccp                           " Copy and Comment Lines
 nmap <silent> <Space>cl gcc              " Comment Lines
 vmap <silent> <Space>cl gcc              " Comment Lines

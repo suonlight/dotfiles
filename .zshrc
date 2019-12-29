@@ -28,6 +28,7 @@ zplugin snippet OMZ::lib/completion.zsh
 zt 0a; zplugin snippet OMZ::lib/git.zsh
 zt 0b; zplugin snippet OMZ::plugins/git/git.plugin.zsh
 zt 0b; zplugin snippet OMZ::plugins/ruby/ruby.plugin.zsh
+zt 0b; zplugin snippet OMZ::plugins/rails/rails.plugin.zsh
 zt 0b; zplugin snippet OMZ::plugins/rake/rake.plugin.zsh
 zt 0b; zplugin snippet OMZ::plugins/tmuxinator/tmuxinator.plugin.zsh
 zt 1b; zplugin snippet OMZ::plugins/rails/rails.plugin.zsh

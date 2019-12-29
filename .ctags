@@ -35,5 +35,6 @@
 --exclude=GTAGS
 --exclude=cscope.*
 --languages=-html
+--regex-ruby=/^[ \t]*scope[ \t]*:([a-zA-Z0-9_]+)/\1/
 --extras=+q+f
 --fields=+i+a+S+n
