@@ -66,13 +66,10 @@ cd() {
   [ "$OLDPWD" = "$PWD" ] || echo -e "\e]51;A$(pwd)\e\\"
 }
 
+bindkey -e
 bindkey jk vi-cmd-mode
-bindkey "\C-b" backward-char
-bindkey "\C-f" forward-char
-bindkey "\C-a" beginning-of-line
-bindkey "\C-e" end-of-line
-bindkey '\ef' emacs-forward-word
-bindkey '\eb' emacs-backward-word
+# List all zle commands
+# zle -al | fzf
 
 # config editor
 export ALTERNATE_EDITOR=""

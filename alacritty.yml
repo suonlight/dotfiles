@@ -471,10 +471,8 @@ key_bindings:
   - { key: L,         mods: Alt,       chars: "\x1bl"                       }
   - { key: M,         mods: Alt,       chars: "\x1bm"                       }
   - { key: N,         mods: Alt,       chars: "\x1bn"                       }
-  - { key: N,         mods: Control,   chars: "\x1b[B"                      }
   - { key: O,         mods: Alt,       chars: "\x1bo"                       }
   - { key: P,         mods: Alt,       chars: "\x1bp"                       }
-  - { key: P,         mods: Control,   chars: "\x1b[A"                      }
   - { key: Q,         mods: Alt,       chars: "\x1bq"                       }
   - { key: R,         mods: Alt,       chars: "\x1br"                       }
   - { key: S,         mods: Alt,       chars: "\x1bs"                       }
@@ -517,6 +515,7 @@ key_bindings:
   - { key: Key4,      mods: Alt,       chars: "\x1b4"                       }
   - { key: Key5,      mods: Alt,       chars: "\x1b5"                       }
   - { key: Key6,      mods: Alt,       chars: "\x1b6"                       }
+  - { key: Key6,      mods: Control,   chars: "\x1e"                        }
   - { key: Key7,      mods: Alt,       chars: "\x1b7"                       }
   - { key: Key8,      mods: Alt,       chars: "\x1b8"                       }
   - { key: Key9,      mods: Alt,       chars: "\x1b9"                       }
