@@ -347,6 +347,7 @@ let g:startify_change_to_vcs_root = 1
 " Plug 'ludovicchabant/vim-gutentags'
 "----------------------------------------------
 let g:gutentags_cache_dir = get(g:, 'gutentags_cache_dir', expand('~/.cache/tags'))
+let g:gutentags_enabled = 0
 
 "----------------------------------------------
 " Plug 'alvan/vim-closetag'
@@ -466,6 +467,8 @@ nnoremap <silent> <Space>fyd :let @*=expand("%:p:h") \| echo @*<CR>  " File > Co
 
 " Projects
 nnoremap <silent> <Space>pf :FZF<CR>
+nnoremap <silent> <Space>pG :GutentagsUpdate<CR>
+nnoremap <silent> <Space>pg :Tags<CR>
 nnoremap <silent> <C-p> :FZF<CR>
 
 " Searching

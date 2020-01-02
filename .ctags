@@ -1,4 +1,4 @@
--Re
+-R
 --exclude=.git/*
 --exclude=log/*
 --exclude=node_modules/*
