@@ -261,6 +261,13 @@ let g:python2_host_prog = "/usr/local/bin/python2.7"
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
+
+"----------------------------------------------
+" Plug 'Yggdroot/indentLine'
+"----------------------------------------------
+let g:indentLine_enabled = 0
+let g:indentLine_concealcursor = 'inc'
+let g:indentLine_conceallevel = 2
 "----------------------------------------------
 " Plug 'pangloss/vim-javascript'
 "----------------------------------------------
@@ -518,6 +525,9 @@ nnoremap <silent> <Space>re :registers<CR>|     " Registers
 nmap <Space>xa: <Plug>(EasyAlign)ip:<CR>|  " Text > Align > :
 nmap <Space>xa= <Plug>(EasyAlign)ip=<CR>|  " Text > Align > =
 nmap <Space>xa" <Plug>(EasyAlign)ip"<CR>|  " Text > Align > "
+
+" Toggle
+nnoremap <silent> <Space>ti :IndentLinesToggle<CR>
 
 " Global
 nmap gy yygccp                           " Copy and Comment Lines
