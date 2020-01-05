@@ -87,8 +87,6 @@ set autoindent                    " take indent for new line from previous line
 set smartindent                   " enable smart indentation
 set autoread
 set clipboard=unnamed
-" set number
-set relativenumber
 set expandtab                     " expands tabs to spaces
 set softtabstop=2
 set tabstop=2
@@ -528,6 +526,7 @@ nmap <Space>xa" <Plug>(EasyAlign)ip"<CR>|  " Text > Align > "
 
 " Toggle
 nnoremap <silent> <Space>ti :IndentLinesToggle<CR>
+nnoremap <silent> <Space>tn :set nu! rnu!<CR>
 
 " Global
 nmap gy yygccp                           " Copy and Comment Lines
