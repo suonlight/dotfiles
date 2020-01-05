@@ -15,7 +15,6 @@ Plug 'easymotion/vim-easymotion'
 Plug 'matze/vim-move'
 
 Plug 'danro/rename.vim'
-Plug 'vim-scripts/highlight.vim'
 
 Plug 'mhinz/vim-startify'
 Plug 'itchyny/lightline.vim'
@@ -295,12 +294,6 @@ let g:tmux_navigator_save_on_switch = 1
 
 " Move between splits with ctrl+h,j,k,l
 set shell=/bin/bash\ -i
-nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
-nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
-nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
-nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
-nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
-
 "----------------------------------------------
 " Plug 'itchyny/lightline.vim'
 "----------------------------------------------
@@ -422,6 +415,11 @@ nnoremap <silent> <Space>hdf :Helptags<CR>  " Help > Describe > Tags Function
 nnoremap <silent> <Space>qq :q<CR>          " Quit Program
 
 " Windows
+nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
+
 nnoremap <silent> <Space>0 :NERDTreeFind<CR>        " Tree > Select Window
 nnoremap <silent> <Space>1 :exe 1 . 'wincmd w'<CR>  " Window 1
 nnoremap <silent> <Space>2 :exe 2 . 'wincmd w'<CR>  " Window 2
@@ -483,8 +481,9 @@ map <silent> <Space>jw <Plug>(easymotion-overwin-f)
 " map <Space>jL <Plug>(easymotion-bd-jk)
 nmap <Space>jl <Plug>(easymotion-overwin-line)
 nnoremap <silent> <Space>ji :BTags<CR>
-nnoremap <silent> <Space>sh :call <SNR>62_Highlight("w") \| nohls<CR>
-nnoremap <silent> <Space>sc :call <SNR>62_Highlight("n")<CR>
+" nnoremap <silent> <Space>sh :call <SNR>62_Highlight("w") \| nohls<CR>
+" nnoremap <silent> <Space>sc :call <SNR>62_Highlight("n")<CR>
+
 " Buffers
 nnoremap <silent> <Space>bb :Buffer<CR>|    " List Buffers
 nnoremap <silent> <Space>bd :bdelete<CR>    " Delete Buffer
