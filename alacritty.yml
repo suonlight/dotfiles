@@ -533,6 +533,8 @@ key_bindings:
   - { key: Key6,      mods: Alt|Shift, chars: "\x1b^"                       } # Alt + ^
   - { key: Backslash, mods: Alt,       chars: "\x1b\\"                      } # Alt + \
   - { key: Backslash, mods: Alt|Shift, chars: "\x1b|"                       } # Alt + |
+  - { key: S,         mods: Command,   chars: "\x1bs"                       }
+  - { key: B,         mods: Command,   chars: "\x1bb"                       }
   - { key: T,         mods: Command,   chars: "\x1bt"                       }
   - { key: Key0,      mods: Command,   chars: "\x1b0"                       }
   - { key: Key1,      mods: Command,   chars: "\x1b1"                       }

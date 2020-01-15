@@ -453,6 +453,7 @@ nnoremap <silent> <Space><BS> :close<CR>              " Window Close
 nnoremap <silent> <Space>wm :MaximizerToggle<CR>    " Window Maximize
 
 " Files
+nnoremap <silent> <M-s> :update<CR>                              " File > Save
 nnoremap <silent> <Space>fs :update<CR>                              " File > Save
 nnoremap <silent> <Space>ft :NERDTreeToggle<CR>                      " File > Tree
 nnoremap <silent> <Space>fT :NERDTreeFind<CR>                        " File > Tree > Find
@@ -490,6 +491,7 @@ nnoremap <silent> <Space>ji :BTags<CR>
 " nnoremap <silent> <Space>sc :call <SNR>62_Highlight("n")<CR>
 
 " Buffers
+nnoremap <silent> <M-b> :Buffer<CR>|    " List Buffers
 nnoremap <silent> <Space>bb :Buffer<CR>|    " List Buffers
 nnoremap <silent> <Space>bd :bdelete<CR>    " Delete Buffer
 nnoremap <silent> <Space>bn :bnext<CR>      " Next Buffer
