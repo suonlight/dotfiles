@@ -20,7 +20,7 @@ Plug 'mhinz/vim-startify'
 Plug 'itchyny/lightline.vim'
 " Plug 'ryanoasis/vim-devicons'
 Plug 'Yggdroot/indentLine'
-Plug 'tyrannicaltoucan/vim-deep-space'
+Plug 'joshdick/onedark.vim'
 
 " Plug 'SirVer/ultisnips'
 Plug 'Shougo/neosnippet'
@@ -111,7 +111,7 @@ set background=dark
 if (has("termguicolors"))
   set termguicolors
 endif
-colorscheme deep-space
+colorscheme onedark
 
 " Show status bar by default.
 set laststatus=2
@@ -316,7 +316,7 @@ function! LinterStatus() abort
 endfunction
 
 let g:lightline = {
-      \ 'colorscheme': 'deepspace',
+      \ 'colorscheme': 'onedark',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'readonly', 'filename', 'modified', 'alestatus'] ]
@@ -356,7 +356,7 @@ let g:closetag_emptyTags_caseSensitive = 1
 " Add > at current position without closing the current tag, default is ''
 let g:closetag_close_shortcut = '<leader>>'
 
-let g:AutoPairsFlyMode = 1
+let g:AutoPairsFlyMode = 0
 
 "----------------------------------------------
 " Plug 'mattn/emmet-vim'
