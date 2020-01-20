@@ -491,14 +491,15 @@ nnoremap <silent> <Space>ji :BTags<CR>
 " nnoremap <silent> <Space>sc :call <SNR>62_Highlight("n")<CR>
 
 " Buffers
-nnoremap <silent> <M-b> :Buffer<CR>|    " List Buffers
+nnoremap <silent> <M-b> :Buffer<CR>|        " List Buffers
 nnoremap <silent> <Space>bb :Buffer<CR>|    " List Buffers
 nnoremap <silent> <Space>bd :bdelete<CR>    " Delete Buffer
 nnoremap <silent> <Space>bn :bnext<CR>      " Next Buffer
 nnoremap <silent> <Space>bp :bprevious<CR>  " Previous Buffer
 nnoremap <silent> <Space>bh :Startify<CR>   " Home Buffer
-nnoremap <silent> <Space>bs :Scratch<CR>    " Scratch Buffer
-nnoremap <silent> <Space><Tab> <C-^>        " Last Buffer
+nnoremap <silent> <Space>`  <C-^>           " Last Buffer
+nnoremap <silent> <Space>bs :w<CR>          " Save Buffer
+nnoremap <silent> <Space>bx :Scratch<CR>    " Scratch Buffer
 
 " Errors
 nnoremap <silent> <Space>en :ALENext<CR>      " Next Error
