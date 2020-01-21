@@ -626,6 +626,12 @@
     "C-v" (general-simulate-key "M-o a v <return>")
     "C-s" (general-simulate-key "M-o a s <return>")))
 
+;; anki
+(map! :localleader
+  (:after anki-editor :map org-mode-map
+    "Li" #'anki-editor-insert-note
+    "Lp" #'anki-editor-push-notes))
+
 (after! which-key
   (let ((prefix-re (regexp-opt (list doom-leader-key doom-leader-alt-key))))
     (cl-pushnew `((,(format "\\`\\(?:C-w\\|%s w\\) m\\'" prefix-re))
