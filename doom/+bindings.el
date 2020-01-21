@@ -30,28 +30,6 @@
 ;;
 ;;; Global keybindings
 
-(map! :nv "C-l"   #'evil-window-right
-      :nv "C-h"   #'evil-window-left
-      :nv "C-j"   #'evil-window-down
-      :nv "C-k"   #'evil-window-up
-      :nv "C-p"   #'+ivy/projectile-find-file
-      :nv "s-b"   #'projectile-switch-to-buffer
-      :nv "<f10>" #'doom/window-maximize-buffer
-      :nv "s"     #'evil-avy-goto-word-or-subword-1
-      :nv "g]"    #'dumb-jump-go
-      :nv "g["    #'dumb-jump-back)
-
-;; vterm
-(map!
- :nv "s-`" #'+vterm/toggle
- (:after vterm :map vterm-mode-map
-   :nv "i"        #'evil-insert-resume
-   :nv "o"        #'evil-insert-resume
-   :nv "<return>" #'evil-insert-resume
-   :i "s-`"       #'+vterm/toggle
-   :i "C-c"       #'vterm--self-insert
-   :i "C-SPC"     #'vterm--self-insert))
-
 ;; Smart tab, these will only work in GUI Emacs
 (map! :i [tab] (general-predicate-dispatch nil ; fall back to nearest keymap
                  (and (featurep! :editor snippets)
@@ -169,8 +147,7 @@
         (:after ivy
           :map ivy-minibuffer-map
           "C-SPC" #'ivy-call-and-recenter  ; preview file
-          "C-l"   #'ivy-alt-done
-          "C-v"   #'yank)
+          "C-l"   #'ivy-alt-done)
         (:after counsel
           :map counsel-ag-map
           "C-SPC"    #'ivy-call-and-recenter ; preview
@@ -618,6 +595,35 @@
 
         :desc "Word-wrap mode"               "w" #'+word-wrap-mode
         :desc "Zen mode"                     "z" #'writeroom-mode))
+
+;; Custom bindings
+(map! :nv "C-l"   #'evil-window-right
+      :nv "C-h"   #'evil-window-left
+      :nv "C-j"   #'evil-window-down
+      :nv "C-k"   #'evil-window-up
+      :nv "C-p"   #'+ivy/projectile-find-file
+      :nv "s-b"   #'projectile-switch-to-buffer
+      :nv "<f10>" #'doom/window-maximize-buffer
+      :nv "s"     #'evil-avy-goto-word-or-subword-1
+      :nv "g]"    #'dumb-jump-go
+      :nv "g["    #'dumb-jump-back)
+
+;; vterm
+(map!
+ :nv "s-`" #'+vterm/toggle
+ (:after vterm :map vterm-mode-map
+   :nv "i"        #'evil-insert-resume
+   :nv "o"        #'evil-insert-resume
+   :nv "<return>" #'evil-insert-resume
+   :i "s-`"       #'+vterm/toggle
+   :i "C-c"       #'vterm--self-insert
+   :i "C-SPC"     #'vterm--self-insert))
+
+;; ivy
+(map!
+  (:after ivy :map ivy-minibuffer-map
+    "C-v" (general-simulate-key "M-o a v <return>")
+    "C-s" (general-simulate-key "M-o a s <return>")))
 
 (after! which-key
   (let ((prefix-re (regexp-opt (list doom-leader-key doom-leader-alt-key))))

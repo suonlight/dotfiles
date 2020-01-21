@@ -65,3 +65,5 @@
 
 ;; prevent eslint check command: eslint --print-config .
 (advice-add 'flycheck-eslint-config-exists-p :override (lambda() t))
+
+(after! ivy (load! "ivy"))
