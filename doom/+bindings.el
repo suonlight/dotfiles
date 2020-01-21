@@ -604,6 +604,7 @@
       :nv "C-p"   #'+ivy/projectile-find-file
       :nv "s-b"   #'projectile-switch-to-buffer
       :nv "<f10>" #'doom/window-maximize-buffer
+      :nv "s-<f12>" #'list-processes
       :nv "s"     #'evil-avy-goto-word-or-subword-1
       :nv "g]"    #'dumb-jump-go
       :nv "g["    #'dumb-jump-back)
