@@ -22,12 +22,13 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. These are the defaults.
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-dark+)
+(setq doom-themes-treemacs-theme "doom-colors")
 
 (setq doom-localleader-key ",")
 
 ;; If you intend to use org, it is recommended you change this!
-(setq org-directory "~/org-modes")
+(setq org-directory "~/Dropbox/org-modes")
 
 ;; If you want to change the style of line numbers, change this to `relative' or
 ;; `nil' to disable it:
@@ -66,9 +67,13 @@
 ;; prevent eslint check command: eslint --print-config .
 (advice-add 'flycheck-eslint-config-exists-p :override (lambda() t))
 
-(after! ivy (load! "ivy"))
-
 (when (file-exists-p (concat doom-private-dir "private"))
     (load! "private/+bindings")
     (load! "private/prodigy")
     (load! "private/hero"))
+
+(load! "ivy")
+(load! "org-mode")
+
+(after! treemacs
+  (doom-themes-treemacs-config))

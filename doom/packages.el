@@ -58,4 +58,3 @@
 (package! indent-guide)
 (package! evil-matchit)
 (package! anki-editor)
-(package! org-fancy-priorities :disable t)
