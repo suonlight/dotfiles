@@ -68,9 +68,10 @@
 (advice-add 'flycheck-eslint-config-exists-p :override (lambda() t))
 
 (when (file-exists-p (concat doom-private-dir "private"))
-    (load! "private/+bindings")
-    (load! "private/prodigy")
-    (load! "private/hero"))
+  (load! "private/+bindings")
+  (load! "private/prodigy")
+  (load! "private/hero")
+  (load! "private/config"))
 
 (load! "ivy")
 (load! "org-mode")

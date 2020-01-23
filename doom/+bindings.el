@@ -615,31 +615,29 @@
     "d" #'projectile-dired)
   :nv "ft" #'+treemacs/toggle)
 
-;; vterm
 (map!
- :nv "s-`" #'+vterm/toggle
- (:after vterm :map vterm-mode-map
-   :nv "i"        #'evil-insert-resume
-   :nv "o"        #'evil-insert-resume
-   :nv "<return>" #'evil-insert-resume
-   :i "s-`"       #'+vterm/toggle
-   :i "C-c"       #'vterm--self-insert
-   :i "C-SPC"     #'vterm--self-insert))
-
-;; ivy
-(map!
+  :nv "s-`" #'+vterm/toggle
+  (:after vterm :map vterm-mode-map
+    :nv "i"        #'evil-insert-resume
+    :nv "o"        #'evil-insert-resume
+    :nv "<return>" #'evil-insert-resume
+    :i "s-`"       #'+vterm/toggle
+    :i "C-c"       #'vterm--self-insert
+    :i "C-SPC"     #'vterm--self-insert)
+  (:after org :map org-mode-map
+    :nv "t" #'org-todo)
+  (:after dired :map dired-mode-map
+    :nv "O" #'dired-display-file
+    :nv "o" #'dired-find-file-other-window
+    :nv "w" #'dired-kill-subdir)
   (:after ivy :map ivy-minibuffer-map
     "C-v" (general-simulate-key "M-o a v <return>")
     "C-s" (general-simulate-key "M-o a s <return>")))
 
-;; anki
 (map! :localleader
   (:after anki-editor :map org-mode-map
     "Li" #'anki-editor-insert-note
-    "Lp" #'anki-editor-push-notes))
-
-;; org
-(map! :localleader
+    "Lp" #'anki-editor-push-notes)
   (:after org :map org-mode-map
     "bs" #'org-split-block))
 

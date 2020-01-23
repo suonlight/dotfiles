@@ -93,14 +93,14 @@
        (lookup           ; helps you navigate your code and documentation
         +docsets)        ; ...or in Dash docsets locally
        lsp
-       ;;macos             ; MacOS-specific commands
+       macos             ; MacOS-specific commands
        magit             ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
        ;;pdf               ; pdf enhancements
        prodigy           ; FIXME managing external services & code builders
        ;;rgb               ; creating color strings
-       ;;terraform         ; infrastructure as code
+       terraform         ; infrastructure as code
        ;; tmux              ; an API for interacting with tmux
        ;;upload            ; map local to remote projects via ssh/ftp
 

@@ -1,4 +1,6 @@
 (after! org
+  (setq evil-org-key-theme '(navigation insert textobjects additional calendar todo))
+
   (setq org-capture-templates
     '(
        ("v"
