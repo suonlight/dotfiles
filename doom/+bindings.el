@@ -609,6 +609,12 @@
       :nv "g]"    #'dumb-jump-go
       :nv "g["    #'dumb-jump-back)
 
+(map! :leader
+  (:prefix-map ("a" . "application")
+    "c" #'calendar
+    "d" #'projectile-dired)
+  :nv "ft" #'+treemacs/toggle)
+
 ;; vterm
 (map!
  :nv "s-`" #'+vterm/toggle
@@ -631,6 +637,11 @@
   (:after anki-editor :map org-mode-map
     "Li" #'anki-editor-insert-note
     "Lp" #'anki-editor-push-notes))
+
+;; org
+(map! :localleader
+  (:after org :map org-mode-map
+    "bs" #'org-split-block))
 
 (after! which-key
   (let ((prefix-re (regexp-opt (list doom-leader-key doom-leader-alt-key))))
