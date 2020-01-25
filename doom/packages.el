@@ -58,3 +58,4 @@
 (package! indent-guide)
 (package! evil-matchit)
 (package! anki-editor)
+(package! google-translate)

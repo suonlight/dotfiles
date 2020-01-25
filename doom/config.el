@@ -84,3 +84,7 @@
   (setq flycheck-indication-mode nil)
   (setq flycheck-check-syntax-automatically '(save))
   (setq-default flycheck-disabled-checkers '(ruby-reek emacs-lisp emacs-lisp-checkdoc javascript-jshint)))
+
+(setq google-translate-show-phonetic t)
+(setq google-translate-default-source-language "en")
+(setq google-translate-default-target-language "vi")
