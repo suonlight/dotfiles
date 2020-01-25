@@ -78,3 +78,9 @@
 
 (after! treemacs
   (doom-themes-treemacs-config))
+
+(after! flycheck
+  (setq flycheck-highlighting-mode 'symbols)
+  (setq flycheck-indication-mode nil)
+  (setq flycheck-check-syntax-automatically '(save))
+  (setq-default flycheck-disabled-checkers '(ruby-reek emacs-lisp emacs-lisp-checkdoc javascript-jshint)))
