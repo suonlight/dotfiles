@@ -7,36 +7,13 @@
          "Vocabulary"
          entry
          (file "~/org-modes/flashcards.org")
-         "* %i%^{prompt} :drill: \n\nTranslate\n\n** Answer\n\n[[file:~/org-modes/images/%\\1.png]]\n\n** Image Source\n\n#+begin_src shell\ntest -f ~/org-modes/images/%\\1.png || wget -O ~/org-modes/images/%\\1.png \"%\\1%?\"\n#+end_src")
-       ("s"
-         "Speaking English"
-         entry
-         (file "~/org-modes/flashcards.org")
-         "* %i%^{sentence} :drill:speaking:\n:PROPERTIES:\n:DRILL_SOUND: ~/org-modes/english/%^{sound}\n:END:\n\nSpeaking loudly man\n\n** Answer\n\n[[file:~/org-modes/english/%\\2]]\n\n** Source\n\n#+begin_src shell\ntest -f ~/org-modes/english/%\\2 || wget -O ~/org-modes/english/%\\2 \"%^{link}\"\n#+end_src")
+         "* %i%^{prompt} :vocabulary:\n:PROPERTIES:\n:ANKI_DECK: Vocabulary\n:ANKI_NOTE_TYPE: Basic\n:END:\n** Front\n%\\1\n\n** Back\n\n")
        ("a"
          "Appointment"
          entry
          (file+headline "~/org-modes/personal.org" "Appointments")
          "* TODO %?\n:PROPERTIES:\n\n:END:\nDEADLINE: %^T \n %i\n"
          )
-       ("l"
-         "Learn"
-         entry
-         (file "~/org-modes/learn.org")
-         "* %? :drill:\n"
-         )
-       ("p"
-         "Personal"
-         entry
-         (file "~/org-modes/personal.org")
-         "* %i\n\nCaptured On:%U\n\n")
-       ("t"
-         "Token"
-         plain
-         (file "/tmp/token.org")
-         "%:initial"
-         :immediate-finish
-         :prepend)
        ("L"
          "Notes"
          entry
@@ -44,11 +21,6 @@
          "* %:description\n\nSource: %:link\nCaptured On:%U\n\n%:initial\n\n"
          :immediate-finish
          :prepend)
-       ("z"
-         "Capture Notes"
-         entry
-         (file "~/org-modes/notes.org")
-         "* %i\n\nCaptured On:%U\n\n%c")
        ("E"
          "Employment Hero Task"
          entry
@@ -148,7 +120,6 @@ This function is heavily adapted from `org-between-regexps-p'."
     (message "Point is not in an Org block")))
 
 (after! org-download
-  (message "after org-download")
   (setq
     org-download-image-org-width 800
     org-download-delete-image-after-download t

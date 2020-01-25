@@ -638,6 +638,7 @@
   (:after anki-editor :map org-mode-map
     "Li" #'anki-editor-insert-note
     "Lp" #'anki-editor-push-notes)
+    "Lr" #'anki-editor-retry-failure-notes)
   (:after org :map org-mode-map
     "bs" #'org-split-block))
 
