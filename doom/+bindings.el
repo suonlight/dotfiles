@@ -624,6 +624,11 @@
     :i "s-`"       #'+vterm/toggle
     :i "C-c"       #'vterm--self-insert
     :i "C-SPC"     #'vterm--self-insert)
+  (:after treemacs :map treemacs-mode-map
+    "C-l"   #'evil-window-right
+    "C-h"   #'evil-window-left
+    "C-j"   #'evil-window-down
+    "C-k"   #'evil-window-up)
   (:after org :map org-mode-map
     :nv "t" #'org-todo)
   (:after dired :map dired-mode-map
