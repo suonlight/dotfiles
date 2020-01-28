@@ -123,5 +123,6 @@ This function is heavily adapted from `org-between-regexps-p'."
   (setq
     org-download-image-org-width 800
     org-download-delete-image-after-download t
+    org-download-link-format "[[file:%s]]\n"
     org-download-method 'directory)
   (setq-default org-download-image-dir "./images"))
