@@ -8,7 +8,7 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'benmills/vimux'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'neoclide/coc-neco'
-Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'szw/vim-maximizer'
 Plug 'mtth/scratch.vim'
 Plug 'easymotion/vim-easymotion'
@@ -55,6 +55,7 @@ Plug 'tpope/vim-fugitive'                                        " Easily manipu
 Plug 'tpope/vim-rhubarb'
 
 Plug 'sheerun/vim-polyglot'
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
 
 "----------------------------------------------
 " Language: Ruby
@@ -508,7 +509,7 @@ nnoremap <silent> <Space>ef :ALEFix<CR>       " Fix Errors
 
 " Git
 nnoremap <silent> <Space>gb :Gblame<CR>    " Git Blame
-nnoremap <silent> <Space>gs :Gstatus<CR>   " Git Status
+nnoremap <silent> <Space>gg :Gstatus<CR>   " Git Status
 nnoremap <silent> <Space>gll :Gbrowse<CR>  " Git Browse
 
 " Terminal
