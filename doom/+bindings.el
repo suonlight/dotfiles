@@ -647,7 +647,9 @@
     "Lp" #'anki-editor-push-notes
     "Lr" #'anki-editor-retry-failure-notes)
   (:after org :map org-mode-map
-    "bs" #'org-split-block))
+    "bs" #'org-split-block
+    (:prefix-map ("m" . "modes")
+      "a" #'anki-editor-mode)))
 
 (after! which-key
   (let ((prefix-re (regexp-opt (list doom-leader-key doom-leader-alt-key))))
