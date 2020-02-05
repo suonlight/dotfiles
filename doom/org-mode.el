@@ -119,6 +119,23 @@ This function is heavily adapted from `org-between-regexps-p'."
           (beginning-of-line (if at-bol -1 0)))))
     (message "Point is not in an Org block")))
 
+(defun org-agenda-only-window ()
+  (interactive)
+  (let ((org-agenda-window-setup 'only-window))
+    (org-agenda nil "a")
+    (call-interactively 'org-agenda-day-view)))
+
+(defun git-branch-by-title (title link)
+  "Auto generate git branch by title"
+  (let* ((dashed-title (s-dashed-words title))
+	        (card-id (car (last (s-split "/" link)))))
+    (message "%s/%s--%s"
+	    (if (or (s-contains? "refactor" dashed-title)
+		        (s-contains? "chore" dashed-title))
+		    "chore" "ft")
+	    dashed-title
+	    card-id)))
+
 (after! org-download
   (setq
     org-download-image-org-width 800
