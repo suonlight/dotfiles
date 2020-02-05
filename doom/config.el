@@ -44,6 +44,10 @@
 (setq mode-require-final-newline t)
 (setq require-final-newline t)
 
+(setq google-translate-show-phonetic t)
+(setq google-translate-default-source-language "en")
+(setq google-translate-default-target-language "vi")
+
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
@@ -85,6 +89,5 @@
   (setq flycheck-check-syntax-automatically '(save))
   (setq-default flycheck-disabled-checkers '(ruby-reek emacs-lisp emacs-lisp-checkdoc javascript-jshint)))
 
-(setq google-translate-show-phonetic t)
-(setq google-translate-default-source-language "en")
-(setq google-translate-default-target-language "vi")
+(after! evil
+  (defalias #'forward-evil-word #'forward-evil-symbol))
