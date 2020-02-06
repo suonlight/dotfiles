@@ -502,10 +502,11 @@
 
       ;;; <leader> p --- project
       (:prefix-map ("p" . "project")
+        :desc "Toggle Implementation and Test"              "a" #'projectile-toggle-between-implementation-and-test
         :desc "Browse project"               "." #'+default/browse-project
         :desc "Browse other project"         ">" #'doom/browse-in-other-project
         :desc "Run cmd in project root"      "!" #'projectile-run-shell-command-in-root
-        :desc "Add new project"              "a" #'projectile-add-known-project
+        :desc "Add new project"              "A" #'projectile-add-known-project
         :desc "Switch to project buffer"     "b" #'projectile-switch-to-buffer
         :desc "Compile in project"           "c" #'projectile-compile-project
         :desc "Repeat last command"          "C" #'projectile-repeat-last-command
@@ -637,6 +638,8 @@
     :nv "O" #'dired-display-file
     :nv "o" #'dired-find-file-other-window
     :nv "w" #'dired-kill-subdir)
+  (:map rspec-mode-map
+    "<f5>" #'rspec-verify-single)
   (:after ivy :map ivy-minibuffer-map
     "C-v" (general-simulate-key "M-o a v <return>")
     "C-s" (general-simulate-key "M-o a s <return>")))
