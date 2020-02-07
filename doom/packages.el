@@ -91,7 +91,7 @@
 ;; (package! ibuffer-vc :disable t)
 (package! dired-git-info :disable t)
 (package! fd-dired :disable t)
-(package! diff-hl :disable t)
+;; (package! diff-hl :disable t) ;; depends by magit commit
 (package! buttercup :disable t)
 ;; (package! eros :disable t)
 (package! quickrun :disable t)

@@ -483,7 +483,7 @@
  "/"   #'counsel-rg
  "*"   #'counsel-rg-thing-at-point
  "`" #'evil-switch-to-windows-last-buffer
- "SPC" #'counsel-M-x
+ ":" #'counsel-M-x
  "1"   #'winum-select-window-1
  "2"   #'winum-select-window-2
  "3"   #'winum-select-window-3
@@ -570,7 +570,7 @@
  "b."         #'hydra-buffer/body
  "bi"         #'ibuffer
  "bb"         #'ivy-switch-buffer
- "bm"         #'view-echo-area-messages
+ "he"         #'view-echo-area-messages
  "bn"         #'next-buffer
  "bp"         #'previous-buffer
  "bw"         #'read-only-mode
