@@ -1,0 +1,119 @@
+* Auto Completion
+** COMMENT Posframe
+   #+BEGIN_SRC emacs-lisp
+     (use-package posframe
+       :defer .1
+       :config
+       (setq ivy-posframe-height 30))
+
+     (use-package company-posframe
+       :after (posframe company)
+       :config
+       (company-posframe-mode 1))
+
+     (use-package ivy-posframe
+       :after (posframe ivy)
+       :config
+       ;; (setq ivy-posframe-height-alist '((swiper . 20)
+       ;; 				    (t      . 40)))
+
+       (setq ivy-posframe-display-functions-alist
+	     '((complete-symbol . ivy-posframe-display-at-point)
+	       (dumb-jump-go . ivy-posframe-display-at-point)
+	       (ivy-persp-switch-project . nil)
+	       (counsel-projectile-find-file . nil)
+	       (counsel-projectile-switch-project . nil)
+	       (ivy-switch-buffer . nil)
+	       (counsel-M-x . nil)
+	       (counsel-rg . nil)
+	       ;; (counsel-M-x     . ivy-posframe-display-at-window-bottom-left)
+	       (t               . ivy-posframe-display)))
+       ;; (push '(counsel-M-x . ivy-posframe-display-at-window-center) ivy-display-functions-alist)
+       ;; (push '(counsel-projectile-find-file . ivy-posframe-display-at-window-center) ivy-display-functions-alist)
+       ;; (push '(ivy-persp-switch-project . ivy-posframe-display-at-window-center) ivy-display-functions-alist)
+       ;; (push '(complete-symbol . ivy-posframe-display-at-point) ivy-display-functions-alist)
+       ;; (push '(ivy-completion-in-region . ivy-posframe-display-at-point) ivy-display-functions-alist)
+       ;; (push '(swiper . ivy-posframe-display-at-point) ivy-display-functions-alist)
+       ;; (push '(t . ivy-posframe-display-at-window-center) ivy-display-functions-alist)
+       (ivy-posframe-enable))
+   #+END_SRC
+
+   #+RESULTS:
+   : t
+
+* Tools
+** Copy as format
+   #+BEGIN_SRC emacs-lisp
+     (use-package copy-as-format
+       :commands (copy-as-format-github
+		  copy-as-format-html
+		  copy-as-format-markdown
+		  copy-as-format-org-mode
+		  copy-as-format-slack))
+   #+END_SRC
+
+   #+RESULTS:
+
+** read-aloud
+   #+BEGIN_SRC emacs-lisp
+     (use-package read-aloud
+       :commands (read-aloud-this read-aloud-buf read-aloud--string)
+       :config (setq read-aloud-engine "say"))
+
+   #+END_SRC
+
+** Dictionaries
+   #+BEGIN_SRC emacs-lisp
+     (use-package google-translate
+       :commands google-translate-at-point
+       :init
+       (setq google-translate-show-phonetic t)
+       (setq google-translate-default-source-language "en")
+       (setq google-translate-default-target-language "vi"))
+
+     (use-package osx-dictionary
+       :commands (osx-dictionary-search-word-at-point osx-dictionary-search-input))
+   #+END_SRC
+
+   #+RESULTS:
+
+** ibuffer-projectile
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package ibuffer-projectile
+	  :hook ((ibuffer-mode . ibuffer-projectile-set-filter-groups)
+		 (racer-mode . eldoc-mode)
+		 (racer-mode . company-mode)))
+   #+END_SRC
+
+   #+RESULTS:
+   : t
+
+* Expirements
+
+#+BEGIN_SRC emacs-lisp
+  (defun sl/ruby-copy-generated-spec-at-point ()
+    (interactive)
+    (let* ((method-name (ivy-thing-at-point))
+	   (model-name (f-base buffer-file-name)))
+      (kill-new (format "describe '#%s' do\n  let(:%s) { create(:%s) }\n  let(:subject) { %s.%s }\nend"
+			method-name
+			model-name
+			model-name
+			model-name
+			method-name))))
+
+
+  (defun sl/switch-buffer ()
+    "As `helm-mini' but restricts visible buffers by perspective."
+    (interactive)
+    (with-persp-buffer-list ()
+			    (ivy-switch-buffer)))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(setq vterm-timer-delay 0.005)
+(setq lsp-ui-sideline-delay 0.5)
+(setq ansi-color-names-vector ["#292b2d" "#ce527a" "#2d9474" "#bfa325" "#4e97d6" "#bb6dc3" "#299ba2" "#e4e4e4"])
+(add-hook 'comint-exec-hook (lambda () (evil-normal-state)))
+#+END_SRC
