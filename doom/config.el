@@ -80,8 +80,20 @@
 (load! "ivy")
 (load! "org-mode")
 
+(after! avy
+  (setq avy-all-windows t))
+
 (after! treemacs
   (doom-themes-treemacs-config))
+
+(after! company
+  (setq company-minimum-prefix-length 3)
+  (setq company-show-numbers t)
+  (setq company-auto-complete nil)
+  (setq company-idle-delay 0))
+
+(after! lsp
+  (setq lsp-auto-guess-root nil))
 
 (after! flycheck
   (setq flycheck-highlighting-mode 'symbols)
@@ -91,3 +103,6 @@
 
 (after! evil
   (defalias #'forward-evil-word #'forward-evil-symbol))
+
+(after! enh-ruby-mode
+  (set-company-backend! 'enh-ruby-mode '(company-capf company-abbrev company-dabbrev-code company-files company-etags company-keywords company-yasnippet)))
