@@ -626,6 +626,16 @@
     :nv "<return>" #'evil-insert-resume
     :i "s-`"       #'+vterm/toggle
     :i "C-c"       #'vterm--self-insert
+    :i "C-d"       #'vterm--self-insert
+    :i "C-g"       #'vterm--self-insert
+    :i "C-e"       #'vterm--self-insert
+    :i "C-a"       #'vterm--self-insert
+    :i "C-u"       #'vterm--self-insert
+    :i "C-w"       #'vterm--self-insert
+    :i "C-n"       #'vterm--self-insert
+    :i "C-p"       #'vterm--self-insert
+    :i "C-r"       #'vterm--self-insert
+    :i "C-t"       #'vterm--self-insert
     :i "C-SPC"     #'vterm--self-insert)
   (:after treemacs :map treemacs-mode-map
     "C-l"   #'evil-window-right
