@@ -8,6 +8,11 @@
 (setq user-full-name "Minh Nguyen Hue"
       user-mail-address "minh.nh1989@gmail.com")
 
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 1024 1024))
+(setq lsp-idle-delay 0.500)
+(setq lsp-prefer-capf t)
+
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
 ;;
@@ -106,3 +111,13 @@
 
 (after! enh-ruby-mode
   (set-company-backend! 'enh-ruby-mode '(company-capf company-abbrev company-dabbrev-code company-files company-etags company-keywords company-yasnippet)))
+
+(add-hook! vterm-mode :append
+  (defun auto-swith-to-insert ()
+    (setq-local evil-insert-state-cursor 'box)
+    (evil-insert-state)))
+
+(use-package! evil-string-inflection :after evil :commands evil-operator-string-inflection)
+
+(set-popup-rule! "^\\*Process List\\*" :select t :size 0.35)
+(set-popup-rule! "^\\*prodigy\\*" :select t :size 0.35)

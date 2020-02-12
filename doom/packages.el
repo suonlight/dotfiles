@@ -111,3 +111,4 @@
 ;; (package! org-graph-view :recipe (:host github :repo "alphapapa/org-graph-view"))
 
 (package! protobuf-mode)
+(package! evil-string-inflection)

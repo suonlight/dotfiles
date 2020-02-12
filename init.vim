@@ -503,8 +503,8 @@ nnoremap <silent> <Space>bs :w<CR>          " Save Buffer
 nnoremap <silent> <Space>bx :Scratch<CR>    " Scratch Buffer
 
 " Errors
-nnoremap <silent> <Space>en :ALENext<CR>      " Next Error
-nnoremap <silent> <Space>ep :ALEPrevious<CR>  " Previous Error
+nnoremap <silent> ]e :ALENext<CR>      " Next Error
+nnoremap <silent> [e :ALEPrevious<CR>      " Next Error
 nnoremap <silent> <Space>ef :ALEFix<CR>       " Fix Errors
 
 " Git
@@ -530,7 +530,7 @@ nmap <Space>xa" <Plug>(EasyAlign)ip"<CR>|  " Text > Align > "
 
 " Toggle
 nnoremap <silent> <Space>ti :IndentLinesToggle<CR>
-nnoremap <silent> <Space>tn :set nu! rnu!<CR>
+nnoremap <silent> <Space>tl :set nu! rnu!<CR>
 
 " Global
 nmap gy yygccp                           " Copy and Comment Lines

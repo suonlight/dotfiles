@@ -615,7 +615,15 @@
     "c" #'calendar
     "d" #'projectile-dired)
   (:prefix-map ("x" . "text")
-    "gt" #'google-translate-at-point)
+    "gt" #'google-translate-at-point
+    (:prefix-map ("i" . "string-inflection")
+      "-"       #'string-inflection-kebab-case
+      "C"       #'string-inflection-camelcase
+      "U"       #'string-inflection-upcase
+      "_"       #'string-inflection-underscore
+      "c"       #'string-inflection-lower-camelcase
+      "k"       #'string-inflection-kebab-case
+      "u"       #'string-inflection-underscore))
   :nv "ft" #'+treemacs/toggle)
 
 (map!
@@ -650,6 +658,9 @@
     :nv "w" #'dired-kill-subdir)
   (:map rspec-mode-map
     "<f5>" #'rspec-verify-single)
+  (:after ivy :map ivy-switch-buffer-map
+    "C-v" (general-simulate-key "M-o a v <return>")
+    "C-s" (general-simulate-key "M-o a s <return>"))
   (:after ivy :map ivy-minibuffer-map
     "C-v" (general-simulate-key "M-o a v <return>")
     "C-s" (general-simulate-key "M-o a s <return>")))
