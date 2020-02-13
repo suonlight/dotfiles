@@ -611,6 +611,8 @@
       :nv "g["    #'dumb-jump-back)
 
 (map! :leader
+  "w2" (general-simulate-key "SPC w C-o SPC w v SPC w l SPC b p SPC w h")
+  "w3" (general-simulate-key "SPC w C-o SPC w v SPC w l SPC b p SPC w v SPC w l SPC b p 2 SPC w h")
   (:prefix-map ("a" . "application")
     "c" #'calendar
     "d" #'projectile-dired)
@@ -681,7 +683,51 @@
     "Lp" #'anki-editor-push-notes
     "Lr" #'anki-editor-retry-failure-notes)
   (:after org :map org-mode-map
-    "bs" #'org-split-block
+    "'"          #'org-edit-special
+    ","          #'org-babel-execute-src-block
+    "K"          #'org-shiftup
+    "J"          #'org-shiftdown
+    "H"          #'org-shiftleft
+    "L"          #'org-shiftright
+    "cp"         #'org-pomodoro
+    (:prefix-map ("d" . "date")
+      "T"         #'org-time-stamp-inactive
+      "d"         #'org-deadline
+      "s"         #'org-schedule
+      "t"         #'org-time-stamp)
+    ;; (:prefix-map ("c" . "clock")
+    ;;   "i"         #'org-clock-in
+    ;;   "o"         #'org-clock-out
+    ;;   "g"         #'org-clock-goto
+    ;;   "R"         #'org-clock-report
+    ;;   "c"         #'org-clock-cancel
+    ;;   "d"         #'org-clock-display
+    ;;   "p"         #'org-pomodoro)
+    (:prefix-map ("b" . "babel")
+      "s"         #'org-split-block
+      "a"         #'org-babel-sha1-hash
+      "b"         #'org-babel-execute-buffer
+      "c"         #'org-babel-check-src-block
+      "d"         #'org-babel-demarcate-block
+      "e"         #'org-babel-execute-maybe
+      "f"         #'org-babel-tangle-file
+      "g"         #'org-babel-goto-named-src-block
+      "i"         #'org-babel-lob-ingest
+      "I"         #'org-babel-view-src-block-info
+      "j"         #'org-babel-insert-header-arg
+      "l"         #'org-babel-load-in-session
+      "n"         #'org-babel-next-src-block
+      "o"         #'org-babel-open-src-block-result
+      "p"         #'org-babel-previous-src-block
+      "r"         #'org-babel-goto-named-result
+      "S"         #'org-babel-execute-subtree
+      "t"         #'org-babel-tangle
+      "u"         #'org-babel-goto-src-block-head
+      "v"         #'org-babel-expand-src-block
+      "x"         #'org-babel-do-key-sequence-in-edit-buffer
+      "z"         #'org-babel-switch-to-session
+      "Z"         #'org-babel-switch-to-session-with-code
+      "k"         #'org-babel-remove-result-one-or-many)
     (:prefix-map ("m" . "modes")
       "a" #'anki-editor-mode)))
 
