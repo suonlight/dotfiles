@@ -121,3 +121,4 @@
 
 (set-popup-rule! "^\\*Process List\\*" :select t :size 0.35)
 (set-popup-rule! "^\\*prodigy\\*" :select t :size 0.35)
+(set-popup-rule! "^\\*rspec-compilation\\*" :select t :size 0.35)
