@@ -269,7 +269,7 @@
 
       ;;; <leader> TAB --- workspace
       (:when (featurep! :ui workspaces)
-        (:prefix-map ("TAB" . "workspace")
+        (:prefix-map ("l" . "workspace")
           :desc "Display tab bar"           "TAB" #'+workspace/display
           :desc "Switch workspace"          "."   #'+workspace/switch-to
           :desc "Switch to last workspace"  "`"   #'+workspace/other
@@ -679,9 +679,9 @@
 
 (map! :localleader
   (:after anki-editor :map org-mode-map
-    "Li" #'anki-editor-insert-note
-    "Lp" #'anki-editor-push-notes
-    "Lr" #'anki-editor-retry-failure-notes)
+    "Mi" #'anki-editor-insert-note
+    "Mp" #'anki-editor-push-notes
+    "Mr" #'anki-editor-retry-failure-notes)
   (:after org :map org-mode-map
     "'"          #'org-edit-special
     ","          #'org-babel-execute-src-block
