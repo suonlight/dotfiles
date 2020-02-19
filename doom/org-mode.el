@@ -128,13 +128,13 @@ This function is heavily adapted from `org-between-regexps-p'."
 (defun git-branch-by-title (title link)
   "Auto generate git branch by title"
   (let* ((dashed-title (s-dashed-words title))
-	        (card-id (car (last (s-split "/" link)))))
+          (card-id (car (last (s-split "/" link)))))
     (message "%s/%s--%s"
-	    (if (or (s-contains? "refactor" dashed-title)
-		        (s-contains? "chore" dashed-title))
-		    "chore" "ft")
-	    dashed-title
-	    card-id)))
+      (if (or (s-contains? "refactor" dashed-title)
+            (s-contains? "chore" dashed-title))
+        "chore" "ft")
+      dashed-title
+      card-id)))
 
 (after! org-download
   (setq

@@ -383,7 +383,7 @@
           :desc "Magit dispatch"            "/"   #'magit-dispatch
           :desc "Forge dispatch"            "'"   #'forge-dispatch
           :desc "Magit switch branch"       "B"   #'magit-branch-checkout
-          :desc "Magit status"              "g"   #'magit-status
+          :desc "Magit status"              "s"   #'magit-status
           :desc "Magit file delete"         "D"   #'magit-file-delete
           :desc "Magit blame"               "b"   #'magit-blame-addition
           :desc "Magit clone"               "C"   #'magit-clone
@@ -670,6 +670,14 @@
     :nv "w" #'dired-kill-subdir)
   (:map rspec-mode-map
     "<f5>" #'rspec-verify-single)
+  (:map magit-status-mode-map
+    :n "`"       #'forge-browse-topic)
+  (:map magit-revision-mode-map
+    :n "o"       #'forge-browse-commit
+    :n "`"       #'forge-browse-topic)
+  (:map magit-log-mode-map
+    :n "o"       #'forge-browse-commit
+    :n "`"       #'forge-browse-topic)
   (:after ivy :map ivy-switch-buffer-map
     "C-v" (general-simulate-key "M-o a v <return>")
     "C-s" (general-simulate-key "M-o a s <return>"))
