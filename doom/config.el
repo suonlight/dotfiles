@@ -112,6 +112,9 @@
 (after! enh-ruby-mode
   (set-company-backend! 'enh-ruby-mode '(company-capf company-abbrev company-dabbrev-code company-files company-etags company-keywords company-yasnippet)))
 
+(after! projectile
+  (setq projectile-tags-file-name "ETAGS"))
+
 (add-hook! vterm-mode :append
   (defun auto-swith-to-insert ()
     (setq-local evil-insert-state-cursor 'box)

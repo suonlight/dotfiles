@@ -259,7 +259,7 @@
         :desc "Switch workspace buffer" "," #'persp-switch-to-buffer
         :desc "Switch buffer"           "<" #'switch-to-buffer)
 
-      :desc "Switch to last buffer" "`"    #'evil-switch-to-windows-last-buffer
+      :desc "Switch to last buffer" "<tab>"    #'evil-switch-to-windows-last-buffer
       :desc "Resume last search"    "'"    #'ivy-resume
 
       :desc "Search for symbol in project" "*" #'+default/search-project-for-symbol-at-point

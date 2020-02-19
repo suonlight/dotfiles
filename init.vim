@@ -500,9 +500,8 @@ nnoremap <silent> <Space>bd :bdelete<CR>    " Delete Buffer
 nnoremap <silent> <Space>bn :bnext<CR>      " Next Buffer
 nnoremap <silent> <Space>bp :bprevious<CR>  " Previous Buffer
 nnoremap <silent> <Space>bh :Startify<CR>   " Home Buffer
-nnoremap <silent> <Space>`  <C-^>           " Last Buffer
-nnoremap <silent> <Space>bs :w<CR>          " Save Buffer
-nnoremap <silent> <Space>bx :Scratch<CR>    " Scratch Buffer
+nnoremap <silent> <Space><tab>  <C-^>           " Last Buffer
+nnoremap <silent> <Space>bs :Scratch<CR>    " Scratch Buffer
 
 " Errors
 nnoremap <silent> ]e :ALENext<CR>      " Next Error
@@ -541,12 +540,12 @@ vmap <silent> <Space>cl gcc              " Comment Lines
 vmap <silent> <S-k> <Plug>MoveBlockUp    " Move Block Up
 vmap <silent> <S-j> <Plug>MoveBlockDown  " Move Block Down
 
-" " Use `[g` and `]g` to navigate diagnostics
-" nmap <silent> [g <Plug>(coc-diagnostic-prev)
-" nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nnoremap <silent> gd :tag <C-R><C-W><CR>
 
-" " Remap keys for gotos
-" nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-" nmap <silent> gr <Plug>(coc-references)
+autocmd FileType javascript nmap <silent> gd <Plug>(coc-definition)
+autocmd FileType javascript nmap <silent> gd <Plug>(coc-definition)
+autocmd FileType javascript nmap <silent> gy <Plug>(coc-type-definition)
+autocmd FileType javascript nmap <silent> gi <Plug>(coc-implementation)
+autocmd FileType javascript nmap <silent> gr <Plug>(coc-references)
+autocmd FileType javascript nmap <silent> [g <Plug>(coc-diagnostic-prev)
+autocmd FileType javascript nmap <silent> ]g <Plug>(coc-diagnostic-next)
