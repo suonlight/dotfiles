@@ -55,7 +55,7 @@ Plug 'tpope/vim-fugitive'                                        " Easily manipu
 Plug 'tpope/vim-rhubarb'
 
 Plug 'sheerun/vim-polyglot'
-Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
+" Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
 
 "----------------------------------------------
 " Language: Ruby
@@ -69,10 +69,10 @@ Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
 "----------------------------------------------
 " Plug 'pangloss/vim-javascript', { 'for': 'javascript' }          " vim-jsx
 " Plug 'mxw/vim-jsx', { 'for': 'javascript' }
+" Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
+" Plug 'epilande/vim-es2015-snippets', { 'for': 'javascript' }     " ES2015 code snippets (Optional)
+" Plug 'epilande/vim-react-snippets', { 'for': 'javascript' }      " React code snippets
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
-Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
-Plug 'epilande/vim-es2015-snippets', { 'for': 'javascript' }     " ES2015 code snippets (Optional)
-Plug 'epilande/vim-react-snippets', { 'for': 'javascript' }      " React code snippets
 Plug 'mattn/emmet-vim', { 'for': ['html', 'erb', 'javascript'] } " emmet-vim
 Plug 'editorconfig/editorconfig-vim'
 " Plug 'kchmck/vim-coffee-script'
@@ -236,6 +236,7 @@ let g:ale_fixers = {
 let g:ale_linters = {
       \   'javascript': ['eslint'],
       \   'json': ['jsonlint'],
+      \   'ruby': ['rubocop'],
       \}
 
 let g:ale_lint_on_text_changed="never"
@@ -345,8 +346,9 @@ let g:startify_change_to_vcs_root = 1
 "----------------------------------------------
 " Plug 'ludovicchabant/vim-gutentags'
 "----------------------------------------------
-let g:gutentags_cache_dir = get(g:, 'gutentags_cache_dir', expand('~/.cache/tags'))
-let g:gutentags_enabled = 0
+" let s:vim_tags = expand('~/.cache/tags')
+" let g:gutentags_cache_dir = get(g:, 'gutentags_cache_dir', expand('~/.cache/tags'))
+" let g:gutentags_enabled = 1
 
 "----------------------------------------------
 " Plug 'alvan/vim-closetag'
@@ -472,7 +474,7 @@ nnoremap <silent> <Space>fyd :let @*=expand("%:p:h") \| echo @*<CR>  " File > Co
 
 " Projects
 nnoremap <silent> <Space>pf :FZF<CR>
-nnoremap <silent> <Space>pG :GutentagsUpdate<CR>
+nnoremap <Space>pG :GutentagsUpdate<CR>
 nnoremap <silent> <Space>pg :Tags<CR>
 nnoremap <silent> <C-p> :FZF<CR>
 
@@ -509,7 +511,7 @@ nnoremap <silent> <Space>ef :ALEFix<CR>       " Fix Errors
 
 " Git
 nnoremap <silent> <Space>gb :Gblame<CR>    " Git Blame
-nnoremap <silent> <Space>gg :Gstatus<CR>   " Git Status
+nnoremap <silent> <Space>gs :Gstatus<CR>   " Git Status
 nnoremap <silent> <Space>gll :Gbrowse<CR>  " Git Browse
 
 " Terminal
@@ -539,12 +541,12 @@ vmap <silent> <Space>cl gcc              " Comment Lines
 vmap <silent> <S-k> <Plug>MoveBlockUp    " Move Block Up
 vmap <silent> <S-j> <Plug>MoveBlockDown  " Move Block Down
 
-" Use `[g` and `]g` to navigate diagnostics
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+" " Use `[g` and `]g` to navigate diagnostics
+" nmap <silent> [g <Plug>(coc-diagnostic-prev)
+" nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+" " Remap keys for gotos
+" nmap <silent> gd <Plug>(coc-definition)
+" nmap <silent> gy <Plug>(coc-type-definition)
+" nmap <silent> gi <Plug>(coc-implementation)
+" nmap <silent> gr <Plug>(coc-references)

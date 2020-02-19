@@ -36,6 +36,10 @@
 --exclude=GTAGS
 --exclude=cscope.*
 --languages=-html
---regex-ruby=/^[ \t]*scope[ \t]*:([a-zA-Z0-9_]+)/\1/
---extras=+q+f
+--extra=+q+f
 --fields=+i+a+S+n
+--regex-ruby=/(^|;)[ \t]*(class|module)[ \t]+([A-Z][[:alnum:]_]+(::([A-Z][[:alnum:]_]+))+)/\5/c,class,constant/
+--regex-ruby=/(^|;)[ \t]*(class|module)[ \t]+([A-Z][[:alnum:]_]+(::([A-Z][[:alnum:]_]+))+)/\3/c,class,constant/
+--regex-ruby=/(^|[:;])[ \t]*([A-Z][[:alnum:]_]+) *=/\2/c,class,constant/
+--regex-ruby=/(^|;)[ \t]*(has_many|belongs_to|has_one|has_and_belongs_to_many)\(? *:([[:alnum:]_]+)/\3/f,function,association/
+--regex-ruby=/(^|;)[ \t]*(named_)?scope\(? *:([[:alnum:]_]+)/\3/f,function,named_scope/
