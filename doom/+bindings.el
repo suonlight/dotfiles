@@ -514,7 +514,8 @@
         :desc "Edit project .dir-locals"     "e" #'projectile-edit-dir-locals
         :desc "Find file in project"         "f" #'projectile-find-file
         :desc "Find file in other project"   "F" #'doom/find-file-in-other-project
-        :desc "Configure project"            "g" #'projectile-configure-project
+        :desc "Find tag"                     "g" #'projectile-find-tag
+        :desc "Generate tag"                 "G" #'projectile-regenerate-tags
         :desc "Invalidate project cache"     "i" #'projectile-invalidate-cache
         :desc "Kill project buffers"         "k" #'projectile-kill-buffers
         :desc "Find other file"              "o" #'projectile-find-other-file

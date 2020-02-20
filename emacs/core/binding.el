@@ -515,7 +515,7 @@
  "p&"         #'projectile-run-async-shell-command-in-root
  "pD"         #'projectile-dired
  "pF"         #'projectile-find-file-dwim
- "pG"         #'counsel-etags-scan-code
+ "pG"         #'projectile-regenerate-tags
  "pI"         #'projectile-invalidate-cache
  "pR"         #'projectile-replace
  "pT"         #'projectile-test-project

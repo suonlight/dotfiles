@@ -267,19 +267,19 @@ T - tag prefix
   (ivy-prescient-mode)
   (prescient-persist-mode))
 
-(use-package counsel-etags
-  :init
-  (add-hook 'prog-mode-hook
-        (lambda ()
-          (add-hook 'after-save-hook
-            'counsel-etags-virtual-update-tags 'append 'local)))
-  :config
-  (setq tags-revert-without-query 1)
-  (setq counsel-etags-update-interval 600)
-  ;; (setq counsel-etags-find-program "/usr/local/bin/fd")
-  (setq counsel-etags-tags-program "/usr/local/bin/ctags")
-  (add-to-list 'counsel-etags-ignore-directories "build")
-  (add-to-list 'counsel-etags-ignore-directories "org-modes"))
+;; (use-package counsel-etags
+;;   :init
+;;   (add-hook 'prog-mode-hook
+;;         (lambda ()
+;;           (add-hook 'after-save-hook
+;;             'counsel-etags-virtual-update-tags 'append 'local)))
+;;   :config
+;;   (setq tags-revert-without-query 1)
+;;   (setq counsel-etags-update-interval 600)
+;;   ;; (setq counsel-etags-find-program "/usr/local/bin/fd")
+;;   (setq counsel-etags-tags-program "/usr/local/bin/ctags")
+;;   (add-to-list 'counsel-etags-ignore-directories "build")
+;;   (add-to-list 'counsel-etags-ignore-directories "org-modes"))
 
 ;; (use-package snails
 ;;   :straight (snails :type git :host github :repo "manateelazycat/snails")
