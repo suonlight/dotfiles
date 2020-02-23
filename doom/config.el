@@ -115,10 +115,19 @@
 (after! projectile
   (setq projectile-tags-file-name "ETAGS"))
 
+(after! counsel-etags
+  (setq counsel-etags-tags-file-name "ETAGS"))
+
 (add-hook! vterm-mode :append
   (defun auto-swith-to-insert ()
     (setq-local evil-insert-state-cursor 'box)
     (evil-insert-state)))
+
+(after! git-link
+  (setq git-link-open-in-browser t))
+
+(after! git-messenger
+   (setq git-messenger:use-magit-popup t))
 
 (use-package! evil-string-inflection :after evil :commands evil-operator-string-inflection)
 

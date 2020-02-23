@@ -113,3 +113,8 @@
 (package! protobuf-mode)
 (package! yaml-mode)
 (package! evil-string-inflection)
+(package! counsel-etags)
+
+(package! git-link)
+(package! git-timemachine)
+(package! git-messenger)
