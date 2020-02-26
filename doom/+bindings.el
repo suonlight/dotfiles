@@ -609,6 +609,7 @@
       :nv "<f10>" #'doom/window-maximize-buffer
       :nv "s-<f12>" #'list-processes
       :nv "s"     #'evil-avy-goto-word-or-subword-1
+      :nv "gy"    (general-simulate-key "yyPgccj" :state 'normal)
       :nv "g]"    #'dumb-jump-go
       :nv "g["    #'dumb-jump-back)
 

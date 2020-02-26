@@ -194,7 +194,7 @@
   :states '(normal visual)
   "g]"          #'dumb-jump-go
   "g["          #'dumb-jump-back
-  "gy"          (general-simulate-key "yyPgcc" :state 'normal))
+  "gy"          (general-simulate-key "yyPgccj" :state 'normal))
 
 (general-define-key
   :keymaps 'lsp-mode-map

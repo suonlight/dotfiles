@@ -123,6 +123,7 @@
        (swiper . ivy-posframe-display-at-frame-top-center)
        (swiper-isearch . ivy-posframe-display-at-frame-top-center)
        (projectile-find-file . ivy-posframe-display-at-frame-top-center)
+       (projectile-find-tag . ivy-posframe-display-at-frame-top-center)
        (counsel-projectile-find-file . ivy-posframe-display-at-frame-top-center)
        (counsel-projectile-switch-project . ivy-posframe-display-at-frame-top-center)
        (counsel-find-file . ivy-posframe-display-at-frame-top-center)
