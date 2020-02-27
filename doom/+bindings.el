@@ -648,6 +648,10 @@
     :nv "o"        #'evil-insert-resume
     :nv "<return>" #'evil-insert-resume
     :i "s-`"       #'+vterm/toggle
+    :i "C-j"       #'vterm--self-insert
+    :i "C-k"       #'vterm--self-insert
+    :i "C-h"       #'vterm--self-insert
+    :i "C-l"       #'vterm--self-insert
     :i "C-c"       #'vterm--self-insert
     :i "C-d"       #'vterm--self-insert
     :i "C-g"       #'vterm--self-insert

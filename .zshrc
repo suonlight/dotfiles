@@ -106,10 +106,10 @@ if [[ -n $INSIDE_EMACS ]]; then
       printf "\e]51;E"
       local r
       while [[ $# -gt 0 ]]; do
-	  r="${1//\\/\\\\}"
-	  r="${r//\"/\\\"}"
-	  printf '"%s" ' "$r"
-	  shift
+        r="${1//\\/\\\\}"
+        r="${r//\"/\\\"}"
+        printf '"%s" ' "$r"
+        shift
       done
       printf "\e\\"
   }
