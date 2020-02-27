@@ -577,6 +577,11 @@
         :desc "Dictionary"                   "t" #'+lookup/dictionary-definition
         :desc "Thesaurus"                    "T" #'+lookup/synonyms)
 
+      ;;; <leader> r --- registers
+      (:prefix-map ("r" . "registers")
+        :desc "Ivy Resume"                    "l" #'ivy-resume
+        :desc "List Registers"                "e" #'counsel-evil-registers)
+
       ;;; <leader> t --- toggle
       (:prefix-map ("t" . "toggle")
         :desc "Big mode"                     "b" #'doom-big-font-mode
@@ -608,6 +613,7 @@
       :nv "s-b"   #'projectile-switch-to-buffer
       :nv "<f10>" #'doom/window-maximize-buffer
       :nv "s-<f12>" #'list-processes
+      :nv ";"     #'evil-repeat-find-char
       :nv "s"     #'evil-avy-goto-word-or-subword-1
       :nv "gy"    (general-simulate-key "yyPgccj" :state 'normal)
       :nv "g]"    #'dumb-jump-go
