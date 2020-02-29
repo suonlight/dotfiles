@@ -456,14 +456,13 @@ nnoremap <silent> <Space><BS> :close<CR>              " Window Close
 nnoremap <silent> <Space>wm :MaximizerToggle<CR>    " Window Maximize
 
 " Files
-nnoremap <silent> <M-s> :update<CR>                              " File > Save
-nnoremap <silent> <Space>fs :update<CR>                              " File > Save
+nnoremap <Space>fs :update<CR>                              " File > Save
 nnoremap <silent> <Space>ft :NERDTreeToggle<CR>                      " File > Tree
 nnoremap <silent> <Space>fT :NERDTreeFind<CR>                        " File > Tree > Find
 nnoremap <silent> <Space>fed :e ~/.config/nvim/init.vim<CR>          " File > Editor > Definition
 nnoremap <silent> <Space>fez :e ~/.zshrc<CR>                         " File > Editor > ZSH
 nnoremap <silent> <Space>fet :e ~/.tmux.conf<CR>                     " File > Editor > Tmux
-nnoremap <silent> <Space>feR :source ~/.config/nvim/init.vim<CR>     " File > Editor > Reload
+nnoremap <Space>feR :source ~/.config/nvim/init.vim<CR>     " File > Editor > Reload
 nnoremap <silent> <Space>ff :Files %:p:h<CR>|                        " File > Find File in Current Directory
 nnoremap <silent> <Space>fr :History<CR>|                            " File > Find File in History
 nnoremap <Space>fR :Rename<Space>|                                   " Rename File
@@ -540,12 +539,13 @@ vmap <silent> <Space>cl gcc              " Comment Lines
 vmap <silent> <S-k> <Plug>MoveBlockUp    " Move Block Up
 vmap <silent> <S-j> <Plug>MoveBlockDown  " Move Block Down
 
+nnoremap <M-`> :noh<CR>
+nnoremap <M-s> :update<CR>               " File > Save
+nnoremap <silent> <M-w> :close<CR>     " Delete Buffer
+
 nnoremap <silent> gd :tag <C-R><C-W><CR>
 
 autocmd FileType javascript nmap <silent> gd <Plug>(coc-definition)
-autocmd FileType javascript nmap <silent> gd <Plug>(coc-definition)
-autocmd FileType javascript nmap <silent> gy <Plug>(coc-type-definition)
-autocmd FileType javascript nmap <silent> gi <Plug>(coc-implementation)
 autocmd FileType javascript nmap <silent> gr <Plug>(coc-references)
 autocmd FileType javascript nmap <silent> [g <Plug>(coc-diagnostic-prev)
 autocmd FileType javascript nmap <silent> ]g <Plug>(coc-diagnostic-next)
