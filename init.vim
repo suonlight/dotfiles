@@ -510,10 +510,10 @@ nnoremap <silent> <Space>ef :ALEFix<CR>       " Fix Errors
 " Git
 nnoremap <silent> <Space>gb :Gblame<CR>    " Git Blame
 nnoremap <silent> <Space>gs :Gstatus<CR>   " Git Status
-nnoremap <silent> <Space>gll :Gbrowse<CR>  " Git Browse
+nnoremap <silent> <Space>goo :Gbrowse<CR>  " Git Browse
 
 " Terminal
-nnoremap <silent> <Space>' :Ttoggle<CR>            " Open/Close shell
+" nnoremap <silent> <Space>' :Ttoggle<CR>            " Open/Close shell
 " tnoremap <silent> <Space>' <C-\><C-n>:Ttoggle<CR>  " Open/Close Shell
 
 " Test
@@ -539,9 +539,8 @@ vmap <silent> <Space>cl gcc              " Comment Lines
 vmap <silent> <S-k> <Plug>MoveBlockUp    " Move Block Up
 vmap <silent> <S-j> <Plug>MoveBlockDown  " Move Block Down
 
-nnoremap <M-`> :noh<CR>
 nnoremap <M-s> :update<CR>               " File > Save
-nnoremap <silent> <M-w> :close<CR>     " Delete Buffer
+nnoremap <silent> <M-w> :close<CR>       " Close window
 
 nnoremap <silent> gd :tag <C-R><C-W><CR>
 
