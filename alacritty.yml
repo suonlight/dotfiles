@@ -533,16 +533,14 @@ key_bindings:
   - { key: Key6,      mods: Alt|Shift, chars: "\x1b^"                       } # Alt + ^
   - { key: Backslash, mods: Alt,       chars: "\x1b\\"                      } # Alt + \
   - { key: Backslash, mods: Alt|Shift, chars: "\x1b|"                       } # Alt + |
+  - { key: Apostrophe,mods: Command,   chars: "\x1b`"                       }
   - { key: S,         mods: Command,   chars: "\x1bs"                       }
   - { key: B,         mods: Command,   chars: "\x1bb"                       }
   - { key: T,         mods: Command,   chars: "\x1bt"                       }
   - { key: M,         mods: Command,   chars: "\x1bm"                       }
   - { key: H,         mods: Command,   chars: "\x1bh"                       }
   - { key: W,         mods: Command,   chars: "\x1bw"                       }
-  # - { key: Grave,     mods: Command,   chars: "\x1b`"                       }
-  # - { key: Grave,     mods: Command,   chars: "\x01`"                       }
-  # - { key: Grave,     mods: Command, command: { program: "/usr/local/bin/tmux", args: ["select-pane", "-U"] } }
-  # - { key: Grave,    mods: Option, chars: "\x02\x29" } - Alt insert chars )
+  - { key: Grave,     mods: Command,   chars: "\x1b`"                       }
   - { key: Key0,      mods: Command,   chars: "\x1b0"                       }
   - { key: Key1,      mods: Command,   chars: "\x1b1"                       }
   - { key: Key2,      mods: Command,   chars: "\x1b2"                       }

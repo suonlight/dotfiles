@@ -402,7 +402,7 @@
  "s-]"         #'persp-next
  "s-["         #'persp-prev
  "s-b"         #'counsel-projectile-switch-to-buffer
- "s-`"         #'evil-multi-libvterm-projectile
+ "s-'"         #'evil-multi-libvterm-projectile
  "s-<S-w>"     #'evil-window-delete
   "<f9>"       #'toggle-tmux
  "<f10>"       #'toggle-maximize-buffer

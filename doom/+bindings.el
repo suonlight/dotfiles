@@ -638,7 +638,7 @@
   :nv "ft" #'+treemacs/toggle)
 
 (map!
-  :nv "s-`" #'+vterm/toggle
+  :nv "s-'" #'+vterm/toggle
   (:after vterm :map vterm-mode-map
     :i "s-1"   #'+workspace/switch-to-0
     :i "s-2"   #'+workspace/switch-to-1
@@ -653,7 +653,7 @@
     :nv "i"        #'evil-insert-resume
     :nv "o"        #'evil-insert-resume
     :nv "<return>" #'evil-insert-resume
-    :i "s-`"       #'+vterm/toggle
+    :i "s-'"       #'+vterm/toggle
     :i "C-j"       #'vterm--self-insert
     :i "C-k"       #'vterm--self-insert
     :i "C-h"       #'vterm--self-insert
