@@ -10,7 +10,6 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'neoclide/coc-neco'
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'szw/vim-maximizer'
-Plug 'mtth/scratch.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'matze/vim-move'
 
@@ -389,12 +388,6 @@ let g:user_emmet_settings = {
 tnoremap jk <C-\><C-n>
 
 "----------------------------------------------
-" Plug 'mtth/scratch.vim'
-"----------------------------------------------
-let g:scratch_no_mappings = 0
-let g:scratch_height = 100
-
-"----------------------------------------------
 " Plug 'janko-m/vim-test'
 "----------------------------------------------
 let g:test#strategy = 'vimux'
@@ -493,14 +486,13 @@ nnoremap <silent> <Space>ji :BTags<CR>
 " nnoremap <silent> <Space>sc :call <SNR>62_Highlight("n")<CR>
 
 " Buffers
-nnoremap <silent> <M-b> :Buffer<CR>|        " List Buffers
-nnoremap <silent> <Space>bb :Buffer<CR>|    " List Buffers
-nnoremap <silent> <Space>bd :bdelete<CR>    " Delete Buffer
-nnoremap <silent> <Space>bn :bnext<CR>      " Next Buffer
-nnoremap <silent> <Space>bp :bprevious<CR>  " Previous Buffer
-nnoremap <silent> <Space>bh :Startify<CR>   " Home Buffer
-nnoremap <silent> <Space><tab>  <C-^>           " Last Buffer
-nnoremap <silent> <Space>bs :Scratch<CR>    " Scratch Buffer
+nnoremap <silent> <Space>bb :Buffer<CR>|           " List Buffers
+nnoremap <silent> <Space>bd :bdelete<CR>           " Delete Buffer
+nnoremap <silent> <Space>bn :bnext<CR>             " Next Buffer
+nnoremap <silent> <Space>bp :bprevious<CR>         " Previous Buffer
+nnoremap <silent> <Space>bh :Startify<CR>          " Home Buffer
+nnoremap <silent> <Space><tab>  <C-^>              " Last Buffer
+nnoremap <silent> <Space>bx :e /tmp/scratch<CR>    " Scratch Buffer
 
 " Errors
 nnoremap <silent> ]e :ALENext<CR>      " Next Error
@@ -539,6 +531,7 @@ vmap <silent> <Space>cl gcc              " Comment Lines
 vmap <silent> <S-k> <Plug>MoveBlockUp    " Move Block Up
 vmap <silent> <S-j> <Plug>MoveBlockDown  " Move Block Down
 
+nnoremap <silent> <M-b> :Buffer<CR>|     " List Buffers
 nnoremap <M-s> :update<CR>               " File > Save
 nnoremap <silent> <M-w> :close<CR>       " Close window
 
