@@ -612,6 +612,7 @@
       :nv "C-p"   #'+ivy/projectile-find-file
       :nv "s-b"   #'projectile-switch-to-buffer
       :nv "<f10>" #'doom/window-maximize-buffer
+      :nv "<f12>" #'+vterm/toggle
       :nv "s-<f12>" #'list-processes
       :nv ";"     #'evil-repeat-find-char
       :nv "s"     #'evil-avy-goto-word-or-subword-1
@@ -654,6 +655,7 @@
     :nv "o"        #'evil-insert-resume
     :nv "<return>" #'evil-insert-resume
     :i "s-'"       #'+vterm/toggle
+    :i "<f12>"      #'+vterm/toggle
     :i "C-j"       #'vterm--self-insert
     :i "C-k"       #'vterm--self-insert
     :i "C-h"       #'vterm--self-insert

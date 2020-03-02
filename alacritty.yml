@@ -348,7 +348,7 @@ shell:
 #   - ~AppKeypad
 #   - AppKeypad
 keyboard:
-  meta_key: Command
+  meta_key: Alt
 key_bindings:
   - { key: V,        mods: Command, action: Paste                        }
   - { key: C,        mods: Command, action: Copy                         }

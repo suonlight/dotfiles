@@ -403,11 +403,11 @@
  "s-["         #'persp-prev
  "s-b"         #'counsel-projectile-switch-to-buffer
  "s-'"         #'evil-multi-libvterm-projectile
+ "<f12>"       #'evil-multi-libvterm-projectile
  "s-<S-w>"     #'evil-window-delete
   "<f9>"       #'toggle-tmux
  "<f10>"       #'toggle-maximize-buffer
- "<f11>"       #'(sl/persp-hydra/body :which-key "layouts")
- "<f12>"       #'prodigy-as-default-layout
+ "C-<f12>"     #'prodigy-as-default-layout
  "s-<f12>"     #'list-processes-other-window)
 
 ; (evil-set-initial-state 'vterm-mode "emacs")
