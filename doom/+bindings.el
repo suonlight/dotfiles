@@ -9,6 +9,9 @@
     "C-b" #'evil-backward-char
     "C-s" #'counsel-minibuffer-history)
 
+  (define-key! evil-insert-state-map "C-a" #'beginning-of-line)
+  (define-key! evil-insert-state-map "C-e" #'end-of-line)
+
   (define-key! :keymaps +default-minibuffer-maps
     [escape] #'abort-recursive-edit
     "C-a"    #'move-beginning-of-line
