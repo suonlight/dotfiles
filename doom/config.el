@@ -85,8 +85,7 @@
 (load! "ivy")
 (load! "org-mode")
 
-(after! avy
-  (setq avy-all-windows t))
+(setq avy-all-windows t)
 
 (after! treemacs
   (doom-themes-treemacs-config))
