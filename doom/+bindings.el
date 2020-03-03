@@ -687,7 +687,12 @@
     :nv "o" #'dired-find-file-other-window
     :nv "w" #'dired-kill-subdir)
   (:map rspec-mode-map
-    "<f5>" #'rspec-verify-single)
+    "<f5>"  #'rspec-verify-single)
+  (:map rspec-compilation-mode-map
+    :inv "C-l"   #'evil-window-right
+    :inv "C-h"   #'evil-window-left
+    :inv "C-j"   #'evil-window-down
+    :inv "C-k"   #'evil-window-up)
   (:map magit-status-mode-map
     :n "`"       #'forge-browse-topic)
   (:map magit-revision-mode-map
@@ -704,6 +709,11 @@
     "C-s" (general-simulate-key "M-o a s <return>")))
 
 (map! :localleader
+  (:map rspec-mode-map
+    "tv"  nil
+    "ts"  nil
+    "tt"  #'rspec-verify-single
+    "tb"  #'rspec-verify)
   (:after anki-editor :map org-mode-map
     "Mi" #'anki-editor-insert-note
     "Mp" #'anki-editor-push-notes

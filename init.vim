@@ -393,6 +393,9 @@ tnoremap jk <C-\><C-n>
 let g:test#strategy = 'vimux'
 let g:test#preserve_screen = 1
 
+let test#enabled_runners = ["ruby#rspec"]
+let test#ruby#minitest#file_pattern = '_spec\.rb'
+
 "----------------------------------------------
 " Plug 'junegunn/vim-easy-align'
 "----------------------------------------------
@@ -509,8 +512,9 @@ nnoremap <silent> <Space>goo :Gbrowse<CR>  " Git Browse
 " tnoremap <silent> <Space>' <C-\><C-n>:Ttoggle<CR>  " Open/Close Shell
 
 " Test
-nnoremap <Leader>tb :TestFile<CR>     " Run test in Buffer
-nnoremap <Leader>tt :TestNearest<CR>  " Run test at point
+nnoremap <Leader>tb :TestFile<CR>:TmuxNavigateDown<CR>     " Run test in Buffer
+nnoremap <Leader>tt :TestNearest<CR>:TmuxNavigateDown<CR>  " Run test at point
+noremap <f5> :TestNearest<CR>:TmuxNavigateDown<CR>         " Run test at point
 
 " Register
 nnoremap <silent> <Space>re :registers<CR>|     " Registers
