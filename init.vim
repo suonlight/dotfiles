@@ -352,8 +352,8 @@ let g:startify_change_to_vcs_root = 1
 "----------------------------------------------
 " Plug 'alvan/vim-closetag'
 "----------------------------------------------
-let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.erb,*.jsx"
-let g:closetag_xhtml_filenames = '*.xhtml,*.jsx,*.erb'
+let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.erb,*.jsx,*.js"
+let g:closetag_xhtml_filenames = '*.xhtml,*.jsx,*.erb,*.js'
 let g:closetag_emptyTags_caseSensitive = 1
 " Add > at current position without closing the current tag, default is ''
 let g:closetag_close_shortcut = '<leader>>'
