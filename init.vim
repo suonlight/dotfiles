@@ -52,8 +52,8 @@ Plug 'xolox/vim-misc'
 "----------------------------------------------
 Plug 'tpope/vim-fugitive'                                        " Easily manipulate Git(hub)
 Plug 'tpope/vim-rhubarb'
-
 Plug 'sheerun/vim-polyglot'
+Plug 'tpope/vim-projectionist'
 " Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
 
 "----------------------------------------------
@@ -469,6 +469,7 @@ nnoremap <silent> <Space>fyd :let @*=expand("%:p:h") \| echo @*<CR>  " File > Co
 
 " Projects
 nnoremap <silent> <Space>pf :FZF<CR>
+nnoremap <silent> <Space>pa :A<CR>
 nnoremap <Space>pG :GutentagsUpdate<CR>
 nnoremap <silent> <Space>pg :Tags<CR>
 nnoremap <silent> <C-p> :FZF<CR>
