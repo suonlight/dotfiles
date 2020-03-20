@@ -118,3 +118,8 @@
 (package! git-link)
 (package! git-timemachine)
 (package! git-messenger)
+
+(package! ob-tmux)
+(package! ob-mermaid)
+
+(package! request)

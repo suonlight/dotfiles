@@ -143,3 +143,15 @@ This function is heavily adapted from `org-between-regexps-p'."
     org-download-link-format "[[file:%s]]\n"
     org-download-method 'directory)
   (setq-default org-download-image-dir "./images"))
+
+(after! ob-tmux
+  (setq org-babel-tmux-terminal "iterm")
+  (setq org-babel-default-header-args:tmux
+    '((:results . "silent")
+       (:session . "default")
+       (:socket  . nil)))
+  (setq org-babel-tmux-session-prefix "ob-")
+  (setq org-babel-tmux-location "/usr/local/bin/tmux"))
+
+(after! ob-mermaid
+  (setq ob-mermaid-cli-path "~/.asdf/shims/mmdc"))
