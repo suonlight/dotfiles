@@ -12,6 +12,7 @@
 (setq read-process-output-max (* 1024 1024))
 (setq lsp-idle-delay 0.500)
 (setq lsp-prefer-capf t)
+;; (setq auth-sources '("~/.authinfo"))
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:

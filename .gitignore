@@ -3,3 +3,5 @@ flycheck_*
 doom/private
 doom/snippets
 emacs/forge-database.sqlite
+tag
+ETAG

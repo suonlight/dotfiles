@@ -470,6 +470,7 @@
           :desc "Todo list"      "t"  #'org-todo-list
           :desc "Tags search"    "m"  #'org-tags-view
           :desc "View search"    "v"  #'org-search-view)
+        :desc "Browse Web"         "w"  #'browse-url
         :desc "Default browser"    "b"  #'browse-url-of-file
         :desc "Start debugger"     "d"  #'+debugger/start
         :desc "New frame"          "f"  #'make-frame
