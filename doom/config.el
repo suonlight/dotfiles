@@ -82,6 +82,7 @@
   (load! "private/hero")
   (load! "private/config"))
 
+(load! "utils")
 (load! "ivy")
 (load! "org-mode")
 

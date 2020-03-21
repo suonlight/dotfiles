@@ -164,7 +164,7 @@
         :g "C-x p" #'+popup/other)
 
       (:when (featurep! :ui workspaces)
-        :n "C-t"   #'+workspace/new
+        :n "C-t"   #'sl/new-workspace-and-vterm
         :n "C-S-t" #'+workspace/display
         :g "M-1"   #'+workspace/switch-to-0
         :g "M-2"   #'+workspace/switch-to-1
@@ -177,7 +177,7 @@
         :g "M-9"   #'+workspace/switch-to-8
         :g "M-0"   #'+workspace/switch-to-final
         (:when IS-MAC
-          :g "s-t"   #'+workspace/new
+          :g "s-t"   #'sl/new-workspace-and-vterm
           :g "s-T"   #'+workspace/display
           :n "s-1"   #'+workspace/switch-to-0
           :n "s-2"   #'+workspace/switch-to-1
@@ -657,12 +657,14 @@
     :nv "i"        #'evil-insert-resume
     :nv "o"        #'evil-insert-resume
     :nv "<return>" #'evil-insert-resume
+    :nv ",s"       #'sl/new-vterm-and-split
+    :nv ",v"       #'sl/new-vterm-and-vsplit
     :i "s-'"       #'+vterm/toggle
     :i "<f12>"      #'+vterm/toggle
-    :i "C-j"       #'vterm--self-insert
-    :i "C-k"       #'vterm--self-insert
-    :i "C-h"       #'vterm--self-insert
-    :i "C-l"       #'vterm--self-insert
+    :i "C-j"       #'evil-window-down
+    :i "C-k"       #'evil-window-up
+    :i "C-h"       #'evil-window-left
+    :i "C-l"       #'evil-window-right
     :i "C-c"       #'vterm--self-insert
     :i "C-d"       #'vterm--self-insert
     :i "C-g"       #'vterm--self-insert
