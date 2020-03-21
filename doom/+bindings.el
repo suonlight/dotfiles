@@ -593,8 +593,8 @@
           :desc "Flycheck"                   "f" #'flycheck-mode)
         :desc "Frame fullscreen"             "F" #'toggle-frame-fullscreen
         :desc "Evil goggles"                 "g" #'evil-goggles-mode
-				:desc "Indent guides"                "i" #'indent-guide-global-mode
-				:desc "Indent style"                 "I" #'doom/toggle-indent-style
+        :desc "Indent guides"                "i" #'indent-guide-global-mode
+        :desc "Indent style"                 "I" #'doom/toggle-indent-style
         :desc "Line numbers"                 "l" #'doom/toggle-line-numbers
         (:when (featurep! :lang org +present)
           :desc "org-tree-slide mode"        "p" #'+org-present/start)
@@ -682,6 +682,17 @@
     "C-k"   #'evil-window-up)
   (:after org :map org-mode-map
     :nv "t" #'org-todo)
+  (:map xwidget-webkit-mode-map
+    :nv "j"      #'xwidget-webkit-scroll-up ;; main object is scroller
+    :nv "k"      #'xwidget-webkit-scroll-down
+    :nv "gg"     #'xwidget-webkit-scroll-top
+    :nv "G"      #'xwidget-webkit-scroll-bottom
+    :nv "H"      #'xwidget-webkit-back
+    :nv "L"      #'xwidget-webkit-forward
+    :nv "s-+"    #'xwidget-webkit-zoom-in
+    :nv "s--"    #'xwidget-webkit-zoom-out
+    :nv "s-r"    #'xwidget-webkit-reload
+    :nv "o"      #'browse-url)
   (:after dired :map dired-mode-map
     :nv "O" #'dired-display-file
     :nv "o" #'dired-find-file-other-window

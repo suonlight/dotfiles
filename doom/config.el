@@ -108,8 +108,8 @@
 (after! evil
   (defalias #'forward-evil-word #'forward-evil-symbol))
 
-(after! enh-ruby-mode
-  (set-company-backend! 'enh-ruby-mode '(company-capf company-abbrev company-dabbrev-code company-files company-etags company-keywords company-yasnippet)))
+(after! ruby-mode
+  (set-company-backend! 'ruby-mode '(company-capf company-abbrev company-dabbrev-code company-files company-etags company-keywords company-yasnippet)))
 
 (after! projectile
   (setq projectile-tags-file-name "ETAGS"))
@@ -133,3 +133,5 @@
 (set-popup-rule! "^\\*Process List\\*" :select t :size 0.35)
 (set-popup-rule! "^\\*prodigy\\*" :select t :size 0.35)
 (set-popup-rule! "^\\*rspec-compilation\\*" :select t :size 0.35)
+
+(setq browse-url-browser-function 'xwidget-webkit-browse-url)

@@ -115,6 +115,8 @@
 (add-hook! ivy-mode ivy-posframe-mode)
 
 (after! ivy-posframe
+  (setq ivy-posframe-width 100)
+  (setq ivy-posframe-min-width 100)
   (setq ivy-posframe-display-functions-alist
     '((complete-symbol . ivy-posframe-display-at-point)
        (counsel-M-x . ivy-posframe-display-at-frame-top-center)
