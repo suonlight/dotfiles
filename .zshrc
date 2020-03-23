@@ -14,7 +14,6 @@ autoload -Uz _zplugin
 
 # Functions to make configuration less verbose
 zt() { zplugin ice wait"${1}" lucid               "${@:2}"; } # Turbo
-zi() { zplugin ice lucid                            "${@}"; } # Regular Ice
 z()  { [ -z $2 ] && zplugin light "${@}" || zplugin "${@}"; } # zplugin
 # If you come from bash you might have to change your $PATH.
 ### End of Zplugin's installer chunk

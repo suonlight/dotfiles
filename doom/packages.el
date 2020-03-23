@@ -123,3 +123,4 @@
 (package! ob-mermaid)
 
 (package! request)
+(package! package-lint)
