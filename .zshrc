@@ -2,53 +2,53 @@
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-# Install zplugin if not installed
-if [ ! -d "${HOME}/.zplugin" ]; then
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh)"
+# Install zinit if not installed
+if [ ! -d "${HOME}/.zinit" ]; then
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
 fi
 
-### Added by Zplugin's installer
-source $HOME/.zplugin/bin/zplugin.zsh
-autoload -Uz _zplugin
-(( ${+_comps} )) && _comps[zplugin]=_zplugin
+### Added by zinit's installer
+source $HOME/.zinit/bin/zinit.zsh
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
 
 # Functions to make configuration less verbose
-zt() { zplugin ice wait"${1}" lucid               "${@:2}"; } # Turbo
-z()  { [ -z $2 ] && zplugin light "${@}" || zplugin "${@}"; } # zplugin
+zt() { zinit ice wait"${1}" lucid               "${@:2}"; } # Turbo
+z()  { [ -z $2 ] && zinit light "${@}" || zinit "${@}"; } # zinit
 # If you come from bash you might have to change your $PATH.
-### End of Zplugin's installer chunk
+### End of zinit's installer chunk
 
-zplugin ice lucid pick"async.zsh" src"pure.zsh"
-zplugin light sindresorhus/pure
+zinit ice lucid pick"async.zsh" src"pure.zsh"
+zinit light sindresorhus/pure
 
-zplugin snippet OMZ::lib/history.zsh
-zplugin snippet OMZ::lib/completion.zsh
+zinit snippet OMZ::lib/history.zsh
+zinit snippet OMZ::lib/completion.zsh
 
-zt 0a; zplugin snippet OMZ::lib/git.zsh
-zt 0b; zplugin snippet OMZ::plugins/git/git.plugin.zsh
-zt 0b; zplugin snippet OMZ::plugins/ruby/ruby.plugin.zsh
-zt 0b; zplugin snippet OMZ::plugins/rails/rails.plugin.zsh
-zt 0b; zplugin snippet OMZ::plugins/rake/rake.plugin.zsh
-zt 0b; zplugin snippet OMZ::plugins/tmuxinator/tmuxinator.plugin.zsh
-zt 1b; zplugin snippet OMZ::plugins/rails/rails.plugin.zsh
-zt 0b; zplugin snippet OMZ::plugins/bundler/bundler.plugin.zsh
-zt 0b; zplugin snippet OMZ::plugins/yarn/yarn.plugin.zsh
-zt 0b; zplugin snippet OMZ::plugins/postgres/postgres.plugin.zsh
-zt 0b; zplugin snippet OMZ::plugins/docker-compose/docker-compose.plugin.zsh
-zt 1a; zplugin light djui/alias-tips
-zt 0b atload'unalias help; unalias fd; unalias cp'; zplugin snippet OMZ::plugins/common-aliases/common-aliases.plugin.zsh
+zt 0a; zinit snippet OMZ::lib/git.zsh
+zt 0b; zinit snippet OMZ::plugins/git/git.plugin.zsh
+zt 0b; zinit snippet OMZ::plugins/ruby/ruby.plugin.zsh
+zt 0b; zinit snippet OMZ::plugins/rails/rails.plugin.zsh
+zt 0b; zinit snippet OMZ::plugins/rake/rake.plugin.zsh
+zt 0b; zinit snippet OMZ::plugins/tmuxinator/tmuxinator.plugin.zsh
+zt 1b; zinit snippet OMZ::plugins/rails/rails.plugin.zsh
+zt 0b; zinit snippet OMZ::plugins/bundler/bundler.plugin.zsh
+zt 0b; zinit snippet OMZ::plugins/yarn/yarn.plugin.zsh
+zt 0b; zinit snippet OMZ::plugins/postgres/postgres.plugin.zsh
+zt 0b; zinit snippet OMZ::plugins/docker-compose/docker-compose.plugin.zsh
+zt 1a; zinit light djui/alias-tips
+zt 0b atload'unalias help; unalias fd; unalias cp'; zinit snippet OMZ::plugins/common-aliases/common-aliases.plugin.zsh
 
-zplugin ice as"completion"; zplugin snippet OMZ::plugins/docker/_docker
-zplugin ice as"completion"; zplugin snippet OMZ::plugins/bundler/_bundler
-zplugin ice as"completion"; zplugin snippet OMZ::plugins/rust/_rust
-zplugin ice as"completion"; zplugin snippet OMZ::plugins/cargo/_cargo
-zplugin ice as"completion"; zplugin snippet OMZ::plugins/terraform/_terraform
+zinit ice as"completion"; zinit snippet OMZ::plugins/docker/_docker
+zinit ice as"completion"; zinit snippet OMZ::plugins/bundler/_bundler
+zinit ice as"completion"; zinit snippet OMZ::plugins/rust/_rust
+zinit ice as"completion"; zinit snippet OMZ::plugins/cargo/_cargo
+zinit ice as"completion"; zinit snippet OMZ::plugins/terraform/_terraform
 
-zt 0b compile'{src/*.zsh,src/strategies/*}' atload'_zsh_autosuggest_start'; zplugin light zsh-users/zsh-autosuggestions
-zt 0b blockf atpull'zplugin creinstall -q .'; zplugin light zsh-users/zsh-completions
+zt 0b compile'{src/*.zsh,src/strategies/*}' atload'_zsh_autosuggest_start'; zinit light zsh-users/zsh-autosuggestions
+zt 0b blockf atpull'zinit creinstall -q .'; zinit light zsh-users/zsh-completions
 
 zt 1a atinit'zpcompinit; zpcdreplay'
-zplugin light zdharma/fast-syntax-highlighting
+zinit light zdharma/fast-syntax-highlighting
 
 # faster plugin
 # autojump
@@ -136,3 +136,4 @@ alias find=fd
 
 . $HOME/.asdf/asdf.sh
 # . $HOME/.asdf/completions/asdf.bash
+### End of Zinit's installer chunk
