@@ -490,8 +490,8 @@
           :desc "Toggle terminal popup" "t" #'+term/toggle
           :desc "Open terminal here"    "T" #'+term/here)
         (:when (featurep! :term vterm)
-          :desc "Toggle vterm popup"    "t" #'+vterm/toggle
-          :desc "Open vterm here"       "T" #'+vterm/here)
+          :desc "Toggle vterm popup"    "t" #'multi-vterm-projectile
+          :desc "Open vterm here"       "T" #'multi-vterm)
         (:when (featurep! :term eshell)
           :desc "Toggle eshell popup"   "e" #'+eshell/toggle
           :desc "Open eshell here"      "E" #'+eshell/here)
@@ -616,7 +616,7 @@
       :nv "C-p"   #'+ivy/projectile-find-file
       :nv "s-b"   #'projectile-switch-to-buffer
       :nv "<f10>" #'doom/window-maximize-buffer
-      :nv "<f12>" #'+vterm/toggle
+      :nv "<f12>" #'multi-vterm-projectile
       :nv "s-<f12>" #'list-processes
       :nv ";"     #'evil-repeat-find-char
       :nv "s"     #'evil-avy-goto-word-or-subword-1
@@ -660,8 +660,8 @@
     :nv "<return>" #'evil-insert-resume
     :nv ",s"       #'sl/new-vterm-and-split
     :nv ",v"       #'sl/new-vterm-and-vsplit
-    :i "s-'"       #'+vterm/toggle
-    :i "<f12>"      #'+vterm/toggle
+    :i "s-'"       #'multi-vterm-projectile
+    :i "<f12>"     #'multi-vterm-projectile
     :i "C-j"       #'evil-window-down
     :i "C-k"       #'evil-window-up
     :i "C-h"       #'evil-window-left

@@ -124,3 +124,4 @@
 
 (package! request)
 (package! package-lint)
+(package! multi-vterm :recipe (:host github :repo "suonlight/multi-libvterm"))
