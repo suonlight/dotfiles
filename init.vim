@@ -298,8 +298,8 @@ endif
 let g:tmux_navigator_no_mappings = 1
 let g:tmux_navigator_save_on_switch = 1
 
-" Move between splits with ctrl+h,j,k,l
-set shell=/bin/bash\ -i
+" only works on mac osx - Move between splits with ctrl+h,j,k,l
+" set shell=/bin/bash\ -i
 "----------------------------------------------
 " Plug 'itchyny/lightline.vim'
 "----------------------------------------------
@@ -326,7 +326,7 @@ let g:lightline = {
       \   'alestatus': 'LinterStatus'
       \ },
       \ }
-"=========
+
 "----------------------------------------------
 " Plug 'scrooloose/nerdtree'
 "----------------------------------------------
