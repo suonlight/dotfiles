@@ -660,6 +660,8 @@
     :nv "<return>" #'evil-insert-resume
     :nv ",s"       #'sl/new-vterm-and-split
     :nv ",v"       #'sl/new-vterm-and-vsplit
+    :nv ",n"       #'multi-vterm-next
+    :nv ",p"       #'multi-vterm-prev
     :i "s-'"       #'multi-vterm-projectile
     :i "<f12>"     #'multi-vterm-projectile
     :i "C-j"       #'evil-window-down
