@@ -98,6 +98,7 @@
   (setq company-auto-complete nil)
   (setq company-idle-delay 0))
 
+;; (setq rustic-lsp-server 'rust-analyzer) ;; it's not ready yet
 (after! lsp
   (setq lsp-auto-guess-root nil))
 
@@ -136,5 +137,6 @@
 (set-popup-rule! "^\\*prodigy\\*" :select t :size 0.35)
 (set-popup-rule! "^\\*rspec-compilation\\*" :select t :size 0.35)
 (set-popup-rule! "^\\*vterm " :select t :size 0.35)
+(set-popup-rule! "^\\*VC-history*" :select t :size 0.5)
 
 ;; (setq browse-url-browser-function 'xwidget-webkit-browse-url)
