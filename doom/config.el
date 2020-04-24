@@ -140,7 +140,7 @@
 (set-popup-rule! "^\\*Process List\\*" :select t :size 0.35)
 (set-popup-rule! "^\\*prodigy\\*" :select t :size 0.35)
 (set-popup-rule! "^\\*rspec-compilation\\*" :select t :size 0.35)
-(set-popup-rule! "^\\*vterm " :select t :size 0.35)
+(set-popup-rule! "^\\*vterm " :ignore t :select t :size 0.35)
 (set-popup-rule! "^\\*VC-history*" :select t :size 0.5)
 
 ;; (setq browse-url-browser-function 'xwidget-webkit-browse-url)
