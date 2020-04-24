@@ -98,7 +98,7 @@
   (setq company-auto-complete nil)
   (setq company-idle-delay 0))
 
-;; (setq rustic-lsp-server 'rust-analyzer) ;; it's not ready yet
+(setq rustic-lsp-server 'rust-analyzer) ;; it's not ready yet
 (after! lsp
   (setq lsp-auto-guess-root nil))
 
@@ -135,6 +135,7 @@
 
 (setq org-roam-directory "~/Dropbox/org-modes/roam")
 (setq org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox-bin")
+(setq deft-directory "~/Dropbox/org-modes/roam")
 
 (set-popup-rule! "^\\*Process List\\*" :select t :size 0.35)
 (set-popup-rule! "^\\*prodigy\\*" :select t :size 0.35)
