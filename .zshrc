@@ -87,7 +87,7 @@ alias vimdiff='nvim -d'
 alias vim=nvim
 alias v=vim
 
-export FZF_DEFAULT_OPTS="--height 20% --reverse"
+export FZF_DEFAULT_OPTS="--height 20% --reverse --border"
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=2'
 export TERM=xterm-256color
