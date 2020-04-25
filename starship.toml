@@ -1,0 +1,12 @@
+# Don't print a new line at the start of the prompt
+add_newline = false
+
+[character]
+symbol = "$"
+
+[directory]
+truncation_length = 8
+truncate_to_repo = false
+
+[aws]
+disabled = true
