@@ -20,7 +20,6 @@ z()  { [ -z $2 ] && zinit light "${@}" || zinit "${@}"; } # zinit
 
 # zinit ice lucid pick"async.zsh" src"pure.zsh"
 # zinit light sindresorhus/pure
-# starship; https://github.com/starship/starship
 zinit ice from"gh-r" as"program" atclone'./starship init zsh > zhook.zsh' atpull'%atclone' src"zhook.zsh"
 zinit light starship/starship
 
