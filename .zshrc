@@ -18,10 +18,10 @@ z()  { [ -z $2 ] && zinit light "${@}" || zinit "${@}"; } # zinit
 # If you come from bash you might have to change your $PATH.
 ### End of zinit's installer chunk
 
-# zinit ice lucid pick"async.zsh" src"pure.zsh"
-# zinit light sindresorhus/pure
-zinit ice from"gh-r" as"program" atclone'./starship init zsh > zhook.zsh' atpull'%atclone' src"zhook.zsh"
-zinit light starship/starship
+zinit ice lucid pick"async.zsh" src"pure.zsh"
+zinit light sindresorhus/pure
+# zinit ice from"gh-r" as"program" atclone'./starship init zsh > zhook.zsh' atpull'%atclone' src"zhook.zsh"
+# zinit light starship/starship
 
 zinit snippet OMZ::lib/history.zsh
 zinit snippet OMZ::lib/completion.zsh
@@ -132,6 +132,7 @@ alias cdu='cd "$(git rev-parse --show-cdup)"'
 alias m=make
 alias c=clear
 alias find=fd
+alias de='asdf current'
 
 # other tools
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
