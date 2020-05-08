@@ -134,6 +134,8 @@ alias c=clear
 alias find=fd
 alias de='asdf current'
 
+export PURE_PROMPT_SYMBOL='$'
+
 # other tools
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
