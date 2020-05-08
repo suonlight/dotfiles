@@ -155,3 +155,11 @@ This function is heavily adapted from `org-between-regexps-p'."
 
 (after! ob-mermaid
   (setq ob-mermaid-cli-path "~/.asdf/shims/mmdc"))
+
+(after! org-pomodoro
+  ;; (setq org-pomodoro-long-break-sound (concat doom-private-dir "/assets/bell.wav"))
+  ;; (setq org-pomodoro-ticking-sound (concat doom-private-dir "/assets/bell.wav"))
+  (setq org-pomodoro-start-sound (concat doom-private-dir "/assets/bell.wav"))
+  (setq org-pomodoro-finished-sound (concat doom-private-dir "/assets/bell.wav"))
+  (setq org-pomodoro-overtime-sound  (concat doom-private-dir "/assets/bell.wav"))
+  (setq org-pomodoro-short-break-sound (concat doom-private-dir "/assets/bell.wav")))
