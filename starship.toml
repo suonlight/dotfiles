@@ -13,3 +13,9 @@ disabled = true
 
 [java]
 disabled = true
+
+[package]
+disabled = true
+
+[nodejs]
+disabled = true
