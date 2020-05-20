@@ -2,7 +2,7 @@
   (setq evil-org-key-theme '(navigation insert textobjects additional calendar todo))
 
   (setq org-capture-templates
-    '(
+    `(
        ("v"
          "Vocabulary"
          entry
@@ -24,8 +24,9 @@
        ("E"
          "Employment Hero Task"
          entry
-         (file "~/org-modes/employmenthero.org")
-         "* TODO %:initial\n\nGit Branch: %(git-branch-by-title \"%:initial\" \"%:link\")\nSource: %:link\nCaptured On:%U\n\n")
+         ;; (file "~/org-modes/employmenthero.org")
+         (file ,(format-time-string "~/org-modes/roam/%Y-%m-%d.org" (current-time) t))
+         "* TODO %(add-card-id-to-title \"%:initial\" \"%:link\")\n\nGit Branch: %(git-branch-by-title \"%:initial\" \"%:link\")\nSource: %:link\nCaptured On:%U\n\n")
        ("e"
          "Employment Hero Task"
          entry
@@ -136,6 +137,11 @@ This function is heavily adapted from `org-between-regexps-p'."
       dashed-title
       card-id)))
 
+(defun add-card-id-to-title (title link)
+  "Auto add prefix card it to task name"
+  (let ((card-id (car (last (s-split "/" link)))))
+    (message "[%s] %s" card-id title)))
+
 (after! org-download
   (setq
     org-download-image-org-width 800
@@ -163,3 +169,13 @@ This function is heavily adapted from `org-between-regexps-p'."
   (setq org-pomodoro-finished-sound (concat doom-private-dir "/assets/bell.wav"))
   (setq org-pomodoro-overtime-sound  (concat doom-private-dir "/assets/bell.wav"))
   (setq org-pomodoro-short-break-sound (concat doom-private-dir "/assets/bell.wav")))
+
+(setq org-roam-directory "~/Dropbox/org-modes/roam")
+(setq org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox-bin")
+(setq deft-directory "~/Dropbox/org-modes/roam")
+
+(after! org-journal
+  (setq org-journal-date-prefix "#+TITLE: ")
+  (setq org-journal-file-format "%Y-%m-%d.org")
+  (setq org-journal-dir "~/Dropbox/org-modes/roam")
+  (setq org-journal-date-format "%A, %d %B %Y"))

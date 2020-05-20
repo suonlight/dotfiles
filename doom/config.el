@@ -132,10 +132,7 @@
    (setq git-messenger:use-magit-popup t))
 
 (use-package! evil-string-inflection :after evil :commands evil-operator-string-inflection)
-
-(setq org-roam-directory "~/Dropbox/org-modes/roam")
-(setq org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox-bin")
-(setq deft-directory "~/Dropbox/org-modes/roam")
+(use-package! request)
 
 (set-popup-rule! "^\\*Process List\\*" :select t :size 0.35)
 (set-popup-rule! "^\\*prodigy\\*" :select t :size 0.35)
