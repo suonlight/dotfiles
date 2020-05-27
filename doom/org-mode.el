@@ -175,7 +175,12 @@ This function is heavily adapted from `org-between-regexps-p'."
 (setq deft-directory "~/Dropbox/org-modes/roam")
 
 (after! org-journal
+  (setq org-journal-enable-agenda-integration t)
   (setq org-journal-date-prefix "#+TITLE: ")
   (setq org-journal-file-format "%Y-%m-%d.org")
   (setq org-journal-dir "~/Dropbox/org-modes/roam")
-  (setq org-journal-date-format "%A, %d %B %Y"))
+  (setq org-journal-date-format "%A, %d %B %Y")
+  (setq org-agenda-file-regexp "\\`\\\([^.].*\\.org\\\|[0-9]\\\{8\\\}\\\(\\.gpg\\\)?\\\)\\'")
+  (add-to-list 'org-agenda-files org-journal-dir))
+
+(use-package! org-roam-server)

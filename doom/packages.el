@@ -125,3 +125,4 @@
 (package! request)
 (package! package-lint)
 (package! multi-vterm)
+(package! org-roam-server)
