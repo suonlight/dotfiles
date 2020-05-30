@@ -71,7 +71,7 @@
 (package! sass-mode :disable t)
 (package! stylus-mode :disable t)
 (package! sws-mode :disable t)
-(package! rainbow-mode :disable t)
+;; (package! rainbow-mode :disable t) ;; used by org-roam-server
 (package! js2-refactor :disable t)
 (package! eslintd-fix :disable t)
 (package! flycheck-plantuml :disable t)

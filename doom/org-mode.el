@@ -33,6 +33,7 @@
          (file "~/org-modes/employmenthero.org")
          "* TODO %?")))
 
+  (require 'org-protocol)
   (require 'org-download))
 
 (defun org-in-any-block-p ()

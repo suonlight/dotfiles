@@ -1,8 +1,6 @@
 ;;; -*- lexical-binding: t; -*-
 
-(use-package multi-libvterm
-  :after vterm
-  :straight (multi-libvterm :type git :host github :repo "suonlight/multi-libvterm"))
+; (use-package multi-libvterm :after vterm)
 
 (use-package vterm
   :commands (multi-libvterm multi-libvterm-next multi-libvterm-prev multi-libvterm-dedicated-toggle multi-libvterm-projectile toggle-tmux)
@@ -62,8 +60,8 @@
   ;; (evil-define-key 'normal vterm-mode-map (kbd "o")        #'evil-insert-resume)
   ;; (evil-define-key 'normal vterm-mode-map (kbd "<return>") #'evil-insert-resume)
 
-(require 'tramp)
-(setq tramp-default-method "ssh")
+; (require 'tramp)
+; (setq tramp-default-method "ssh")
 
-(require 'tramp-sh nil t)
-(setf tramp-ssh-controlmaster-options (concat "-o SendEnv TRAMP=yes " tramp-ssh-controlmaster-options))
+; (require 'tramp-sh nil t)
+; (setf tramp-ssh-controlmaster-options (concat "-o SendEnv TRAMP=yes " tramp-ssh-controlmaster-options))
