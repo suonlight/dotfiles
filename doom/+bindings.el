@@ -461,6 +461,7 @@
           (:prefix ("r" . "roam")
             :desc "Switch to buffer" "b" #'org-roam-switch-to-buffer
             :desc "Org Roam Capture" "c" #'org-roam-capture
+            :desc "Org Roam Server"  "s" #'org-roam-server-mode
             :desc "Find file"        "f" #'org-roam-find-file
             :desc "Show graph"       "g" #'org-roam-graph-show
             :desc "Insert"           "i" #'org-roam-insert
@@ -631,6 +632,7 @@
       :nv "s-b"   #'projectile-switch-to-buffer
       :nv "<f10>" #'doom/window-maximize-buffer
       :nv "<f12>" #'multi-vterm-projectile
+      :nv "s-`"   #'multi-vterm-dedicated-toggle
       :nv "s-<f12>" #'list-processes
       :nv ";"     #'evil-repeat-find-char
       :nv "s"     #'evil-avy-goto-word-or-subword-1
@@ -678,6 +680,7 @@
     :nv ",p"       #'multi-vterm-prev
     :i "s-'"       #'multi-vterm-projectile
     :i "<f12>"     #'multi-vterm-projectile
+    :i "s-`"   #'multi-vterm-dedicated-toggle
     :i "C-j"       #'evil-window-down
     :i "C-k"       #'evil-window-up
     :i "C-h"       #'evil-window-left
@@ -770,7 +773,6 @@
     ;;   "d"         #'org-clock-display
     ;;   "p"         #'org-pomodoro)
     (:prefix-map ("b" . "babel")
-      "s"         #'org-split-block
       "a"         #'org-babel-sha1-hash
       "b"         #'org-babel-execute-buffer
       "c"         #'org-babel-check-src-block

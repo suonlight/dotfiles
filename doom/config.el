@@ -15,6 +15,7 @@
 (setq auth-sources '("~/.authinfo"))
 
 (setq straight-disable-native-compilation t)
+
 (setq comp-speed 2
       comp-deferred-compilation t)
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
