@@ -126,3 +126,4 @@
 (package! package-lint)
 (package! multi-vterm)
 (package! org-roam-server)
+(package! reason-mode)

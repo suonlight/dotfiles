@@ -137,6 +137,21 @@
 
 (use-package! evil-string-inflection :after evil :commands evil-operator-string-inflection)
 (use-package! request)
+(use-package! reason-mode)
+
+;; ReasonML
+(after! reason-mode
+  (add-hook! reason-mode #'lsp)
+  ;; (add-hook! reason-mode (add-hook 'before-save-hook #'lsp-format-buffer nil t))
+  )
+
+(after! lsp-mode
+  (lsp-register-client
+    (make-lsp-client :new-connection (lsp-stdio-connection "~/.config/doom/assets/rls-macos/reason-language-server")
+      :major-modes '(reason-mode)
+      :notification-handlers (ht ("client/registerCapability" 'ignore))
+      :priority 1
+      :server-id 'reason-ls)))
 
 (set-popup-rule! "^\\*Process List\\*" :select t :size 0.35)
 (set-popup-rule! "^\\*prodigy\\*" :select t :size 0.35)
