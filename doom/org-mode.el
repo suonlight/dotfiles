@@ -21,10 +21,14 @@
          "* %:description\n\nSource: %:link\nCaptured On:%U\n\n%:initial\n\n"
          :immediate-finish
          :prepend)
+       ("n"
+         "Notes"
+         entry
+         (file ,(format-time-string "~/org-modes/roam/%Y-%m-%d.org" (current-time) t))
+         "* TODO %?\n\nCaptured On:%U\n\n%:initial")
        ("E"
          "Employment Hero Task"
          entry
-         ;; (file "~/org-modes/employmenthero.org")
          (file ,(format-time-string "~/org-modes/roam/%Y-%m-%d.org" (current-time) t))
          "* TODO %:description\n\nGit Branch: %(git-branch-by-title \"%:description\" \"%:link\")\nSource: %:link\nCaptured On:%U\n\n")
        ("e"
@@ -90,15 +94,13 @@
   (setq org-roam-directory "~/Dropbox/org-modes/roam")
   (setq org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox-bin")
   (setq deft-directory "~/Dropbox/org-modes/roam")
-  ;; (setq org-roam-capture-templates)
-  (setq org-roam-capture-ref-templates
-    '(
-       ("r" "ref" plain #'org-roam-capture--get-point "" :file-name "${slug}" :head "#+TITLE: ${title}\n#+ROAM_KEY: ${ref}\n" :unnarrowed t)
-       ("E" "Employment Hero Task" entry #'org-roam-capture--get-point "%?"
-         :file-name "%(format-time-string \"%Y-%m-%d\" (current-time) t)"
-         :head "* TODO 11 %(add-card-id-to-title \"${title}\" \"${ref}\")\n\nGit Branch: %(git-branch-by-title \"${title}\" \"${ref}\")\nSource: ${ref}\nCaptured On:%U\n\n"
-         :unnarrowed nil
-         ))))
+
+  (setq org-roam-dailies-capture-templates
+    '(("d" "daily" plain (function org-roam-capture--get-point)
+        ""
+        :immediate-finish t
+        :file-name "%<%Y-%m-%d>"
+        :head "#+TITLE: %<%Y-%m-%d>\n#+TODO: TODO IN-PROGRESS | DONE"))))
 
 (after! org-journal
   (setq org-journal-enable-agenda-integration t)
