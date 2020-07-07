@@ -742,6 +742,9 @@
     "C-s" (general-simulate-key "M-o a s <return>")))
 
 (map! :localleader
+  (:map lsp-mode-map
+    "lfb" #'lsp-format-buffer
+    "lfr" #'lsp-format-region)
   (:map rspec-mode-map
     "tv"  nil
     "ts"  nil

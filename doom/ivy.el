@@ -111,28 +111,3 @@
     'counsel-rg
     '(("v" counsel-rg-vsplit "open buffer in vsplit window")
        ("s" counsel-rg-split  "open buffer in split window"))))
-
-(add-hook! ivy-mode ivy-posframe-mode)
-
-(after! ivy-posframe
-  (setq ivy-posframe-width 100)
-  (setq ivy-posframe-min-width 100)
-  (setq ivy-posframe-display-functions-alist
-    '((complete-symbol . ivy-posframe-display-at-point)
-       (counsel-M-x . ivy-posframe-display-at-frame-top-center)
-       (counsel-describe-function . ivy-posframe-display-at-frame-top-center)
-       (counsel-describe-variable . ivy-posframe-display-at-frame-top-center)
-       (swiper . ivy-posframe-display-at-frame-top-center)
-       (swiper-isearch . ivy-posframe-display-at-frame-top-center)
-       (projectile-find-file . ivy-posframe-display-at-frame-top-center)
-       (projectile-find-tag . ivy-posframe-display-at-frame-top-center)
-       (counsel-projectile-find-file . ivy-posframe-display-at-frame-top-center)
-       (counsel-projectile-switch-project . ivy-posframe-display-at-frame-top-center)
-       (counsel-find-file . ivy-posframe-display-at-frame-top-center)
-       (counsel-file-jump . ivy-posframe-display-at-frame-top-center)
-       (ivy-switch-buffer . ivy-posframe-display-at-frame-top-center)
-       (counsel-projectile-switch-to-buffer . ivy-posframe-display-at-frame-top-center)
-       (counsel-rg . ivy-posframe-display-at-frame-top-center)
-       (read-file-name-internal . ivy-posframe-display-at-frame-top-center)
-       (magit-checkout . ivy-posframe-display-at-frame-top-center)
-       (t               . ivy-posframe-display-at-point))))
