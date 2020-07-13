@@ -115,8 +115,8 @@
 (after! evil
   (defalias #'forward-evil-word #'forward-evil-symbol))
 
-(after! ruby-mode
-  (set-company-backend! 'ruby-mode '(company-capf company-abbrev company-dabbrev-code company-files company-etags company-keywords company-yasnippet)))
+;; (after! ruby-mode
+;;   (set-company-backend! 'ruby-mode '(company-capf company-abbrev company-dabbrev-code company-files company-etags company-keywords company-yasnippet)))
 
 (after! projectile
   (setq projectile-tags-file-name "ETAGS"))
@@ -152,6 +152,8 @@
       :notification-handlers (ht ("client/registerCapability" 'ignore))
       :priority 1
       :server-id 'reason-ls)))
+
+(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 
 (set-popup-rule! "^\\*Process List\\*" :select t :size 0.35)
 (set-popup-rule! "^\\*prodigy\\*" :select t :size 0.35)

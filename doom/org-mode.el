@@ -25,7 +25,13 @@
          "Notes"
          entry
          (file ,(format-time-string "~/org-modes/roam/%Y-%m-%d.org" (current-time) t))
-         "* TODO %?\n\nCaptured On:%U\n\n%:initial")
+         "* %?\n\nCaptured On:%U\n\n%c")
+       ("N"
+         "Notes"
+         entry
+         (file ,(format-time-string "~/org-modes/roam/%Y-%m-%d.org" (current-time) t))
+         ;; "* %?\n\nSource: %:link\nCaptured On:%U\n\n%:description\n\n%:initial\n\n")
+         "* %?\n\nSource: %:link\nCaptured On:%U\n\n%:description\n\n%:initial\n\n")
        ("E"
          "Employment Hero Task"
          entry
@@ -112,3 +118,24 @@
   (add-to-list 'org-agenda-files org-journal-dir))
 
 (use-package! org-roam-server)
+
+(defun org-protocol-capture-frame (info)
+  "Opens the org-capture window in a floating frame that cleans itself up once
+you're done. This can be called from an external shell script."
+  (interactive)
+  (let* ((frame-title-format "")
+          (frame (if (+org-capture-frame-p)
+                   (selected-frame)
+                   (make-frame +org-capture-frame-parameters))))
+    (select-frame-set-input-focus frame)  ; fix MacOS not focusing new frames
+    (with-selected-frame frame
+      (require 'org-capture)
+      (condition-case ex
+        (letf! ((#'pop-to-buffer #'switch-to-buffer))
+          (switch-to-buffer (doom-fallback-buffer))
+          (let ((info (org-protocol-parse-parameters (s-replace "org-protocol://capture?" "" info) t)))
+            (org-protocol-capture info))
+          )
+        ('error
+          (message "org-capture: %s" (error-message-string ex))
+          (delete-frame frame))))))
