@@ -70,9 +70,9 @@
 
 (after! org-download
   (setq
-    org-download-image-org-width 800
+    org-download-image-org-width 750
     org-download-delete-image-after-download t
-    org-download-link-format "[[file:%s]]\n"
+    org-download-link-format "[[file:./images/%s]]\n"
     org-download-method 'directory)
   (setq-default org-download-image-dir "./images"))
 
@@ -106,7 +106,7 @@
         ""
         :immediate-finish t
         :file-name "%<%Y-%m-%d>"
-        :head "#+TITLE: %<%Y-%m-%d>\n#+TODO: TODO IN-PROGRESS | DONE"))))
+        :head "#+TITLE: %<%Y-%m-%d>\n#+TODO: TODO IN-PROGRESS | DONE\n\n* Daily Standup"))))
 
 (after! org-journal
   (setq org-journal-enable-agenda-integration t)
