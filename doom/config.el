@@ -6,7 +6,7 @@
 ;; These are used for a number of things, particularly for GPG configuration,
 ;; some email clients, file templates and snippets.
 (setq user-full-name "Minh Nguyen Hue"
-      user-mail-address "minh.nh1989@gmail.com")
+  user-mail-address "minh.nh1989@gmail.com")
 
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024))
@@ -16,8 +16,8 @@
 
 (setq straight-disable-native-compilation t)
 
-(setq comp-speed 2
-      comp-deferred-compilation t)
+(setq comp-speed 3
+  comp-deferred-compilation t)
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
 ;;
@@ -54,9 +54,10 @@
 (setq mode-require-final-newline t)
 (setq require-final-newline t)
 
-(setq google-translate-show-phonetic t)
-(setq google-translate-default-source-language "en")
-(setq google-translate-default-target-language "vi")
+(after! google-translate
+  (setq google-translate-show-phonetic t)
+  (setq google-translate-default-source-language "en")
+  (setq google-translate-default-target-language "vi"))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -133,7 +134,7 @@
   (setq git-link-open-in-browser t))
 
 (after! git-messenger
-   (setq git-messenger:use-magit-popup t))
+  (setq git-messenger:use-magit-popup t))
 
 (use-package! evil-string-inflection :after evil :commands evil-operator-string-inflection)
 (use-package! request)

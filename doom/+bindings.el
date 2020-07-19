@@ -613,7 +613,7 @@
         :desc "Indent style"                 "I" #'doom/toggle-indent-style
         :desc "Line numbers"                 "l" #'doom/toggle-line-numbers
         (:when (featurep! :lang org +present)
-          :desc "org-tree-slide mode"        "p" #'+org-present/start)
+          :desc "org-tree-slide mode"        "p" #'org-tree-slide-mode)
         :desc "Read-only mode"               "r" #'read-only-mode
         (:when (featurep! :checkers spell)
           :desc "Flyspell"                   "s" #'flyspell-mode)
@@ -742,6 +742,12 @@
     "C-s" (general-simulate-key "M-o a s <return>")))
 
 (map! :localleader
+  (:map org-tree-slide-mode-map
+    "e" #'org-tree-slide-slide-in-effect-toggle
+    "p" #'org-tree-slide-move-previous-tree
+    "n" #'org-tree-slide-move-next-tree
+    "c" #'org-tree-slide-content
+    "q" #'org-tree-slide-mode)
   (:map lsp-mode-map
     "lfb" #'lsp-format-buffer
     "lfr" #'lsp-format-region)

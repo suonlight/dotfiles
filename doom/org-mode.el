@@ -31,7 +31,7 @@
          entry
          (file ,(format-time-string "~/org-modes/roam/%Y-%m-%d.org" (current-time) t))
          ;; "* %?\n\nSource: %:link\nCaptured On:%U\n\n%:description\n\n%:initial\n\n")
-         "* %?\n\nSource: %:link\nCaptured On:%U\n\n%:description\n\n%:initial\n\n")
+         "* %?\n:PROPERTIES:\n:Source: %:link\n:Captured_On:%U\n:END:\n\n%:description\n\n%:initial\n\n")
        ("E"
          "Employment Hero Task"
          entry
@@ -101,6 +101,14 @@
   (setq org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox-bin")
   (setq deft-directory "~/Dropbox/org-modes/roam")
 
+  (setq org-roam-capture-templates
+    '(("d" "default" plain
+        #'org-roam-capture--get-point
+        "%?" :file-name "%<%Y%m%d%H%M%S>-${slug}"
+        :head "#+TITLE: ${title}\n\n* What is ${title}?\n\n* Why is ${title}?\n\n* References"
+        :unnarrowed t
+        :immediate-finish t)))
+
   (setq org-roam-dailies-capture-templates
     '(("d" "daily" plain (function org-roam-capture--get-point)
         ""
@@ -123,6 +131,7 @@
   "Opens the org-capture window in a floating frame that cleans itself up once
 you're done. This can be called from an external shell script."
   (interactive)
+  (require 'org-protocol)
   (let* ((frame-title-format "")
           (frame (if (+org-capture-frame-p)
                    (selected-frame)
