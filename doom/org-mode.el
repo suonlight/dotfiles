@@ -31,12 +31,12 @@
          entry
          (file ,(format-time-string "~/org-modes/roam/%Y-%m-%d.org" (current-time) t))
          ;; "* %?\n\nSource: %:link\nCaptured On:%U\n\n%:description\n\n%:initial\n\n")
-         "* %?\n:PROPERTIES:\n:Source: %:link\n:Captured_On:%U\n:END:\n\n%:description\n\n%:initial\n\n")
+         "* %?\n:PROPERTIES:\n:Source: %:link\n:Captured_On: %U\n:END:\n\n%:description\n\n%:initial\n\n")
        ("E"
          "Employment Hero Task"
          entry
          (file ,(format-time-string "~/org-modes/roam/%Y-%m-%d.org" (current-time) t))
-         "* TODO %:description\n\nGit Branch: %(git-branch-by-title \"%:description\" \"%:link\")\nSource: %:link\nCaptured On:%U\n\n")
+         "* TODO %:description\n\nGit Branch: %(git-branch-by-title \"%:description\" \"%:link\")\nSource: %:link\nCaptured On: %U\n\n")
        ("e"
          "Employment Hero Task"
          entry
@@ -100,6 +100,7 @@
   (setq org-roam-directory "~/Dropbox/org-modes/roam")
   (setq org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox-bin")
   (setq deft-directory "~/Dropbox/org-modes/roam")
+  (setq org-roam-graph-exclude-matcher '("2020-"))
 
   (setq org-roam-capture-templates
     '(("d" "default" plain

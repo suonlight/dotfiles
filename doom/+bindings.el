@@ -742,6 +742,9 @@
     "C-s" (general-simulate-key "M-o a s <return>")))
 
 (map! :localleader
+  (:map nov-mode-map
+    "n" #'nov-next-document
+    "p" #'nov-previous-document)
   (:map org-tree-slide-mode-map
     "e" #'org-tree-slide-slide-in-effect-toggle
     "p" #'org-tree-slide-move-previous-tree
