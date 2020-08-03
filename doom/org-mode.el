@@ -115,7 +115,7 @@
         ""
         :immediate-finish t
         :file-name "%<%Y-%m-%d>"
-        :head "#+TITLE: %<%Y-%m-%d>\n#+TODO: TODO IN-PROGRESS | DONE\n\n* Daily Standup"))))
+        :head "#+TITLE: %<%Y-%m-%d>\n#+TODO: TODO IN-PROGRESS | DONE\n\n* Check Calendar"))))
 
 (after! org-journal
   (setq org-journal-enable-agenda-integration t)
