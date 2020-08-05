@@ -80,7 +80,7 @@
 (package! markdown-doc :disable t)
 (package! bundler :disable t)
 (package! rake :disable t)
-;; (package! robe :disable t)
+(package! robe :disable t)
 (package! tide :disable t)
 (package! xref-js2 :disable t)
 (package! nodejs-repl :disable t)
@@ -108,7 +108,6 @@
 (package! evil-matchit)
 (package! anki-editor)
 (package! google-translate)
-;; (package! org-graph-view :recipe (:host github :repo "alphapapa/org-graph-view"))
 
 (package! protobuf-mode)
 (package! yaml-mode)
@@ -128,3 +127,7 @@
 (package! org-roam-server)
 (package! reason-mode)
 (package! nov)
+;; (package! clip2org)
+
+;; (package! grammarly)
+;; (package! flycheck-grammarly)

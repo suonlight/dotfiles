@@ -632,7 +632,7 @@
       :nv "s-b"   #'projectile-switch-to-buffer
       :nv "<f10>" #'doom/window-maximize-buffer
       :nv "<f12>" #'multi-vterm-projectile
-      :nv "s-`"   #'multi-vterm-dedicated-toggle
+      :nv "s-`"   #'+evil/next-frame
       :nv "s-<f12>" #'list-processes
       :nv ";"     #'evil-repeat-find-char
       :nv "s"     #'evil-avy-goto-word-or-subword-1
@@ -680,7 +680,7 @@
     :nv ",p"       #'multi-vterm-prev
     :i "s-'"       #'multi-vterm-projectile
     :i "<f12>"     #'multi-vterm-projectile
-    :i "s-`"   #'multi-vterm-dedicated-toggle
+    :i "s-`"       #'+evil/next-frame
     :i "C-j"       #'evil-window-down
     :i "C-k"       #'evil-window-up
     :i "C-h"       #'evil-window-left

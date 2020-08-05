@@ -3,10 +3,15 @@
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; refresh' after modifying this file!
 
+;; (setq debug-on-error t)
+(setq debug-on-error nil)
+
 ;; These are used for a number of things, particularly for GPG configuration,
 ;; some email clients, file templates and snippets.
 (setq user-full-name "Minh Nguyen Hue"
   user-mail-address "minh.nh1989@gmail.com")
+
+(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024))
@@ -53,11 +58,6 @@
 
 (setq mode-require-final-newline t)
 (setq require-final-newline t)
-
-(after! google-translate
-  (setq google-translate-show-phonetic t)
-  (setq google-translate-default-source-language "en")
-  (setq google-translate-default-target-language "vi"))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -140,10 +140,20 @@
 (use-package! request)
 (use-package! reason-mode)
 
+;; (use-package! grammarly)
+;; (use-package! flycheck-grammarly
+;;   :config (setq flycheck-grammarly-check-time 0.8))
+
+(setq google-translate-show-phonetic t)
+(setq google-translate-default-source-language "en")
+(setq google-translate-default-target-language "vi")
+
 ;; ReasonML
 (after! reason-mode
   (add-hook! reason-mode #'lsp)
   ;; (add-hook! reason-mode (add-hook 'before-save-hook #'lsp-format-buffer nil t))
+  ;; (add-hook 'reason-mode-hook (lambda ()
+  ;;         (add-hook 'before-save-hook #'refmt-before-save)))
   )
 
 (after! lsp-mode
