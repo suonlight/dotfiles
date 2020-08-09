@@ -98,10 +98,10 @@
   (doom-themes-treemacs-config))
 
 (after! company
-  (setq company-minimum-prefix-length 3)
+  (setq company-minimum-prefix-length 2)
   (setq company-show-numbers t)
   (setq company-auto-complete nil)
-  (setq company-idle-delay 0))
+  (setq company-idle-delay 0.5))
 
 (setq rustic-lsp-server 'rust-analyzer) ;; it's not ready yet
 (after! lsp
@@ -116,8 +116,8 @@
 (after! evil
   (defalias #'forward-evil-word #'forward-evil-symbol))
 
-;; (after! ruby-mode
-;;   (set-company-backend! 'ruby-mode '(company-capf company-abbrev company-dabbrev-code company-files company-etags company-keywords company-yasnippet)))
+(after! ruby-mode
+  (set-company-backend! 'ruby-mode '(company-capf company-abbrev company-dabbrev-code company-files company-etags company-keywords company-yasnippet)))
 
 (after! projectile
   (setq projectile-tags-file-name "ETAGS"))
