@@ -1,0 +1,17 @@
+#+TITLE: Dotfiles
+
+* Upgrade Dependencies
+
+** Command Line Tools
+
+#+BEGIN_SRC tmux :session dotfiles
+brew upgrade rg fd
+#+END_SRC
+
+** Reason LSP
+
+#+BEGIN_SRC tmux :session dotfiles
+wget https://github.com/jaredly/reason-language-server/releases/download/1.7.11/rls-macos.zip -O /tmp/rls-macos.zip
+cd /tmp/ && unzip /tmp/rls-macos.zip && cd -
+cp -r /tmp/rls-macos ~/projects/dotfiles/doom/assets/
+#+END_SRC
