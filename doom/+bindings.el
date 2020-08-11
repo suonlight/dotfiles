@@ -743,6 +743,7 @@
 
 (map! :localleader
   (:map nov-mode-map
+    "t" #'google-translate-at-point
     "n" #'nov-next-document
     "p" #'nov-previous-document)
   (:map org-tree-slide-mode-map

@@ -181,4 +181,5 @@
 
        :config
        ;;literate
-       (default +smartparens))
+       ;; (default +smartparens))
+       default)

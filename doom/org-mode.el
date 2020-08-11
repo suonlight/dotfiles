@@ -1,5 +1,6 @@
 (after! org
   (setq evil-org-key-theme '(navigation insert textobjects additional calendar todo))
+  (set-company-backend! 'org-mode '(company-org-roam company-yasnippet company-dabbrev))
 
   (setq org-capture-templates
     `(
@@ -8,12 +9,6 @@
          entry
          (file "~/org-modes/flashcards.org")
          "* %i%^{prompt} :vocabulary:\n:PROPERTIES:\n:ANKI_DECK: Vocabulary\n:ANKI_NOTE_TYPE: Basic\n:END:\n** Front\n%\\1\n\n** Back\n\n")
-       ("a"
-         "Appointment"
-         entry
-         (file+headline "~/org-modes/personal.org" "Appointments")
-         "* TODO %?\n:PROPERTIES:\n\n:END:\nDEADLINE: %^T \n %i\n"
-         )
        ("L"
          "Notes"
          entry
@@ -21,11 +16,16 @@
          "* %:description\n\nSource: %:link\nCaptured On:%U\n\n%:initial\n\n"
          :immediate-finish
          :prepend)
+       ("c"
+         "Code Review"
+         entry
+         (file ,(format-time-string "~/org-modes/roam/%Y-%m-%d.org" (current-time) t))
+         "* %?\n:PROPERTIES:\n:Source: %F\n:Captured_On: %U\n:END:\n\n#+BEGIN_SRC ruby\n%:initial\n#+END_SRC\n")
        ("n"
          "Notes"
          entry
          (file ,(format-time-string "~/org-modes/roam/%Y-%m-%d.org" (current-time) t))
-         "* %?\n\nCaptured On:%U\n\n%c")
+         "* %?\n\nCaptured On: %U\n\n%c")
        ("N"
          "Notes"
          entry
