@@ -127,7 +127,9 @@
   (setq org-agenda-file-regexp "\\`\\\([^.].*\\.org\\\|[0-9]\\\{8\\\}\\\(\\.gpg\\\)?\\\)\\'")
   (add-to-list 'org-agenda-files org-journal-dir))
 
-(use-package! org-roam-server)
+(use-package! org-roam-server
+  :config
+  (setq org-roam-server-port 8081))
 
 (defun org-protocol-capture-frame (info)
   "Opens the org-capture window in a floating frame that cleans itself up once
