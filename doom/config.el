@@ -116,8 +116,10 @@
 (after! evil
   (defalias #'forward-evil-word #'forward-evil-symbol))
 
-(after! ruby-mode
-  (set-company-backend! 'ruby-mode '(company-capf company-abbrev company-dabbrev-code company-files company-etags company-keywords company-yasnippet)))
+;; (after! ruby-mode
+;;   (set-company-backend! 'ruby-mode '(company-capf company-abbrev company-dabbrev-code company-files company-etags company-keywords company-yasnippet)))
+
+(add-hook! ruby-mode (add-hook 'before-save-hook #'lsp-format-buffer t t))
 
 (after! projectile
   (setq projectile-tags-file-name "ETAGS"))
@@ -139,6 +141,20 @@
 (use-package! evil-string-inflection :after evil :commands evil-operator-string-inflection)
 (use-package! request)
 (use-package! reason-mode)
+
+(after! magit
+  (setq magit-git-executable "/usr/bin/git")
+  ;; Hide "Recent Commits"
+  ;; https://github.com/magit/magit/issues/3230
+  (magit-add-section-hook 'magit-status-sections-hook
+    'magit-insert-unpushed-to-upstream
+    'magit-insert-unpushed-to-upstream-or-recent
+    'replace))
+
+(after! forge
+  (setq forge-topic-list-limit '(0 . 0)))
+
+(set' +zen-text-scale 3)
 
 ;; (use-package! grammarly)
 ;; (use-package! flycheck-grammarly
@@ -163,6 +179,9 @@
       :notification-handlers (ht ("client/registerCapability" 'ignore))
       :priority 1
       :server-id 'reason-ls)))
+
+(after! spell-fu
+  (setq spell-fu-idle-delay 0.5))
 
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 

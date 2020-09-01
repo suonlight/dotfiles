@@ -131,3 +131,4 @@
 
 ;; (package! grammarly)
 ;; (package! flycheck-grammarly)
+(package! hybrid-reverse-theme)
