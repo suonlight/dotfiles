@@ -173,6 +173,7 @@
   )
 
 (after! lsp-mode
+  (setq lsp-response-timeout 20)
   (lsp-register-client
     (make-lsp-client :new-connection (lsp-stdio-connection "~/.config/doom/assets/rls-macos/reason-language-server")
       :major-modes '(reason-mode)
@@ -182,6 +183,16 @@
 
 (after! spell-fu
   (setq spell-fu-idle-delay 0.5))
+
+(after! multi-vterm
+  (defun my/project-find-dot-project (dir)
+    (when-let ((root (locate-dominating-file dir ".project")))
+      `(dot-project . ,root)))
+
+  (cl-defmethod project-roots ((project (head dot-project)))
+    (list (cdr project)))
+
+  (push #'my/project-find-dot-project project-find-functions))
 
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 
