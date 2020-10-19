@@ -2,6 +2,8 @@ flycheck_*
 
 doom/private
 doom/snippets
+doom/custom.el
+doom/gcal.el
 emacs/forge-database.sqlite
 tag
 ETAG

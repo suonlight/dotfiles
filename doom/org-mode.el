@@ -124,8 +124,9 @@
   (setq org-journal-file-format "%Y-%m-%d.org")
   (setq org-journal-dir "~/Dropbox/org-modes/roam")
   (setq org-journal-date-format "%A, %d %B %Y")
-  (setq org-agenda-file-regexp "\\`\\\([^.].*\\.org\\\|[0-9]\\\{8\\\}\\\(\\.gpg\\\)?\\\)\\'")
-  (add-to-list 'org-agenda-files org-journal-dir))
+  ;; (setq org-agenda-file-regexp "\\`\\\([^.].*\\.org\\\|[0-9]\\\{8\\\}\\\(\\.gpg\\\)?\\\)\\'")
+  ;; (add-to-list 'org-agenda-files org-journal-dir)
+  )
 
 (use-package! org-roam-server
   :config

@@ -19,6 +19,14 @@
 (setq lsp-prefer-capf t)
 (setq auth-sources '("~/.authinfo"))
 
+;; (setq scroll-step           1
+;;   scroll-conservatively 10000)
+
+(setq scroll-margin 0
+  scroll-conservatively 10000
+  scroll-up-aggressively 0.03
+  scroll-down-aggressively 0.03)
+
 (setq straight-disable-native-compilation t)
 
 (setq comp-speed 3
@@ -91,6 +99,7 @@
 (load! "utils")
 (load! "ivy")
 (load! "org-mode")
+(load! "gcal")
 
 (setq avy-all-windows t)
 
@@ -98,10 +107,10 @@
   (doom-themes-treemacs-config))
 
 (after! company
-  (setq company-minimum-prefix-length 2)
+  (setq company-minimum-prefix-length 1)
   (setq company-show-numbers t)
   (setq company-auto-complete nil)
-  (setq company-idle-delay 0.5))
+  (setq company-idle-delay 0.3))
 
 (setq rustic-lsp-server 'rust-analyzer) ;; it's not ready yet
 (after! lsp
@@ -116,10 +125,10 @@
 (after! evil
   (defalias #'forward-evil-word #'forward-evil-symbol))
 
-;; (after! ruby-mode
-;;   (set-company-backend! 'ruby-mode '(company-capf company-abbrev company-dabbrev-code company-files company-etags company-keywords company-yasnippet)))
+(after! ruby-mode
+  (set-company-backend! 'ruby-mode '(company-capf company-abbrev company-dabbrev-code company-files company-etags company-keywords company-yasnippet)))
 
-(add-hook! ruby-mode (add-hook 'before-save-hook #'lsp-format-buffer t t))
+;; (add-hook! ruby-mode (add-hook 'before-save-hook #'lsp-format-buffer t t))
 
 (after! projectile
   (setq projectile-tags-file-name "ETAGS"))

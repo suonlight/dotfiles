@@ -115,7 +115,6 @@
 (package! counsel-etags)
 
 (package! git-link)
-(package! git-timemachine)
 (package! git-messenger)
 
 (package! ob-tmux)
