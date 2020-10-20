@@ -1,6 +1,6 @@
 -R
 --exclude=.git/*
---exclude=log/*
+--exclude=*/log/*
 --exclude=node_modules/*
 --exclude=dist/*
 --tag-relative=yes
@@ -13,20 +13,27 @@
 --exclude=react_bundle.beta.js
 --exclude=react_bundle.main.js
 --exclude=*.css
+--exclude=*/cops/*
+--exclude=*/bin/*
+--exclude=*/script/*
 --exclude=*/vendor/*
---exclude=spec/*
+--exclude=*/spec/*
+--exclude=*/config/*
+--exclude=*/features/*
 --exclude=*/app/assets/*
 --exclude=*/coverage/*
---exclude=__mocks__/*
---exclude=test/*
+--exclude=*/lib/*
+--exclude=*/workers/*
+--exclude=*/__mocks__/*
+--exclude=*/test/*
 --exclude=__tests__/*
 --exclude=__template__/*
---exclude=build/*
+--exclude=*/build/*
 --exclude=*/db/*
 --exclude=*.json
 --exclude=latest
---exclude=public/*
---exclude=__mockData__
+--exclude=*/public/*
+--exclude=*/__mockData__
 --exclude=*.sh
 --exclude=*.svg
 --exclude=*.png
@@ -35,10 +42,5 @@
 --exclude=GTAGS
 --exclude=cscope.*
 --languages=-html
---extra=+q+f
---fields=+i+a+S+n
---regex-ruby=/(^|;)[ \t]*(class|module)[ \t]+([A-Z][[:alnum:]_]+(::([A-Z][[:alnum:]_]+))+)/\5/c,class,constant/
---regex-ruby=/(^|;)[ \t]*(class|module)[ \t]+([A-Z][[:alnum:]_]+(::([A-Z][[:alnum:]_]+))+)/\3/c,class,constant/
---regex-ruby=/(^|[:;])[ \t]*([A-Z][[:alnum:]_]+) *=/\2/c,class,constant/
---regex-ruby=/(^|;)[ \t]*(has_many|belongs_to|has_one|has_and_belongs_to_many)\(? *:([[:alnum:]_]+)/\3/f,function,association/
---regex-ruby=/(^|;)[ \t]*(named_)?scope\(? *:([[:alnum:]_]+)/\3/f,function,named_scope/
+--extra=-q-f
+--fields=-f+n-t-s-k

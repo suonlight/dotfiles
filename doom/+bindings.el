@@ -788,6 +788,7 @@
     "H"          #'org-shiftleft
     "L"          #'org-shiftright
     "cp"         #'org-pomodoro
+    "cs"         #'org-gcal-sync
     (:prefix-map ("d" . "date")
       "T"         #'org-time-stamp-inactive
       "d"         #'org-deadline

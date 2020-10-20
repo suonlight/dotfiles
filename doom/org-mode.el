@@ -1,7 +1,7 @@
 (after! org
   (setq evil-org-key-theme '(navigation insert textobjects additional calendar todo))
   ;; (set-company-backend! 'org-mode '(company-org-roam company-yasnippet company-dabbrev))
-  (set-company-backend! 'org-mode 'company-org-roam)
+  ;; (set-company-backend! 'org-mode 'company-org-roam)
 
   (setq org-capture-templates
     `(
