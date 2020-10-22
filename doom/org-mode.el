@@ -37,7 +37,7 @@
          "Employment Hero Task"
          entry
          (file ,(format-time-string "~/org-modes/roam/%Y-%m-%d.org" (current-time) t))
-         "* TODO %:description\n\nGit Branch: %(git-branch-by-title \"%:description\" \"%:link\")\nSource: %:link\nCaptured On: %U\n\n")
+         "* TODO %(get-cleansed-title \"%:description\") \n\nGit Branch: %(git-branch-by-title (get-cleansed-title \"%:description\") \"%:link\")\nSource: %:link\nCaptured On: %U\n\n")
        ("e"
          "Employment Hero Task"
          entry
@@ -54,8 +54,10 @@
 
 (defun git-branch-by-title (title link)
   "Auto generate git branch by title"
-  (let* ((dashed-title (s-dashed-words title))
-          (card-id (car (last (s-split "/" link)))))
+  (let* ((card-id (->> link (s-split "/") last car))
+          (dashed-title (->> title
+                          (s-replace card-id "")
+                          s-dashed-words)))
     (message "title %s link %s" title link)
     (message "%s/%s--%s"
       (if (or (s-contains? "refactor" dashed-title)
@@ -64,10 +66,9 @@
       dashed-title
       card-id)))
 
-(defun add-card-id-to-title (title link)
-  "Auto add prefix card it to task name"
-  (let ((card-id (car (last (s-split "/" link)))))
-    (message "[%s] %s" card-id title)))
+(defun get-cleansed-title (title)
+  "Get cleansed title"
+  (->> title (s-replace "- Jira" "") s-trim))
 
 (after! org-download
   (setq
