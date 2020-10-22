@@ -129,6 +129,7 @@
             "C-d"     #'company-next-page
             "C-s"     #'company-filter-candidates
             "C-S-s"   #'counsel-company
+            "C-/"     #'counsel-company
             "C-SPC"   #'company-complete-common
             "TAB"     #'company-complete-common-or-cycle
             [tab]     #'company-complete-common-or-cycle
