@@ -14,3 +14,23 @@
   (split-window-right)
   (evil-window-right 1)
   (multi-vterm))
+
+(defun sl/draft-pr ()
+  (interactive)
+  (if (use-region-p)
+    (let* ((pr-title (buffer-substring-no-properties (region-beginning) (region-end)))
+            (draft-pr-title (format "---\ntitle: %s\ndraft: true\n---" (s-trim pr-title))))
+      (delete-region (region-beginning) (region-end))
+      (insert draft-pr-title))))
+
+(defun sl/make-draft-pr ()
+  (interactive)
+  (let* ((line-beg-pos (line-beginning-position))
+          (line-end-pos (line-end-position))
+          (pr-title (buffer-substring-no-properties line-beg-pos line-end-pos))
+          (draft-pr-title (->> pr-title
+                            (s-trim)
+                            (s-replace "# " "")
+                            (format "---\ntitle: %s\ndraft: true\n---"))))
+    (delete-region line-beg-pos line-end-pos)
+    (insert draft-pr-title)))

@@ -161,6 +161,7 @@
     'replace))
 
 (after! forge
+  ;; (add-hook! forge-post-mode #'sl/make-draft-pr)
   (setq forge-topic-list-limit '(0 . 0)))
 
 (set' +zen-text-scale 3)
