@@ -84,6 +84,96 @@
     '((:results . "silent")
        (:session . "default")
        (:socket  . nil)))
+
+  (setq ob-tmux-start-capture nil)
+
+  (defun org-babel-execute:tmux (body params)
+    "Send a block of code via tmux to a terminal using Babel.
+\"default\" session is used when none is specified.
+Argument BODY the body of the tmux code block.
+Argument PARAMS the org parameters of the code block."
+    (message "Sending source code block to interactive terminal session...")
+    (save-window-excursion
+      (let* ((org-session (cdr (assq :session params)))
+              (terminal (cdr (assq :terminal params)))
+              (start-capture (cdr (assq :start-capture params)))
+              (end-capture (cdr (assq :end-capture params)))
+              (socket (cdr (assq :socket params)))
+              (socket (when socket (expand-file-name socket)))
+              (ob-session (ob-tmux--from-org-session org-session socket))
+              (session-alive (ob-tmux--session-alive-p ob-session))
+              (window-alive (ob-tmux--window-alive-p ob-session)))
+        ;; Create tmux session and window if they do not yet exist
+        (unless session-alive (ob-tmux--create-session ob-session))
+        (unless window-alive (ob-tmux--create-window ob-session))
+        ;; Start terminal window if the session does not yet exist
+        (unless session-alive
+          (ob-tmux--start-terminal-window ob-session terminal))
+        ;; Wait until tmux window is available
+        (while (not (ob-tmux--window-alive-p ob-session)))
+        ;; Disable window renaming from within tmux
+        (ob-tmux--disable-renaming ob-session)
+
+        (setq ob-tmux-start-capture start-capture)
+        (ob-tmux--send-body ob-session
+          (org-babel-expand-body:generic (format "%s\n%s" start-capture body) params)))))
+
+  (defun ob-tmux--insert-result ()
+    (interactive)
+    (let ((info (org-babel-get-src-block-info 'light)))
+      (when (and info (string-equal "tmux" (nth 0 info)))
+        (let* ((params (nth 2 info))
+                (org-session (cdr (assq :session params)))
+                (file (cdr (assq :file params)))
+                (socket (cdr (assq :socket params)))
+                (socket (when socket (expand-file-name socket)))
+                (ob-session (ob-tmux--from-org-session org-session socket))
+                (output (->> (ob-tmux--execute-string ob-session
+                               "capture-pane"
+                               "-p" ;; print to stdout
+                               "-S" "-" ;; start at beginning of history
+                               "-t" (ob-tmux--session ob-session))
+                          (s-split ob-tmux-start-capture)
+                          last
+                          car
+                          (s-replace-regexp "=> .*" "")
+                          (s-replace-regexp "irb\([a-z]+\):[0-9]+:[0-9]+.*" "")
+                          (s-replace-regexp "\n\n" "\n")
+                          s-trim)))
+          (if (string-blank-p file)
+            (org-babel-insert-result output '("replace"))
+            (write-region output nil file)
+            (org-babel-insert-result (format "[[file:%s]]" file) '("replace")))))))
+
+  (defun ob-tmux--edit-result ()
+    (interactive)
+    (pcase (org-babel-get-src-block-info 'light)
+      (`(,_ ,_ ,arguments ,_ ,_ ,start ,_)
+        (save-excursion
+          ;; Go to the results, if there aren't any then run the block.
+          (goto-char start)
+          (goto-char (or (org-babel-where-is-src-block-result)
+                       (progn (org-babel-execute-src-block)
+                         (org-babel-where-is-src-block-result))))
+          (end-of-line)
+          (skip-chars-forward " \r\t\n")
+          (org-edit-special)
+          (delete-trailing-whitespace)
+          (end-of-buffer)
+          t))
+      (_ nil)))
+
+  (defun ob-tmux--open-src-block-result (orig-fun &rest args)
+    (let ((info (org-babel-get-src-block-info 'light)))
+      (if (and info (string-equal "tmux" (nth 0 info)))
+        (progn
+          (ob-tmux--insert-result)
+          (ob-tmux--edit-result))
+        (apply orig-fun args))))
+
+  (advice-add 'org-babel-open-src-block-result
+    :around #'ob-tmux--open-src-block-result)
+
   (setq org-babel-tmux-session-prefix "ob-")
   (setq org-babel-tmux-location "/usr/local/bin/tmux"))
 
