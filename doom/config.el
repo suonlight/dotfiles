@@ -174,6 +174,8 @@
 (setq google-translate-default-source-language "en")
 (setq google-translate-default-target-language "vi")
 
+(setq ispell-dictionary "en")
+
 ;; ReasonML
 (after! reason-mode
   (add-hook! reason-mode #'lsp)
