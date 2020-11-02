@@ -85,7 +85,7 @@
        (:session . "default")
        (:socket  . nil)))
 
-  (setq ob-tmux-start-capture nil)
+  (setq ob-tmux-delimiters '((ruby . "#####") (sh . "#####")))
 
   (defun org-babel-execute:tmux (body params)
     "Send a block of code via tmux to a terminal using Babel.
@@ -96,8 +96,8 @@ Argument PARAMS the org parameters of the code block."
     (save-window-excursion
       (let* ((org-session (cdr (assq :session params)))
               (terminal (cdr (assq :terminal params)))
-              (start-capture (cdr (assq :start-capture params)))
-              (end-capture (cdr (assq :end-capture params)))
+              (lang (or (cdr (assq :lang params)) "sh"))
+              (delimiter (cdr (assq (intern lang) ob-tmux-delimiters)))
               (socket (cdr (assq :socket params)))
               (socket (when socket (expand-file-name socket)))
               (ob-session (ob-tmux--from-org-session org-session socket))
@@ -113,10 +113,8 @@ Argument PARAMS the org parameters of the code block."
         (while (not (ob-tmux--window-alive-p ob-session)))
         ;; Disable window renaming from within tmux
         (ob-tmux--disable-renaming ob-session)
-
-        (setq ob-tmux-start-capture start-capture)
         (ob-tmux--send-body ob-session
-          (org-babel-expand-body:generic (format "%s\n%s" start-capture body) params)))))
+          (org-babel-expand-body:generic (format "%s\n%s" delimiter body) params)))))
 
   (defun ob-tmux--insert-result ()
     (interactive)
@@ -127,23 +125,26 @@ Argument PARAMS the org parameters of the code block."
                 (file (cdr (assq :file params)))
                 (socket (cdr (assq :socket params)))
                 (socket (when socket (expand-file-name socket)))
+                (lang (cdr (assq :lang params)))
+                (delimiter (cdr (assq (intern lang) ob-tmux-delimiters)))
                 (ob-session (ob-tmux--from-org-session org-session socket))
                 (output (->> (ob-tmux--execute-string ob-session
                                "capture-pane"
+                               "-J"
                                "-p" ;; print to stdout
                                "-S" "-" ;; start at beginning of history
                                "-t" (ob-tmux--session ob-session))
-                          (s-split ob-tmux-start-capture)
+                          (s-split delimiter)
                           last
                           car
                           (s-replace-regexp "=> .*" "")
                           (s-replace-regexp "irb\([a-z]+\):[0-9]+:[0-9]+.*" "")
                           (s-replace-regexp "\n\n" "\n")
                           s-trim)))
-          (if (string-blank-p file)
+          (if (eq 'nil file)
             (org-babel-insert-result output '("replace"))
             (write-region output nil file)
-            (org-babel-insert-result (format "[[file:%s]]" file) '("replace")))))))
+            (org-babel-insert-result file '("file")))))))
 
   (defun ob-tmux--edit-result ()
     (interactive)
@@ -157,7 +158,7 @@ Argument PARAMS the org parameters of the code block."
                          (org-babel-where-is-src-block-result))))
           (end-of-line)
           (skip-chars-forward " \r\t\n")
-          (org-edit-special)
+          ;; (org-edit-special)
           (delete-trailing-whitespace)
           (end-of-buffer)
           t))
