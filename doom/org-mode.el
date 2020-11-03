@@ -133,7 +133,7 @@ Argument PARAMS the org parameters of the code block."
                                "-J"
                                "-p" ;; print to stdout
                                "-S" "-" ;; start at beginning of history
-                               "-t" (ob-tmux--session ob-session))
+                               "-t" (ob-tmux--target ob-session))
                           (s-split delimiter)
                           last
                           car
@@ -144,7 +144,7 @@ Argument PARAMS the org parameters of the code block."
           (if (eq 'nil file)
             (org-babel-insert-result output '("replace"))
             (write-region output nil file)
-            (org-babel-insert-result file '("file")))))))
+            (org-babel-insert-result file '("file" "replace")))))))
 
   (defun ob-tmux--edit-result ()
     (interactive)
