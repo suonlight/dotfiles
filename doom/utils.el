@@ -34,3 +34,11 @@
                             (format "---\ntitle: %s\ndraft: true\n---"))))
     (delete-region line-beg-pos line-end-pos)
     (insert draft-pr-title)))
+
+(defun sl/run-reports ()
+  (interactive)
+  (org-html-export-to-html)
+  (sleep-for 30)
+  (while (re-search-forward "tmux .* :file" nil t 1)
+    (org-open-at-point))
+  (org-html-export-to-html))
