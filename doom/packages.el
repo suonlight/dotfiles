@@ -131,3 +131,6 @@
 ;; (package! grammarly)
 ;; (package! flycheck-grammarly)
 (package! hybrid-reverse-theme)
+
+(package! tree-sitter)
+(package! tree-sitter-langs)

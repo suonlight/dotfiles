@@ -216,3 +216,8 @@
 (set-popup-rule! "^\\*VC-history*" :select t :size 0.5)
 
 ;; (setq browse-url-browser-function 'xwidget-webkit-browse-url)
+
+(use-package! tree-sitter
+  :config
+  (require 'tree-sitter-langs)
+  (global-tree-sitter-mode))
