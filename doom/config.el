@@ -175,6 +175,7 @@
 (setq google-translate-default-target-language "vi")
 
 (setq ispell-dictionary "en")
+(setq ispell-personal-dictionary "/Users/employmenthero/projects/doom-emacs/.local/etc/ispell/en.pws")
 
 ;; ReasonML
 (after! reason-mode
