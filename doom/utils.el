@@ -38,7 +38,7 @@
 (defun sl/run-reports ()
   (interactive)
   (org-html-export-to-html)
-  (sleep-for 30)
+  (sleep-for 60)
   (while (re-search-forward "tmux .* :file" nil t 1)
     (org-open-at-point))
   (org-html-export-to-html))
