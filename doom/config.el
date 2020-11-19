@@ -153,12 +153,14 @@
 
 (after! magit
   (setq magit-git-executable "/usr/bin/git")
-  ;; Hide "Recent Commits"
-  ;; https://github.com/magit/magit/issues/3230
-  (magit-add-section-hook 'magit-status-sections-hook
-    'magit-insert-unpushed-to-upstream
-    'magit-insert-unpushed-to-upstream-or-recent
-    'replace))
+
+  ;; https://jakemccrary.com/blog/2020/11/14/speeding-up-magit/
+  (remove-hook 'magit-status-sections-hook 'magit-insert-tags-header)
+  (remove-hook 'magit-status-sections-hook 'magit-insert-status-headers)
+  (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-pushremote)
+  (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
+  (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
+  (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent))
 
 (after! forge
   ;; (add-hook! forge-post-mode #'sl/make-draft-pr)

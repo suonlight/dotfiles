@@ -35,10 +35,11 @@
     (delete-region line-beg-pos line-end-pos)
     (insert draft-pr-title)))
 
-(defun sl/run-reports ()
-  (interactive)
-  (org-html-export-to-html)
-  (sleep-for 60)
-  (while (re-search-forward "tmux .* :file" nil t 1)
-    (org-open-at-point))
-  (org-html-export-to-html))
+(defun sl/build-reports (file)
+  (find-file file)
+  (org-babel-execute-buffer))
+
+(defun sl/run-reports (report)
+  (with-current-buffer report
+    (goto-char (point-min))
+    (while (re-search-forward "tmux .* :file" nil t 1) (org-open-at-point))))

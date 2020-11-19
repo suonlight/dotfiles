@@ -479,10 +479,10 @@
             :desc "Insert"           "i" #'org-roam-insert
             :desc "Org Roam"         "r" #'org-roam
             (:prefix ("d" . "by date")
-              :desc "Arbitrary date" "d" #'org-roam-dailies-date
-              :desc "Today"          "t" #'org-roam-dailies-today
-              :desc "Tomorrow"       "m" #'org-roam-dailies-tomorrow
-              :desc "Yesterday"      "y" #'org-roam-dailies-yesterday)))
+              :desc "Arbitrary date" "d" #'org-roam-dailies-find-date
+              :desc "Today"          "t" #'org-roam-dailies-find-today
+              :desc "Tomorrow"       "m" #'org-roam-dailies-find-tomorrow
+              :desc "Yesterday"      "y" #'org-roam-dailies-find-yesterday)))
 
         (:when (featurep! :lang org +journal)
           (:prefix ("j" . "journal")
