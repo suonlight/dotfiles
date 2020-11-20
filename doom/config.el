@@ -87,6 +87,13 @@
 (add-hook! js-mode prettier-js-mode)
 (add-hook! web-mode prettier-js-mode)
 
+;; add toggle code vs test for js
+(advice-add 'projectile-toggle-between-implementation-and-test
+  :override (lambda ()
+              (if (eq major-mode 'js-mode)
+                (hero/js-toggle-current-test-file)
+                (find-file (projectile-find-implementation-or-test (buffer-file-name))))))
+
 ;; prevent eslint check command: eslint --print-config .
 (advice-add 'flycheck-eslint-config-exists-p :override (lambda() t))
 
