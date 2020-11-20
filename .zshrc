@@ -145,3 +145,5 @@ test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew
 . $HOME/.asdf/asdf.sh
 # . $HOME/.asdf/completions/asdf.bash
 ### End of Zinit's installer chunk
+
+setopt interactivecomments
