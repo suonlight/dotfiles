@@ -671,6 +671,7 @@
   :nv "ft" #'+treemacs/toggle)
 
 (map!
+  :inv "C-<f6>" #'projectile-toggle-between-implementation-and-test
   :nv "s-'" #'+vterm/toggle
   (:after vterm :map vterm-mode-map
     :i "s-1"   #'+workspace/switch-to-0
