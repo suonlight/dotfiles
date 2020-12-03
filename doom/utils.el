@@ -28,12 +28,20 @@
   (let* ((line-beg-pos (line-beginning-position))
           (line-end-pos (line-end-position))
           (pr-title (buffer-substring-no-properties line-beg-pos line-end-pos))
+          (pr-template-file (if (file-exists-p (concat (projectile-project-root) ".github/PULL_REQUEST_TEMPLATE"))
+                              (concat (projectile-project-root) ".github/PULL_REQUEST_TEMPLATE")
+                              (concat (projectile-project-root) "PULL_REQUEST_TEMPLATE.md")))
+          (pr-template (with-temp-buffer
+                         (erase-buffer)
+                         (insert-file pr-template-file)
+                         (buffer-string)))
           (draft-pr-title (->> pr-title
                             (s-trim)
                             (s-replace "# " "")
-                            (format "---\ntitle: %s\ndraft: true\n---"))))
+                            (format "---\ntitle: %s\ndraft: true\n---\n"))))
     (delete-region line-beg-pos line-end-pos)
-    (insert draft-pr-title)))
+    (insert draft-pr-title)
+    (insert pr-template)))
 
 (defun sl/build-reports (file)
   (find-file file)
