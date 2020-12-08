@@ -94,6 +94,7 @@
   (load! "private/+bindings")
   (load! "private/prodigy")
   (load! "private/hero")
+  (load! "private/js-import")
   (load! "private/config"))
 
 (load! "utils")
@@ -222,3 +223,7 @@
   :config
   (require 'tree-sitter-langs)
   (global-tree-sitter-mode))
+
+(after! plantuml-mode
+  (setq plantuml-jar-path "~/org-modes/plantuml.jar")
+  (setq plantuml-default-exec-mode 'jar))
