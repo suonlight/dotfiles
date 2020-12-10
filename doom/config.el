@@ -219,10 +219,10 @@
 
 ;; (setq browse-url-browser-function 'xwidget-webkit-browse-url)
 
-(use-package! tree-sitter
-  :config
-  (require 'tree-sitter-langs)
-  (global-tree-sitter-mode))
+;; (use-package! tree-sitter
+;;   :config
+;;   (require 'tree-sitter-langs)
+;;   (global-tree-sitter-mode))
 
 (after! plantuml-mode
   (setq plantuml-jar-path "~/org-modes/plantuml.jar")

@@ -126,11 +126,11 @@
 (package! org-roam-server)
 (package! reason-mode)
 (package! nov)
+(package! hybrid-reverse-theme)
 ;; (package! clip2org)
 
 ;; (package! grammarly)
 ;; (package! flycheck-grammarly)
-(package! hybrid-reverse-theme)
 
-(package! tree-sitter)
-(package! tree-sitter-langs)
+;; (package! tree-sitter)
+;; (package! tree-sitter-langs)
