@@ -62,7 +62,6 @@
 (tool-bar-mode   -1)
 (tooltip-mode    -1)
 (menu-bar-mode   -1)
-(global-evil-matchit-mode 1)
 
 (setq mode-require-final-newline t)
 (setq require-final-newline t)
@@ -84,9 +83,6 @@
 ;; they are implemented.
 (load! "+bindings")
 
-(add-hook! js-mode prettier-js-mode)
-(add-hook! web-mode prettier-js-mode)
-
 ;; prevent eslint check command: eslint --print-config .
 (advice-add 'flycheck-eslint-config-exists-p :override (lambda() t))
 
@@ -103,8 +99,7 @@
 
 (setq avy-all-windows t)
 
-(after! treemacs
-  (doom-themes-treemacs-config))
+;; (after! treemacs (doom-themes-treemacs-config))
 
 (after! company
   (setq company-minimum-prefix-length 1)
@@ -112,8 +107,8 @@
   (setq company-auto-complete nil)
   (setq company-idle-delay 0.3))
 
-(setq rustic-lsp-server 'rust-analyzer) ;; it's not ready yet
 (after! lsp
+  (setq rustic-lsp-server 'rust-analyzer) ;; it's not ready yet
   (setq lsp-auto-guess-root nil))
 
 (after! flycheck
@@ -133,23 +128,17 @@
 (after! projectile
   (setq projectile-tags-file-name "ETAGS"))
 
-(after! counsel-etags
-  (setq counsel-etags-tags-file-name "ETAGS"))
+;; (after! counsel-etags
+;;   (setq counsel-etags-tags-file-name "ETAGS"))
 
-(add-hook! vterm-mode :append
-  (defun auto-swith-to-insert ()
-    (setq-local evil-insert-state-cursor 'box)
-    (evil-insert-state)))
+(after! vterm
+   (add-hook! vterm-mode :append
+      (defun auto-swith-to-insert ()
+         (setq-local evil-insert-state-cursor 'box)
+         (evil-insert-state))))
 
-(after! git-link
-  (setq git-link-open-in-browser t))
-
-(after! git-messenger
-  (setq git-messenger:use-magit-popup t))
-
-(use-package! evil-string-inflection :after evil :commands evil-operator-string-inflection)
-(use-package! request)
-(use-package! reason-mode)
+; (after! git-messenger
+;   (setq git-messenger:use-magit-popup t))
 
 (after! magit
   (setq magit-git-executable "/usr/bin/git")
@@ -168,24 +157,14 @@
 
 (set' +zen-text-scale 3)
 
-;; (use-package! grammarly)
-;; (use-package! flycheck-grammarly
-;;   :config (setq flycheck-grammarly-check-time 0.8))
-
-(setq google-translate-show-phonetic t)
-(setq google-translate-default-source-language "en")
-(setq google-translate-default-target-language "vi")
-
 (setq ispell-dictionary "en")
 (setq ispell-personal-dictionary "/Users/employmenthero/projects/doom-emacs/.local/etc/ispell/en.pws")
 
 ;; ReasonML
-(after! reason-mode
-  (add-hook! reason-mode #'lsp)
-  ;; (add-hook! reason-mode (add-hook 'before-save-hook #'lsp-format-buffer nil t))
-  ;; (add-hook 'reason-mode-hook (lambda ()
-  ;;         (add-hook 'before-save-hook #'refmt-before-save)))
-  )
+(use-package! reason-mode
+  :commands reason-mode
+  :config
+  (add-hook! reason-mode #'lsp))
 
 (after! lsp-mode
   (setq lsp-response-timeout 20)
@@ -199,7 +178,27 @@
 (after! spell-fu
   (setq spell-fu-idle-delay 0.5))
 
-(after! multi-vterm
+(set-popup-rule! "^\\*Process List\\*" :select t :size 0.35)
+(set-popup-rule! "^\\*prodigy\\*" :select t :size 0.35)
+(set-popup-rule! "^\\*rspec-compilation\\*" :select t :size 0.35)
+(set-popup-rule! "^\\*vterminal" :ignore t :select t :size 0.35)
+(set-popup-rule! "^\\*VC-history*" :select t :size 0.5)
+
+;; (setq browse-url-browser-function 'xwidget-webkit-browse-url)
+
+(after! plantuml-mode
+  (setq plantuml-jar-path "~/org-modes/plantuml.jar")
+  (setq plantuml-default-exec-mode 'jar))
+
+(use-package! evil-string-inflection
+  :after evil
+  :commands evil-operator-string-inflection)
+
+(use-package! request :commands request)
+
+(use-package! multi-vterm
+  :commands (multi-vterm multi-vterm-project)
+  :config
   (defun my/project-find-dot-project (dir)
     (when-let ((root (locate-dominating-file dir ".project")))
       `(dot-project . ,root)))
@@ -209,21 +208,39 @@
 
   (push #'my/project-find-dot-project project-find-functions))
 
-(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+(use-package! prettier-js
+  :config
+  (add-hook! js-mode prettier-js-mode)
+  (add-hook! web-mode prettier-js-mode))
 
-(set-popup-rule! "^\\*Process List\\*" :select t :size 0.35)
-(set-popup-rule! "^\\*prodigy\\*" :select t :size 0.35)
-(set-popup-rule! "^\\*rspec-compilation\\*" :select t :size 0.35)
-(set-popup-rule! "^\\*vterm " :ignore t :select t :size 0.35)
-(set-popup-rule! "^\\*VC-history*" :select t :size 0.5)
+(use-package! google-translate
+  :commands google-translate-at-point
+  :init
+  ;; (setq google-translate-show-phonetic t)
+  (setq google-translate-default-source-language "en")
+  (setq google-translate-default-target-language "vi"))
 
-;; (setq browse-url-browser-function 'xwidget-webkit-browse-url)
+(use-package! evil-matchit
+  :config
+  (add-hook! js-mode evil-matchit-mode))
+
+(use-package! indent-guide
+  :commands indent-guide-global-mode)
+
+(use-package! nov-mode
+  :mode "\\.epub\\'")
+
+;; (use-package! grammarly)
+;; (use-package! flycheck-grammarly
+;;   :config (setq flycheck-grammarly-check-time 0.8))
+
+; (use-package! git-link
+;   :commands (git-link git-link-commit)
+;   :config
+;   (setq git-link-open-in-browser t))
 
 ;; (use-package! tree-sitter
 ;;   :config
 ;;   (require 'tree-sitter-langs)
 ;;   (global-tree-sitter-mode))
 
-(after! plantuml-mode
-  (setq plantuml-jar-path "~/org-modes/plantuml.jar")
-  (setq plantuml-default-exec-mode 'jar))

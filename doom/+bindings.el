@@ -758,10 +758,10 @@
   (:map magit-status-mode-map
     :n "`"       #'forge-browse-topic)
   (:map magit-revision-mode-map
-    :n "o"       #'git-link-commit
+    :n "o"       #'browse-at-remote
     :n "`"       #'forge-browse-topic)
   (:map magit-log-mode-map
-    :n "o"       #'git-link-commit
+    :n "o"       #'browse-at-remote
     :n "`"       #'forge-browse-topic)
   (:after ivy :map ivy-switch-buffer-map
     "C-v" (general-simulate-key "M-o a v <return>")

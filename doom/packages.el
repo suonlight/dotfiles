@@ -112,21 +112,19 @@
 (package! protobuf-mode)
 (package! yaml-mode)
 (package! evil-string-inflection)
-(package! counsel-etags)
+;; (package! counsel-etags)
 
-(package! git-link)
-(package! git-messenger)
+;; (package! git-link) ;; use browse-at-remote instead
 
 (package! ob-tmux)
-(package! ob-mermaid)
+;; (package! ob-mermaid)
 
+(package! reason-mode)
 (package! request)
-(package! package-lint)
 (package! multi-vterm)
 (package! org-roam-server)
-(package! reason-mode)
 (package! nov)
-(package! hybrid-reverse-theme)
+;; (package! package-lint)
 ;; (package! clip2org)
 
 ;; (package! grammarly)
