@@ -60,9 +60,13 @@
                           s-dashed-words)))
     (message "title %s link %s" title link)
     (message "%s/%s--%s"
-      (if (or (s-contains? "refactor" dashed-title)
-            (s-contains? "chore" dashed-title))
-        "chore" "ft")
+      (cond ((s-contains? "refactor" dashed-title) "chore")
+        ((s-contains? "chore" dashed-title) "chore")
+        ((s-contains? "sentry" dashed-title) "df")
+        ((s-contains? "p1" dashed-title) "df")
+        ((s-contains? "p2" dashed-title) "df")
+        ((s-contains? "p3" dashed-title) "df")
+        (t "ft"))
       dashed-title
       card-id)))
 
@@ -221,6 +225,7 @@ Argument PARAMS the org parameters of the code block."
   )
 
 (use-package! org-roam-server
+  :commands org-roam-server-mode
   :config
   (setq org-roam-server-port 8081))
 
