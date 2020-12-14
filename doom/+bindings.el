@@ -789,6 +789,8 @@
     "ts"  nil
     "tt"  #'rspec-verify-single
     "tb"  #'rspec-verify)
+  (:map forge-post-mode-map
+    :n "," #'sl/make-draft-pr)
   (:after anki-editor :map org-mode-map
     "Mi" #'anki-editor-insert-note
     "Mp" #'anki-editor-push-notes
