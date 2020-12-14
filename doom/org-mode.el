@@ -22,11 +22,6 @@
          entry
          (file ,(format-time-string "~/org-modes/roam/%Y-%m-%d.org" (current-time) t))
          "* %?\n:PROPERTIES:\n:Source: %F\n:Captured_On: %U\n:END:\n\n#+BEGIN_SRC ruby\n%:initial\n#+END_SRC\n")
-       ("n"
-         "Notes"
-         entry
-         (file ,(format-time-string "~/org-modes/roam/%Y-%m-%d.org" (current-time) t))
-         "* %?\n\nCaptured On: %U\n\n%c")
        ("N"
          "Notes"
          entry
@@ -37,12 +32,7 @@
          "Employment Hero Task"
          entry
          (file ,(format-time-string "~/org-modes/roam/%Y-%m-%d.org" (current-time) t))
-         "* TODO %(get-cleansed-title \"%:description\") \n\nGit Branch: %(git-branch-by-title (get-cleansed-title \"%:description\") \"%:link\")\nSource: %:link\nCaptured On: %U\n\n")
-       ("e"
-         "Employment Hero Task"
-         entry
-         (file "~/org-modes/employmenthero.org")
-         "* TODO %?")))
+         "* TODO %(get-cleansed-title \"%:description\") \n\nGit Branch: %(git-branch-by-title (get-cleansed-title \"%:description\") \"%:link\")\nSource: %:link\nCaptured On: %U\n\n")))
 
   (require 'org-download))
 
