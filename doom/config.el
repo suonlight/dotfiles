@@ -236,7 +236,10 @@
   :commands indent-guide-global-mode)
 
 (use-package! nov-mode
-  :mode "\\.epub\\'")
+  :mode "\\.epub$")
+
+(use-package! protobuf-mode
+  :mode "\\.proto$")
 
 ;; (use-package! grammarly)
 ;; (use-package! flycheck-grammarly
