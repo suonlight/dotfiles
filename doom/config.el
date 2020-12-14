@@ -213,12 +213,20 @@
   (add-hook! js-mode prettier-js-mode)
   (add-hook! web-mode prettier-js-mode))
 
+(defun google-translate-at-point ()
+  (interactive)
+  (require 'google-translate)
+  (google-translate-at-point))
+
 (use-package! google-translate
-  :commands google-translate-at-point
+  :commands (google-translate-at-point)
   :init
-  ;; (setq google-translate-show-phonetic t)
+  (setq google-translate-show-phonetic t)
+  (setq google-translate-backend-method 'wget)
   (setq google-translate-default-source-language "en")
-  (setq google-translate-default-target-language "vi"))
+  (setq google-translate-default-target-language "vi")
+  :config
+  (defun google-translate--search-tkk () "Search TKK." (list 430675 2721866130)))
 
 (use-package! evil-matchit
   :config
