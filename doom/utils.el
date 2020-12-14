@@ -15,6 +15,8 @@
   (evil-window-right 1)
   (multi-vterm))
 
+(setq sl/jira-cache (make-hash-table :test 'equal))
+
 (defun sl/make-draft-pr ()
   (interactive)
   (let* ((line-beg-pos (line-beginning-position))
@@ -23,15 +25,16 @@
           (pr-template-file (if (file-exists-p (concat (projectile-project-root) ".github/PULL_REQUEST_TEMPLATE"))
                               (concat (projectile-project-root) ".github/PULL_REQUEST_TEMPLATE")
                               (concat (projectile-project-root) "PULL_REQUEST_TEMPLATE.md")))
+          (current-branch (magit-get-current-branch))
           (pr-template (with-temp-buffer
                          (erase-buffer)
                          (insert-file pr-template-file)
                          (buffer-string)))
-          (draft-pr-title (->> pr-title
+          (draft-pr-title (->> (or (gethash current-branch sl/jira-cache) pr-title)
                             (s-trim)
                             (s-replace "# " "")
                             (format "---\ntitle: %s\ndraft: true\n---\n")))
-          (issue-url (->> (magit-get-current-branch)
+          (issue-url (->> current-branch
                        (s-split "--")
                        (nth 1)
                        (s-concat "https://employmenthero.atlassian.net/browse/")))

@@ -47,18 +47,19 @@
   (let* ((card-id (->> link (s-split "/") last car))
           (dashed-title (->> title
                           (s-replace card-id "")
-                          s-dashed-words)))
-    (message "title %s link %s" title link)
-    (message "%s/%s--%s"
-      (cond ((s-contains? "refactor" dashed-title) "chore")
-        ((s-contains? "chore" dashed-title) "chore")
-        ((s-contains? "sentry" dashed-title) "df")
-        ((s-contains? "p1" dashed-title) "df")
-        ((s-contains? "p2" dashed-title) "df")
-        ((s-contains? "p3" dashed-title) "df")
-        (t "ft"))
-      dashed-title
-      card-id)))
+                          s-dashed-words))
+          (branch (format "%s/%s--%s"
+                    (cond ((s-contains? "refactor" dashed-title) "chore")
+                      ((s-contains? "chore" dashed-title) "chore")
+                      ((s-contains? "sentry" dashed-title) "df")
+                      ((s-contains? "p1" dashed-title) "df")
+                      ((s-contains? "p2" dashed-title) "df")
+                      ((s-contains? "p3" dashed-title) "df")
+                      (t "ft"))
+                    dashed-title
+                    card-id)))
+    (puthash branch title sl/jira-cache) ;; write to cache
+    branch))
 
 (defun get-cleansed-title (title)
   "Get cleansed title"
