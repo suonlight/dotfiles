@@ -153,6 +153,11 @@
 
 (after! forge
   ;; (add-hook! forge-post-mode #'sl/make-draft-pr)
+
+  (defun forge--display-post-buffer (buf)
+    (magit-display-buffer buf #'display-buffer)
+    (sl/make-draft-pr))
+
   (setq forge-topic-list-limit '(0 . 0)))
 
 (set' +zen-text-scale 3)

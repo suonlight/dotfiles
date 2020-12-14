@@ -40,7 +40,7 @@
                        (s-concat "https://employmenthero.atlassian.net/browse/")))
           (commits (->> (format "%s log --pretty=format:\"- %s\" %s..HEAD" magit-git-executable "%s" forge--buffer-base-branch)
                      (shell-command-to-string))))
-    (delete-region line-beg-pos line-end-pos)
+    (delete-region (point-min) (point-max))
     (insert draft-pr-title)
     (insert pr-template)
     (delete-region (point) (point-max))
