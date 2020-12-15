@@ -7,3 +7,4 @@ doom/gcal.el
 emacs/forge-database.sqlite
 tag
 ETAG
+.DS_Store
