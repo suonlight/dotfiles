@@ -72,3 +72,15 @@
   (insert "(e))")
   (goto-char (region-beginning))
   (insert "e => (console.log({ e }), "))
+
+(defun sl/js-log-var ()
+  (interactive)
+  (let* ((selected-var (buffer-substring-no-properties (region-beginning) (region-end))))
+    (goto-char (region-end))
+    (insert ")")
+    (goto-char (region-beginning))
+    (insert (format "(console.log({ %s }), " selected-var))))
+
+(defun sl/insert-date ()
+  (interactive)
+  (insert (format-time-string "%Y-%m-%d")))

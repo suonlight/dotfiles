@@ -125,6 +125,9 @@
 
 ;; (add-hook! ruby-mode (add-hook 'before-save-hook #'lsp-format-buffer t t))
 
+(after! js-mode
+  (set-company-backend! 'js-mode '(company-capf company-dabbrev-code company-yasnippet)))
+
 (after! projectile
   (setq projectile-tags-file-name "ETAGS"))
 
