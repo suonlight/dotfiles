@@ -65,3 +65,10 @@
   (with-current-buffer report
     (goto-char (point-min))
     (while (re-search-forward "tmux .* :file" nil t 1) (org-open-at-point))))
+
+(defun sl/js-log-func ()
+  (interactive)
+  (goto-char (region-end))
+  (insert "(e))")
+  (goto-char (region-beginning))
+  (insert "e => (console.log({ e }), "))
