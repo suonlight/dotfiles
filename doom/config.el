@@ -125,8 +125,8 @@
 
 ;; (add-hook! ruby-mode (add-hook 'before-save-hook #'lsp-format-buffer t t))
 
-(after! js-mode
-  (set-company-backend! 'js-mode '(company-capf company-dabbrev-code company-yasnippet)))
+(after! js
+  (set-company-backend! 'js-mode '(company-capf company-dabbrev-code company-files company-yasnippet)))
 
 (after! projectile
   (setq projectile-tags-file-name "ETAGS"))
@@ -248,6 +248,9 @@
 
 (use-package! protobuf-mode
   :mode "\\.proto$")
+
+(after! dumb-jump
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
 ;; (use-package! grammarly)
 ;; (use-package! flycheck-grammarly

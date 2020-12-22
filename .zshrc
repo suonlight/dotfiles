@@ -29,7 +29,6 @@ zinit snippet OMZ::lib/completion.zsh
 zt 0a; zinit snippet OMZ::lib/git.zsh
 zt 0b; zinit snippet OMZ::plugins/git/git.plugin.zsh
 zt 0b; zinit snippet OMZ::plugins/ruby/ruby.plugin.zsh
-zt 0b; zinit snippet OMZ::plugins/rails/rails.plugin.zsh
 zt 0b; zinit snippet OMZ::plugins/rake/rake.plugin.zsh
 zt 0b; zinit snippet OMZ::plugins/tmuxinator/tmuxinator.plugin.zsh
 zt 1b; zinit snippet OMZ::plugins/rails/rails.plugin.zsh
@@ -38,7 +37,7 @@ zt 0b; zinit snippet OMZ::plugins/yarn/yarn.plugin.zsh
 zt 0b; zinit snippet OMZ::plugins/postgres/postgres.plugin.zsh
 zt 0b; zinit snippet OMZ::plugins/docker-compose/docker-compose.plugin.zsh
 zt 1a; zinit light djui/alias-tips
-zt 0b atload'unalias help; unalias fd; unalias cp'; zinit snippet OMZ::plugins/common-aliases/common-aliases.plugin.zsh
+zt 0b atload'unalias help; unalias cp'; zinit snippet OMZ::plugins/common-aliases/common-aliases.plugin.zsh
 
 zinit ice as"completion"; zinit snippet OMZ::plugins/docker/_docker
 zinit ice as"completion"; zinit snippet OMZ::plugins/bundler/_bundler
