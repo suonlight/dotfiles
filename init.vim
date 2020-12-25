@@ -6,7 +6,6 @@ Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'benmills/vimux'
-Plug 'ludovicchabant/vim-gutentags'
 Plug 'neoclide/coc-neco'
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'szw/vim-maximizer'
@@ -343,13 +342,6 @@ let g:NERDTreeHighlightCursorline = 0
 let g:startify_change_to_vcs_root = 1
 
 "----------------------------------------------
-" Plug 'ludovicchabant/vim-gutentags'
-"----------------------------------------------
-" let s:vim_tags = expand('~/.cache/tags')
-" let g:gutentags_cache_dir = get(g:, 'gutentags_cache_dir', expand('~/.cache/tags'))
-" let g:gutentags_enabled = 1
-
-"----------------------------------------------
 " Plug 'alvan/vim-closetag'
 "----------------------------------------------
 let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.erb,*.jsx,*.js"
@@ -470,7 +462,6 @@ nnoremap <silent> <Space>fyd :let @*=expand("%:p:h") \| echo @*<CR>  " File > Co
 " Projects
 nnoremap <silent> <Space>pf :FZF<CR>
 nnoremap <silent> <Space>pa :A<CR>
-nnoremap <Space>pG :GutentagsUpdate<CR>
 nnoremap <silent> <Space>pg :Tags<CR>
 nnoremap <silent> <C-p> :FZF<CR>
 

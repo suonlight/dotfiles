@@ -136,10 +136,8 @@ alias de='asdf current'
 export PURE_PROMPT_SYMBOL='$'
 
 # other tools
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# for Ubuntu
-test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+source ~/.asdf/installs/fzf/0.24.4/shell/completion.zsh
+source ~/.asdf/installs/fzf/0.24.4/shell/key-bindings.zsh
 
 . $HOME/.asdf/asdf.sh
 # . $HOME/.asdf/completions/asdf.bash
