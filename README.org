@@ -1,17 +1,312 @@
 #+TITLE: Dotfiles
+#+Author: Minh Nguyen
 
-* Upgrade Dependencies
+#+PROPERTY: header-args+ :tangle yes
 
-** Command Line Tools
+* [#A] Basic Tools
+** Neovim
 
-#+BEGIN_SRC tmux :session dotfiles
-brew upgrade rg fd
+#+begin_src shell :async :results output
+brew install neovim
+#+end_src
+
+** Tmux
+
+#+begin_src shell :async :results output
+brew install tmux
+
+# install tpm
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+#+end_src
+
+** ZSH
+
+#+begin_src shell :async :results output
+brew install zsh zsh-completions
+chsh -s /bin/zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+brew install zplug
+zplug install
+#+end_src
+
+** Setup dotfiles
+
+#+begin_src shell :async :results output
+export WORKSPACE="$HOME/projects"
+mkdir -p $WORKSPACE
+cd $WORKSPACE
+git clone git@github.com:suonlight/dotfiles.git
+mkdir -p ~/.config/alacritty
+mkdir -p ~/.config/nvim
+rm -rf ~/.zshrc ~/.tmux.conf ~/.tmux.sp ~/.ctags ~/.etags ~/.editorconfig ~/.config/doom ~/.config/nvim/init.vim
+ln -s $WORKSPACE/dotfiles/.zshrc ~/.zshrc
+ln -s $WORKSPACE/dotfiles/.tmux.conf ~/.tmux.conf
+ln -s $WORKSPACE/dotfiles/.tmux.sp ~/.tmux.sp
+ln -s $WORKSPACE/dotfiles/.editorconfig ~/.editorconfig
+ln -s $WORKSPACE/dotfiles/.ctags ~/.ctags
+ln -s $WORKSPACE/dotfiles/init.vim ~/.config/nvim/init.vim
+ln -s $WORKSPACE/dotfiles/alacritty.yml ~/.config/alacritty/alacritty.yml
+ln -s $WORKSPACE/dotfiles/doom ~/.config/doom
+
+mkdir -p ~/.config/bat
+ln -s $WORKSPACE/dotfiles/bat.conf ~/.config/bat/config
+#+end_src
+
+** Emacs
+*** Use homebrew-emacs-head
+
+https://github.com/daviderestivo/homebrew-emacs-head
+
+#+begin_src shell :async :results output
+brew tap daviderestivo/emacs-head
+brew install emacs-head@28 --with-native-comp --with-cocoa
+#+end_src
+
+*** Doom
+
+#+begin_src shell :async :results output
+rm -rf ~/.emacs.d
+git clone --depth 1 https://github.com/hlissner/doom-emacs ~/projects/doom-emacs
+ln -s ~/projects/doom-emacs ~/.config/emacs
+#+end_src
+
+#+begin_src shell :async :results output
+ln -s ~/projects/dotfiles/doom ~/.config/doom
+rm -rf ~/.config/doom/snippets
+ln -s ~/.config/doom/private/snippets ~/.config/doom/snippets
+
+#+begin_src shell :async :results output
+cd ~/.config/emacs
+bin/doom install
+#+end_src
+
+* Programming Languages
+** [#A] asdf
+
+https://asdf-vm.com/#/core-manage-asdf-vm
+
+#+begin_src shell :async :results output
+asdf plugin-add postgres
+asdf plugin-add ruby
+asdf plugin-add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+asdf plugin-add yarn
+#+end_src
+
+** [#A] Terminal tools
+#+begin_src shell :async :results output
+brew install ripgrep
+brew install autojump
+#+end_src
+
+#+begin_src shell :async :results output
+asdf plugin add fd
+asdf install fd latest
+asdf global fd 8.2.1
+#+end_src
+
+#+begin_src shell :async :results output
+asdf plugin add fzf https://github.com/kompiro/asdf-fzf.git
+asdf install fzf latest
+asdf global fzf 0.24.4
+#+end_src
+
+*Notes* asdf-jq did not work at the moment
+#+begin_src shell :async :results output
+asdf plugin-add jq https://github.com/focused-labs/asdf-jq.git
+asdf install jq latest
+asdf global jq 1.6
+#+end_src
+
+#+begin_src shell :async :results output
+asdf plugin-add yq https://github.com/sudermanjr/asdf-yq.git
+asdf install yq latest
+asdf global yq 4.0.0
+#+end_src
+
+#+begin_src shell :async :results output
+asdf plugin add bat
+asdf install bat latest
+asdf global bat 0.17.1
+#+end_src
+
+** [#A] Ruby
+
+#+begin_src shell :async :results output
+asdf install ruby 2.6.6
+#+end_src
+
+** [#A] Postgres
+
+#+begin_src shell :async :results output
+POSTGRES_EXTRA_CONFIGURE_OPTIONS=--with-uuid=e2fs asdf install postgres 10.3
+#+end_src
+
+** [#A] NodeJs
+
+#+begin_src shell :async :results output
+brew install gnupg
+bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
+asdf install nodejs 12.6.0
+asdf install yarn 1.21.1
+#+end_src
+
+** [#B] R
+
+#+begin_src shell :async :results output
+asdf plugin-add R https://github.com/taiar/asdf-R.git
+R_EXTRA_CONFIGURE_OPTIONS=--with-x=no asdf install R 4.0.3
+asdf global R 4.0.3
+#+end_src
+
+#+begin_src shell :async :results output
+install.packages("dplyr")
+install.packages("ggplot2")
+#+end_src
+
+** [#B] Java
+
+#+begin_src shell :async :results output
+asdf plugin-add java https://github.com/halcyon/asdf-java.git
+asdf install java adoptopenjdk-15.0.1+9
+asdf global java adoptopenjdk-15.0.1+9
+#+end_src
+
+** [#B] Rust
+#+begin_src shell :async :results output
+curl https://sh.rustup.rs -sSf | sh
+#+end_src
+
+#+begin_src shell :async :results output
+rustup toolchain add nightly
+cargo +nightly install racer
+cargo install rustfmt
+rustup component add rls rust-analysis rust-src
+#+end_src
+
+** [#B] Others
+
+#+begin_src shell :async :results output
+brew install jq
+brew install q
+brew install ctags
+#+end_src
+
+#+begin_src shell :async :results output
+# format sql
+pip install sqlparse
+#+end_src
+
+#+begin_src shell :async :results output
+brew install mplayer
+#+end_src
+
+* [#B] Advance Tools
+** Key Repeat
+
+#+begin_src shell :async :results output
+defaults write NSGlobalDomain KeyRepeat -int 1 # normal minimum is 2 (30 ms)
+defaults write NSGlobalDomain InitialKeyRepeat -int 10
+#+end_src
+
+#+RESULTS:
+** org-protocol
+*** Test org-protocol
+
+- Test on Emacs. Follow https://github.com/xuchunyang/setup-org-protocol-on-mac
+
+#+begin_src shell :async :results output
+emacsclient -c 'org-protocol:/capture?template=L&url=foo&title=bar'
+#+end_src
+
+- Test on Browser
+
+#+begin_src js
+location.href='org-protocol:/capture?template=E&url=foo&title=bar'
+#+end_src
+
+*** Creating org-protocol by Apple Script
+
+#+BEGIN_SRC applescript
+on open location this_URL
+	--do shell script "/usr/local/bin/emacsclient \"" & this_URL & "\""
+	do shell script "/usr/local/bin/emacsclient -F '((name . \"doom-capture\") (width . 70) (height . 25) (transient . t))' -e '(org-protocol-capture-frame \"" & this_URL & "\")'"
+	--activate application "Emacs"
+end open location
 #+END_SRC
 
-** Reason LSP
+or
 
-#+BEGIN_SRC tmux :session dotfiles
-wget https://github.com/jaredly/reason-language-server/releases/download/1.7.11/rls-macos.zip -O /tmp/rls-macos.zip
-cd /tmp/ && unzip /tmp/rls-macos.zip && cd -
-cp -r /tmp/rls-macos ~/projects/dotfiles/doom/assets/
+#+begin_src shell :async :results output
+cp ~/projects/dotfiles/org-protocol* /Applications/
+#+end_src
+
+- Open org-protocol and export it by application
+- Edit Info.plist with
+
+#+begin_src shell :async :results output
+/Applications/org-protocol.app/Contents/Info.plist
+#+end_src
+
+#+RESULTS:
+
+#+begin_src xml
+<key>CFBundleURLTypes</key>
+<array>
+  <dict>
+    <key>CFBundleURLName</key>
+    <string>org-protocol handler</string>
+    <key>CFBundleURLSchemes</key>
+    <array>
+      <string>org-protocol</string>
+    </array>
+  </dict>
+</array>
+#+end_src
+
+- *IMPORTANT: Exit and Active org-protocol.app by clicking on it*
+
+*** Setup on Firefox
+
+#+begin_src js
+[
+  {
+    "key": "ctrl+shift+n",
+    "action": "javascript",
+    "blacklist": "false",
+    "sites": "*mail.google.com*",
+    "open": false,
+    "activeInInputs": true,
+    "code": "location.href = 'org-protocol://capture?template=N&url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title)+'&body='+encodeURIComponent(window.getSelection()).replace(/'/g, '%27');",
+    "exported": false,
+    "sitesArray": [
+      "*mail.google.com*"
+    ],
+    "customName": "Capture today notes"
+  },
+  {
+    "key": "ctrl+shift+e",
+    "action": "javascript",
+    "blacklist": "false",
+    "sites": "*mail.google.com*",
+    "open": false,
+    "code": "var activeTextarea = document.activeElement;\nvar selection = activeTextarea.tagName == \"TEXTAREA\" ? activeTextarea.value.substring(\n    activeTextarea.selectionStart, activeTextarea.selectionEnd\n ) : window.getSelection();\n\nlocation.href='org-protocol://capture?template=E&url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title)+'&body='+encodeURIComponent(selection)",
+    "activeInInputs": true,
+    "exported": false,
+    "sitesArray": [
+      "*mail.google.com*"
+    ]
+  }
+]
+#+end_src
+
+** Install Fonts
+
+#+begin_src shell :async :results output
+brew tap homebrew/cask-fonts && brew install --cask font-source-code-pro
+#+end_src
+
+Install all the icons by Emacs
+
+#+BEGIN_SRC emacs-lisp
+(all-the-icons-install-fonts)
 #+END_SRC
