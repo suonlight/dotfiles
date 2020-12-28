@@ -4,31 +4,6 @@
 #+PROPERTY: header-args+ :tangle yes
 
 * [#A] Basic Tools
-** Neovim
-
-#+begin_src shell :async :results output
-brew install neovim
-#+end_src
-
-** Tmux
-
-#+begin_src shell :async :results output
-brew install tmux
-
-# install tpm
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-#+end_src
-
-** ZSH
-
-#+begin_src shell :async :results output
-brew install zsh zsh-completions
-chsh -s /bin/zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-brew install zplug
-zplug install
-#+end_src
-
 ** Setup dotfiles
 
 #+begin_src shell :async :results output
@@ -50,6 +25,38 @@ ln -s $WORKSPACE/dotfiles/doom ~/.config/doom
 
 mkdir -p ~/.config/bat
 ln -s $WORKSPACE/dotfiles/bat.conf ~/.config/bat/config
+#+end_src
+
+** Neovim
+
+#+begin_src shell :async :results output
+brew install neovim
+
+# install vim-plug
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+#+end_src
+
+Start nvim then run `:PlugInstall` to install vim-plug's Plugins
+
+** Tmux
+
+#+begin_src shell :async :results output
+brew install tmux
+
+# install tpm
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+#+end_src
+
+Start tmux then press `C-SPC I` (C-SPC means tmux prefix) to install tpm plugins
+
+** ZSH
+
+#+begin_src shell :async :results output
+brew install zsh zsh-completions
+chsh -s /bin/zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+brew install zplug
 #+end_src
 
 ** Emacs
@@ -96,6 +103,7 @@ asdf plugin-add yarn
 #+begin_src shell :async :results output
 brew install ripgrep
 brew install autojump
+brew install wget
 #+end_src
 
 #+begin_src shell :async :results output
@@ -149,6 +157,17 @@ bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
 asdf install nodejs 12.6.0
 asdf install yarn 1.21.1
 #+end_src
+** [#B] Python
+
+#+begin_src shell :async :results output
+asdf plugin-add python
+asdf install python 2.7.16
+asdf install python 3.9.1
+asdf global python 2.7.16 3.9.1
+#+end_src
+
+#+RESULTS:
+: 82759ff0eb6345e2432a6c33ea604a7a
 
 ** [#B] R
 

@@ -135,10 +135,15 @@
 ;;   (setq counsel-etags-tags-file-name "ETAGS"))
 
 (after! vterm
-   (add-hook! vterm-mode :append
-      (defun auto-swith-to-insert ()
-         (setq-local evil-insert-state-cursor 'box)
-         (evil-insert-state))))
+  (defun auto-swith-to-insert ()
+    "Go back to normal state but don't move
+cursor backwards. Moving cursor backwards is the default vim behavior but it is
+not appropriate in some cases like terminals."
+    (setq-local evil-insert-state-cursor 'box)
+    (evil-insert-state)
+    (setq-local evil-move-cursor-back nil))
+
+  (add-hook! vterm-mode #'auto-swith-to-insert))
 
 ; (after! git-messenger
 ;   (setq git-messenger:use-magit-popup t))
@@ -147,12 +152,12 @@
   (setq magit-git-executable "/usr/bin/git")
 
   ;; https://jakemccrary.com/blog/2020/11/14/speeding-up-magit/
-  (remove-hook 'magit-status-sections-hook 'magit-insert-tags-header)
-  (remove-hook 'magit-status-sections-hook 'magit-insert-status-headers)
-  (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-pushremote)
-  (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
-  (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
-  (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent))
+  (remove-hook 'magit-status-sections-hook #'magit-insert-tags-header)
+  (remove-hook 'magit-status-sections-hook #'magit-insert-status-headers)
+  (remove-hook 'magit-status-sections-hook #'magit-insert-unpulled-from-pushremote)
+  (remove-hook 'magit-status-sections-hook #'magit-insert-unpulled-from-upstream)
+  (remove-hook 'magit-status-sections-hook #'magit-insert-unpushed-to-pushremote)
+  (remove-hook 'magit-status-sections-hook #'magit-insert-unpushed-to-upstream-or-recent))
 
 (after! forge
   ;; (add-hook! forge-post-mode #'sl/make-draft-pr)

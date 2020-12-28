@@ -132,12 +132,15 @@ alias m=make
 alias c=clear
 alias find=fd
 alias de='asdf current'
+alias cat=bat
 
 export PURE_PROMPT_SYMBOL='$'
 
 # other tools
 source ~/.asdf/installs/fzf/0.24.4/shell/completion.zsh
 source ~/.asdf/installs/fzf/0.24.4/shell/key-bindings.zsh
+
+test -d ~/.asdf/plugins/java/set-java-home.zsh && . ~/.asdf/plugins/java/set-java-home.zsh
 
 . $HOME/.asdf/asdf.sh
 # . $HOME/.asdf/completions/asdf.bash
