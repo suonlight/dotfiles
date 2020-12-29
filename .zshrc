@@ -116,10 +116,6 @@ if [[ -n $INSIDE_EMACS ]]; then
   find_file() {
       vterm_cmd find-file "$(realpath "$@")"
   }
-
-  say() {
-      vterm_cmd message "%s" "$*"
-  }
 fi
 
 if [[ -n $STY ]]; then
