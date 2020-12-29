@@ -18,6 +18,8 @@ open tracing: key(escape g o t)
 open monitor: key(escape g o m)
 open ci: key(escape g o c)
 open sentry: key(escape g o s)
+hub open file: key(escape space g o o)
+hub open pr: key(escape g o g)
 
 # org-mode
 note today: " nrdt"
@@ -88,5 +90,6 @@ db migrate: key(r d m enter)
 enter: key(enter)
 clear: key(c enter)
 
-quit: key(ctrl-g)
+quit: key(q)
+break: key(ctrl-g)
 escape: key(escape)
