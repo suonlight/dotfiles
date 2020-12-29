@@ -58,11 +58,15 @@ split window right: key(ctrl-w v)
 
 # magit
 magit status: key(space g s)
-magit commit: key(c c)
-magit stage: key(s)
-magit unstage: key(u)
-magit push: key(p p)
-magit create pull request: key(@ c p)
+commit: key(c c)
+stage: key(s)
+unstage: key(u)
+push: key(p p)
+log: key(l l)
+create pull request: key(@ c p)
+
+abort: key(ctrl-c ctrl-k)
+confirm: key(ctrl-c ctrl-c)
 
 # terminal
 bundle install: key(b i enter)
