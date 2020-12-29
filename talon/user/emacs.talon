@@ -45,6 +45,9 @@ buffer last:
 
 # files
 file save: key(ctrl-x ctrl-s)
+file copy: key(escape space f C)
+file rename: key(escape space f R)
+file delete: key(escape space f D)
 
 # window
 window: key(ctrl-w)
