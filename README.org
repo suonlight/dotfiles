@@ -25,6 +25,11 @@ ln -s $WORKSPACE/dotfiles/doom ~/.config/doom
 
 mkdir -p ~/.config/bat
 ln -s $WORKSPACE/dotfiles/bat.conf ~/.config/bat/config
+
+# talonvoice.com
+mkdir -p ~/.talon
+rm -rf ~/.talon/user
+ln -s $WORKSPACE/dotfiles/talon/user ~/.talon/user
 #+end_src
 
 ** Neovim
