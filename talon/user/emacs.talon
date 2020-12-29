@@ -59,6 +59,7 @@ magit commit: key(c c)
 magit stage: key(s)
 magit unstage: key(u)
 magit push: key(p p)
+magit create pull request: key(@ c p)
 
 # terminal
 bundle install: key(b i enter)
