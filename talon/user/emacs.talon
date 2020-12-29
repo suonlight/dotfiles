@@ -71,6 +71,7 @@ abort: key(ctrl-c ctrl-k)
 confirm: key(ctrl-c ctrl-c)
 
 # terminal
+clear: key(c enter)
 bundle install: key(b i enter)
 
 postrges start:
@@ -87,9 +88,10 @@ update code:
 
 db migrate: key(r d m enter)
 
-enter: key(enter)
-clear: key(c enter)
 
+enter: key(enter)
 quit: key(q)
 break: key(ctrl-g)
 escape: key(escape)
+
+quit emacs: key(escape space q q)
