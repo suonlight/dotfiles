@@ -344,7 +344,7 @@ Install all the icons by Emacs
 My talon config is here: https://github.com/suonlight/knausj_talon
 
 #+BEGIN_SRC shell :results output
-git clone git@github.com:suonlight/knausj_talon.git $WORKSPACE
+git clone git@github.com:suonlight/knausj_talon.git $WORKSPACE/knausj_talon
 
 mkdir -p ~/.talon/user
 rm -rf ~/.talon/user/knausj_talon
