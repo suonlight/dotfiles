@@ -23,11 +23,17 @@
          (file ,(format-time-string "~/org-modes/roam/%Y-%m-%d.org" (current-time) t))
          "* %?\n:PROPERTIES:\n:Source: %F\n:Captured_On: %U\n:END:\n\n#+BEGIN_SRC ruby\n%:initial\n#+END_SRC\n")
        ("N"
-         "Notes"
+         "Notes with Browser"
          entry
          (file ,(format-time-string "~/org-modes/roam/%Y-%m-%d.org" (current-time) t))
          ;; "* %?\n\nSource: %:link\nCaptured On:%U\n\n%:description\n\n%:initial\n\n")
          "* %?\n:PROPERTIES:\n:Source: %:link\n:Captured_On: %U\n:END:\n\n%:description\n\n%:initial\n\n")
+       ("n"
+         "Notes with Clipboard"
+         entry
+         (file ,(format-time-string "~/org-modes/roam/%Y-%m-%d.org" (current-time) t))
+         ;; "* %?\n\nSource: %:link\nCaptured On:%U\n\n%:description\n\n%:initial\n\n")
+         "* %?\n:PROPERTIES:\n:Source: %:link\n:Captured_On: %U\n:END:\n\n%:description\n\n%c\n\n")
        ("E"
          "Employment Hero Task"
          entry
