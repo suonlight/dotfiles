@@ -124,6 +124,7 @@
 (package! multi-vterm)
 (package! org-roam-server)
 (package! nov)
+(package! read-aloud)
 ;; (package! package-lint)
 ;; (package! clip2org)
 

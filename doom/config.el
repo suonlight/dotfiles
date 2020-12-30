@@ -257,6 +257,10 @@ not appropriate in some cases like terminals."
 (after! dumb-jump
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
+(use-package! read-aloud
+  :commands (read-aloud-this read-aloud-buf read-aloud--string)
+  :config (setq read-aloud-engine "say"))
+
 ;; (use-package! grammarly)
 ;; (use-package! flycheck-grammarly
 ;;   :config (setq flycheck-grammarly-check-time 0.8))
