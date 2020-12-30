@@ -784,6 +784,10 @@
   (:map lsp-mode-map
     "lfb" #'lsp-format-buffer
     "lfr" #'lsp-format-region)
+  (:after ruby :map ruby-mode-map
+    "tv"  nil
+    "ts"  nil
+    "tb"  #'rspec-verify)
   (:map rspec-mode-map
     "tv"  nil
     "ts"  nil
