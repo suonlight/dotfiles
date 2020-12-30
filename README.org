@@ -6,8 +6,13 @@
 * [#A] Basic Tools
 ** Setup dotfiles
 
+You need to have environment in your .zshenv first. My config is:
+
 #+begin_src shell :async :results output
 export WORKSPACE="$HOME/projects"
+#+end_src
+
+#+begin_src shell :async :results output
 mkdir -p $WORKSPACE
 cd $WORKSPACE
 git clone git@github.com:suonlight/dotfiles.git
@@ -333,4 +338,15 @@ Install all the icons by Emacs
 
 #+BEGIN_SRC emacs-lisp
 (all-the-icons-install-fonts)
+#+END_SRC
+** talon
+
+My talon config is here: https://github.com/suonlight/knausj_talon
+
+#+BEGIN_SRC shell :results output
+git clone git@github.com:suonlight/knausj_talon.git $WORKSPACE
+
+mkdir -p ~/.talon/user
+rm -rf ~/.talon/user/knausj_talon
+ln -s $WORKSPACE/knausj_talon ~/.talon/user/knausj_talon
 #+END_SRC
