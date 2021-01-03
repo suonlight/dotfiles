@@ -12,6 +12,7 @@
   user-mail-address "minh.nh1989@gmail.com")
 
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024))
