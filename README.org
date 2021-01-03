@@ -30,11 +30,6 @@ ln -s $WORKSPACE/dotfiles/doom ~/.config/doom
 
 mkdir -p ~/.config/bat
 ln -s $WORKSPACE/dotfiles/bat.conf ~/.config/bat/config
-
-# talonvoice.com
-mkdir -p ~/.talon
-rm -rf ~/.talon/user
-ln -s $WORKSPACE/dotfiles/talon/user ~/.talon/user
 #+end_src
 
 ** Neovim
@@ -348,5 +343,7 @@ git clone git@github.com:suonlight/knausj_talon.git $WORKSPACE/knausj_talon
 
 mkdir -p ~/.talon/user
 rm -rf ~/.talon/user/knausj_talon
+rm -rf ~/.talon/user/hero
 ln -s $WORKSPACE/knausj_talon ~/.talon/user/knausj_talon
+ln -s $WORKSPACE/dotfiles/doom/private/talon/hero ~/.talon/user/hero
 #+END_SRC
