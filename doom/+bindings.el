@@ -799,6 +799,11 @@
     "Mi" #'anki-editor-insert-note
     "Mp" #'anki-editor-push-notes
     "Mr" #'anki-editor-retry-failure-notes)
+  (:after smerge-mode :map smerge-mode-map
+    "n"  #'smerge-next
+    "p"  #'smerge-prev
+    "u"  #'smerge-keep-upper
+    "l"  #'smerge-keep-lower)
   (:after org :map org-mode-map
     "'"          #'org-edit-special
     ","          #'org-babel-execute-src-block
