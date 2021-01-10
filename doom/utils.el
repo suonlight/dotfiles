@@ -84,3 +84,11 @@
 (defun sl/insert-date ()
   (interactive)
   (insert (format-time-string "%Y-%m-%d")))
+
+(defun sl/send-cmd-to-multi-vterm-project ()
+  (interactive)
+  (let ((cmd (buffer-substring-no-properties (region-beginning) (region-end)))
+         (window (selected-window)))
+    (multi-vterm-project)
+    (vterm-send-string cmd)
+    (select-window window)))

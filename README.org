@@ -153,6 +153,13 @@ asdf install ruby 2.6.6
 #+begin_src shell :async :results output
 POSTGRES_EXTRA_CONFIGURE_OPTIONS=--with-uuid=e2fs asdf install postgres 10.3
 #+end_src
+** [#A] Redis
+
+#+begin_src shell :async :results output
+asdf plugin-add redis https://github.com/smashedtoatoms/asdf-redis.git
+asdf install redis latest
+asdf global redis 6.0.c
+#+end_src
 
 ** [#A] NodeJs
 

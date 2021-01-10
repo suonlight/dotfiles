@@ -654,6 +654,7 @@
 (map! :leader
   "w2" (general-simulate-key "SPC w C-o SPC w v SPC w l SPC b p SPC w h")
   "w3" (general-simulate-key "SPC w C-o SPC w v SPC w l SPC b p SPC w v SPC w l SPC b p 2 SPC w h")
+  "!"   #'sl/send-cmd-to-multi-vterm-project
   (:prefix-map ("a" . "application")
     "c" #'calendar
     "d" #'projectile-dired)
