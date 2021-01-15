@@ -244,7 +244,8 @@ not appropriate in some cases like terminals."
 
 (use-package! evil-matchit
   :config
-  (add-hook! js-mode evil-matchit-mode))
+  (add-hook! js-mode evil-matchit-mode)
+  (add-hook! ruby-mode evil-matchit-mode))
 
 (use-package! indent-guide
   :commands indent-guide-global-mode)
