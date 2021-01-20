@@ -172,7 +172,7 @@ not appropriate in some cases like terminals."
 (set' +zen-text-scale 3)
 
 (setq ispell-dictionary "en")
-(setq ispell-personal-dictionary "/Users/employmenthero/projects/doom-emacs/.local/etc/ispell/en.pws")
+(setq ispell-personal-dictionary "~/projects/doom-emacs/.local/etc/ispell/en.pws")
 
 ;; ReasonML
 (use-package! reason-mode

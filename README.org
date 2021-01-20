@@ -341,6 +341,7 @@ Install all the icons by Emacs
 #+BEGIN_SRC emacs-lisp
 (all-the-icons-install-fonts)
 #+END_SRC
+
 ** talon
 
 My talon config is here: https://github.com/suonlight/knausj_talon
@@ -354,3 +355,10 @@ rm -rf ~/.talon/user/hero
 ln -s $WORKSPACE/knausj_talon ~/.talon/user/knausj_talon
 ln -s $WORKSPACE/dotfiles/doom/private/talon/hero ~/.talon/user/hero
 #+END_SRC
+** aspell
+
+#+BEGIN_SRC shell :results output
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" < /dev/null 2> /dev/null
+#+END_SRC
+
+#+RESULTS:
