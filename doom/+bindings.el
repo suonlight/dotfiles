@@ -167,16 +167,16 @@
       (:when (featurep! :ui workspaces)
         :n "C-t"   #'sl/new-workspace-and-vterm
         :n "C-S-t" #'+workspace/display
-        :g "M-1"   #'+workspace/switch-to-0
-        :g "M-2"   #'+workspace/switch-to-1
-        :g "M-3"   #'+workspace/switch-to-2
-        :g "M-4"   #'+workspace/switch-to-3
-        :g "M-5"   #'+workspace/switch-to-4
-        :g "M-6"   #'+workspace/switch-to-5
-        :g "M-7"   #'+workspace/switch-to-6
-        :g "M-8"   #'+workspace/switch-to-7
-        :g "M-9"   #'+workspace/switch-to-8
-        :g "M-0"   #'+workspace/switch-to-final
+        ;; :g "M-1"   #'+workspace/switch-to-0
+        ;; :g "M-2"   #'+workspace/switch-to-1
+        ;; :g "M-3"   #'+workspace/switch-to-2
+        ;; :g "M-4"   #'+workspace/switch-to-3
+        ;; :g "M-5"   #'+workspace/switch-to-4
+        ;; :g "M-6"   #'+workspace/switch-to-5
+        ;; :g "M-7"   #'+workspace/switch-to-6
+        ;; :g "M-8"   #'+workspace/switch-to-7
+        ;; :g "M-9"   #'+workspace/switch-to-8
+        ;; :g "M-0"   #'+workspace/switch-to-final
         (:when IS-MAC
           :g "s-t"   #'sl/new-workspace-and-vterm
           :g "s-T"   #'+workspace/display
@@ -643,6 +643,7 @@
       :nv "s-b"   #'projectile-switch-to-buffer
       :nv "<f10>" #'doom/window-maximize-buffer
       :nv "<f12>" #'multi-vterm-project
+      :nv "gh"    #'sl/jump-to-cursor
       :nv "s-`"   #'+evil/next-frame
       :nv "s-<f12>" #'list-processes
       :nv ";"     #'evil-repeat-find-char
@@ -674,28 +675,30 @@
 (map!
   :inv "C-<f6>" #'projectile-toggle-between-implementation-and-test
   :nv "s-'" #'+vterm/toggle
-  (:map comint-mode-map
-    :i "s-1"   #'+workspace/switch-to-0
-    :i "s-2"   #'+workspace/switch-to-1
-    :i "s-3"   #'+workspace/switch-to-2
-    :i "s-4"   #'+workspace/switch-to-3
-    :i "s-5"   #'+workspace/switch-to-4
-    :i "s-6"   #'+workspace/switch-to-5
-    :i "s-7"   #'+workspace/switch-to-6
-    :i "s-8"   #'+workspace/switch-to-7
-    :i "s-9"   #'+workspace/switch-to-8
-    :i "s-0"   #'+workspace/switch-to-final)
+  (:when IS-MAC
+    (:map comint-mode-map
+      :i "s-1"   #'+workspace/switch-to-0
+      :i "s-2"   #'+workspace/switch-to-1
+      :i "s-3"   #'+workspace/switch-to-2
+      :i "s-4"   #'+workspace/switch-to-3
+      :i "s-5"   #'+workspace/switch-to-4
+      :i "s-6"   #'+workspace/switch-to-5
+      :i "s-7"   #'+workspace/switch-to-6
+      :i "s-8"   #'+workspace/switch-to-7
+      :i "s-9"   #'+workspace/switch-to-8
+      :i "s-0"   #'+workspace/switch-to-final)
+    (:after vterm :map vterm-mode-map
+      :i "s-1"   #'+workspace/switch-to-0
+      :i "s-2"   #'+workspace/switch-to-1
+      :i "s-3"   #'+workspace/switch-to-2
+      :i "s-4"   #'+workspace/switch-to-3
+      :i "s-5"   #'+workspace/switch-to-4
+      :i "s-6"   #'+workspace/switch-to-5
+      :i "s-7"   #'+workspace/switch-to-6
+      :i "s-8"   #'+workspace/switch-to-7
+      :i "s-9"   #'+workspace/switch-to-8
+      :i "s-0"   #'+workspace/switch-to-final))
   (:after vterm :map vterm-mode-map
-    :i "s-1"   #'+workspace/switch-to-0
-    :i "s-2"   #'+workspace/switch-to-1
-    :i "s-3"   #'+workspace/switch-to-2
-    :i "s-4"   #'+workspace/switch-to-3
-    :i "s-5"   #'+workspace/switch-to-4
-    :i "s-6"   #'+workspace/switch-to-5
-    :i "s-7"   #'+workspace/switch-to-6
-    :i "s-8"   #'+workspace/switch-to-7
-    :i "s-9"   #'+workspace/switch-to-8
-    :i "s-0"   #'+workspace/switch-to-final
     :nv "i"        #'evil-insert-resume
     :nv "o"        #'evil-insert-resume
     :nv "<return>" #'evil-insert-resume
