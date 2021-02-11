@@ -164,6 +164,11 @@
         :n "C-~"   #'+popup/raise
         :g "C-x p" #'+popup/other)
 
+      (:when IS-LINUX
+        :gn "s-s"      #'save-buffer
+        :gn "C-c c"    #'run-command
+        :gn "s-x"      #'counsel-M-x)
+
       (:when (featurep! :ui workspaces)
         :n "C-t"   #'sl/new-workspace-and-vterm
         :n "C-S-t" #'+workspace/display
