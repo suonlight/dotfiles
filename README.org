@@ -92,6 +92,13 @@ cd ~/.config/emacs
 bin/doom install
 #+end_src
 
+*To make sure vterm use zsh by default*
+
+#+begin_src shell
+export SHELL=/usr/bin/zsh
+bin/doom sync
+#+end_src
+
 * Programming Languages
 ** [#A] asdf
 
@@ -120,7 +127,7 @@ asdf global fd 8.2.1
 #+begin_src shell :async :results output
 asdf plugin add fzf https://github.com/kompiro/asdf-fzf.git
 asdf install fzf latest
-asdf global fzf 0.24.4
+asdf global fzf 0.25.1
 #+end_src
 
 *Notes* asdf-jq did not work at the moment

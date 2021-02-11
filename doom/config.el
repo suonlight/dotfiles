@@ -294,20 +294,6 @@ not appropriate in some cases like terminals."
                   (let ((command (get-text-property 0 'property recipe)))
                     (start-process-shell-command command nil command))))))
 
-  ;; (after! run-command
-  ;;   (setq run-command-experiments '(vterm-run-method))
-
-  ;;   (defun run-command-recipe-app ()
-  ;;     (list
-  ;;       (list :display "Launch Firefox"
-  ;;         :command-name "lanch-firefox"
-  ;;         :command-line '(run-shell-command "firefox"))
-  ;;       (list :display "Launch App Setting"
-  ;;         :command-name "lanch-app-setting"
-  ;;         :command-line "gnome-control-center")))
-
-  ;;   (add-to-list 'run-command-recipes #'run-command-recipe-app))
-
   (require 'exwm)
   (require 'exwm-config)
 
@@ -356,9 +342,6 @@ not appropriate in some cases like terminals."
            ([?\C-k] . [S-end delete]))))
     ;; Enable EXWM
     (exwm-enable)
-    ;; Configure Ido
-    ;; (exwm-config-ido)
-    ;; Other configurations
     (exwm-config-misc))
 
   (exwm-config-custom))
