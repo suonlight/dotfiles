@@ -164,10 +164,11 @@
         :n "C-~"   #'+popup/raise
         :g "C-x p" #'+popup/other)
       (:when IS-LINUX
-        :gn "s-w"      #'+workspace/close-window-or-workspace
+        :gn "s-w"      #'delete-window
         :gn "s-s"      #'save-buffer
-        :gn "C-c c"    #'run-command
-        :gn "s-x"      #'counsel-M-x)
+        :gn "C-c c"    #'counsel-linux-app
+        :gn "s-x"      #'counsel-M-x
+        :gn "s-t"      #'multi-vterm)
       (:when (featurep! :ui workspaces)
         :n "C-t"   #'sl/new-workspace-and-vterm
         :n "C-S-t" #'+workspace/display
@@ -262,10 +263,6 @@
       :desc "Find file"             "."    #'find-file
 
       :desc "Switch buffer"         ","    #'switch-to-buffer
-      (:when (featurep! :ui workspaces)
-        :desc "Switch workspace buffer" "," #'persp-switch-to-buffer
-        :desc "Switch buffer"           "<" #'switch-to-buffer)
-
       :desc "Switch to last buffer" "<tab>"    #'evil-switch-to-windows-last-buffer
       :desc "Resume last search"    "'"    #'ivy-resume
 
@@ -276,6 +273,8 @@
 
       ;;; <leader> TAB --- workspace
       (:when (featurep! :ui workspaces)
+        :desc "Switch workspace buffer" "," #'persp-switch-to-buffer
+        :desc "Switch buffer"           "<" #'switch-to-buffer
         (:prefix-map ("l" . "workspace")
           :desc "Display tab bar"           "TAB" #'+workspace/display
           :desc "Switch workspace"          "."   #'+workspace/switch-to
@@ -299,7 +298,11 @@
           :desc "Switch to 8th workspace"   "8"   #'+workspace/switch-to-7
           :desc "Switch to 9th workspace"   "9"   #'+workspace/switch-to-8
           :desc "Switch to final workspace" "0"   #'+workspace/switch-to-final))
-
+      (:when IS-LINUX
+        :desc "Switch buffer"           "<" #'exwm-workspace-switch-to-buffer
+        (:prefix-map ("l" . "workspace")
+          :desc "Display tab bar"           "TAB" #'exwm-workspace-switch
+          :desc "Load workspace from file"  "l"   #'exwm-workspace-switch))
       ;;; <leader> b --- buffer
       (:prefix-map ("b" . "buffer")
         :desc "Toggle narrowing"            "-"   #'doom/toggle-narrow-buffer

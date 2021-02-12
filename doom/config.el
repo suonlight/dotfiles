@@ -150,7 +150,7 @@ not appropriate in some cases like terminals."
 ;   (setq git-messenger:use-magit-popup t))
 
 (after! magit
-  (setq magit-git-executable "/usr/bin/git")
+  ;; (setq magit-git-executable "/usr/bin/git")
 
   ;; https://jakemccrary.com/blog/2020/11/14/speeding-up-magit/
   (remove-hook 'magit-status-sections-hook #'magit-insert-tags-header)
@@ -278,35 +278,32 @@ not appropriate in some cases like terminals."
 ;;   (global-tree-sitter-mode))
 
 (when IS-LINUX
-  (setq run-command-recipes
-    (list
-      (list :display "Lauch Firefox" :command-line "firefox")
-      (list :display "Launch App Setting" :command-line "gnome-control-center")))
+  (defun sl/async-run-command (command)
+    (let ((command-parts (split-string command "[ ]+")))
+      (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
 
-  (defun run-command ()
-    (interactive)
-    (let ((recipes (mapcar
-                     (lambda (x)
-                       (propertize (plist-get x :display) 'property (plist-get x :command-line)))
-                     run-command-recipes)))
-      (ivy-read "Run command: " recipes
-        :action (lambda (recipe)
-                  (let ((command (get-text-property 0 'property recipe)))
-                    (start-process-shell-command command nil command))))))
-
-  (require 'exwm)
-  (require 'exwm-config)
-
-  (defun exwm-config-custom ()
+  (defun sl/exwm-config-custom ()
     "Default configuration of EXWM."
     ;; Set the initial workspace number.
     (unless (get 'exwm-workspace-number 'saved-value)
-      (setq exwm-workspace-number 4))
+      (setq exwm-workspace-number 6))
 
     ;; Make class name the buffer name
     (add-hook 'exwm-update-class-hook
       (lambda ()
         (exwm-workspace-rename-buffer exwm-class-name)))
+
+    (setq exwm-input-prefix-keys
+      '(?\s-x
+         ?\C-x
+         ?\C-l
+         ?\C-h
+         ?\C-j
+         ?\C-k
+         ?\C-c
+         ?\s-b
+         ?\s-w
+         ?\C-\ ))
 
     ;; Global keybindings.
     (unless (get 'exwm-input-global-keys 'saved-value)
@@ -320,6 +317,11 @@ not appropriate in some cases like terminals."
            ([?\s-&] . (lambda (command)
                         (interactive (list (read-shell-command "$ ")))
                         (start-process-shell-command command nil command)))
+
+           ;; ([?\s-`] . (lambda ()
+           ;;              (interactive)
+           ;;              (exwm-workspace-switch-create 0)))
+
            ;; 's-N': Switch to certain workspace.
            ,@(mapcar (lambda (i)
                        `(,(kbd (format "s-%d" i)) .
@@ -339,9 +341,44 @@ not appropriate in some cases like terminals."
            ([?\M-v] . [prior])
            ([?\C-v] . [next])
            ([?\C-d] . [delete])
+           ([?\s-v] . [S-insert])
+           ([?\s-c] . [C-c])
            ([?\C-k] . [S-end delete]))))
-    ;; Enable EXWM
-    (exwm-enable)
-    (exwm-config-misc))
 
-  (exwm-config-custom))
+    ;; Enable EXWM
+    (exwm-enable))
+
+  (defun sl/exwm-init-hook ()
+    (exwm-workspace-switch-create 1)
+    (menu-bar-mode -1)
+
+    (sl/async-run-command "pasystray"))
+
+  (use-package! exwm
+    :config
+
+    (add-hook 'exwm-init-hook #'sl/exwm-init-hook)
+
+    ;; load system tray before exwm-init
+    (require 'exwm-systemtray)
+    (setq exwm-systemtray-height 16)
+    (exwm-systemtray-enable)
+
+    (sl/exwm-config-custom))
+
+  (setq run-command-recipes
+    (list
+      (list :display "Lauch Firefox" :command-line "firefox")
+      (list :display "Launch App Setting" :command-line "gnome-control-center")
+      (list :display "Start Postgres Server" :command-line "pg_ctl start")))
+
+  (defun run-command ()
+    (interactive)
+    (let ((recipes (mapcar
+                     (lambda (x)
+                       (propertize (plist-get x :display) 'property (plist-get x :command-line)))
+                     run-command-recipes)))
+      (ivy-read "Run command: " recipes
+        :action (lambda (recipe)
+                  (let ((command (get-text-property 0 'property recipe)))
+                    (start-process-shell-command command nil command)))))))
