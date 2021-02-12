@@ -59,6 +59,10 @@ function j() {
     [[ -f "$pfx/etc/autojump.sh" ]] && . "$pfx/etc/autojump.sh"
     j "$@"
   }
+  test -e ~/.nix-profile/etc/profile.d/autojump.sh && {
+    source ~/.nix-profile/etc/profile.d/autojump.sh
+    j "$@"
+  }
 }
 
 cd() {
@@ -143,3 +147,9 @@ test -d ~/.asdf/plugins/java/set-java-home.zsh && . ~/.asdf/plugins/java/set-jav
 ### End of Zinit's installer chunk
 
 setopt interactivecomments
+
+# Nix
+if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+  . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+fi
+# End Nix
