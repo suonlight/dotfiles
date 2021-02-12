@@ -1,4 +1,6 @@
 (after! ivy
+  (setq ivy-sort-max-size 30000)
+
   (defun counsel-file-vsplit (x)
     (let* ((file (if (and ivy--directory
                        (ivy--dirname-p (ivy-state-current ivy-last)))
