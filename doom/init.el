@@ -33,7 +33,6 @@
        ;; hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        hydra
        ;; indent-guides     ; highlighted indent columns
-       modeline          ; snazzy, Atom-inspired modeline, plus API
        ;; nav-flash         ; blink the current line after jumping
        ;; neotree           ; a project drawer, like NERDTree for vim
        ;; ophints           ; highlight the region an operation acts on
@@ -48,6 +47,7 @@
        ;; vi-tilde-fringe   ; fringe tildes to mark beyond EOB
        ;; window-select     ; visually switch windows
        (when IS-MAC
+         modeline          ; snazzy, Atom-inspired modeline, plus API
          workspaces        ; tab emulation, persistence & separate workspaces
          )
        ;; zen               ; distraction-free coding or writing
