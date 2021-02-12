@@ -112,6 +112,7 @@ asdf plugin-add yarn
 #+end_src
 
 ** [#A] Terminal tools
+
 #+begin_src shell :async :results output
 brew install ripgrep
 brew install autojump
@@ -130,13 +131,6 @@ asdf install fzf latest
 asdf global fzf 0.25.1
 #+end_src
 
-*Notes* asdf-jq did not work at the moment
-#+begin_src shell :async :results output
-asdf plugin-add jq https://github.com/focused-labs/asdf-jq.git
-asdf install jq latest
-asdf global jq 1.6
-#+end_src
-
 #+begin_src shell :async :results output
 asdf plugin-add yq https://github.com/sudermanjr/asdf-yq.git
 asdf install yq latest
@@ -153,19 +147,22 @@ asdf global bat 0.17.1
 
 #+begin_src shell :async :results output
 asdf install ruby 2.6.6
+asdf global ruby 2.6.6
 #+end_src
 
 ** [#A] Postgres
 
 #+begin_src shell :async :results output
 POSTGRES_EXTRA_CONFIGURE_OPTIONS=--with-uuid=e2fs asdf install postgres 10.3
+asdf global postgres 10.3
 #+end_src
+
 ** [#A] Redis
 
 #+begin_src shell :async :results output
 asdf plugin-add redis https://github.com/smashedtoatoms/asdf-redis.git
 asdf install redis latest
-asdf global redis 6.0.c
+asdf global redis 6.0.10
 #+end_src
 
 ** [#A] NodeJs
@@ -174,7 +171,9 @@ asdf global redis 6.0.c
 brew install gnupg
 bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
 asdf install nodejs 12.6.0
+asdf global nodejs 12.6.0
 asdf install yarn 1.21.1
+asdf global yarn 1.21.1
 #+end_src
 ** [#B] Python
 
