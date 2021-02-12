@@ -355,11 +355,13 @@ My talon config is here: https://github.com/suonlight/knausj_talon
 #+BEGIN_SRC shell :results output
 git clone git@github.com:suonlight/knausj_talon.git $WORKSPACE/knausj_talon
 
-mkdir -p ~/.talon/user
+mkdir -p ~/.talon/user ~/.config/polybar
 rm -rf ~/.talon/user/knausj_talon
 rm -rf ~/.talon/user/hero
 ln -s $WORKSPACE/knausj_talon ~/.talon/user/knausj_talon
 ln -s $WORKSPACE/dotfiles/doom/private/talon/hero ~/.talon/user/hero
+
+ln -s $WORKSPACE/dotfiles/polybar/config ~/.config/polybar/config
 #+END_SRC
 ** aspell
 
