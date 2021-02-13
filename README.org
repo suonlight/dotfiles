@@ -361,7 +361,8 @@ rm -rf ~/.talon/user/hero
 ln -s $WORKSPACE/knausj_talon ~/.talon/user/knausj_talon
 ln -s $WORKSPACE/dotfiles/doom/private/talon/hero ~/.talon/user/hero
 
-ln -s $WORKSPACE/dotfiles/polybar/config ~/.config/polybar/config
+rm -rf ~/.config/polybar
+ln -s $WORKSPACE/dotfiles/polybar ~/.config/polybar
 #+END_SRC
 ** aspell
 

@@ -379,27 +379,29 @@ not appropriate in some cases like terminals."
   (defun sl/start-panel ()
     (interactive)
     (sl/kill-panel)
-    (setq sl/polybar-process (start-process-shell-command "polybar" nil "polybar panel")))
+    (setq sl/polybar-process (start-process-shell-command "polybar" nil "polybar -q main -c ~/.config/polybar/config.ini")))
 
   (defun sl/send-polybar-hook (module-name hook-index)
     (start-process-shell-command "polybar-msg" nil (format "polybar-msg hook %s %s" module-name hook-index)))
 
   (defun sl/send-polybar-exwm-workspace ()
-    (sl/send-polybar-hook "exwm-workspace" 1))
+    (sl/send-polybar-hook "exwm-workspaces" 1))
 
   (defvar sl/current-buffer nil)
 
   (defun sl/buffer-icon ()
     (cond
+      ((string= major-mode "org-mode") "")
       ((string-match-p "Firefox" (buffer-name)) "")
       ((string= major-mode "vterm-mode") "")
       ((string= major-mode "ruby-mode") "")
       ((string= major-mode "js-mode") "")
+      ((or (string= major-mode "docker-mode") (string-match-p "Dockerfile" (buffer-name))) "")
       (t "")))
 
   (defun sl/send-polybar-emacs-modeline ()
     (setq sl/current-buffer (if buffer-file-truename
-                              (format "%s %s %d:%d | %s %s"
+                              (format "%s %s %d:%d ⏽ %s %s"
                                 (sl/buffer-icon)
                                 buffer-file-truename
                                 (current-column)
