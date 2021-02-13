@@ -356,7 +356,8 @@ not appropriate in some cases like terminals."
     ;; start polybar panel
     (sl/start-panel)
 
-    (sl/async-run-command "pasystray"))
+    ;; (sl/async-run-command "pasystray")
+    )
 
   (defun sl/exwm-update-title ()
     (pcase exwm-class-name
