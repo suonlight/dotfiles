@@ -1,5 +1,5 @@
 (after! ivy
-  (setq ivy-sort-max-size 30000)
+  ;; (setq ivy-sort-max-size 30000)
 
   (defun counsel-file-vsplit (x)
     (let* ((file (if (and ivy--directory
@@ -113,3 +113,6 @@
     'counsel-rg
     '(("v" counsel-rg-vsplit "open buffer in vsplit window")
        ("s" counsel-rg-split  "open buffer in split window"))))
+
+(after! ivy-posframe
+  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center))))

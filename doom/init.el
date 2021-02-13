@@ -22,8 +22,8 @@
        (company +tng)           ; the ultimate code completion backend
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
-       (ivy +icons +prescient)               ; a search engine for love and life
-
+       (ivy +icons +prescient +childframe)
+       ;; (when IS-MAC (ivy +icons +prescient))
        :ui
        ;; deft              ; notational velocity for Emacs
        doom              ; what makes DOOM look the way it does
