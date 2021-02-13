@@ -288,11 +288,6 @@ not appropriate in some cases like terminals."
     (unless (get 'exwm-workspace-number 'saved-value)
       (setq exwm-workspace-number 6))
 
-    ;; Make class name the buffer name
-    (add-hook 'exwm-update-class-hook
-      (lambda ()
-        (exwm-workspace-rename-buffer exwm-class-name)))
-
     (setq exwm-input-prefix-keys
       '(?\s-x
          ?\C-x
@@ -358,6 +353,9 @@ not appropriate in some cases like terminals."
 
     ;; (sl/async-run-command "pasystray")
     )
+
+  (defun sl/exwm-update-class ()
+    (exwm-workspace-rename-buffer exwm-class-name))
 
   (defun sl/exwm-update-title ()
     (pcase exwm-class-name
@@ -432,10 +430,14 @@ not appropriate in some cases like terminals."
     :config
 
     (add-hook 'exwm-init-hook #'sl/exwm-init-hook)
+    (add-hook 'exwm-update-class-hook #'sl/exwm-update-class)
     (add-hook 'exwm-update-title-hook #'sl/exwm-update-title)
     (add-hook 'exwm-manage-finish-hook #'sl/configure-window-by-class)
     (add-hook 'exwm-workspace-switch-hook #'sl/send-polybar-exwm-workspace)
     (add-hook 'post-command-hook #'sl/send-polybar-emacs-modeline)
+
+    ;; (start-process-shell-command "xrandr" nil "")
+    ;; (add-hook 'isearch-update-post-hook 'redraw-display)
     ;; (advice-add 'select-window :around #'sl/send-polybar-emacs-modeline)
     ;; (advice-remove 'select-window #'sl/send-polybar-emacs-modeline)
 
