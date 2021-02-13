@@ -166,6 +166,8 @@
       (:when IS-LINUX
         :gn "s-w"      #'delete-window
         :gn "s-s"      #'save-buffer
+        :gn "s-v"      #'yank
+        :gn "s-c"      #'kill-ring-save
         :gn "C-c c"    #'counsel-linux-app
         :gn "s-x"      #'counsel-M-x
         :gn "s-t"      #'multi-vterm)
