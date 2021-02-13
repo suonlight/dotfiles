@@ -360,10 +360,8 @@ rm -rf ~/.talon/user/knausj_talon
 rm -rf ~/.talon/user/hero
 ln -s $WORKSPACE/knausj_talon ~/.talon/user/knausj_talon
 ln -s $WORKSPACE/dotfiles/doom/private/talon/hero ~/.talon/user/hero
-
-rm -rf ~/.config/polybar
-ln -s $WORKSPACE/dotfiles/polybar ~/.config/polybar
 #+END_SRC
+
 ** aspell
 
 #+BEGIN_SRC shell :results output
@@ -371,3 +369,18 @@ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/
 #+END_SRC
 
 #+RESULTS:
+
+* Linux
+
+Using emacs exwm
+
+#+begin_src shell :async :results output
+# polybar
+rm -rf ~/.config/polybar
+ln -s $WORKSPACE/dotfiles/polybar ~/.config/polybar
+
+# x window
+rm ~/.xinitrc ~/.xprofile
+ln -s $WORKSPACE/dotfiles/.xinitrc ~/.xinitrc
+ln -s $WORKSPACE/dotfiles/.xprofile ~/.xprofile
+#+end_src
