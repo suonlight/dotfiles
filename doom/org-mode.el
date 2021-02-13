@@ -194,7 +194,7 @@ Argument PARAMS the org parameters of the code block."
   (setq org-roam-directory "~/Dropbox/org-modes/roam")
   (setq org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox-bin")
   (setq deft-directory "~/Dropbox/org-modes/roam")
-  (setq org-roam-graph-exclude-matcher '("2020-"))
+  (setq org-roam-graph-exclude-matcher '("2020-" "2021-"))
 
   (setq org-roam-capture-templates
     '(("d" "default" plain
