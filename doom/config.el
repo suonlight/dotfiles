@@ -389,10 +389,28 @@ not appropriate in some cases like terminals."
     (sl/send-polybar-hook "exwm-workspace" 1))
 
   (defvar sl/current-buffer nil)
+
+  (defun sl/buffer-icon ()
+    (cond
+      ((string-match-p "Firefox" (buffer-name)) "")
+      ((string= major-mode "vterm-mode") "")
+      ((string= major-mode "ruby-mode") "")
+      ((string= major-mode "js-mode") "")
+      (t "")))
+
   (defun sl/send-polybar-emacs-modeline ()
     (setq sl/current-buffer (if buffer-file-truename
-                              (format "%s %d:%d" buffer-file-truename (current-column) (line-number-at-pos))
-                              ""))
+                              (format "%s %s %d:%d | %s %s"
+                                (sl/buffer-icon)
+                                buffer-file-truename
+                                (current-column)
+                                (line-number-at-pos)
+                                (pcase (coding-system-eol-type buffer-file-coding-system)
+                                  (0 "LF")
+                                  (1 "CRLF")
+                                  (2 "CR"))
+                                (coding-system-type buffer-file-coding-system))
+                              (format "%s %s" (sl/buffer-icon) (buffer-name))))
     (sl/send-polybar-hook "emacs-modeline" 1))
 
   (defun sl/polybar-current-buffer ()

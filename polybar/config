@@ -20,7 +20,7 @@ underline-1 = #c792ea
 
 [bar/panel]
 width = 100%
-height = 35
+height = 30
 offset-x = 0
 offset-y = 0
 fixed-center = true
@@ -35,23 +35,33 @@ line-color = #f00
 border-size = 0
 border-color = #00000000
 
-padding-top = 5
+padding-top = 2
 padding-left = 1
 padding-right = 1
 
 module-margin = 1
 
-font-0 = "Cantarell:size=10:weight=bold;1"
-font-1 = "Font Awesome:size=10;2"
-font-2 = "Material Icons:size=10;5"
-font-3 = "Fira Mono:size=10;-3"
+font-0 = "Iosevka Nerd Font:pixelsize=10;3"
+font-1 = "Iosevka Nerd Font:pixelsize=12;4"
+; font-0 = "TerminessTTF Nerd Font;size=10"
+; font-0 = "Iosevka Nerd Font;size=10"
+; font-1 = "all-the-icons;size=10"
+; font-2 = "file-icons;size=10"
+; font-3 = "Material Icons;size=10"
+; font-0 = "file-icons;size=10"
+; font-0 = "Cantarell:size=10:weight=bold;1"
+; font-1 = "Font Awesome:size=10;2"
+; font-2 = "Material Icons:size=17;5"
+; font-0 = "Fira Mono:size=10;-3"
+; font-1 = "devicons:size=10;5"
+; font-3 = "FiraCode Nerd Font Mono:size=10;3"
 
 modules-right = cpu date
 modules-left = exwm-workspace emacs-modeline
 
 tray-position = right
 tray-padding = 2
-tray-maxsize = 28
+tray-maxsize = 25
 
 cursor-click = pointer
 cursor-scroll = ns-resize
@@ -59,7 +69,8 @@ cursor-scroll = ns-resize
 [module/cpu]
 type = internal/cpu
 interval = 2
-format = <label> <ramp-coreload>
+format = <label> <ramp-coreload>
+; format =<label> <ramp-coreload>
 format-underline = ${colors.underline-1}
 click-left = emacsclient -e "(proced)"
 label = %percentage:2%%
