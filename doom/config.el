@@ -352,6 +352,7 @@ not appropriate in some cases like terminals."
     (sl/start-panel)
 
     ;; (sl/async-run-command "pasystray")
+    (sl/async-run-command "ibus-daemon --xim")
     )
 
   (defun sl/exwm-update-class ()
