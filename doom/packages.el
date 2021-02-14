@@ -123,11 +123,11 @@
 (package! request)
 (package! multi-vterm)
 (package! org-roam-server)
-(package! nov)
 (package! read-aloud)
 
-(when IS-LINUX
-  (package! exwm))
+(when IS-LINUX (package! exwm))
+
+;; (package! nov)
 ;; (package! package-lint)
 ;; (package! clip2org)
 
