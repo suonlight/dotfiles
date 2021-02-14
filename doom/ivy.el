@@ -115,7 +115,8 @@
        ("s" counsel-rg-split  "open buffer in split window"))))
 
 (after! ivy-posframe
-  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center)))
+  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
+  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center)))
   ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-bottom-left)))
 
   ;; Fix posframe show over X-window  https://github.com/ch11ng/exwm/issues/550
