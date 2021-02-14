@@ -16,5 +16,6 @@ xset r rate 190 38
 #export CLUTTER_IM_MODULE=xim
 
 # Finally start Emacs
-pasystray &
+# ibus-daemon --xim &
+# pasystray &
 exec emacs
