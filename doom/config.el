@@ -392,11 +392,12 @@ not appropriate in some cases like terminals."
   (defun sl/buffer-icon ()
     (cond
       ((string= major-mode "org-mode") "")
-      ((string-match-p "Firefox" (buffer-name)) "")
       ((string= major-mode "vterm-mode") "")
       ((string= major-mode "ruby-mode") "")
       ((string= major-mode "js-mode") "")
       ((or (string= major-mode "docker-mode") (string-match-p "Dockerfile" (buffer-name))) "")
+      ((string-match-p "Firefox" (buffer-name)) "")
+      ((string-match-p "Slack" (buffer-name)) "")
       (t "")))
 
   (defun sl/send-polybar-emacs-modeline ()
@@ -411,7 +412,8 @@ not appropriate in some cases like terminals."
                                   (1 "CRLF")
                                   (2 "CR"))
                                 (coding-system-type buffer-file-coding-system))
-                              (format "%s %s" (sl/buffer-icon) (buffer-name))))
+                              (format "%s %s" (sl/buffer-icon)
+                                (truncate-string-to-width (buffer-name) 100 nil nil t))))
     (sl/send-polybar-hook "emacs-modeline" 1))
 
   (defun sl/polybar-current-buffer ()
