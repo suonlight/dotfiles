@@ -124,6 +124,9 @@
 (after! ruby-mode
   (set-company-backend! 'ruby-mode '(company-capf company-abbrev company-dabbrev-code company-files company-etags company-keywords company-yasnippet)))
 
+(after! rspec-mode
+  (setq rspec-use-bundler-when-possible nil))
+
 ;; (add-hook! ruby-mode (add-hook 'before-save-hook #'lsp-format-buffer t t))
 
 (after! js
