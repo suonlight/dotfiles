@@ -289,7 +289,9 @@ not appropriate in some cases like terminals."
     "Default configuration of EXWM."
     ;; Set the initial workspace number.
     (unless (get 'exwm-workspace-number 'saved-value)
-      (setq exwm-workspace-number 6))
+      (setq exwm-workspace-number 3))
+
+    (setq exwm-workspace-current-index 0)
 
     (setq exwm-input-prefix-keys
       '(?\s-x
@@ -301,6 +303,7 @@ not appropriate in some cases like terminals."
          ?\C-c
          ?\s-b
          ?\s-w
+         ?\s-`
          ?\C-\ ))
 
     ;; Global keybindings.
@@ -321,12 +324,14 @@ not appropriate in some cases like terminals."
            ;;              (exwm-workspace-switch-create 0)))
 
            ;; 's-N': Switch to certain workspace.
-           ,@(mapcar (lambda (i)
-                       `(,(kbd (format "s-%d" i)) .
-                          (lambda ()
-                            (interactive)
-                            (exwm-workspace-switch-create ,i))))
-               (number-sequence 0 9)))))
+           ;; ,@(mapcar (lambda (i)
+           ;;             `(,(kbd (format "s-%d" i)) .
+           ;;                (lambda ()
+           ;;                  (interactive)
+           ;;                  (exwm-workspace-switch-create ,i))))
+           ;;     (number-sequence 0 9))
+           )))
+
     ;; Line-editing shortcuts
     (unless (get 'exwm-input-simulation-keys 'saved-value)
       (setq exwm-input-simulation-keys
