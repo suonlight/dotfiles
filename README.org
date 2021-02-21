@@ -86,6 +86,7 @@ ln -s ~/projects/doom-emacs ~/.config/emacs
 ln -s ~/projects/dotfiles/doom ~/.config/doom
 rm -rf ~/.config/doom/snippets
 ln -s ~/.config/doom/private/snippets ~/.config/doom/snippets
+#+end_src
 
 #+begin_src shell :async :results output
 cd ~/.config/emacs

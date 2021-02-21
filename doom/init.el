@@ -23,7 +23,6 @@
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
        (ivy +icons +prescient +childframe)
-       ;; (when IS-MAC (ivy +icons +prescient))
        :ui
        ;; deft              ; notational velocity for Emacs
        doom              ; what makes DOOM look the way it does
@@ -46,10 +45,8 @@
        ;; vc-gutter         ; vcs diff in the fringe
        ;; vi-tilde-fringe   ; fringe tildes to mark beyond EOB
        ;; window-select     ; visually switch windows
-       (when IS-MAC
-         modeline          ; snazzy, Atom-inspired modeline, plus API
-         workspaces        ; tab emulation, persistence & separate workspaces
-         )
+       modeline          ; snazzy, Atom-inspired modeline, plus API
+       workspaces
        ;; zen               ; distraction-free coding or writing
 
        :editor
