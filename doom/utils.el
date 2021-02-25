@@ -92,3 +92,22 @@
     (multi-vterm-project)
     (vterm-send-string cmd)
     (select-window window)))
+
+;; Split the windows sensibly.
+;; https://gitlab.com/jabranham/emacs/blob/master/init.el#L2537
+(defun sl/split-below-last-buffer (prefix)
+    "Split the window above/below and display the previous buffer.
+If prefix arg is provided, show current buffer twice."
+    (interactive "p")
+    (split-window-below)
+    (other-window 1 nil)
+    (if (= prefix 1)
+        (switch-to-next-buffer)))
+
+(defun sl/split-right-last-buffer (prefix)
+  "Split the window left/right and display the previous buffer
+If prefix arg is provided, show current buffer twice."
+  (interactive "p")
+  (split-window-right)
+  (other-window 1 nil)
+  (if (= prefix 1) (switch-to-next-buffer)))

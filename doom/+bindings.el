@@ -387,7 +387,8 @@
         :desc "Save file as..."             "S"   #'write-file
         :desc "Sudo find file"              "u"   #'doom/sudo-find-file
         :desc "Sudo this file"              "U"   #'doom/sudo-this-file
-        :desc "Yank filename"               "y"   #'+default/yank-buffer-filename)
+        :desc "Yank file path"              "y"   #'+default/yank-buffer-path
+        :desc "Yank file path from project" "Y"   #'+default/yank-buffer-path-relative-to-project)
 
       ;;; <leader> g --- git
       (:prefix-map ("g" . "git")
@@ -683,29 +684,28 @@
 (map!
   :inv "C-<f6>" #'projectile-toggle-between-implementation-and-test
   :nv "s-'" #'+vterm/toggle
-  (:when IS-MAC
-    (:map comint-mode-map
-      :i "s-1"   #'+workspace/switch-to-0
-      :i "s-2"   #'+workspace/switch-to-1
-      :i "s-3"   #'+workspace/switch-to-2
-      :i "s-4"   #'+workspace/switch-to-3
-      :i "s-5"   #'+workspace/switch-to-4
-      :i "s-6"   #'+workspace/switch-to-5
-      :i "s-7"   #'+workspace/switch-to-6
-      :i "s-8"   #'+workspace/switch-to-7
-      :i "s-9"   #'+workspace/switch-to-8
-      :i "s-0"   #'+workspace/switch-to-final)
-    (:after vterm :map vterm-mode-map
-      :i "s-1"   #'+workspace/switch-to-0
-      :i "s-2"   #'+workspace/switch-to-1
-      :i "s-3"   #'+workspace/switch-to-2
-      :i "s-4"   #'+workspace/switch-to-3
-      :i "s-5"   #'+workspace/switch-to-4
-      :i "s-6"   #'+workspace/switch-to-5
-      :i "s-7"   #'+workspace/switch-to-6
-      :i "s-8"   #'+workspace/switch-to-7
-      :i "s-9"   #'+workspace/switch-to-8
-      :i "s-0"   #'+workspace/switch-to-final))
+  (:map comint-mode-map
+    :i "s-1"   #'+workspace/switch-to-0
+    :i "s-2"   #'+workspace/switch-to-1
+    :i "s-3"   #'+workspace/switch-to-2
+    :i "s-4"   #'+workspace/switch-to-3
+    :i "s-5"   #'+workspace/switch-to-4
+    :i "s-6"   #'+workspace/switch-to-5
+    :i "s-7"   #'+workspace/switch-to-6
+    :i "s-8"   #'+workspace/switch-to-7
+    :i "s-9"   #'+workspace/switch-to-8
+    :i "s-0"   #'+workspace/switch-to-final)
+  (:after vterm :map vterm-mode-map
+    :i "s-1"   #'+workspace/switch-to-0
+    :i "s-2"   #'+workspace/switch-to-1
+    :i "s-3"   #'+workspace/switch-to-2
+    :i "s-4"   #'+workspace/switch-to-3
+    :i "s-5"   #'+workspace/switch-to-4
+    :i "s-6"   #'+workspace/switch-to-5
+    :i "s-7"   #'+workspace/switch-to-6
+    :i "s-8"   #'+workspace/switch-to-7
+    :i "s-9"   #'+workspace/switch-to-8
+    :i "s-0"   #'+workspace/switch-to-final)
   (:after vterm :map vterm-mode-map
     :nv "i"        #'evil-insert-resume
     :nv "o"        #'evil-insert-resume

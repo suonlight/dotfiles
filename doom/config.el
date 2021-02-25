@@ -486,3 +486,7 @@ not appropriate in some cases like terminals."
         :action (lambda (recipe)
                   (let ((command (get-text-property 0 'property recipe)))
                     (start-process-shell-command command nil command)))))))
+
+(global-set-key (kbd "C-x 2")  #'sl/split-below-last-buffer)
+(global-set-key (kbd "C-x 3")  #'sl/split-right-last-buffer)
+(setq switch-to-prev-buffer-skip 'this)
