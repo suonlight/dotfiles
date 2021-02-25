@@ -10,13 +10,6 @@
          entry
          (file "~/org-modes/flashcards.org")
          "* %i%^{prompt} :vocabulary:\n:PROPERTIES:\n:ANKI_DECK: Vocabulary\n:ANKI_NOTE_TYPE: Basic\n:END:\n** Front\n%\\1\n\n** Back\n\n")
-       ("L"
-         "Notes"
-         entry
-         (file "~/org-modes/notes.org")
-         "* %:description\n\nSource: %:link\nCaptured On:%U\n\n%:initial\n\n"
-         :immediate-finish
-         :prepend)
        ("c"
          "Code Review"
          entry
@@ -80,13 +73,16 @@
   (setq-default org-download-image-dir "./images"))
 
 (after! ob-tmux
-  (setq org-babel-tmux-terminal "iterm")
   (setq org-babel-default-header-args:tmux
     '((:results . "silent")
        (:session . "default")
        (:socket  . nil)))
 
   (setq ob-tmux-delimiters '((ruby . "#####") (sh . "#####")))
+
+  (setq org-babel-tmux-session-prefix "ob-")
+  (setq org-babel-tmux-terminal (if IS-MAC "iterm" "xfce4-termimal"))
+  (setq org-babel-tmux-location (if IS-MAC "/usr/local/bin/tmux" "/usr/bin/tmux"))
 
   (defun org-babel-execute:tmux (body params)
     "Send a block of code via tmux to a terminal using Babel.
@@ -174,10 +170,7 @@ Argument PARAMS the org parameters of the code block."
         (apply orig-fun args))))
 
   (advice-add 'org-babel-open-src-block-result
-    :around #'ob-tmux--open-src-block-result)
-
-  (setq org-babel-tmux-session-prefix "ob-")
-  (setq org-babel-tmux-location "/usr/local/bin/tmux"))
+    :around #'ob-tmux--open-src-block-result))
 
 (after! ob-mermaid
   (setq ob-mermaid-cli-path "~/.asdf/shims/mmdc"))
