@@ -289,9 +289,7 @@ not appropriate in some cases like terminals."
     "Default configuration of EXWM."
     ;; Set the initial workspace number.
     (unless (get 'exwm-workspace-number 'saved-value)
-      (setq exwm-workspace-number 3))
-
-    (setq exwm-workspace-current-index 0)
+      (setq exwm-workspace-number 1))
 
     (setq exwm-input-prefix-keys
       '(?\s-x
@@ -303,7 +301,18 @@ not appropriate in some cases like terminals."
          ?\C-c
          ?\s-b
          ?\s-w
+         ?\s-t
          ?\s-`
+         ?\s-1
+         ?\s-2
+         ?\s-3
+         ?\s-4
+         ?\s-5
+         ?\s-6
+         ?\s-7
+         ?\s-8
+         ?\s-9
+         ?\s-0
          ?\C-\ ))
 
     ;; Global keybindings.
@@ -350,18 +359,18 @@ not appropriate in some cases like terminals."
 
     (exwm-input-set-key (kbd "s-SPC") #'counsel-linux-app)
     ;; Enable EXWM
-    (exwm-enable))
+    (exwm-enable)
+    )
 
   (defun sl/exwm-init-hook ()
-    (exwm-workspace-switch-create 1)
+    (exwm-workspace-switch-create 0)
     (menu-bar-mode -1)
 
     ;; start polybar panel
     (sl/start-panel)
 
     ;; (sl/async-run-command "pasystray")
-    (sl/async-run-command "ibus-daemon --xim")
-    )
+    (sl/async-run-command "ibus-daemon --xim"))
 
   (defun sl/exwm-update-class ()
     (exwm-workspace-rename-buffer exwm-class-name))
