@@ -80,7 +80,7 @@ export ALTERNATE_EDITOR=""
 export EDITOR=nvim
 test -n "$TMUX" && export EDITOR=nvim
 export BUNDLER_EDITOR=nvim
-alias emacsclient=/usr/local/bin/emacsclient
+# alias emacsclient=/usr/local/bin/emacsclient
 alias e='emacs -nw'
 alias ec='node --version && ruby --version && emacsclient -a "" -c'
 alias ek='emacsclient -e "(kill-emacs)"'
@@ -95,9 +95,9 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=2'
 export TERM=xterm-256color
 
 if [[ -n $INSIDE_EMACS ]]; then
-  alias nvim='/usr/local/bin/emacsclient -n $@'
-  export BUNDLER_EDITOR='/usr/local/bin/emacsclient -n $@'
-  export EDITOR='/usr/local/bin/emacsclient -n $@'
+  alias nvim='emacsclient -n $@'
+  export BUNDLER_EDITOR='emacsclient -n $@'
+  export EDITOR='emacsclient -n $@'
 
   # export FZF_DEFAULT_COMMAND='/usr/local/bin/rg --files --no-ignore --hidden --follow --glob "!{.git, node_modules}"'
   export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
