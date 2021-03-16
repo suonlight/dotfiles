@@ -41,7 +41,8 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "monospace" :size 14))
+;; (setq doom-font (font-spec :family "monospace" :size 14))
+(setq doom-font (font-spec :family "Source Code Pro" :size 14))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -281,6 +282,9 @@ not appropriate in some cases like terminals."
 ;;   (global-tree-sitter-mode))
 
 (when IS-LINUX
+  (after! auth-source
+    (setq auth-sources '("~/.authinfo")))
+
   (defun sl/async-run-command (command)
     (let ((command-parts (split-string command "[ ]+")))
       (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
@@ -289,7 +293,7 @@ not appropriate in some cases like terminals."
     "Default configuration of EXWM."
     ;; Set the initial workspace number.
     (unless (get 'exwm-workspace-number 'saved-value)
-      (setq exwm-workspace-number 1))
+      (setq exwm-workspace-number 2))
 
     (setq exwm-input-prefix-keys
       '(?\s-x
@@ -451,6 +455,7 @@ not appropriate in some cases like terminals."
   (use-package! exwm
     :config
 
+    (add-hook 'exwm-mode-hook #'doom-mark-buffer-as-real-h)
     (add-hook 'exwm-init-hook #'sl/exwm-init-hook)
     (add-hook 'exwm-update-class-hook #'sl/exwm-update-class)
     (add-hook 'exwm-update-title-hook #'sl/exwm-update-title)
