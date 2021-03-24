@@ -184,9 +184,10 @@ Argument PARAMS the org parameters of the code block."
   (setq org-pomodoro-short-break-sound (concat doom-private-dir "/assets/bell.wav")))
 
 (after! org-roam
+  (setq deft-directory "~/Dropbox/org-modes/roam")
   (setq org-roam-directory "~/Dropbox/org-modes/roam")
   (setq org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox-bin")
-  (setq deft-directory "~/Dropbox/org-modes/roam")
+  (setq org-roam-db-location "~/Dropbox/org-modes/roam/org-roam.db")
   (setq org-roam-graph-exclude-matcher '("2020-" "2021-"))
 
   (setq org-roam-capture-templates
