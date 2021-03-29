@@ -2,6 +2,7 @@
   (setq evil-org-key-theme '(navigation insert textobjects additional calendar todo))
   ;; (set-company-backend! 'org-mode '(company-org-roam company-yasnippet company-dabbrev))
   ;; (set-company-backend! 'org-mode 'company-org-roam)
+  (setq org-babel-python-command "python3")
 
   (setq org-capture-templates
     `(
@@ -187,7 +188,7 @@ Argument PARAMS the org parameters of the code block."
   (setq deft-directory "~/Dropbox/org-modes/roam")
   (setq org-roam-directory "~/Dropbox/org-modes/roam")
   (setq org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox-bin")
-  (setq org-roam-db-location "~/Dropbox/org-modes/roam/org-roam.db")
+  (setq org-roam-db-location "~/.config/emacs/org-roam.db")
   (setq org-roam-graph-exclude-matcher '("2020-" "2021-"))
 
   (setq org-roam-capture-templates
