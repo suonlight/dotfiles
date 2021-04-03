@@ -389,6 +389,12 @@ let test#enabled_runners = ["ruby#rspec"]
 let test#ruby#minitest#file_pattern = '_spec\.rb'
 
 "----------------------------------------------
+" Plug 'junegunn/fzf.vim'
+"----------------------------------------------
+" disable floating window
+let g:fzf_layout = { 'down': '40%' }
+
+"----------------------------------------------
 " Plug 'junegunn/vim-easy-align'
 "----------------------------------------------
 let g:easy_align_delimiters = {
