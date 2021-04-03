@@ -87,10 +87,13 @@
 
 (defun sl/send-cmd-to-multi-vterm-project ()
   (interactive)
-  (let ((cmd (buffer-substring-no-properties (region-beginning) (region-end)))
+  (let ((cmd (if (region-active-p)
+               (buffer-substring-no-properties (region-beginning) (region-end))
+               (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
          (window (selected-window)))
     (multi-vterm-project)
     (vterm-send-string cmd)
+    (vterm-send-string "\n")
     (select-window window)))
 
 ;; Split the windows sensibly.
