@@ -55,6 +55,8 @@
 ;; If you intend to use org, it is recommended you change this!
 (setq org-directory "~/Dropbox/org-modes")
 (setq bookmark-file "~/Dropbox/org-modes/bookmarks")
+(setq org-babel-python-command "python3")
+(setq python-shell-interpreter "python3")
 
 ;; If you want to change the style of line numbers, change this to `relative' or
 ;; `nil' to disable it:
