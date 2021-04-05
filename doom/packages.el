@@ -110,7 +110,7 @@
 (package! google-translate)
 
 (package! protobuf-mode)
-(package! yaml-mode)
+;; (package! yaml-mode)
 (package! evil-string-inflection)
 ;; (package! counsel-etags)
 
