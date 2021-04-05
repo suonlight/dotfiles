@@ -306,6 +306,7 @@ not appropriate in some cases like terminals."
          ?\C-j
          ?\C-k
          ?\C-c
+         ?\C-6
          ?\s-b
          ?\s-w
          ?\s-t
