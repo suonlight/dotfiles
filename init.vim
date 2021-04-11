@@ -430,6 +430,8 @@ nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
 
+nnoremap <silent> <Space>! yy:let cliptext = getreg('*') \| :VimuxPromptCommand(cliptext)<CR><CR>
+vnoremap <silent> <Space>! y:let cliptext = getreg('*') \| :VimuxPromptCommand(cliptext)<CR><CR>
 nnoremap <silent> <Space>0 :NERDTreeFind<CR>        " Tree > Select Window
 nnoremap <silent> <Space>1 :exe 1 . 'wincmd w'<CR>  " Window 1
 nnoremap <silent> <Space>2 :exe 2 . 'wincmd w'<CR>  " Window 2
