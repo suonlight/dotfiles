@@ -93,7 +93,7 @@
          (window (selected-window)))
     (multi-vterm-project)
     (vterm-send-string cmd)
-    (vterm-send-string "\n")
+    (vterm-send-return)
     (select-window window)))
 
 ;; Split the windows sensibly.
