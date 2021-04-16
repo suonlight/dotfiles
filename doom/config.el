@@ -107,7 +107,7 @@
 ;; (after! treemacs (doom-themes-treemacs-config))
 
 (after! company
-  (setq company-minimum-prefix-length 1)
+  (setq company-minimum-prefix-length 2)
   (setq company-show-numbers t)
   (setq company-auto-complete nil)
   (setq company-idle-delay 0.3))
