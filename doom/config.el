@@ -16,8 +16,6 @@
 
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024))
-(setq lsp-idle-delay 0.500)
-(setq lsp-prefer-capf t)
 (setq auth-sources '("~/.authinfo"))
 
 ;; (setq scroll-step           1
@@ -113,8 +111,23 @@
   (setq company-idle-delay 0.3))
 
 (after! lsp
-  (setq rustic-lsp-server 'rust-analyzer) ;; it's not ready yet
-  (setq lsp-auto-guess-root nil))
+  ;; need to compile t. But it's not stable now
+  (setq lsp-use-plists nil)
+
+  (setq lsp-idle-delay 0.300)
+  (setq lsp-completion-provider :capf)
+  (setq lsp-ui-doc-mode t)
+  (setq lsp-auto-guess-root nil)
+  (setq lsp-response-timeout 20)
+
+  (setq rustic-lsp-server 'rust-analyzer)
+
+  (lsp-register-client
+    (make-lsp-client :new-connection (lsp-stdio-connection "~/.config/doom/assets/rls-macos/reason-language-server")
+      :major-modes '(reason-mode)
+      :notification-handlers (ht ("client/registerCapability" 'ignore))
+      :priority 1
+      :server-id 'reason-ls)))
 
 (after! flycheck
   (setq flycheck-highlighting-mode 'symbols)
@@ -138,9 +151,6 @@
 
 (after! projectile
   (setq projectile-tags-file-name "ETAGS"))
-
-;; (after! counsel-etags
-;;   (setq counsel-etags-tags-file-name "ETAGS"))
 
 (after! vterm
   (defun auto-swith-to-insert ()
@@ -186,15 +196,6 @@ not appropriate in some cases like terminals."
   :commands reason-mode
   :config
   (add-hook! reason-mode #'lsp))
-
-(after! lsp-mode
-  (setq lsp-response-timeout 20)
-  (lsp-register-client
-    (make-lsp-client :new-connection (lsp-stdio-connection "~/.config/doom/assets/rls-macos/reason-language-server")
-      :major-modes '(reason-mode)
-      :notification-handlers (ht ("client/registerCapability" 'ignore))
-      :priority 1
-      :server-id 'reason-ls)))
 
 (after! spell-fu
   (setq spell-fu-idle-delay 0.5))
