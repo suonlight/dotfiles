@@ -137,7 +137,10 @@ Argument PARAMS the org parameters of the code block."
                           (s-replace-regexp "=> .*" "")
                           (s-replace-regexp "irb\([a-z]+\):[0-9]+:[0-9]+.*" "")
                           (s-replace-regexp "\n\n" "\n")
-                          s-trim)))
+                          s-trim
+                          (s-split "\n")
+                          (-map #'s-trim)
+                          (s-join "\n"))))
           (if (eq 'nil file)
             (org-babel-insert-result output '("replace"))
             (write-region output nil file)
