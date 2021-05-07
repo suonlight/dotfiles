@@ -114,3 +114,10 @@ If prefix arg is provided, show current buffer twice."
   (split-window-right)
   (other-window 1 nil)
   (if (= prefix 1) (switch-to-next-buffer)))
+
+(defun sl/projectile-find-file-at-point ()
+  (interactive)
+  (kill-new (ivy-thing-at-point))
+  (minibuffer-with-setup-hook
+    'words-at-point
+    (call-interactively #'counsel-projectile-find-file)))

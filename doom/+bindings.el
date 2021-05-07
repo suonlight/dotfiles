@@ -543,6 +543,7 @@
       ;;; <leader> p --- project
       (:prefix-map ("p" . "project")
         :desc "Toggle Implementation and Test"              "a" #'projectile-toggle-between-implementation-and-test
+        :desc "Find file at point"           "*" #'sl/projectile-find-file-at-point
         :desc "Browse project"               "." #'+default/browse-project
         :desc "Browse other project"         ">" #'doom/browse-in-other-project
         :desc "Run cmd in project root"      "!" #'projectile-run-shell-command-in-root
