@@ -115,6 +115,8 @@ If prefix arg is provided, show current buffer twice."
   (other-window 1 nil)
   (if (= prefix 1) (switch-to-next-buffer)))
 
+(defun words-at-point () (insert (->> (substring-no-properties (car kill-ring)) s-split-words (-map #'s-downcase) (s-join " "))))
+
 (defun sl/projectile-find-file-at-point ()
   (interactive)
   (kill-new (ivy-thing-at-point))

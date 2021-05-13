@@ -142,6 +142,7 @@
   (set-company-backend! 'ruby-mode '(company-capf company-abbrev company-dabbrev-code company-files company-etags company-keywords company-yasnippet)))
 
 (after! rspec-mode
+  (set-popup-rule! "^\\*rspec-compilation\\*" :select t :size 0.35)
   (setq rspec-use-bundler-when-possible nil))
 
 ;; (add-hook! ruby-mode (add-hook 'before-save-hook #'lsp-format-buffer t t))
@@ -153,6 +154,8 @@
   (setq projectile-tags-file-name "ETAGS"))
 
 (after! vterm
+  (set-popup-rule! "^\\*vterm" :ignore t :select t :size 0.35)
+
   (defun auto-swith-to-insert ()
     "Go back to normal state but don't move
 cursor backwards. Moving cursor backwards is the default vim behavior but it is
@@ -167,8 +170,9 @@ not appropriate in some cases like terminals."
 ;   (setq git-messenger:use-magit-popup t))
 
 (after! magit
-  ;; (setq magit-git-executable "/usr/bin/git")
+  (set-popup-rule! "^\\*VC-history*" :select t :size 0.5)
 
+  ;; (setq magit-git-executable "/usr/bin/git")
   ;; https://jakemccrary.com/blog/2020/11/14/speeding-up-magit/
   (remove-hook 'magit-status-sections-hook #'magit-insert-tags-header)
   (remove-hook 'magit-status-sections-hook #'magit-insert-status-headers)
@@ -201,11 +205,6 @@ not appropriate in some cases like terminals."
   (setq spell-fu-idle-delay 0.5))
 
 (set-popup-rule! "^\\*Process List\\*" :select t :size 0.35)
-(set-popup-rule! "^\\*prodigy\\*" :select t :size 0.35)
-(set-popup-rule! "^\\*rspec-compilation\\*" :select t :size 0.35)
-(set-popup-rule! "^\\*vterminal" :ignore t :select t :size 0.35)
-(set-popup-rule! "^\\*VC-history*" :select t :size 0.5)
-
 ;; (setq browse-url-browser-function 'xwidget-webkit-browse-url)
 
 (after! plantuml-mode
