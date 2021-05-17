@@ -123,3 +123,13 @@ If prefix arg is provided, show current buffer twice."
   (minibuffer-with-setup-hook
     'words-at-point
     (call-interactively #'counsel-projectile-find-file)))
+
+(defun sl/eslint-fix-file ()
+  (interactive)
+  (message "eslint --fixing the file" (buffer-file-name))
+  (shell-command (concat "yarn eslint --fix " (buffer-file-name))))
+
+(defun sl/eslint-fix-file-and-revert ()
+  (interactive)
+  (sl/eslint-fix-file)
+  (revert-buffer t t))

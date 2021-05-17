@@ -146,7 +146,10 @@
   (setq flycheck-highlighting-mode 'symbols)
   (setq flycheck-indication-mode nil)
   (setq flycheck-check-syntax-automatically '(save))
-  (setq-default flycheck-disabled-checkers '(ruby-reek emacs-lisp emacs-lisp-checkdoc javascript-jshint)))
+  (setq-default flycheck-disabled-checkers '(ruby-reek emacs-lisp emacs-lisp-checkdoc javascript-jshint lsp)))
+
+(after! (:and lsp flycheck)
+  (flycheck-add-next-checker 'lsp 'javascript-eslint))
 
 (after! evil
   (defalias #'forward-evil-word #'forward-evil-symbol))
@@ -162,6 +165,12 @@
 
 (after! js
   (set-company-backend! 'js-mode '(company-capf company-dabbrev-code company-files company-yasnippet)))
+
+(after! rjsx-mode
+  (defun select-js-eslint ()
+    (flycheck-select-checker 'javascript-eslint))
+
+  (add-hook 'rjsx-mode-hook #'select-js-eslint))
 
 (after! projectile
   (setq projectile-tags-file-name "ETAGS"))
