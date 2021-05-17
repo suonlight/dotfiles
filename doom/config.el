@@ -69,6 +69,7 @@
 
 (setq mode-require-final-newline t)
 (setq require-final-newline t)
+(setq imenu-max-item-length 120)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -85,11 +86,12 @@
 ;;
 ;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
 ;; they are implemented.
+
 (load! "+bindings")
 (load! "debugger")
-
-;; prevent eslint check command: eslint --print-config .
-(advice-add 'flycheck-eslint-config-exists-p :override (lambda() t))
+(load! "utils")
+(load! "ivy")
+(load! "org-mode")
 
 (when (file-exists-p (concat doom-private-dir "private"))
   (load! "private/+bindings")
@@ -98,9 +100,8 @@
   (load! "private/js-import")
   (load! "private/config"))
 
-(load! "utils")
-(load! "ivy")
-(load! "org-mode")
+;; prevent eslint check command: eslint --print-config .
+(advice-add 'flycheck-eslint-config-exists-p :override (lambda() t))
 
 (setq avy-all-windows t)
 
@@ -113,14 +114,24 @@
   (setq company-idle-delay 0.3))
 
 (after! lsp
+  ;; configurations https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/
+  ;; speed up lsp http://blog.binchen.org/posts/how-to-speed-up-lsp-mode.html
+
   ;; need to compile t. But it's not stable now
   (setq lsp-use-plists nil)
 
   (setq lsp-idle-delay 0.300)
   (setq lsp-completion-provider :capf)
   (setq lsp-ui-doc-mode t)
+  (setq lsp-ui-doc-enable t)
   (setq lsp-auto-guess-root nil)
+  (setq lsp-enable-symbol-highlighting nil)
   (setq lsp-response-timeout 20)
+  (setq lsp-enable-links nil)
+
+  ;; not work
+  (setq lsp-ui-sideline-show-code-actions nil)
+  (setq lsp-enable-completion-at-point nil)
 
   (setq rustic-lsp-server 'rust-analyzer)
 
