@@ -3,14 +3,13 @@
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; refresh' after modifying this file!
 
-;; (setq debug-on-error t)
-(setq debug-on-error nil)
-
 ;; These are used for a number of things, particularly for GPG configuration,
 ;; some email clients, file templates and snippets.
 (setq user-full-name "Minh Nguyen Hue"
   user-mail-address "minh.nh1989@gmail.com")
 
+;; (setq debug-on-error t)
+;; (setq debug-on-error nil)
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
