@@ -133,3 +133,7 @@ If prefix arg is provided, show current buffer twice."
   (interactive)
   (sl/eslint-fix-file)
   (revert-buffer t t))
+
+(defun sl/roam-list-todos ()
+  (interactive)
+  (+default/search-project-for-symbol-at-point "\\* TODO"))

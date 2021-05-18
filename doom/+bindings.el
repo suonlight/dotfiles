@@ -470,7 +470,7 @@
         :desc "Tags search"                  "m" #'org-tags-view
         :desc "Org capture"                  "n" #'org-capture
         :desc "Active org-clock"             "o" #'org-clock-goto
-        :desc "Todo list"                    "t" #'org-todo-list
+        :desc "Todo list"                    "t" #'sl/roam-list-todos
         :desc "Search notes"                 "s" #'+default/org-notes-search
         :desc "Search org agenda headlines"  "S" #'+default/org-notes-headlines
         :desc "View search"                  "v" #'org-search-view
