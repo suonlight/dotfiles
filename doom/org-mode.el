@@ -31,7 +31,12 @@
          "Employment Hero Task"
          entry
          (file ,(format-time-string "~/org-modes/roam/%Y-%m-%d.org" (current-time) t))
-         "* TODO %(get-cleansed-title \"%:description\") \n\nGit Branch: %(git-branch-by-title (get-cleansed-title \"%:description\") \"%:link\")\nSource: %:link\nCaptured On: %U\n\n")))
+         "* TODO %(get-cleansed-title \"%:description\") \n\nGit Branch: %(git-branch-by-title (get-cleansed-title \"%:description\") \"%:link\")\nSource: %:link\nCaptured On: %U\n\n")
+       ("A"
+         "Employment Hero API"
+         entry
+         (file "~/org-modes/roam/20210513122118-eh_api.org")
+         "* %(hero/get-api-title \"%c\")\n\n#+BEGIN_SRC shell :async :results output :var jwt_token=jwt_token\n%(hero/get-api-curl \"%c\")\n#+END_SRC")))
 
   (require 'org-download))
 
@@ -223,24 +228,3 @@ Argument PARAMS the org parameters of the code block."
   :config
   (setq org-roam-server-port 8081))
 
-(defun org-protocol-capture-frame (info)
-  "Opens the org-capture window in a floating frame that cleans itself up once
-you're done. This can be called from an external shell script."
-  (interactive)
-  (require 'org-protocol)
-  (let* ((frame-title-format "")
-          (frame (if (+org-capture-frame-p)
-                   (selected-frame)
-                   (make-frame +org-capture-frame-parameters))))
-    (select-frame-set-input-focus frame)  ; fix MacOS not focusing new frames
-    (with-selected-frame frame
-      (require 'org-capture)
-      (condition-case ex
-        (letf! ((#'pop-to-buffer #'switch-to-buffer))
-          (switch-to-buffer (doom-fallback-buffer))
-          (let ((info (org-protocol-parse-parameters (s-replace "org-protocol://capture?" "" info) t)))
-            (org-protocol-capture info))
-          )
-        ('error
-          (message "org-capture: %s" (error-message-string ex))
-          (delete-frame frame))))))
