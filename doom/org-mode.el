@@ -216,7 +216,7 @@ Argument PARAMS the org parameters of the code block."
         ""
         :immediate-finish t
         :file-name "%<%Y-%m-%d>"
-        :head "#+TITLE: %<%Y-%m-%d>\n#+TODO: TODO IN-PROGRESS | DONE\n\n* Check Calendar"))))
+        :head "#+TITLE: %<%Y-%m-%d>\n#+TODO: TODO IN-PROGRESS | DONE\n\n* Morning Routines\n\n- Check Calendar\n- Watch Code Review\n- Run Squad Reports"))))
 
 (after! org-journal
   (setq org-journal-enable-agenda-integration t)
