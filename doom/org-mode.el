@@ -80,6 +80,7 @@
     org-download-delete-image-after-download t
     org-download-link-format "[[file:./images/%s]]\n"
     org-download-method 'directory)
+  (setq-default org-download-heading-lvl nil)
   (setq-default org-download-image-dir "./images"))
 
 (after! ob-tmux
