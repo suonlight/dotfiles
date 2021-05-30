@@ -112,28 +112,29 @@
   (setq company-auto-complete nil)
   (setq company-idle-delay 0.3))
 
+(setq +lsp-company-backends '(:separate company-capf company-yasnippet company-dabbrev-code))
+(setq lsp-use-plists nil)
+
+(setq lsp-idle-delay 0.300)
+(setq lsp-completion-provider :capf)
+(setq lsp-ui-doc-mode t)
+(setq lsp-ui-doc-enable t)
+(setq lsp-auto-guess-root nil)
+;; (setq lsp-enable-symbol-highlighting nil)
+(setq lsp-response-timeout 20)
+(setq lsp-enable-links nil)
+
+;; not work
+(setq lsp-ui-sideline-show-code-actions nil)
+;; (setq lsp-completion-enable nil)
+
+(setq rustic-lsp-server 'rust-analyzer)
+
 (after! lsp
   ;; configurations https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/
   ;; speed up lsp http://blog.binchen.org/posts/how-to-speed-up-lsp-mode.html
 
   ;; need to compile t. But it's not stable now
-  (setq lsp-use-plists nil)
-
-  (setq lsp-idle-delay 0.300)
-  (setq lsp-completion-provider :capf)
-  (setq lsp-ui-doc-mode t)
-  (setq lsp-ui-doc-enable t)
-  (setq lsp-auto-guess-root nil)
-  (setq lsp-enable-symbol-highlighting nil)
-  (setq lsp-response-timeout 20)
-  (setq lsp-enable-links nil)
-
-  ;; not work
-  (setq lsp-ui-sideline-show-code-actions nil)
-  (setq lsp-enable-completion-at-point nil)
-
-  (setq rustic-lsp-server 'rust-analyzer)
-
   (lsp-register-client
     (make-lsp-client :new-connection (lsp-stdio-connection "~/.config/doom/assets/rls-macos/reason-language-server")
       :major-modes '(reason-mode)
