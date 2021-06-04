@@ -147,8 +147,9 @@ Argument PARAMS the org parameters of the code block."
                           car
                           (s-replace-regexp "=> .*" "")
                           (s-replace-regexp "irb\([a-z]+\):[0-9]+:[0-9]+.*" "")
+                          (s-replace-regexp "^\[[0-9]+\] pry\(.*\).*" "")
                           (s-replace-regexp "^>> .*" "")
-                          (s-replace-regexp "\n\n" "\n")
+                          (s-replace-regexp "[\n]+" "\n")
                           s-trim
                           (s-split "\n")
                           (-map #'s-trim)
