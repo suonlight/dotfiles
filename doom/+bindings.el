@@ -814,6 +814,7 @@
     "Mp" #'anki-editor-push-notes
     "Mr" #'anki-editor-retry-failure-notes)
   (:after smerge-mode :map smerge-mode-map
+    "."  #'sl/smerge-hydra/body
     "n"  #'smerge-next
     "p"  #'smerge-prev
     "u"  #'smerge-keep-upper
