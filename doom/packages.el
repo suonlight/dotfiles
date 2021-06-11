@@ -100,6 +100,8 @@
 (package! org-re-reveal :disable t)
 (package! orgit :disable t)
 
+(package! doom-snippets :ignore t)
+
 ;; (package! magit-todos :disable t)
 ;; (package! magit-gitflow :disable t)
 
