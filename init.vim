@@ -323,9 +323,8 @@ function! LinterStatus() abort
     \   all_errors
     \)
 endfunction
-
+" \ 'colorscheme': 'doom-one',
 let g:lightline = {
-      \ 'colorscheme': 'onedark',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'readonly', 'filename', 'modified', 'alestatus'] ]
