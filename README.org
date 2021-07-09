@@ -18,13 +18,13 @@ cd $WORKSPACE
 git clone git@github.com:suonlight/dotfiles.git
 mkdir -p ~/.config/alacritty
 mkdir -p ~/.config/nvim
-rm -rf ~/.zshrc ~/.tmux.conf ~/.tmux.sp ~/.ctags ~/.editorconfig ~/.config/doom ~/.config/nvim/init.vim
+rm -rf ~/.zshrc ~/.tmux.conf ~/.tmux.sp ~/.ctags ~/.editorconfig ~/.config/doom ~/.config/nvim
 ln -s $WORKSPACE/dotfiles/.zshrc ~/.zshrc
 ln -s $WORKSPACE/dotfiles/.tmux.conf ~/.tmux.conf
 ln -s $WORKSPACE/dotfiles/.tmux.sp ~/.tmux.sp
 ln -s $WORKSPACE/dotfiles/.editorconfig ~/.editorconfig
 ln -s $WORKSPACE/dotfiles/.ctags ~/.ctags
-ln -s $WORKSPACE/dotfiles/init.vim ~/.config/nvim/init.vim
+ln -s $WORKSPACE/dotfiles/nvim ~/.config/nvim
 ln -s $WORKSPACE/dotfiles/alacritty.yml ~/.config/alacritty/alacritty.yml
 ln -s $WORKSPACE/dotfiles/doom ~/.config/doom
 
