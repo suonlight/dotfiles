@@ -132,7 +132,6 @@ alias m=make
 alias c=clear
 alias find=fd
 alias de='asdf current'
-alias cat=bat
 
 export PURE_PROMPT_SYMBOL='$'
 
