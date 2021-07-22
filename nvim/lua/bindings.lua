@@ -1,15 +1,19 @@
 local utils = require('utils')
+local map = utils.map
 
 vim.g.mapleader = ' '
 
-utils.map("n", "<Leader>/", "<cmd>Rg<CR>")
-utils.map("n", "<Leader>qq", "<cmd>q<CR>")
+map("n", "<Leader>/", "<cmd>Telescope live_grep<CR>")
+map("n", "<Leader>qq", "<cmd>q<CR>")
 
 -- Files
-utils.map("n", "<Leader>fs", "<cmd>update<CR>")
+map("n", "<Leader>fs", "<cmd>update<CR>")
 
 -- Projects
-utils.map("n", "<Leader>pf", "<cmd>Telescope find_files<CR>")
+map("n", "<Leader>pf", "<cmd>Telescope find_files<CR>")
 
 -- Buffers
-utils.map("n", "<Leader>bb", "<cmd>Telescope buffers<CR>")
+map("n", "<Leader>bb", "<cmd>Telescope buffers<CR>")
+
+-- Global
+map("n", "<C-p>", "<cmd>Telescope find_files<CR>")
