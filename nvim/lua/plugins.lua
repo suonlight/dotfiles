@@ -12,9 +12,15 @@ return require('packer').startup(function()
       requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
   }
 
+  use {
+    'kristijanhusak/orgmode.nvim', config = function()
+      require('orgmode').setup{}
+    end
+  }
+
   -- -- LSP and completion
-  -- use { 'neovim/nvim-lspconfig' }
-  -- use { 'nvim-lua/completion-nvim' }
+  use { 'neovim/nvim-lspconfig' }
+  use { 'nvim-lua/completion-nvim' }
 
   -- -- Lua development
   -- use { 'tjdevries/nlua.nvim' }

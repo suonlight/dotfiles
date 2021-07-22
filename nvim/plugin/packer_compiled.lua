@@ -69,9 +69,22 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ["completion-nvim"] = {
+    loaded = true,
+    path = "/Users/hueminh/.local/share/nvim/site/pack/packer/start/completion-nvim"
+  },
   ["doom-one.vim"] = {
     loaded = true,
     path = "/Users/hueminh/.local/share/nvim/site/pack/packer/start/doom-one.vim"
+  },
+  ["nvim-lspconfig"] = {
+    loaded = true,
+    path = "/Users/hueminh/.local/share/nvim/site/pack/packer/start/nvim-lspconfig"
+  },
+  ["orgmode.nvim"] = {
+    config = { "\27LJ\2\n9\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\forgmode\frequire\0" },
+    loaded = true,
+    path = "/Users/hueminh/.local/share/nvim/site/pack/packer/start/orgmode.nvim"
   },
   ["packer.nvim"] = {
     loaded = false,
@@ -93,6 +106,10 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: orgmode.nvim
+time([[Config for orgmode.nvim]], true)
+try_loadstring("\27LJ\2\n9\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\forgmode\frequire\0", "config", "orgmode.nvim")
+time([[Config for orgmode.nvim]], false)
 if should_profile then save_profiles() end
 
 end)
