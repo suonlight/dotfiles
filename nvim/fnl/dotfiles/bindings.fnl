@@ -13,11 +13,13 @@
 (set nvim.g.maplocalleader ",")
 
 (noremap :n :<M-s> ":update<CR>")
+(noremap :n :<M-b> ":Telescope buffers<CR>")
 (noremap :n :<leader>qq ":q<CR>")
+(noremap :n :<leader><tab> "<C-6>")
 (noremap :n :<leader>/ ":Telescope live_grep<CR>")
 
 ;; Projects
-(noremap :n :<leader>pf ":Telescope find_files<CR>")
+;; (noremap :n :<leader>pf ":Telescope find_files<CR>")
 (noremap :n :<C-p> ":Telescope find_files<CR>")
 
 ;; Files

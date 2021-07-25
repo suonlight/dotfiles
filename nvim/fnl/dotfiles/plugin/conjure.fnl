@@ -1,3 +1,3 @@
 (module dotfiles.plugin.conjure
-  {autoload {nvim ansieed.nvim}})
+  {autoload {nvim aniseed.nvim}})
 

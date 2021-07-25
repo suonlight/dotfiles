@@ -5,3 +5,4 @@
 (_: colorscheme :doom-one)
 
 (set nvim.o.termguicolors true)
+(set nvim.o.clipboard "unnamed")

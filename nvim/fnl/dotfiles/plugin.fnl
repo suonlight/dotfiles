@@ -28,17 +28,22 @@
   ; "~/repos/Olical/aniseed" {}
   ; "~/repos/Olical/nvim-local-fennel" {}
 
-  :nvim-lua/popup.nvim {}
-  :nvim-lua/plenary.nvim {}
-  :nvim-telescope/telescope.nvim {}
-
   ; :HerringtonDarkholme/yats.vim {}
   ; :LnL7/vim-nix {}
   ; :Olical/AnsiEsc {}
   :Olical/aniseed {}
   :Olical/nvim-local-fennel {}
-  :romgrk/doom-one.vim {}
   :Olical/conjure {:mod :conjure}
+
+  :guns/vim-sexp {:mod :sexp}
+  :romgrk/doom-one.vim {}
+  :folke/which-key.nvim {:mod :which-key}
+  :nvim-lua/popup.nvim {}
+  :nvim-lua/plenary.nvim {}
+  :nvim-telescope/telescope.nvim {:mod :telescope}
+  :tpope/vim-surround {}
+  :tpope/vim-commentary {}
+  :tpope/vim-fugitive {}
   ; :Olical/vim-enmasse {}
   ; :PeterRincker/vim-argumentative {}
   ; :airblade/vim-gitgutter {}
