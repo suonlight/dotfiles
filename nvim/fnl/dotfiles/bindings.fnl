@@ -15,7 +15,7 @@
 (noremap :n :<M-s> ":update<CR>")
 (noremap :n :<M-b> ":Telescope buffers<CR>")
 (noremap :n :<leader>qq ":q<CR>")
-(noremap :n :<leader><tab> "<C-6>")
+(noremap :n :<leader><tab> "<C-^>")
 (noremap :n :<leader>/ ":Telescope live_grep<CR>")
 
 ;; Projects
