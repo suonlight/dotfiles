@@ -37,7 +37,8 @@
   ; :Olical/AnsiEsc {}
   :Olical/aniseed {}
   :Olical/nvim-local-fennel {}
-  ; :Olical/conjure {:mod :conjure}
+  :romgrk/doom-one.vim {}
+  :Olical/conjure {:mod :conjure}
   ; :Olical/vim-enmasse {}
   ; :PeterRincker/vim-argumentative {}
   ; :airblade/vim-gitgutter {}
