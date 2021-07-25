@@ -36,14 +36,33 @@
   :Olical/conjure {:mod :conjure}
 
   :guns/vim-sexp {:mod :sexp}
-  :romgrk/doom-one.vim {}
+  :tpope/vim-surround {}
+  :tpope/vim-commentary {}
+  :tpope/vim-fugitive {}
+
+  ; defaults
+  :editorconfig/editorconfig-vim {}
   :folke/which-key.nvim {:mod :which-key}
   :nvim-lua/popup.nvim {}
   :nvim-lua/plenary.nvim {}
   :nvim-telescope/telescope.nvim {:mod :telescope}
-  :tpope/vim-surround {}
-  :tpope/vim-commentary {}
-  :tpope/vim-fugitive {}
+  :mhinz/vim-startify {}
+
+  ; ui
+  :romgrk/doom-one.vim {}
+  :kyazdani42/nvim-web-devicons {}
+  :itchyny/lightline.vim {:mod :lightline}
+  ; :glepnir/galaxyline.nvim {:branch :main}
+
+  ; linter
+  :dense-analysis/ale {:mod ale}
+
+  ; javascript
+  :prettier/vim-prettier {:mod prettier}
+
+  ; lsp
+  :neovim/nvim-lspconfig {}
+
   ; :Olical/vim-enmasse {}
   ; :PeterRincker/vim-argumentative {}
   ; :airblade/vim-gitgutter {}
@@ -55,7 +74,6 @@
   ; :hashivim/vim-terraform {}
   ; :hrsh7th/nvim-compe {:mod :compe}
   ; :hylang/vim-hy {}
-  ; :itchyny/lightline.vim {:mod :lightline}
   ; :janet-lang/janet.vim {}
   ; :jiangmiao/auto-pairs {:mod :auto-pairs}
   ; :junegunn/fzf {:mod :fzf}
@@ -66,7 +84,6 @@
   ; :mbbill/undotree {:mod :undotree}
   ; :norcalli/nvim-colorizer.lua {:mod :colorizer}
   ; :pangloss/vim-javascript {}
-  ; :prettier/vim-prettier {:ft :javascript}
   ; :radenling/vim-dispatch-neovim {}
   ; :srcery-colors/srcery-vim {:mod :srcery}
   ; :tami5/compe-conjure {}
@@ -83,7 +100,6 @@
   ; :tpope/vim-unimpaired {}
   ; :tpope/vim-vinegar {}
   ; :tweekmonster/startuptime.vim {}
-  ; :w0rp/ale {:mod :ale}
   ; :wbthomason/packer.nvim {}
   ; :wlangstroth/vim-racket {}
   )
