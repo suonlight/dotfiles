@@ -1,4 +1,4 @@
-(module dotfiles.plugin
+(module dotfiles.packages
   {autoload {nvim aniseed.nvim
              a aniseed.core
              util dotfiles.util
