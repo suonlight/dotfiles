@@ -26,10 +26,10 @@
 (local format-file-types {:typescript "prettier" :javascript "prettier"})
 
 (local on-attach (fn [client bufnr]
-                   (nvim.command "command! LspDef lua vim.lsp.buf.definition()")
-                   (nvim.command "command! LspHover lua vim.lsp.buf.hover()")
-                   (nvim.buf_set_keymap bufnr "n" "gd" "<cmd>LspDef<CR>" {:silent true})
-                   (nvim.buf_set_keymap bufnr "n" "K" "<cmd>LspHover<CR>" {:silent true})))
+                   (_: "command! LspDef lua vim.lsp.buf.definition()")
+                   (_: "command! LspHover lua vim.lsp.buf.hover()")
+                   (noremap-buffer bufnr :n :gd "<cmd>LspDef<CR>")
+                   (noremap-buffer bufnr :n :K "<cmd>LspHover<CR>")))
 
 (defn setup []
   ; (nvim.command "lua require('lspconfig').tsserver.setup{}")

@@ -1,12 +1,11 @@
 (module dotfiles.bindings
   {autoload {nvim aniseed.nvim
-             core aniseed.core
              which-key which-key}
    require-macros [dotfiles.macros]})
 
 (which-key.register
   {:/ ["<cmd>Telescope live_grep<CR>" "Search project"]
-   :* ["<cmd>Telescope live_grep<CR><C-R><C-W>" "Search project"]
+   :* ["<cmd>Telescope grep_string<CR>" "Search at point"]
    :<tab> ["<C-^>" "Switch to last buffer"]
    :q {:name "+quit/session"
        :q ["<cmd>q<CR>" "Quit vim"]}

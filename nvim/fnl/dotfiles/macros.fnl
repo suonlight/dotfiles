@@ -14,4 +14,8 @@
  :nmap
  (fn [from to]
    `(noremap :n ,from ,to))
+
+ :noremap-buffer
+ (fn [buffer mode from to]
+   `(nvim.buf_set_keymap ,buffer ,mode ,from ,to {:noremap true}))
  }
