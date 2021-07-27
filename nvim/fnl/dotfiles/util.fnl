@@ -14,3 +14,13 @@
   (nvim.ex.luafile path))
 
 (def config-path (nvim.fn.stdpath "config"))
+
+(defn filename []
+  (expand "%"))
+
+(defn readonly []
+  (if (and nvim.bo.readonly
+           (not= nvim.bo.filetype "help"))
+    "RO"
+    ""))
+
