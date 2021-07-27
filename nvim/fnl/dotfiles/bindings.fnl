@@ -1,11 +1,12 @@
 (module dotfiles.bindings
   {autoload {nvim aniseed.nvim
-             nu aniseed.nvim.util
              core aniseed.core
-             which-key which-key}})
+             which-key which-key}
+   require-macros [dotfiles.macros]})
 
 (which-key.register
   {:/ ["<cmd>Telescope live_grep<CR>" "Search project"]
+   :* ["<cmd>Telescope live_grep<CR><C-R><C-W>" "Search project"]
    :<tab> ["<C-^>" "Switch to last buffer"]
    :q {:name "+quit/session"
        :q ["<cmd>q<CR>" "Quit vim"]}
@@ -18,7 +19,8 @@
    :g {:name "+git"
        :s ["<cmd>Git<CR>" "Git status"]}
    :b {:name "+buffers"
-       :b ["<cmd>Telescope buffers<CR>" "Find buffer"]}
+       :b ["<cmd>Telescope buffers<CR>" "Find buffer"]
+       :d ["<cmd>bdelete<CR>" "Delete buffer"]}
    :w {:name "+windows"
        :h ["<cmd>wincmd h<CR>" "Window left"]
        :l ["<cmd>wincmd l<CR>" "Window right"]
@@ -34,19 +36,16 @@
        :e ["<cmd>Telescope registers<CR>" "Registers"]}
    :h {:name "+help"
        :? ["<cmd>Telescope help_tags<CR>" "Help tags"]
+       :e ["<cmd>messages<CR>" "View messages"]
        :df ["<cmd>Telescope commands<CR>" "Help Commands"]
        :t ["<cmd>Telescope colorscheme<CR>" "Load theme"]}}
   {:prefix "<leader>"})
 
-(defn- noremap [mode from to]
-  "Sets a mapping with {:noremap true}"
-  (nvim.set_keymap mode from to {:noremap true}))
-
 ;; Generic mapping configuration.
-(nvim.set_keymap :n :<space> :<nop> {:noremap true})
 (set nvim.g.mapleader " ")
 (set nvim.g.maplocalleader ",")
 
+(noremap :n :<space> :<nop>)
 (noremap :n :<M-s> "<cmd>update<CR>")
 (noremap :n :<M-b> "<cmd>Telescope buffers<CR>")
 (noremap :n :<M-w> "<cmd>close<CR>")
@@ -55,3 +54,5 @@
 (noremap :n :<C-l> "<cmd>wincmd l<CR>")
 (noremap :n :<C-j> "<cmd>wincmd j<CR>")
 (noremap :n :<C-k> "<cmd>wincmd k<CR>")
+
+(nmap :gy "<cmd>yank | Commentary<CR>p")

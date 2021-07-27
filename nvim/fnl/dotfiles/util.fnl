@@ -14,10 +14,3 @@
   (nvim.ex.luafile path))
 
 (def config-path (nvim.fn.stdpath "config"))
-
-(defn nnoremap [from to]
-  (nvim.set_keymap
-    :n
-    (.. "<leader>" from)
-    (.. ":" to "<cr>")
-    {:noremap true}))
