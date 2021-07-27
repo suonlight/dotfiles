@@ -7,7 +7,6 @@
              orgmode orgmode
              which-key which-key
              lsp lspconfig}
-
    require-macros [dotfiles.macros]})
 
 ;; Plugins to be managed by packer.
@@ -73,7 +72,6 @@
   ; :Olical/vim-enmasse {}
   ; :PeterRincker/vim-argumentative {}
   ; :airblade/vim-gitgutter {}
-  ; :clojure-vim/clojure.vim {}
   ; :clojure-vim/vim-jack-in {}
   ; :dag/vim-fish {}
   ; :easymotion/vim-easymotion {:mod :easymotion}
