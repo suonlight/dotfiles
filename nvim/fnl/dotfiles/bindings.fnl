@@ -57,10 +57,9 @@
 
 (nmap :gy "<cmd>yank | Commentary<CR>p")
 
-(vim.schedule
-  (fn []
-    (autocmd :FileType :fugitive "nmap <buffer> q gq")
-    (autocmd :FileType :fugitiveblame "nmap <buffer> q gq")
-    (autocmd :FileType :gitcommit "nmap <buffer> <C-c><C-c> :wq<CR>")
-    (autocmd :FileType :gitcommit "nmap <buffer> <C-c><C-k> :q!<CR>")))
+(autocmd :FileType :fugitive "nmap <buffer> q gq")
+(autocmd :FileType :fugitive "nmap <buffer> pp :Git push<CR>")
+(autocmd :FileType :fugitiveblame "nmap <buffer> q gq")
+(autocmd :FileType :gitcommit "nmap <buffer> <C-c><C-c> :wq<CR>")
+(autocmd :FileType :gitcommit "nmap <buffer> <C-c><C-k> :q!<CR>")
 
