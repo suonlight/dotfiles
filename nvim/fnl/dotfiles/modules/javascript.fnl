@@ -45,7 +45,6 @@
   ;                                         :linters linters
   ;                                         :formatters formatters
   ;                                         :formatFiletypes format-file-types}})
-
-  (print "Setup tsserver!"))
+  )
 
 (setup)

@@ -11,8 +11,8 @@
 (set nvim.o.expandtab true)
 (set nvim.o.softtabstop 2)
 (set nvim.o.shiftwidth 2)
-(set nvim.o.number true)
-(set nvim.o.relativenumber true)
+(set nvim.o.number false)
+(set nvim.o.relativenumber false)
 (set nvim.o.smartcase true)
 (set nvim.o.encoding :UTF-8)
 

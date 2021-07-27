@@ -40,6 +40,17 @@
   :tpope/vim-commentary {}
   :tpope/vim-fugitive {}
 
+  ;; TODO research each plugin
+  ; :tpope/vim-abolish {}
+  ; :tpope/vim-dadbod {}
+  ; :tpope/vim-dispatch {}
+  ; :tpope/vim-eunuch {}
+  ; :tpope/vim-repeat {}
+  ; :tpope/vim-sexp-mappings-for-regular-people {}
+  ; :tpope/vim-sleuth {}
+  ; :tpope/vim-unimpaired {}
+  ; :tpope/vim-vinegar {}
+
   ; defaults
   :editorconfig/editorconfig-vim {}
   :folke/which-key.nvim {:mod :which-key}
@@ -48,6 +59,12 @@
   :nvim-telescope/telescope.nvim {:mod :telescope}
   :mhinz/vim-startify {}
 
+  ; text objects
+  :kana/vim-textobj-user {}
+  :kana/vim-textobj-indent  {}
+  :kana/vim-textobj-line  {}
+  :kana/vim-textobj-entire  {:mod textobject-entire}
+
   ; ui
   :romgrk/doom-one.vim {}
   :kyazdani42/nvim-web-devicons {}
@@ -55,13 +72,19 @@
   ; :glepnir/galaxyline.nvim {:branch :main}
 
   ; linter
-  :dense-analysis/ale {:mod ale}
+  :dense-analysis/ale {:mod :ale}
 
   ; javascript
-  :prettier/vim-prettier {:mod prettier}
+  :prettier/vim-prettier {:mod :prettier}
+
+  ; ruby
+  :tpope/vim-projectionist {:mod :projectionist}
 
   ; lsp
   :neovim/nvim-lspconfig {}
+
+  ; notes
+  :kristijanhusak/orgmode.nvim {:mod :orgmode}
 
   ; :Olical/vim-enmasse {}
   ; :PeterRincker/vim-argumentative {}
@@ -75,7 +98,7 @@
   ; :hrsh7th/nvim-compe {:mod :compe}
   ; :hylang/vim-hy {}
   ; :janet-lang/janet.vim {}
-  ; :jiangmiao/auto-pairs {:mod :auto-pairs}
+  :jiangmiao/auto-pairs {:mod :auto-pairs}
   ; :junegunn/fzf {:mod :fzf}
   ; :junegunn/fzf.vim {}
   ; :lambdalisue/suda.vim {}

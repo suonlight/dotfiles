@@ -4,13 +4,14 @@
              core aniseed.core
              which-key which-key}})
 
-(which-key.register 
+(which-key.register
   {:/ ["<cmd>Telescope live_grep<CR>" "Search project"]
    :<tab> ["<C-^>" "Switch to last buffer"]
    :q {:name "+quit/session"
        :q ["<cmd>q<CR>" "Quit vim"]}
    :p {:name "+projects"
-       :f ["<cmd>Telescope find_files<CR>" "Find file"]}
+       :f ["<cmd>Telescope find_files<CR>" "Find file"]
+       :a ["<cmd>A<CR>" "Toggle implementation and test"]}
    :f {:name "+files"
        :s ["<cmd>update<CR>" "File save"]
        :r ["<cmd>Telescope oldfiles<CR>" "Recent files"]}
@@ -34,7 +35,7 @@
    :h {:name "+help"
        :? ["<cmd>Telescope help_tags<CR>" "Help tags"]
        :df ["<cmd>Telescope commands<CR>" "Help Commands"]
-       :t ["<cmd>Telescope colorscheme<CR>" "Load theme"]}} 
+       :t ["<cmd>Telescope colorscheme<CR>" "Load theme"]}}
   {:prefix "<leader>"})
 
 (defn- noremap [mode from to]
