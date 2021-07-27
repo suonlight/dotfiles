@@ -16,7 +16,8 @@
        :s ["<cmd>update<CR>" "File save"]
        :r ["<cmd>Telescope oldfiles<CR>" "Recent files"]}
    :g {:name "+git"
-       :s ["<cmd>Git<CR>" "Git status"]}
+       :s ["<cmd>Git<CR>" "Git status"]
+       :b ["<cmd>Git blame<CR>" "Git blame"]}
    :b {:name "+buffers"
        :b ["<cmd>Telescope buffers<CR>" "Find buffer"]
        :d ["<cmd>bdelete<CR>" "Delete buffer"]}

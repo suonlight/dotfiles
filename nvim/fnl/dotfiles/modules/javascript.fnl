@@ -33,9 +33,6 @@
 
 (defn setup []
   ; (nvim.command "lua require('lspconfig').tsserver.setup{}")
-  (lsp.tsserver.setup {:on_attach (fn [client bufnr]
-                                    (set client.resolved_capabilities.document_formatting false)
-                                    (on-attach client bufnr))})
 
   ; (lsp.diagnosticls.setup {:on_attach (fn [client]
   ;                                       ; (local client.resolved_capabilities.document_formatting false)
@@ -45,6 +42,9 @@
   ;                                         :linters linters
   ;                                         :formatters formatters
   ;                                         :formatFiletypes format-file-types}})
-  )
+
+  (lsp.tsserver.setup {:on_attach (fn [client bufnr]
+                                    (set client.resolved_capabilities.document_formatting false)
+                                    (on-attach client bufnr))}))
 
 (setup)
