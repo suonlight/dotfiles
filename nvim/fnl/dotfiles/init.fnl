@@ -40,6 +40,7 @@
   :nvim-telescope/telescope.nvim {}
   :mhinz/vim-startify {}
   :jiangmiao/auto-pairs {}
+  :yggdroot/indentLine {}
 
   ; text objects
   :kana/vim-textobj-user {}
@@ -98,8 +99,11 @@
 (set nvim.o.shiftwidth 2)
 (set nvim.o.number false)
 (set nvim.o.relativenumber false)
-(set nvim.o.smartcase true)
 (set nvim.o.encoding :UTF-8)
+(set nvim.o.hlsearch false) ; disable search result highlighting
+(set nvim.o.ignorecase true)
+(set nvim.o.smartcase true)
+(set nvim.o.wrap false) ; nowrap
 
 ;; ale
 (set nvim.g.ale_linters
@@ -123,6 +127,11 @@
 (set nvim.g.ale_set_loclist 0)
 (set nvim.g.ale_set_quickfix 1)
 (set nvim.g.ale_fix_on_save 1)
+
+;; indentLine
+(set nvim.g.indentLine_enabled 0)
+(set nvim.g.indentLine_concealcursor "inc")
+(set nvim.g.indentLine_conceallevel 2)
 
 ;; telescope
 (telescope.setup {:defaults {:mappings {:i {"<esc>" actions.close}}}})
@@ -270,6 +279,8 @@
        :c ["<cmd>close<CR>" "Window close"]}
    :r {:name "+registers"
        :e ["<cmd>Telescope registers<CR>" "Registers"]}
+   :t {:name "+toggle"
+       :i ["<cmd>IndentLinesToggle<CR>" "Toggle indent line"]}
    :h {:name "+help"
        :? ["<cmd>Telescope help_tags<CR>" "Help tags"]
        :e ["<cmd>messages<CR>" "View messages"]
