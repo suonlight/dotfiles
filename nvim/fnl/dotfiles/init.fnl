@@ -7,6 +7,7 @@
              orgmode orgmode
              compe compe
              which-key which-key
+             autopairs nvim-autopairs
              lsp lspconfig}
    require-macros [dotfiles.macros]})
 
@@ -20,6 +21,7 @@
   :tpope/vim-surround {}
   :tpope/vim-commentary {}
   :tpope/vim-fugitive {}
+  :tpope/vim-endwise {}
 
   ;; TODO research each plugin
   ; :tpope/vim-abolish {}
@@ -39,8 +41,14 @@
   :nvim-lua/plenary.nvim {}
   :nvim-telescope/telescope.nvim {}
   :mhinz/vim-startify {}
-  :jiangmiao/auto-pairs {}
+  ; :jiangmiao/auto-pairs {}
+  :windwp/nvim-autopairs {}
   :yggdroot/indentLine {}
+  :danro/rename.vim {}
+
+  ; tmux
+  :christoomey/vim-tmux-navigator {}
+  :benmills/vimux {}
 
   ; text objects
   :kana/vim-textobj-user {}
@@ -61,9 +69,11 @@
   :prettier/vim-prettier {}
   :pangloss/vim-javascript {}
   :maxmellon/vim-jsx-pretty {}
+  :alvan/vim-closetag {}
 
   ; ruby
   :tpope/vim-projectionist {}
+  :janko-m/vim-test {}
 
   ; lsp
   :neovim/nvim-lspconfig {}
@@ -174,6 +184,26 @@
       :inactive {:left [[:filename]]
                  :right []}})
 
+;; closetag
+(set nvim.g.closetag_filenames "*.html,*.xhtml,*.phtml,*.erb,*.jsx,*.js")
+(set nvim.g.closetag_xhtml_filenames "*.xhtml,*.jsx,*.erb,*.js")
+(set nvim.g.closetag_emptyTags_caseSensitive 1)
+(set nvim.g.closetag_close_shortcut "<leader>>") ; Add > at current position without closing the current tag, default is ''
+
+;; Startify
+(set nvim.g.startify_change_to_vcs_root 1)
+
+;; tmux
+(set nvim.g.tmux_navigator_no_mappings 1)
+(set nvim.g.tmux_navigator_save_on_switch 1)
+
+;; vim-test
+(set nvim.g.test#strategy "vimux")
+(set nvim.g.test#preserve_screen 1)
+
+(set nvim.test#enabled_runners ["ruby#rspec"])
+(set nvim.test#ruby#minitest#file_pattern "_spec.rb")
+
 ;; lsp javascript
 (local file-types {:typescript "eslint" :javascript "eslint"})
 
@@ -241,11 +271,9 @@
             :conjure true
             :vsnip true}})
 
-(inoremap "<silent><expr> <C-Space> compe#complete()")
-(inoremap "<silent><expr> <CR> compe#confirm('<CR>')")
-(inoremap "<silent><expr> <C-e> compe#close('<C-e>')")
-(inoremap "<silent><expr> <C-f> compe#scroll({ 'delta': +4 })")
-(inoremap "<silent><expr> <C-d> compe#scroll({ 'delta': -4 })")
+(autopairs.setup {})
+(let [autopairs-compe (require :nvim-autopairs.completion.compe)]
+  (autopairs-compe.setup {:map_cr true :map_complete true }))
 
 ;; bindings
 (which-key.register
@@ -259,24 +287,37 @@
        :a ["<cmd>A<CR>" "Toggle implementation and test"]}
    :f {:name "+files"
        :s ["<cmd>update<CR>" "File save"]
+       :f ["<cmd>Telescope file_browser<CR>" "Find file in directory"]
+       :R [":Rename " "Rename file"]
+       :c [":saveas <C-R>=expand(\"%:p:h\")<CR>/" "Copy file"]
        :r ["<cmd>Telescope oldfiles<CR>" "Recent files"]}
    :g {:name "+git"
        :s ["<cmd>Git<CR>" "Git status"]
        :b ["<cmd>Git blame<CR>" "Git blame"]}
    :b {:name "+buffers"
        :b ["<cmd>Telescope buffers<CR>" "Find buffer"]
-       :d ["<cmd>bdelete<CR>" "Delete buffer"]}
+       :d ["<cmd>bdelete<CR>" "Delete buffer"]
+       :n ["<cmd>bdelete<CR>" "Next buffer"]
+       :p ["<cmd>bdelete<CR>" "Previous buffer"]
+       :h ["<cmd>Startify<CR>" "Home buffer"]}
    :w {:name "+windows"
        :h ["<cmd>wincmd h<CR>" "Window left"]
        :l ["<cmd>wincmd l<CR>" "Window right"]
        :j ["<cmd>wincmd j<CR>" "Window down"]
        :k ["<cmd>wincmd k<CR>" "Window up"]
+       :<S-h> ["<cmd>wincmd <S-h><CR>" "Move window far left"]
+       :<S-l> ["<cmd>wincmd <S-l><CR>" "Move window far right"]
+       :<S-j> ["<cmd>wincmd <S-j><CR>" "Move window very down"]
+       :<S-k> ["<cmd>wincmd <S-k><CR>" "Move window very top"]
        :w ["<cmd>wincmd w<CR>" "Other window"]
        := ["<cmd>wincmd =<CR>" "Window balance area"]
        :r ["<cmd>wincmd r<CR>" "Rotate window"]
        :s ["<cmd>wincmd s<CR>" "Window split"]
        :v ["<cmd>wincmd v<CR>" "Window vsplit"]
        :c ["<cmd>close<CR>" "Window close"]}
+   :s {:name "+search"
+       :p ["<cmd>Telescope find_files<CR>" "Search in project"]
+       :s ["<cmd>Telescope current_buffer_fuzzy_find<CR>" "Search in buffer"]}
    :r {:name "+registers"
        :e ["<cmd>Telescope registers<CR>" "Registers"]}
    :t {:name "+toggle"
@@ -297,10 +338,14 @@
 (noremap :n :<M-b> "<cmd>Telescope buffers<CR>")
 (noremap :n :<M-w> "<cmd>close<CR>")
 (noremap :n :<C-p> "<cmd>Telescope find_files<CR>")
-(noremap :n :<C-h> "<cmd>wincmd h<CR>")
-(noremap :n :<C-l> "<cmd>wincmd l<CR>")
-(noremap :n :<C-j> "<cmd>wincmd j<CR>")
-(noremap :n :<C-k> "<cmd>wincmd k<CR>")
+(noremap :n :<C-h> "<cmd>TmuxNavigateLeft<CR>")
+(noremap :n :<C-j> "<cmd>TmuxNavigateDown<CR>")
+(noremap :n :<C-k> "<cmd>TmuxNavigateUp<CR>")
+(noremap :n :<C-l> "<cmd>TmuxNavigateRight<CR>")
+
+(noremap :n :<Space>! "yy:let cliptext = getreg('*') | :VimuxPromptCommand(cliptext)<CR><CR>")
+(noremap :v :<Space>! "y:let cliptext = getreg('*') | :VimuxPromptCommand(cliptext)<CR><CR>")
+
 (nmap :gy "yygccp")
 
 (autocmd :FileType :fugitive "nmap <buffer> q gq")
@@ -308,3 +353,8 @@
 (autocmd :FileType :fugitiveblame "nmap <buffer> q gq")
 (autocmd :FileType :gitcommit "nmap <buffer> <C-c><C-c> :wq<CR>")
 (autocmd :FileType :gitcommit "nmap <buffer> <C-c><C-k> :q!<CR>")
+
+(inoremap "<silent><expr> <C-Space> compe#complete()")
+(inoremap "<silent><expr> <C-e> compe#close('<C-e>')")
+(inoremap "<silent><expr> <C-f> compe#scroll({ 'delta': +4 })")
+(inoremap "<silent><expr> <C-d> compe#scroll({ 'delta': -4 })")
