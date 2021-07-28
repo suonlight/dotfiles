@@ -5,6 +5,7 @@
              telescope telescope
              actions telescope.actions
              orgmode orgmode
+             compe compe
              which-key which-key
              lsp lspconfig}
    require-macros [dotfiles.macros]})
@@ -75,7 +76,7 @@
   ; :clojure-vim/vim-jack-in {}
   ; :dag/vim-fish {}
   ; :easymotion/vim-easymotion {:mod :easymotion}
-  ; :hrsh7th/nvim-compe {:mod :compe}
+  :hrsh7th/nvim-compe {}
   ; :hylang/vim-hy {}
   ; :lambdalisue/suda.vim {}
   ; :liuchengxu/vim-better-default {:mod :better-default}
@@ -186,17 +187,17 @@
 
 (local format-file-types {:typescript "prettier" :javascript "prettier"})
 
-(local on-attach (fn [client bufnr]
-                   (_: "command! LspDef lua vim.lsp.buf.definition()")
-                   (_: "command! LspHover lua vim.lsp.buf.hover()")
-                   (noremap-buffer bufnr :n :gd "<cmd>LspDef<CR>")
-                   (noremap-buffer bufnr :n :K "<cmd>LspHover<CR>")))
+(defn on-attach [client bufnr]
+  (_: "command! LspDef lua vim.lsp.buf.definition()")
+  (_: "command! LspHover lua vim.lsp.buf.hover()")
+  (noremap-buffer bufnr :n :gd "<cmd>LspDef<CR>")
+  (noremap-buffer bufnr :n :K "<cmd>LspHover<CR>"))
 
 ; (nvim.command "lua require('lspconfig').tsserver.setup{}")
 
-; (lsp.diagnosticls.setup {:on_attach (fn [client]
+; (lsp.diagnosticls.setup {:on_attach (fn [client bufnr]
 ;                                       ; (local client.resolved_capabilities.document_formatting false)
-;                                       (on-attach client))
+;                                       (on-attach client bufnr))
 ;                          :filetypes [:typescript :javascript]
 ;                          :init_options {:filetypes file-types
 ;                                         :linters linters
@@ -206,6 +207,36 @@
 (lsp.tsserver.setup {:on_attach (fn [client bufnr]
                                   (set client.resolved_capabilities.document_formatting false)
                                   (on-attach client bufnr))})
+
+;; nvim-compe
+(set nvim.o.completeopt "menuone,noselect")
+
+(compe.setup
+  {:enabled true
+   :autocomplete true
+   :debug false
+   :min_length 1
+   :preselect "enable"
+   :throttle_time 80
+   :source_timeout 200
+   :incomplete_delay 400
+   :max_abbr_width 100
+   :max_kind_width 100
+   :max_menu_width 100
+   :documentation true
+   :source {:path true
+            :buffer true
+            :calc true
+            :nvim_lsp true
+            :nvim_lua true
+            :conjure true
+            :vsnip true}})
+
+(inoremap "<silent><expr> <C-Space> compe#complete()")
+(inoremap "<silent><expr> <CR> compe#confirm('<CR>')")
+(inoremap "<silent><expr> <C-e> compe#close('<C-e>')")
+(inoremap "<silent><expr> <C-f> compe#scroll({ 'delta': +4 })")
+(inoremap "<silent><expr> <C-d> compe#scroll({ 'delta': -4 })")
 
 ;; bindings
 (which-key.register

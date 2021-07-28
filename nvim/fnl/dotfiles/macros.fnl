@@ -11,6 +11,10 @@
   (fn [mode from to]
     `(nvim.set_keymap ,mode ,from ,to {:noremap true}))
 
+  :inoremap
+  (fn [expr]
+    `(nvim.ex.inoremap ,expr))
+
   :map
   (fn [from to]
     `(nvim.set_keymap :n ,from ,to {:noremap false}))
