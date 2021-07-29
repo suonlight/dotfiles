@@ -49,6 +49,7 @@
   ; ui
   :romgrk/doom-one.vim {}
   :kyazdani42/nvim-web-devicons {}
+  :kyazdani42/nvim-tree.lua {}
   :itchyny/lightline.vim {}
   ; :glepnir/galaxyline.nvim {:branch :main}
 
@@ -65,7 +66,7 @@
   :alvan/vim-closetag {}
 
   ; ruby
-  :tpope/vim-projectionist {}
+  :tpope/vim-projectionist {} ; take ~ 200ms to startup
   :janko-m/vim-test {}
 
   ; lsp
@@ -149,7 +150,7 @@
 (set nvim.g.indentLine_concealcursor "inc")
 (set nvim.g.indentLine_conceallevel 2)
 
-;; telescope
+; ;; telescope
 (telescope.setup {:defaults {:mappings {:i {"<esc>" actions.close}}}})
 
 ;; sexp
@@ -166,14 +167,6 @@
 ; \      }
 ; \    })
 ; ")
-
-;; prettier
-(vim.schedule
-  (fn []
-    (autocmd
-      :BufWritePre
-      "*.js,*.jsx,*.mjs,*.ts,*.tsx,*.less,*.json,*.graphql,*.md,*.vue"
-      "Prettier")))
 
 ;; lightline
 (fn->viml :dotfiles.util :filename :LightlineFilename)
@@ -294,9 +287,11 @@
    :f {:name "+files"
        :s ["<cmd>update<CR>" "File save"]
        :f ["<cmd>Telescope file_browser<CR>" "Find file in directory"]
+       :t ["<cmd>NvimTreeToggle<CR>" "Toggle Tree"]
        :R [":Rename " "Rename file"]
        :c [":saveas <C-R>=expand(\"%:p:h\")<CR>/" "Copy file"]
-       :r ["<cmd>Telescope oldfiles<CR>" "Recent files"]}
+       :r ["<cmd>Telescope oldfiles<CR>" "Recent files"]
+       :y [":let @*=expand('%:p') | echo @*<CR>" "Copy Full File Path"]}
    :g {:name "+git"
        :oo ["<cmd>Gbrowse<CR>" "Git browse"]
        :s ["<cmd>Git<CR>" "Git status"]
@@ -350,18 +345,26 @@
 (noremap :n :<M-b> "<cmd>Telescope buffers<CR>")
 (noremap :n :<M-w> "<cmd>close<CR>")
 (noremap :n :<C-p> "<cmd>Telescope find_files<CR>")
+
+;; windows
 (noremap :n :<C-h> "<cmd>TmuxNavigateLeft<CR>")
 (noremap :n :<C-j> "<cmd>TmuxNavigateDown<CR>")
 (noremap :n :<C-k> "<cmd>TmuxNavigateUp<CR>")
 (noremap :n :<C-l> "<cmd>TmuxNavigateRight<CR>")
 
-(noremap :n :<Space>! "yy:let cliptext = getreg('*') | :VimuxPromptCommand(cliptext)<CR><CR>")
-(noremap :v :<Space>! "y:let cliptext = getreg('*') | :VimuxPromptCommand(cliptext)<CR><CR>")
+(noremap :n :<Leader>! "yy:let cliptext = getreg('*') | :VimuxPromptCommand(cliptext)<CR><CR>")
+(noremap :v :<Leader>! "y:let cliptext = getreg('*') | :VimuxPromptCommand(cliptext)<CR><CR>")
 
+(noremap :n :<Leader>0 "<cmd>NvimTreeFindFile<CR>")
 (noremap :n :<f5> ":TestNearest<CR>:TmuxNavigateDown<CR>")
 
 (nmap :s "<cmd>HopChar1<CR>")
 (nmap :gy "yygccp")
+
+;; ALE
+(noremap :n "]e" "<cmd>ALENext<CR>")
+(noremap :n "[e" "<cmd>ALEPrevious<CR>")
+(noremap :n :<Leader>ef "<cmd>ALEFix<CR>")
 
 (augroup
   :FileFugitive
@@ -376,6 +379,13 @@
   (autocmd :FileType :ruby "noremap <f5> :TestNearest<CR>:TmuxNavigateDown<CR>")
   (autocmd :FileType :ruby "nnoremap <LocalLeader>tt :TestNearest<CR>:TmuxNavigateDown<CR>")
   (autocmd :FileType :ruby "nnoremap <LocalLeader>tb :TestFile<CR>:TmuxNavigateDown<CR>"))
+
+(augroup
+  :Prettier
+  (autocmd
+    :BufWritePre
+    "*.js,*.jsx,*.mjs,*.ts,*.tsx,*.less,*.json,*.graphql,*.md,*.vue"
+    "Prettier"))
 
 (inoremap "<silent><expr> <C-Space> compe#complete()")
 (inoremap "<silent><expr> <C-e> compe#close('<C-e>')")
