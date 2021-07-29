@@ -17,24 +17,6 @@
   :Olical/nvim-local-fennel {}
   :Olical/conjure {}
 
-  :guns/vim-sexp {}
-  :tpope/vim-surround {}
-  :tpope/vim-commentary {}
-  :tpope/vim-endwise {}
-  :tpope/vim-fugitive {}
-  :tpope/vim-rhubarb {}
-
-  ;; TODO research each plugin
-  ; :tpope/vim-abolish {}
-  ; :tpope/vim-dadbod {}
-  ; :tpope/vim-dispatch {}
-  ; :tpope/vim-eunuch {}
-  ; :tpope/vim-repeat {}
-  ; :tpope/vim-sexp-mappings-for-regular-people {}
-  ; :tpope/vim-sleuth {}
-  ; :tpope/vim-unimpaired {}
-  ; :tpope/vim-vinegar {}
-
   ; defaults
   :editorconfig/editorconfig-vim {}
   :folke/which-key.nvim {}
@@ -45,7 +27,9 @@
   :windwp/nvim-autopairs {}
   :yggdroot/indentLine {}
   :danro/rename.vim {}
-  :phaazon/hop.nvim {}
+  :phaazon/hop.nvim {} ; easy motion
+  :tpope/vim-commentary {}
+  :tpope/vim-endwise {}
 
   ; tmux
   :christoomey/vim-tmux-navigator {}
@@ -56,12 +40,20 @@
   :kana/vim-textobj-indent  {}
   :kana/vim-textobj-line  {}
   :kana/vim-textobj-entire  {}
+  :tpope/vim-surround {}
+
+  ; git
+  :tpope/vim-fugitive {}
+  :tpope/vim-rhubarb {}
 
   ; ui
   :romgrk/doom-one.vim {}
   :kyazdani42/nvim-web-devicons {}
   :itchyny/lightline.vim {}
   ; :glepnir/galaxyline.nvim {:branch :main}
+
+  ; lisp
+  :guns/vim-sexp {}
 
   ; linter
   :dense-analysis/ale {}
@@ -85,6 +77,19 @@
   ; completion
   :hrsh7th/nvim-compe {}
 
+  ; config
+  :dstein64/vim-startuptime {}
+
+  ;; TODO research each plugin
+  ; :tpope/vim-abolish {}
+  ; :tpope/vim-dadbod {}
+  ; :tpope/vim-dispatch {}
+  ; :tpope/vim-eunuch {}
+  ; :tpope/vim-repeat {}
+  ; :tpope/vim-sexp-mappings-for-regular-people {}
+  ; :tpope/vim-sleuth {}
+  ; :tpope/vim-unimpaired {}
+  ; :tpope/vim-vinegar {}
   ; :Olical/vim-enmasse {}
   ; :PeterRincker/vim-argumentative {}
   ; :airblade/vim-gitgutter {}
@@ -96,7 +101,6 @@
   ; :mbbill/undotree {:mod :undotree}
   ; :norcalli/nvim-colorizer.lua {:mod :colorizer}
   ; :radenling/vim-dispatch-neovim {}
-  ; :tweekmonster/startuptime.vim {}
   ; :wlangstroth/vim-racket {}
   )
 
