@@ -7,6 +7,14 @@
   (fn [...]
     `(nvim.ex.autocmd ,...))
 
+  :augroup
+  (fn [name ...]
+    `(do
+       (nvim.ex.augroup ,(tostring name))
+       (nvim.ex.autocmd_)
+       ,(list `do ...)
+       (nvim.ex.augroup :END)))
+
   :noremap
   (fn [mode from to]
     `(nvim.set_keymap ,mode ,from ,to {:noremap true}))

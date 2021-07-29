@@ -20,8 +20,9 @@
   :guns/vim-sexp {}
   :tpope/vim-surround {}
   :tpope/vim-commentary {}
-  :tpope/vim-fugitive {}
   :tpope/vim-endwise {}
+  :tpope/vim-fugitive {}
+  :tpope/vim-rhubarb {}
 
   ;; TODO research each plugin
   ; :tpope/vim-abolish {}
@@ -41,10 +42,10 @@
   :nvim-lua/plenary.nvim {}
   :nvim-telescope/telescope.nvim {}
   :mhinz/vim-startify {}
-  ; :jiangmiao/auto-pairs {}
   :windwp/nvim-autopairs {}
   :yggdroot/indentLine {}
   :danro/rename.vim {}
+  :phaazon/hop.nvim {}
 
   ; tmux
   :christoomey/vim-tmux-navigator {}
@@ -81,13 +82,14 @@
   ; notes
   :kristijanhusak/orgmode.nvim {}
 
+  ; completion
+  :hrsh7th/nvim-compe {}
+
   ; :Olical/vim-enmasse {}
   ; :PeterRincker/vim-argumentative {}
   ; :airblade/vim-gitgutter {}
   ; :clojure-vim/vim-jack-in {}
   ; :dag/vim-fish {}
-  ; :easymotion/vim-easymotion {:mod :easymotion}
-  :hrsh7th/nvim-compe {}
   ; :hylang/vim-hy {}
   ; :lambdalisue/suda.vim {}
   ; :liuchengxu/vim-better-default {:mod :better-default}
@@ -292,6 +294,7 @@
        :c [":saveas <C-R>=expand(\"%:p:h\")<CR>/" "Copy file"]
        :r ["<cmd>Telescope oldfiles<CR>" "Recent files"]}
    :g {:name "+git"
+       :oo ["<cmd>Gbrowse<CR>" "Git browse"]
        :s ["<cmd>Git<CR>" "Git status"]
        :b ["<cmd>Git blame<CR>" "Git blame"]}
    :b {:name "+buffers"
@@ -318,9 +321,14 @@
    :s {:name "+search"
        :p ["<cmd>Telescope find_files<CR>" "Search in project"]
        :s ["<cmd>Telescope current_buffer_fuzzy_find<CR>" "Search in buffer"]}
+   :j {:name "+jump"
+       :j ["<cmd>HopChar1<CR>" "Jump to char"]
+       :w ["<cmd>HopWord<CR>" "Jump to word"]
+       :l ["<cmd>HopLine<CR>" "Jump to line"]}
    :r {:name "+registers"
        :e ["<cmd>Telescope registers<CR>" "Registers"]}
    :t {:name "+toggle"
+       :l ["<cmd>set nu! rnu!<CR>" "Toggle Line Number"]
        :i ["<cmd>IndentLinesToggle<CR>" "Toggle indent line"]}
    :h {:name "+help"
        :? ["<cmd>Telescope help_tags<CR>" "Help tags"]
@@ -346,13 +354,24 @@
 (noremap :n :<Space>! "yy:let cliptext = getreg('*') | :VimuxPromptCommand(cliptext)<CR><CR>")
 (noremap :v :<Space>! "y:let cliptext = getreg('*') | :VimuxPromptCommand(cliptext)<CR><CR>")
 
+(noremap :n :<f5> ":TestNearest<CR>:TmuxNavigateDown<CR>")
+
+(nmap :s "<cmd>HopChar1<CR>")
 (nmap :gy "yygccp")
 
-(autocmd :FileType :fugitive "nmap <buffer> q gq")
-(autocmd :FileType :fugitive "nmap <buffer> pp :Git push<CR>")
-(autocmd :FileType :fugitiveblame "nmap <buffer> q gq")
-(autocmd :FileType :gitcommit "nmap <buffer> <C-c><C-c> :wq<CR>")
-(autocmd :FileType :gitcommit "nmap <buffer> <C-c><C-k> :q!<CR>")
+(augroup
+  :FileFugitive
+  (autocmd :FileType :fugitive "nmap <buffer> q gq")
+  (autocmd :FileType :fugitive "nmap <buffer> pp :Git push<CR>")
+  (autocmd :FileType :fugitiveblame "nmap <buffer> q gq")
+  (autocmd :FileType :gitcommit "nmap <buffer> <C-c><C-c> :wq<CR>")
+  (autocmd :FileType :gitcommit "nmap <buffer> <C-c><C-k> :q!<CR>"))
+
+(augroup
+  :FileRuby
+  (autocmd :FileType :ruby "noremap <f5> :TestNearest<CR>:TmuxNavigateDown<CR>")
+  (autocmd :FileType :ruby "nnoremap <LocalLeader>tt :TestNearest<CR>:TmuxNavigateDown<CR>")
+  (autocmd :FileType :ruby "nnoremap <LocalLeader>tb :TestFile<CR>:TmuxNavigateDown<CR>"))
 
 (inoremap "<silent><expr> <C-Space> compe#complete()")
 (inoremap "<silent><expr> <C-e> compe#close('<C-e>')")
