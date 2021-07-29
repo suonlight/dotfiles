@@ -50,6 +50,7 @@
   :romgrk/doom-one.vim {}
   :kyazdani42/nvim-web-devicons {}
   :kyazdani42/nvim-tree.lua {}
+  :yamatsum/nvim-nonicons {}
   :itchyny/lightline.vim {}
   ; :glepnir/galaxyline.nvim {:branch :main}
 
@@ -144,6 +145,30 @@
 (set nvim.g.ale_set_loclist 0)
 (set nvim.g.ale_set_quickfix 1)
 (set nvim.g.ale_fix_on_save 1)
+
+;; nvim-web-devicons
+(let [devicons (require :nvim-web-devicons)]
+  (devicons.setup {:default true}))
+
+(set nvim.g.nvim_tree_icons
+     {:default ""
+     :symlink ""
+     :git {:unstaged "✗"
+           :staged "✓"
+           :unmerged ""
+           :renamed "➜"
+           :untracked "★"
+           :deleted ""
+           :ignored "◌" }
+     :folder {:arrow_open ""
+              :arrow_closed ""
+              :default ""
+              :open ""
+              :empty ""
+              :empty_open ""
+              :symlink ""
+              :symlink_open ""}
+     :lsp {:hint "" :info "" :warning "" :error "" }})
 
 ;; indentLine
 (set nvim.g.indentLine_enabled 0)
