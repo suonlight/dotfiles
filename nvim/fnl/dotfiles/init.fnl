@@ -47,7 +47,7 @@
   :tpope/vim-rhubarb {}
 
   ; ui
-  :romgrk/doom-one.vim {}
+  :joshdick/onedark.vim {}
   :kyazdani42/nvim-web-devicons {}
   :kyazdani42/nvim-tree.lua {}
   :yamatsum/nvim-nonicons {}
@@ -107,7 +107,7 @@
   )
 
 ;; default
-(_: colorscheme :doom-one)
+(_: colorscheme :onedark)
 (set nvim.o.termguicolors true)
 (set nvim.o.clipboard :unnamed)
 (set nvim.o.autoindent true)
