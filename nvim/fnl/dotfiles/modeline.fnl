@@ -62,6 +62,7 @@
                      :c colors.orange
                      :V colors.magenta
                      :v colors.magenta
+                     "" colors.magenta
                      :R colors.red}]
     (or (?. mode-colors (nvim.fn.mode)) colors.red)))
 
@@ -71,6 +72,7 @@
                :c "COMMAND"
                :V "VISUAL"
                :v "VISUAL"
+               "" "VISUAL"
                :R "REPLACE"}
         alias-mode (or (?. alias (nvim.fn.mode)) (nvim.fn.mode))]
     (nvim.command (.. "hi GalaxyViMode guibg=" (mode-color)))
