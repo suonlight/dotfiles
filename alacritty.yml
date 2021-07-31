@@ -86,7 +86,7 @@ font:
   # Bold font face
   bold:
     # family: Source Code Pro
-    family: Hack Nerd Font Mono
+    # family: Hack Nerd Font Mono
     family: FiraCode Nerd Font
     # The `style` can be specified to pick a specific face.
     # The `style` can be specified to pick a specific face.
