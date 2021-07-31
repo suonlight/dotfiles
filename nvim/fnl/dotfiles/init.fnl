@@ -55,7 +55,7 @@
   :kyazdani42/nvim-tree.lua {}
   :yamatsum/nvim-nonicons {}
   ; :itchyny/lightline.vim {}
-  :glepnir/galaxyline.nvim {:branch :main :config (fn [] (require :dotfiles.modeline))}
+  :glepnir/galaxyline.nvim {:branch :main}
 
   ; lisp
   :guns/vim-sexp {}
@@ -125,6 +125,8 @@
 (set nvim.o.ignorecase true)
 (set nvim.o.smartcase true)
 (set nvim.o.wrap false) ; nowrap
+(set nvim.o.ttyfast true)
+(set nvim.o.lazyredraw true)
 
 ;; ale
 (set nvim.g.ale_linters
