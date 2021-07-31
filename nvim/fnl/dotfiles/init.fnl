@@ -53,7 +53,7 @@
   :folke/tokyonight.nvim {}
   :kyazdani42/nvim-web-devicons {}
   :kyazdani42/nvim-tree.lua {}
-  :yamatsum/nvim-nonicons {}
+  ; :yamatsum/nvim-nonicons {}
   ; :itchyny/lightline.vim {}
   :glepnir/galaxyline.nvim {:branch :main}
 
