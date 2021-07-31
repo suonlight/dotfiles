@@ -1,7 +1,9 @@
 (module dotfiles.init
   {autoload {nvim aniseed.nvim
+             a aniseed.core
              nvim-util aniseed.nvim.util
              util dotfiles.util
+             modeline dotfiles.modeline
              telescope telescope
              actions telescope.actions
              orgmode orgmode
@@ -48,11 +50,12 @@
 
   ; ui
   :joshdick/onedark.vim {}
+  :folke/tokyonight.nvim {}
   :kyazdani42/nvim-web-devicons {}
   :kyazdani42/nvim-tree.lua {}
   :yamatsum/nvim-nonicons {}
-  :itchyny/lightline.vim {}
-  ; :glepnir/galaxyline.nvim {:branch :main}
+  ; :itchyny/lightline.vim {}
+  :glepnir/galaxyline.nvim {:branch :main :config (fn [] (require :dotfiles.modeline))}
 
   ; lisp
   :guns/vim-sexp {}
@@ -293,11 +296,40 @@
             :nvim_lsp true
             :nvim_lua true
             :conjure true
-            :vsnip true}})
+            :vsnip false}}) ; TODO handle vsnip with TAB
 
+(defn- replace-termcodes [str]
+  (nvim.replace_termcodes str true true true))
+
+(defn- check-backspace []
+  (let [col (- (nvim.fn.col ".") 1)
+        space-under-cursor? (-> (nvim.fn.getline ".")
+                                  (string.sub col col)
+                                  (string.match "%s")
+                                  (not= nil))]
+    (or (= col 0) space-under-cursor?)))
+
+(global tab_complete (fn []
+                    (if (= (nvim.fn.pumvisible) 1)
+                      (replace-termcodes "<C-n>")
+                      (if (check-backspace)
+                        (replace-termcodes "<Tab>")
+                        ((. nvim.fn "compe#complete"))))))
+
+(global s_tab_complete (fn []
+                    (if (= (nvim.fn.pumvisible) 1)
+                      (replace-termcodes "<C-p>")
+                      (replace-termcodes "<S-Tab>"))))
+
+(imap :<Tab> "v:lua.tab_complete()" {:expr true})
+(imap :<S-Tab> "v:lua.s_tab_complete()" {:expr true})
+
+;; autopairs
 (autopairs.setup {})
 (let [autopairs-compe (require :nvim-autopairs.completion.compe)]
   (autopairs-compe.setup {:map_cr true :map_complete true }))
+
+(modeline.setup)
 
 ;; bindings
 (which-key.register
@@ -412,7 +444,8 @@
     "*.js,*.jsx,*.mjs,*.ts,*.tsx,*.less,*.json,*.graphql,*.md,*.vue"
     "Prettier"))
 
-(inoremap "<silent><expr> <C-Space> compe#complete()")
-(inoremap "<silent><expr> <C-e> compe#close('<C-e>')")
-(inoremap "<silent><expr> <C-f> compe#scroll({ 'delta': +4 })")
-(inoremap "<silent><expr> <C-d> compe#scroll({ 'delta': -4 })")
+;; not work
+(inoremap :<C-Space> "compe#complete()" {:silent true :expr true})
+(inoremap :<C-e> "compe#close('<C-e>')" {:silent true :expr true})
+(inoremap :<C-f> "compe#scroll({ 'delta': +4 })" {:silent true :expr true})
+(inoremap :<C-d> "compe#scroll({ 'delta': -4 })" {:silent true :expr true})

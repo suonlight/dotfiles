@@ -16,20 +16,30 @@
        (nvim.ex.augroup :END)))
 
   :noremap
-  (fn [mode from to]
-    `(nvim.set_keymap ,mode ,from ,to {:noremap true}))
+  (fn [mode from to ?opts]
+    (if ?opts
+      (do (set ?opts.noremap true)
+        `(nvim.set_keymap ,mode ,from ,to ,?opts))
+      `(nvim.set_keymap ,mode ,from ,to {:noremap true})))
 
   :inoremap
-  (fn [expr]
-    `(nvim.ex.inoremap ,expr))
+  (fn [from to ?opts]
+    `(noremap :i ,from ,to ,?opts))
 
   :map
-  (fn [from to]
-    `(nvim.set_keymap :n ,from ,to {:noremap false}))
+  (fn [mode from to ?opts]
+    (if ?opts
+      (do (set ?opts.noremap false)
+        `(nvim.set_keymap ,mode ,from ,to ,?opts))
+      `(nvim.set_keymap ,mode ,from ,to {:noremap false})))
 
   :nmap
-  (fn [from to]
-    `(map ,from ,to))
+  (fn [from to ?opts]
+    `(map :n ,from ,to ,?opts))
+
+  :imap
+  (fn [from to ?opts]
+    `(map :i ,from ,to ,?opts))
 
   :noremap-buffer
   (fn [buffer mode from to]
