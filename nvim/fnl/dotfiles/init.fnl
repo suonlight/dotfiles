@@ -257,12 +257,23 @@
 (local format-file-types {:typescript "prettier" :javascript "prettier"})
 
 (defn on-attach [client bufnr]
-  (_: "command! LspDef lua vim.lsp.buf.definition()")
-  (_: "command! LspHover lua vim.lsp.buf.hover()")
-  (noremap-buffer bufnr :n :gd "<cmd>LspDef<CR>")
-  (noremap-buffer bufnr :n :K "<cmd>LspHover<CR>"))
-
-; (nvim.command "lua require('lspconfig').tsserver.setup{}")
+  ; (_: "command! LspDef lua vim.lsp.buf.definition()")
+  ; (_: "command! LspHover lua vim.lsp.buf.hover()")
+  (noremap-buffer bufnr :n :gD "<cmd>lua vim.lsp.buf.declaration()<CR>" {:noremap true :silent true})
+  (noremap-buffer bufnr :n :gd "<cmd>lua vim.lsp.buf.definition()<CR>" {:noremap true :silent true})
+  (noremap-buffer bufnr :n :K "<cmd>lua vim.lsp.buf.hover()<CR>" {:noremap true :silent true})
+  (noremap-buffer bufnr :n :gi "<cmd>lua vim.lsp.buf.implementation()<cR>" {:noremap true :silent true})
+  (noremap-buffer bufnr :n :<C-k> "<cmd>lua vim.lsp.buf.signature_help()<cR>" {:noremap true :silent true})
+  ; (noremap-buffer bufnr :n :<space>wa "<cmd>lua vim.lsp.buf.add_workspace_folder()<cR>" {:noremap true :silent true})
+  ; (noremap-buffer bufnr :n :<space>wr "<cmd>lua vim.lsp.buf.remove_workspace_folder()<cR>" {:noremap true :silent true})
+  ; (noremap-buffer bufnr :n :<space>wl "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cR>" {:noremap true :silent true})
+  ; (noremap-buffer bufnr :n :<space>D "<cmd>lua vim.lsp.buf.type_definition()<cR>" {:noremap true :silent true})
+  ; (noremap-buffer bufnr :n :<space>rn "<cmd>lua vim.lsp.buf.rename()<cR>" {:noremap true :silent true})
+  ; (noremap-buffer bufnr :n :<space>e "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cR>" {:noremap true :silent true})
+  ; (noremap-buffer bufnr :n :<space>q "<cmd>lua vim.lsp.diagnostic.set_loclist()<cR>" {:noremap true :silent true})
+  (noremap-buffer bufnr :n :gr "<cmd>lua vim.lsp.buf.references()<cR>" {:noremap true :silent true})
+  (noremap-buffer bufnr :n "[d" "<cmd>lua vim.lsp.diagnostic.goto_prev()<cR>" {:noremap true :silent true})
+  (noremap-buffer bufnr :n "]d" "<cmd>lua vim.lsp.diagnostic.goto_next()<cR>" {:noremap true :silent true}))
 
 ; (lsp.diagnosticls.setup {:on_attach (fn [client bufnr]
 ;                                       ; (local client.resolved_capabilities.document_formatting false)

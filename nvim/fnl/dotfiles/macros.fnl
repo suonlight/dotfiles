@@ -42,8 +42,11 @@
     `(map :i ,from ,to ,?opts))
 
   :noremap-buffer
-  (fn [buffer mode from to]
-    `(nvim.buf_set_keymap ,buffer ,mode ,from ,to {:noremap true}))
+  (fn [buffer mode from to ?opts]
+    (if ?opts
+      (do (set ?opts.noremap true)
+        `(nvim.buf_set_keymap ,buffer ,mode ,from ,to ,?opts))
+      `(nvim.buf_set_keymap ,buffer ,mode ,from ,to {:noremap true})))
 
   :defer
   (fn
