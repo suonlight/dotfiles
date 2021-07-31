@@ -32,6 +32,7 @@
   :phaazon/hop.nvim {} ; easy motion
   :tpope/vim-commentary {}
   :tpope/vim-endwise {}
+  :pechorin/any-jump.vim {}
 
   ; tmux
   :christoomey/vim-tmux-navigator {}
@@ -272,9 +273,8 @@
 ;                                         :formatters formatters
 ;                                         :formatFiletypes format-file-types}})
 
-(lsp.tsserver.setup {:on_attach (fn [client bufnr]
-                                  (set client.resolved_capabilities.document_formatting false)
-                                  (on-attach client bufnr))})
+(lsp.tsserver.setup {:on_attach on-attach})
+(lsp.solargraph.setup {:on_attach on-attach})
 
 ;; nvim-compe
 (set nvim.o.completeopt "menuone,noselect")
