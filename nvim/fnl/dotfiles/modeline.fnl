@@ -2,7 +2,8 @@
   {autoload {nvim aniseed.nvim
              util dotfiles.util
              galaxyline galaxyline
-             file-info galaxyline.provider_fileinfo}
+             file-info galaxyline.provider_fileinfo
+             condition galaxyline.condition}
    require-macros [dotfiles.macros]})
 
 (set galaxyline.short_line_list [ "NvimTree" "vista" "dbui" "packer"]) ;; missing this line causes slow perf on ruby
@@ -82,6 +83,9 @@
                              :separator " "
                              :highlight [colors.bg colors.section_bg]
                              :separator_highlight [colors.bg colors.section_bg]}}
+                   {:FileSize {:provider "FileSize"
+                               :condition buffer-not-empty
+                               :highlight [colors.fg colors.section_bg]}}
                    {:FileIcon {:provider "FileIcon"
                                :condition buffer-not-empty
                                :highlight [(file-info.get_file_icon_color) colors.section_bg]}}
@@ -97,7 +101,35 @@
     (nvim.command (.. "hi GalaxyLineColumn guibg=" (mode-color)))
     (.. " " line "/" max-lines ":" column)))
 
-(set section.right [{:LineColumn {:provider (fn [] (line-column))
+(set section.right [{:LspStatus {:provider (fn []
+                                             (let [clients (vim.lsp.get_active_clients)]
+                                               (if (not= (next clients) nil)
+                                                 (.. "    LSP")
+                                                 "")))}}
+                    {:FileFormat {:provider "FileFormat" ;; unix
+                                  :condition condition.hide_in_width
+                                  :separator " "
+                                  :highlight [colors.cyan colors.bg_inactive]
+                                  :separator_highlight [colors.fg colors.section_bg]}}
+                    ; {:FileEncode {:provider "FileEncode" ;; utf8
+                    ;               :condition condition.hide_in_width
+                    ;               :separator " "
+                    ;               :highlight [colors.cyan colors.bg_inactive]
+                    ;               :separator_highlight [colors.fg colors.section_bg]}}
+                    {:BufferType {:provider "FileTypeName" ;; ruby/javascript
+                                  :condition condition.hide_in_width
+                                  :separator " "
+                                  :highlight [colors.cyan colors.bg_inactive]
+                                  :separator_highlight [colors.fg colors.section_bg]}}
+                    {:GitIcon {:provider (fn [] "  ")
+                               :condition condition.check_git_workspace
+                               :separator " "
+                               :highlight [colors.fg colors.section_bg]}}
+                    {:GitBranch {:provider "GitBranch"
+                                 :condition condition.check_git_workspace
+                                 :separator ""
+                                 :highlight [colors.fg colors.section_bg]}}
+                    {:LineColumn {:provider (fn [] (line-column))
                                   :separator " "
                                   :highlight [colors.black mode-color]
                                   :separator_highlight [colors.bg colors.section_bg]}}])
@@ -115,7 +147,17 @@
                                                   :highlight [colors.fg colors.bg_inactive]
                                                   :separator_highlight [colors.fg colors.bg_inactive]}}])
 
-(set section.short_line_right [{:LineColumnInactive {:provider "LineColumn"
+(set section.short_line_right [{:FileFormatInactive {:provider "FileFormat" ;; unix
+                                                     :condition condition.hide_in_width
+                                                     :separator " "
+                                                     :highlight [colors.fg colors.bg_inactive]
+                                                     :separator_highlight [colors.fg colors.bg_inactive]}}
+                               {:BufferTypeInactive {:provider "FileTypeName" ;; ruby/javascript
+                                                     :condition condition.hide_in_width
+                                                     :separator " "
+                                                     :highlight [colors.fg colors.bg_inactive]
+                                                     :separator_highlight [colors.fg colors.bg_inactive]}}
+                               {:LineColumnInactive {:provider "LineColumn"
                                                      :separator " "
                                                      :highlight [colors.fg colors.bg_inactive]
                                                      :separator_highlight [colors.fg colors.bg_inactive]}}])
