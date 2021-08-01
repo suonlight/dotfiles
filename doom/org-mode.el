@@ -205,21 +205,17 @@ Argument PARAMS the org parameters of the code block."
   (setq org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox-bin")
   (setq org-roam-db-location "~/.config/emacs/org-roam.db")
   (setq org-roam-graph-exclude-matcher '("2020-" "2021-"))
+  (setq org-roam-dailies-directory "")
+  (setq! +org-roam-open-buffer-on-find-file nil)
 
   (setq org-roam-capture-templates
-    '(("d" "default" plain
-        #'org-roam-capture--get-point
-        "%?" :file-name "%<%Y%m%d%H%M%S>-${slug}"
-        :head "#+TITLE: ${title}\n\n* What is ${title}?\n\n* Why is ${title}?\n\n* References"
-        :unnarrowed t
-        :immediate-finish t)))
+    '(("d" "default" plain "%?" :if-new
+        (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+TITLE: ${title}\n\n* What is ${title}?\n\n* Why is ${title}?\n\n* References")
+        :unnarrowed t)))
 
   (setq org-roam-dailies-capture-templates
-    '(("d" "daily" plain (function org-roam-capture--get-point)
-        ""
-        :immediate-finish t
-        :file-name "%<%Y-%m-%d>"
-        :head "#+TITLE: %<%Y-%m-%d>\n#+TODO: TODO IN-PROGRESS | DONE\n\n* Morning Routines\n\n- Check Calendar\n- Watch Code Review\n- Run Squad Reports\n- Read Finance News"))))
+    '(("d" "daily" entry "* %?" :if-new
+        (file+head "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+TODO: TODO IN-PROGRESS | DONE\n\n* Morning Routines\n\n- Check Calendar\n- Watch Code Review\n- Run Squad Reports\n- Read Finance News")))))
 
 (after! org-journal
   (setq org-journal-enable-agenda-integration t)
@@ -231,8 +227,14 @@ Argument PARAMS the org parameters of the code block."
   ;; (add-to-list 'org-agenda-files org-journal-dir)
   )
 
-(use-package! org-roam-server
-  :commands org-roam-server-mode
-  :config
-  (setq org-roam-server-port 8081))
+; (use-package! org-roam-server
+;   :commands org-roam-server-mode
+;   :config
+;   (setq org-roam-server-port 8081))
 
+(use-package! websocket
+    :after org-roam)
+
+(use-package! org-roam-ui
+    :after org-roam ;; or :after org
+    :hook (org-roam . org-roam-ui-mode))
