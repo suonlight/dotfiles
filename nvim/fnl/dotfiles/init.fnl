@@ -344,6 +344,11 @@
 
 (modeline.setup)
 
+;; custom commands
+(fn->viml :dotfiles.util :gh-open-pull-request :GhOpenPullRequest)
+(fn->viml :dotfiles.util :gh-list-pull-requests :GhListPullRequests)
+(noremap :n :gog "<cmd>call GhOpenPullRequest()<CR>" {:silent true})
+
 ;; bindings
 (which-key.register
   {:/ ["<cmd>Telescope live_grep<CR>" "Search project"]
@@ -363,6 +368,7 @@
        :r ["<cmd>Telescope oldfiles<CR>" "Recent files"]
        :y [":let @*=expand('%:p') | echo @*<CR>" "Copy Full File Path"]}
    :g {:name "+git"
+       :p ["<cmd>call GhListPullRequests()<CR>" "Github List PRs"]
        :oo ["<cmd>Gbrowse<CR>" "Git browse"]
        :s ["<cmd>Git<CR>" "Git status"]
        :b ["<cmd>Git blame<CR>" "Git blame"]}

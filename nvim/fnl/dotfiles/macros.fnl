@@ -3,6 +3,10 @@
   (fn [name ...]
     `((. nvim.ex ,(tostring name)) ,...))
 
+  :sh
+  (fn [...]
+    `(nvim.command (.. "!" ,...)))
+
   :autocmd
   (fn [...]
     `(nvim.ex.autocmd ,...))

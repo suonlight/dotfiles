@@ -1,7 +1,15 @@
 (module dotfiles.util
   {autoload {nvim aniseed.nvim
+             strings aniseed.string
              a aniseed.core
-             packer packer}})
+             packer packer
+             pickers telescope.pickers
+             finders telescope.finders
+             actions telescope.actions
+             action_set telescope.actions.set
+             action_state telescope.actions.state
+             sorters telescope.sorters}
+   require-macros [dotfiles.macros]})
 
 (defn expand [path]
   (nvim.fn.expand path))
@@ -44,3 +52,24 @@
             (-?> (. opts :mod) (safe-require-plugin-config))
             (use (a.assoc opts 1 name))))))))
 
+(defn gh-open-pull-request []
+  (sh "gh pr view --web")
+  (nvim.input "<CR>"))
+
+(defn gh-list-pull-requests []
+  (let [opts {}
+        jq-arg ".[] | [\"#\" + (.number|tostring), .author.login, .title + \" \" + (if .isDraft then \"[draft]\" else \"[open]\" end)] | join(\" - \")"
+        cmd ["gh" "pr" "list" "--search" "sort:updated-desc" "--json" "author,title,number,isDraft" "--jq" jq-arg]
+        on-select (fn [prompt_bufnr _type]
+                    (let [ pr-number (-> (action_state.get_selected_entry)
+                                         (. 1)
+                                         (strings.split " - ") (. 1)
+                                         (strings.split "#") (. 2))]
+                      (actions.close prompt_bufnr)
+                      (sh (.. "gh pr view " pr-number " --web"))
+                      (nvim.input "<CR>")))
+        picker (pickers.new opts {:prompt_title "List PRs"
+                                  :finder (finders.new_oneshot_job cmd)
+                                  :sorter (sorters.get_fuzzy_file)
+                                  :attach_mappings (fn [prompt_bufnr] (action_set.select:replace on-select))})]
+    (picker:find)))
