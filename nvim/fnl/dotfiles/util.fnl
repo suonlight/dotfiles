@@ -73,3 +73,24 @@
                                   :sorter (sorters.get_fuzzy_file)
                                   :attach_mappings (fn [prompt_bufnr] (action_set.select:replace on-select))})]
     (picker:find)))
+
+(defn js-insert-i18n []
+  (let [opts {}
+        jq "jq -r '.messages | [leaf_paths as $path | { \"key\": $path | join(\".\"), \"value\": getpath($path)}]"
+        cmd ["cat" (expand "$LOCALE_FILE") " | " jq " |  map([(.key + \": \" + .value)]) | .[] | .[]'"]
+        on-select (fn [prompt_bufnr _type]
+                    (let [i18n-key (-> (action_state.get_selected_entry)
+                                    (. 1)
+                                    (strings.split ":") (. 1)
+                                    strings.trim)]
+                      (actions.close prompt_bufnr)
+                      (let [pos (nvim.win_get_cursor 0)
+                            row (-> (. pos 1) (- 1))
+                            col (. pos 2)
+                            text (.. "Intl.formatMessage({ id: " i18n-key " })")]
+                        (nvim.buf_set_text (nvim.win_get_buf 0) row col row col [text]))))
+        picker (pickers.new opts {:prompt_title "I18n"
+                                  :finder (finders.new_oneshot_job cmd)
+                                  :sorter (sorters.get_fuzzy_file)
+                                  :attach_mappings (fn [prompt_bufnr] (action_set.select:replace on-select))})]
+    (picker:find)))

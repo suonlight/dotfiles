@@ -347,6 +347,7 @@
 ;; custom commands
 (fn->viml :dotfiles.util :gh-open-pull-request :GhOpenPullRequest)
 (fn->viml :dotfiles.util :gh-list-pull-requests :GhListPullRequests)
+(fn->viml :dotfiles.util :js-insert-i18n :JsInsertI18n)
 (noremap :n :gog "<cmd>call GhOpenPullRequest()<CR>" {:silent true})
 
 ;; bindings
@@ -457,6 +458,10 @@
   (autocmd :FileType :ruby "noremap <f5> :TestNearest<CR>:TmuxNavigateDown<CR>")
   (autocmd :FileType :ruby "nnoremap <LocalLeader>tt :TestNearest<CR>:TmuxNavigateDown<CR>")
   (autocmd :FileType :ruby "nnoremap <LocalLeader>tb :TestFile<CR>:TmuxNavigateDown<CR>"))
+
+(augroup
+  :FileJavascript
+  (autocmd :FileType :javascript "nnoremap <LocalLeader>il :call JsInsertI18n()<CR>"))
 
 (augroup
   :Prettier
