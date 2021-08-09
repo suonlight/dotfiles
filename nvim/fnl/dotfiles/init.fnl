@@ -347,8 +347,10 @@
 ;; custom commands
 (fn->viml :dotfiles.util :gh-open-pull-request :GhOpenPullRequest)
 (fn->viml :dotfiles.util :gh-list-pull-requests :GhListPullRequests)
+(fn->viml :dotfiles.util :ci-open :CiOpen)
 (fn->viml :dotfiles.util :js-insert-i18n :JsInsertI18n)
 (noremap :n :gog "<cmd>call GhOpenPullRequest()<CR>" {:silent true})
+(noremap :n :goc "<cmd>call CiOpen()<CR>" {:silent true})
 
 ;; bindings
 (which-key.register

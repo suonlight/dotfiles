@@ -95,3 +95,12 @@
                                   :attach_mappings (fn [prompt_bufnr] (action_set.select:replace on-select))})]
     (picker:find)))
 
+(defn ci-open []
+  (let [org-repo (-> (sh "git remote get-url origin") (. 1)
+                     (strings.split ":") (. 2)
+                     (string.gsub ".git" ""))
+        branch (-> (sh "git rev-parse --abbrev-ref HEAD") (. 1)
+                   (string.gsub "/" "%%2F"))
+        ci-url (.. "https://app.circleci.com/pipelines/github/" org-repo "?branch=" branch)]
+    (sh (.. "open \"" ci-url "\""))))
+

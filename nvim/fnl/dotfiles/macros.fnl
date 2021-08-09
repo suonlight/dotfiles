@@ -5,7 +5,7 @@
 
   :sh
   (fn [...]
-    `(nvim.command (.. "!" ,...)))
+    `(vim.fn.systemlist ,...))
 
   :autocmd
   (fn [...]
