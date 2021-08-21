@@ -22,9 +22,6 @@
   ; defaults
   :editorconfig/editorconfig-vim {}
   :folke/which-key.nvim {}
-  :nvim-lua/popup.nvim {}
-  :nvim-lua/plenary.nvim {}
-  :nvim-telescope/telescope.nvim {}
   :mhinz/vim-startify {}
   :windwp/nvim-autopairs {}
   :yggdroot/indentLine {}
@@ -33,6 +30,13 @@
   :tpope/vim-commentary {}
   :tpope/vim-endwise {}
   :pechorin/any-jump.vim {}
+
+  ; search files/keyword
+  :nvim-lua/popup.nvim {}
+  :nvim-lua/plenary.nvim {}
+  :vijaymarupudi/nvim-fzf {}
+  :ibhagwan/fzf-lua {}
+  :nvim-telescope/telescope.nvim {}
 
   ; tmux
   :christoomey/vim-tmux-navigator {}
@@ -354,21 +358,22 @@
 
 ;; bindings
 (which-key.register
-  {:/ ["<cmd>Telescope live_grep<CR>" "Search project"]
-   :* ["<cmd>Telescope grep_string<CR>" "Search at point"]
+  {:/ ["<cmd>FzfLua live_grep<CR>" "Search project"]
+   :* ["<cmd>FzfLua grep_cword<CR>" "Search at point"]
    :<tab> ["<C-^>" "Switch to last buffer"]
    :q {:name "+quit/session"
        :q ["<cmd>q<CR>" "Quit vim"]}
    :p {:name "+projects"
-       :f ["<cmd>Telescope find_files<CR>" "Find file"]
+       :f ["<cmd>FzfLua files<CR>" "Find file"]
+       :g ["<cmd>FzfLua tags<CR>" "Find Tags"]
        :a ["<cmd>A<CR>" "Toggle implementation and test"]}
    :f {:name "+files"
        :s ["<cmd>update<CR>" "File save"]
-       :f ["<cmd>Telescope file_browser<CR>" "Find file in directory"]
+       :f ["<cmd>NvimTreeFindFile<CR>" "Find file in directory"]
        :t ["<cmd>NvimTreeToggle<CR>" "Toggle Tree"]
        :R [":Rename " "Rename file"]
        :c [":saveas <C-R>=expand(\"%:p:h\")<CR>/" "Copy file"]
-       :r ["<cmd>Telescope oldfiles<CR>" "Recent files"]
+       :r ["<cmd>FzfLua oldfiles<CR>" "Recent files"]
        :y [":let @*=expand('%:p') | echo @*<CR>" "Copy Full File Path"]}
    :g {:name "+git"
        :p ["<cmd>call GhListPullRequests()<CR>" "Github List PRs"]
@@ -376,7 +381,7 @@
        :s ["<cmd>Git<CR>" "Git status"]
        :b ["<cmd>Git blame<CR>" "Git blame"]}
    :b {:name "+buffers"
-       :b ["<cmd>Telescope buffers<CR>" "Find buffer"]
+       :b ["<cmd>FzfLua buffers<CR>" "Find buffer"]
        :d ["<cmd>bdelete<CR>" "Delete buffer"]
        :n ["<cmd>bdelete<CR>" "Next buffer"]
        :p ["<cmd>bdelete<CR>" "Previous buffer"]
@@ -397,22 +402,22 @@
        :v ["<cmd>wincmd v<CR>" "Window vsplit"]
        :c ["<cmd>close<CR>" "Window close"]}
    :s {:name "+search"
-       :p ["<cmd>Telescope find_files<CR>" "Search in project"]
-       :s ["<cmd>Telescope current_buffer_fuzzy_find<CR>" "Search in buffer"]}
+       :p ["<cmd>FzfLua live_grep<CR>" "Search in project"]
+       :s ["<cmd>FzfLua grep_curbuf<CR>" "Search in buffer"]}
    :j {:name "+jump"
        :j ["<cmd>HopChar1<CR>" "Jump to char"]
        :w ["<cmd>HopWord<CR>" "Jump to word"]
        :l ["<cmd>HopLine<CR>" "Jump to line"]}
    :r {:name "+registers"
-       :e ["<cmd>Telescope registers<CR>" "Registers"]}
+       :e ["<cmd>FzfLua registers<CR>" "Registers"]}
    :t {:name "+toggle"
        :l ["<cmd>set nu! rnu!<CR>" "Toggle Line Number"]
        :i ["<cmd>IndentLinesToggle<CR>" "Toggle indent line"]}
    :h {:name "+help"
-       :? ["<cmd>Telescope help_tags<CR>" "Help tags"]
+       :? ["<cmd>FzfLua help_tags<CR>" "Help tags"]
        :e ["<cmd>messages<CR>" "View messages"]
-       :df ["<cmd>Telescope commands<CR>" "Help Commands"]
-       :t ["<cmd>Telescope colorscheme<CR>" "Load theme"]}}
+       :df ["<cmd>FzfLua commands<CR>" "Help Commands"]
+       :t ["<cmd>FzfLua colorschemes<CR>" "Load theme"]}}
   {:prefix "<leader>"})
 
 ;; Generic mapping configuration.
@@ -421,9 +426,9 @@
 
 (noremap :n :<space> :<nop>)
 (noremap :n :<M-s> "<cmd>update<CR>")
-(noremap :n :<M-b> "<cmd>Telescope buffers<CR>")
+(noremap :n :<M-b> "<cmd>FzfLua buffers<CR>")
 (noremap :n :<M-w> "<cmd>close<CR>")
-(noremap :n :<C-p> "<cmd>Telescope find_files<CR>")
+(noremap :n :<C-p> "<cmd>FzfLua files<CR>")
 
 ;; windows
 (noremap :n :<C-h> "<cmd>TmuxNavigateLeft<CR>")
