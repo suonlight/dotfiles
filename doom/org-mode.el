@@ -205,7 +205,6 @@ Argument PARAMS the org parameters of the code block."
   (setq org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox-bin")
   (setq org-roam-db-location "~/.config/emacs/org-roam.db")
   (setq org-roam-graph-exclude-matcher '("2020-" "2021-"))
-  (setq org-roam-dailies-directory "")
   (setq! +org-roam-open-buffer-on-find-file nil)
 
   (setq org-roam-capture-templates
