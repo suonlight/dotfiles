@@ -228,7 +228,7 @@ not appropriate in some cases like terminals."
   (setq spell-fu-idle-delay 0.5))
 
 (set-popup-rule! "^\\*Process List\\*" :select t :size 0.35)
-;; (setq browse-url-browser-function 'xwidget-webkit-browse-url)
+(set-popup-rule! "^\\*Async Shell Command\\*" :ttl 0 :size 1)
 
 (after! plantuml-mode
   (setq plantuml-jar-path "~/org-modes/plantuml.jar")
