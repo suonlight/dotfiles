@@ -122,7 +122,6 @@
 ;; (package! ob-mermaid)
 
 (package! reason-mode)
-(package! request)
 (package! multi-vterm)
 (package! read-aloud)
 (package! websocket)
