@@ -1,7 +1,5 @@
 (after! org
   (setq evil-org-key-theme '(navigation insert textobjects additional calendar todo))
-  ;; (set-company-backend! 'org-mode '(company-org-roam company-yasnippet company-dabbrev))
-  ;; (set-company-backend! 'org-mode 'company-org-roam)
 
   (setq org-capture-templates
     `(
@@ -13,29 +11,29 @@
        ("c"
          "Code Review"
          entry
-         (file ,(format-time-string "~/org-modes/roam/%Y-%m-%d.org" (current-time) t))
+         (file ,(format-time-string "~/org-modes/roam/daily/%Y-%m-%d.org" (current-time) t))
          "* %?\n:PROPERTIES:\n:Source: %F\n:Captured_On: %U\n:END:\n\n#+BEGIN_SRC ruby\n%:initial\n#+END_SRC\n")
        ("N"
          "Notes with Browser"
          entry
-         (file ,(format-time-string "~/org-modes/roam/%Y-%m-%d.org" (current-time) t))
+         (file ,(format-time-string "~/org-modes/roam/daily/%Y-%m-%d.org" (current-time) t))
          ;; "* %?\n\nSource: %:link\nCaptured On:%U\n\n%:description\n\n%:initial\n\n")
          "* %?\n:PROPERTIES:\n:Source: %:link\n:Captured_On: %U\n:END:\n\n%:description\n\n%:initial\n\n")
        ("n"
          "Notes with Clipboard"
          entry
-         (file ,(format-time-string "~/org-modes/roam/%Y-%m-%d.org" (current-time) t))
+         (file ,(format-time-string "~/org-modes/roam/daily/%Y-%m-%d.org" (current-time) t))
          ;; "* %?\n\nSource: %:link\nCaptured On:%U\n\n%:description\n\n%:initial\n\n")
          "* %?\n:PROPERTIES:\n:Source: %:link\n:Captured_On: %U\n:END:\n\n%:description\n\n%c\n\n")
        ("D"
          "EH Debugger"
          entry
-         (file ,(format-time-string "~/org-modes/roam/%Y-%m-%d.org" (current-time) t))
+         (file ,(format-time-string "~/org-modes/roam/daily/%Y-%m-%d.org" (current-time) t))
          "* %:description\n:PROPERTIES:\n:Source: %:link\n:Captured_On: %U\n:END:\n\n%:description\n\nSuggestion:\n%(hero/suggest-debuggers \"%:initial\")\n\n")
        ("E"
          "EH Task"
          entry
-         (file ,(format-time-string "~/org-modes/roam/%Y-%m-%d.org" (current-time) t))
+         (file ,(format-time-string "~/org-modes/roam/daily/%Y-%m-%d.org" (current-time) t))
          "* TODO %(get-cleansed-title \"%:description\") \n\nGit Branch: %(git-branch-by-title (get-cleansed-title \"%:description\") \"%:link\")\nSource: %:link\nCaptured On: %U\n\n")
        ("A"
          "EH API"
