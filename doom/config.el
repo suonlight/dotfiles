@@ -160,7 +160,7 @@
 
 (after! rspec-mode
   (set-popup-rule! "^\\*rspec-compilation\\*" :select t :size 0.35)
-  (setq rspec-use-bundler-when-possible nil))
+  (setq rspec-use-bundler-when-possible t))
 
 ;; (add-hook! ruby-mode (add-hook 'before-save-hook #'lsp-format-buffer t t))
 
