@@ -35,7 +35,7 @@
           (draft-pr-title (->> (or (gethash current-branch sl/jira-cache) pr-title)
                             (s-trim)
                             (s-replace "# " "")
-                            (format "---\ntitle: %s\ndraft: true\n---\n")))
+                            (format "---\ndraft: true\ntitle: \"%s\"\n---\n")))
           (issue-url (->> current-branch
                        (s-split "--")
                        (nth 1)
