@@ -147,6 +147,7 @@ Argument PARAMS the org parameters of the code block."
                           (s-replace-regexp "irb\([a-z]+\):[0-9]+:[0-9]+.*" "")
                           (s-replace-regexp "^\[[0-9]+\] .* pry\(.*\).*" "")
                           (s-replace-regexp "^>> .*" "")
+                          (s-replace-regexp "^nil." "")
                           (s-replace-regexp "[\n]+" "\n")
                           s-trim
                           (s-split "\n")
