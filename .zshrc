@@ -42,7 +42,6 @@ zt 0b atload'unalias help; unalias cp'; zinit snippet OMZ::plugins/common-aliase
 zinit ice as"completion"; zinit snippet OMZ::plugins/docker/_docker
 zinit ice as"completion"; zinit snippet OMZ::plugins/bundler/_bundler
 zinit ice as"completion"; zinit snippet OMZ::plugins/rust/_rust
-zinit ice as"completion"; zinit snippet OMZ::plugins/cargo/_cargo
 zinit ice as"completion"; zinit snippet OMZ::plugins/terraform/_terraform
 
 zt 0b compile'{src/*.zsh,src/strategies/*}' atload'_zsh_autosuggest_start'; zinit light zsh-users/zsh-autosuggestions
