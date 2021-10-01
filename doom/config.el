@@ -134,7 +134,6 @@
 (after! lsp
   ;; configurations https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/
   ;; speed up lsp http://blog.binchen.org/posts/how-to-speed-up-lsp-mode.html
-
   ;; need to compile t. But it's not stable now
   (lsp-register-client
     (make-lsp-client :new-connection (lsp-stdio-connection "~/.config/doom/assets/rls-macos/reason-language-server")
@@ -142,6 +141,9 @@
       :notification-handlers (ht ("client/registerCapability" 'ignore))
       :priority 1
       :server-id 'reason-ls)))
+
+(after! sh
+  (add-hook! sh-mode #'lsp-mode))
 
 (after! flycheck
   (setq flycheck-highlighting-mode 'symbols)
@@ -206,10 +208,13 @@ not appropriate in some cases like terminals."
 
 (after! forge
   ;; (add-hook! forge-post-mode #'sl/make-draft-pr)
+  ;;
+  (map! :map forge-post-mode-map
+    "C-c C-c" #'sl/post-draft-pull-request)
 
   (defun forge--display-post-buffer (buf)
     (magit-display-buffer buf #'display-buffer)
-    (sl/make-draft-pr))
+    (sl/add-pr-template))
 
   (setq forge-topic-list-limit '(0 . 0)))
 

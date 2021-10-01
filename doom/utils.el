@@ -17,7 +17,7 @@
 
 (setq sl/jira-cache (make-hash-table :test 'equal))
 
-(defun sl/make-draft-pr ()
+(defun sl/add-pr-template ()
   (interactive)
   (let* ((line-beg-pos (line-beginning-position))
           (line-end-pos (line-end-position))
@@ -34,8 +34,7 @@
                          (buffer-string)))
           (draft-pr-title (->> (or (gethash current-branch sl/jira-cache) pr-title)
                             (s-trim)
-                            (s-replace "# " "")
-                            (format "---\ndraft: true\ntitle: \"%s\"\n---\n")))
+                            (s-replace "# " "")))
           (issue-url (->> current-branch
                        (s-split "--")
                        (nth 1)
@@ -56,6 +55,22 @@
     (+default/newline-below)
     (insert commits)
     (evil-normal-state)))
+
+(defun sl/forge--add-draft (alist)
+  "Add draft to ALIST."
+  (append alist '((draft . "t"))))
+
+(defun sl/post-draft-pull-request ()
+  "Submit the post that is being edit in the current buffer as a draft."
+  (interactive)
+  (advice-add 'forge--topic-parse-buffer
+    :filter-return #'sl/forge--add-draft)
+  (condition-case err
+    (forge-post-submit)
+    (t
+      (advice-remove 'forge--topic-parse-buffer #'sl/forge--add-draft)
+      (signal (car err) (cdr err))))
+  (advice-remove 'forge--topic-parse-buffer #'sl/forge--add-draft))
 
 (defun sl/build-reports (file)
   (find-file file)
