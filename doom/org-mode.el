@@ -93,6 +93,10 @@
   (setq org-babel-tmux-terminal (if IS-MAC "iterm" "xfce4-termimal"))
   (setq org-babel-tmux-location (if IS-MAC "/usr/local/bin/tmux" "/usr/bin/tmux"))
 
+  (defun ob-tmux--generate-uuid ()
+    "Generate a 32 character UUID."
+    (md5 (number-to-string (random 100000000))))
+
   (defun org-babel-execute:tmux (body params)
     "Send a block of code via tmux to a terminal using Babel.
 \"default\" session is used when none is specified.
@@ -102,8 +106,12 @@ Argument PARAMS the org parameters of the code block."
     (save-window-excursion
       (let* ((org-session (cdr (assq :session params)))
               (terminal (cdr (assq :terminal params)))
-              (lang (or (cdr (assq :lang params)) "sh"))
-              (delimiter (cdr (assq (intern lang) ob-tmux-delimiters)))
+              (lang (cdr (assq :lang params)))
+              (lang-with-default (or lang "sh"))
+              (delimiter (cdr (assq (intern lang-with-default) ob-tmux-delimiters)))
+              (jid (ob-tmux--generate-uuid))
+              (start-delimiter (format "%s start:%s" delimiter jid))
+              (finish-delimiter (format "%s finish:%s" delimiter jid))
               (socket (cdr (assq :socket params)))
               (socket (when socket (expand-file-name socket)))
               (ob-session (ob-tmux--from-org-session org-session socket))
@@ -120,7 +128,29 @@ Argument PARAMS the org parameters of the code block."
         ;; Disable window renaming from within tmux
         (ob-tmux--disable-renaming ob-session)
         (ob-tmux--send-body ob-session
-          (org-babel-expand-body:generic (format "%s\n%s" delimiter body) params)))))
+          (org-babel-expand-body:generic (format "%s\n%s\n%s" start-delimiter body finish-delimiter) params))
+        (if lang (org-babel-insert-result jid '("replace")))
+        (async-start
+          `(lambda ()
+             (setq exec-path ',exec-path)
+             (setq load-path ',load-path)
+             (package-initialize)
+             (org-babel-do-load-languages 'org-babel-load-languages ',org-babel-load-languages)
+             (while (not (string-match ,finish-delimiter (ob-tmux--execute-string ,ob-session
+                                                           "capture-pane"
+                                                           "-J"
+                                                           "-p" ;; print to stdout
+                                                           "-S" "-" ;; start at beginning of history
+                                                           "-t" (ob-tmux--target ,ob-session))))
+               (sleep-for 0.1)))
+          `(lambda (result)
+             (with-current-buffer ,(current-buffer)
+               (save-excursion
+                 (let ((default-directory ,default-directory))
+                   (goto-char (point-min))
+                   (search-forward ,jid)
+                   (search-backward "src")
+                   (org-babel-open-src-block-result)))))))))
 
   (defun ob-tmux--insert-result ()
     (interactive)
@@ -133,16 +163,28 @@ Argument PARAMS the org parameters of the code block."
                 (socket (when socket (expand-file-name socket)))
                 (lang (cdr (assq :lang params)))
                 (delimiter (cdr (assq (intern lang) ob-tmux-delimiters)))
+                (jid
+                  (save-excursion		;Return cached result.
+                    (goto-char (org-babel-where-is-src-block-result nil info))
+                    (forward-line)
+                    (skip-chars-forward " \t")
+                    (let ((result (org-babel-read-result)))
+                      (message (replace-regexp-in-string "%" "%%" (format "%S" result)))
+                      result)))
+                (start-delimiter (format "%s start:%s" delimiter jid))
+                (finish-delimiter (format "%s finish:%s" delimiter jid))
                 (ob-session (ob-tmux--from-org-session org-session socket))
-                (output (->> (ob-tmux--execute-string ob-session
+                (raw-output (ob-tmux--execute-string ob-session
                                "capture-pane"
                                "-J"
                                "-p" ;; print to stdout
                                "-S" "-" ;; start at beginning of history
-                               "-t" (ob-tmux--target ob-session))
-                          (s-split delimiter)
-                          last
-                          car
+                               "-t" (ob-tmux--target ob-session)))
+                (after-start-delimiter (->> raw-output (s-split start-delimiter) -last-item))
+                (after-finish-delimiter (->> raw-output (s-split finish-delimiter) -last-item))
+                (output (->> (s-replace after-finish-delimiter "" after-start-delimiter)
+                          (s-replace start-delimiter "")
+                          (s-replace finish-delimiter "")
                           (s-replace-regexp "=> .*" "")
                           (s-replace-regexp "irb\([a-z]+\):[0-9]+:[0-9]+.*" "")
                           (s-replace-regexp "^\[[0-9]+\] .* pry\(.*\).*" "")
