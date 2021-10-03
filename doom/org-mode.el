@@ -90,7 +90,9 @@
   (setq ob-tmux-delimiters '((ruby . "#####") (sh . "#####")))
 
   (setq org-babel-tmux-session-prefix "ob-")
-  (setq org-babel-tmux-terminal (if IS-MAC "iterm" "xfce4-termimal"))
+  ;; (setq org-babel-tmux-terminal (if IS-MAC "iterm" "xfce4-termimal"))
+  (setq org-babel-tmux-terminal (if IS-MAC "alacritty" "xfce4-termimal"))
+  (setq org-babel-tmux-terminal-opts '("-t" "ob-tmux" "-e"))
   (setq org-babel-tmux-location (if IS-MAC "/usr/local/bin/tmux" "/usr/bin/tmux"))
 
   (defun ob-tmux--generate-uuid ()
