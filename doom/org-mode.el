@@ -112,6 +112,7 @@ Argument PARAMS the org parameters of the code block."
               (jid (ob-tmux--generate-uuid))
               (start-delimiter (format "%s start:%s" delimiter jid))
               (finish-delimiter (format "%s finish:%s" delimiter jid))
+              (file (cdr (assq :file params)))
               (socket (cdr (assq :socket params)))
               (socket (when socket (expand-file-name socket)))
               (ob-session (ob-tmux--from-org-session org-session socket))
@@ -129,7 +130,7 @@ Argument PARAMS the org parameters of the code block."
         (ob-tmux--disable-renaming ob-session)
         (ob-tmux--send-body ob-session
           (org-babel-expand-body:generic (format "%s\n%s\n%s" start-delimiter body finish-delimiter) params))
-        (if lang (org-babel-insert-result jid '("replace")))
+        (org-babel-insert-result jid '("replace"))
         (async-start
           `(lambda ()
              (setq exec-path ',exec-path)
@@ -142,92 +143,42 @@ Argument PARAMS the org parameters of the code block."
                                                            "-p" ;; print to stdout
                                                            "-S" "-" ;; start at beginning of history
                                                            "-t" (ob-tmux--target ,ob-session))))
-               (sleep-for 0.1)))
+               (sleep-for 0.1))
+             (require 'dash)
+             (let* ((raw-output (ob-tmux--execute-string ,ob-session
+                                  "capture-pane"
+                                  "-J"
+                                  "-p" ;; print to stdout
+                                  "-S" "-" ;; start at beginning of history
+                                  "-t" (ob-tmux--target ,ob-session)))
+                     (after-start-delimiter (->> raw-output (s-split ,start-delimiter) -last-item))
+                     (after-finish-delimiter (->> raw-output (s-split ,finish-delimiter) -last-item))
+                     (output (->> (s-replace after-finish-delimiter "" after-start-delimiter)
+                               (s-replace ,start-delimiter "")
+                               (s-replace ,finish-delimiter "")
+                               (s-replace-regexp "=> .*" "")
+                               (s-replace-regexp "irb\([a-z]+\):[0-9]+:[0-9]+.*" "")
+                               (s-replace-regexp "^\[[0-9]+\] .* pry\(.*\).*" "")
+                               (s-replace-regexp "^>> .*" "")
+                               (s-replace-regexp "^nil." "")
+                               (s-replace-regexp "[\n]+" "\n")
+                               s-trim
+                               (s-split "\n")
+                               (-map #'s-trim)
+                               (s-join "\n"))))
+               output))
           `(lambda (result)
              (with-current-buffer ,(current-buffer)
                (save-excursion
-                 (let ((default-directory ,default-directory))
+                 (let* ((default-directory ,default-directory)
+                         (file ,file))
                    (goto-char (point-min))
                    (search-forward ,jid)
                    (search-backward "src")
-                   (org-babel-open-src-block-result)))))))))
-
-  (defun ob-tmux--insert-result ()
-    (interactive)
-    (let ((info (org-babel-get-src-block-info 'light)))
-      (when (and info (string-equal "tmux" (nth 0 info)))
-        (let* ((params (nth 2 info))
-                (org-session (cdr (assq :session params)))
-                (file (cdr (assq :file params)))
-                (socket (cdr (assq :socket params)))
-                (socket (when socket (expand-file-name socket)))
-                (lang (cdr (assq :lang params)))
-                (delimiter (cdr (assq (intern lang) ob-tmux-delimiters)))
-                (jid
-                  (save-excursion		;Return cached result.
-                    (goto-char (org-babel-where-is-src-block-result nil info))
-                    (forward-line)
-                    (skip-chars-forward " \t")
-                    (let ((result (org-babel-read-result)))
-                      (message (replace-regexp-in-string "%" "%%" (format "%S" result)))
-                      result)))
-                (start-delimiter (format "%s start:%s" delimiter jid))
-                (finish-delimiter (format "%s finish:%s" delimiter jid))
-                (ob-session (ob-tmux--from-org-session org-session socket))
-                (raw-output (ob-tmux--execute-string ob-session
-                               "capture-pane"
-                               "-J"
-                               "-p" ;; print to stdout
-                               "-S" "-" ;; start at beginning of history
-                               "-t" (ob-tmux--target ob-session)))
-                (after-start-delimiter (->> raw-output (s-split start-delimiter) -last-item))
-                (after-finish-delimiter (->> raw-output (s-split finish-delimiter) -last-item))
-                (output (->> (s-replace after-finish-delimiter "" after-start-delimiter)
-                          (s-replace start-delimiter "")
-                          (s-replace finish-delimiter "")
-                          (s-replace-regexp "=> .*" "")
-                          (s-replace-regexp "irb\([a-z]+\):[0-9]+:[0-9]+.*" "")
-                          (s-replace-regexp "^\[[0-9]+\] .* pry\(.*\).*" "")
-                          (s-replace-regexp "^>> .*" "")
-                          (s-replace-regexp "^nil." "")
-                          (s-replace-regexp "[\n]+" "\n")
-                          s-trim
-                          (s-split "\n")
-                          (-map #'s-trim)
-                          (s-join "\n"))))
-          (if (eq 'nil file)
-            (org-babel-insert-result output '("replace"))
-            (write-region output nil file)
-            (org-babel-insert-result file '("file" "replace")))))))
-
-  (defun ob-tmux--edit-result ()
-    (interactive)
-    (pcase (org-babel-get-src-block-info 'light)
-      (`(,_ ,_ ,arguments ,_ ,_ ,start ,_)
-        (save-excursion
-          ;; Go to the results, if there aren't any then run the block.
-          (goto-char start)
-          (goto-char (or (org-babel-where-is-src-block-result)
-                       (progn (org-babel-execute-src-block)
-                         (org-babel-where-is-src-block-result))))
-          (end-of-line)
-          (skip-chars-forward " \r\t\n")
-          ;; (org-edit-special)
-          (delete-trailing-whitespace)
-          (end-of-buffer)
-          t))
-      (_ nil)))
-
-  (defun ob-tmux--open-src-block-result (orig-fun &rest args)
-    (let ((info (org-babel-get-src-block-info 'light)))
-      (if (and info (string-equal "tmux" (nth 0 info)))
-        (progn
-          (ob-tmux--insert-result)
-          (ob-tmux--edit-result))
-        (apply orig-fun args))))
-
-  (advice-add 'org-babel-open-src-block-result
-    :around #'ob-tmux--open-src-block-result))
+                   (if (eq 'nil file)
+                     (org-babel-insert-result result '("replace"))
+                     (write-region result nil file)
+                     (org-babel-insert-result file '("file" "replace"))))))))))))
 
 (after! ob-mermaid
   (setq ob-mermaid-cli-path "~/.asdf/shims/mmdc"))
