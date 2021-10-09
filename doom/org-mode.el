@@ -106,6 +106,30 @@
             (finish-delimiter (format "%s finish:%s" delimiter jid)))
       `(,start-delimiter ,finish-delimiter)))
 
+  (defun ob-tmux-view-at-point (&optional arg)
+    (interactive "P")
+    (let* ((info (org-babel-get-src-block-info 'light))
+            (params (nth 2 info))
+            (org-session (cdr (assq :session params)))
+            (file (cdr (assq :file params)))
+            (socket (cdr (assq :socket params)))
+            (socket (when socket (expand-file-name socket)))
+            (ob-session (ob-tmux--from-org-session org-session socket))
+            (session-alive (ob-tmux--session-alive-p ob-session))
+            (window-alive (ob-tmux--window-alive-p ob-session))
+            (buffer (get-buffer-create "*ob-tmux-view*"))
+            (raw-output (ob-tmux--execute-string ob-session
+                          "capture-pane"
+                          "-J"
+                          "-p" ;; print to stdout
+                          "-S" "-" ;; start at beginning of history
+                          "-t" (ob-tmux--target ob-session))))
+      (with-current-buffer buffer
+        (erase-buffer)
+        (insert raw-output)
+        (goto-char (point-max)))
+      (switch-to-buffer-other-window buffer)))
+
   (defun org-babel-execute:tmux (body params)
     "Send a block of code via tmux to a terminal using Babel.
 \"default\" session is used when none is specified.

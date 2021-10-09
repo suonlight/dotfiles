@@ -848,6 +848,7 @@
     "l"  #'smerge-keep-lower)
   (:after org :map org-mode-map
     "'"          #'org-edit-special
+    "v"          #'ob-tmux-view-at-point
     ","          #'org-babel-execute-src-block
     "K"          #'org-shiftup
     "J"          #'org-shiftdown
