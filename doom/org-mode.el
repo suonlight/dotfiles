@@ -99,6 +99,13 @@
     "Generate a 32 character UUID."
     (md5 (number-to-string (random 100000000))))
 
+  (defun ob-tmux-get-delimiters (lang jid)
+    (let* ((lang-with-default (or lang "sh"))
+            (delimiter (cdr (assq (intern lang-with-default) ob-tmux-delimiters)))
+            (start-delimiter (format "%s start:%s" delimiter jid))
+            (finish-delimiter (format "%s finish:%s" delimiter jid)))
+      `(,start-delimiter ,finish-delimiter)))
+
   (defun org-babel-execute:tmux (body params)
     "Send a block of code via tmux to a terminal using Babel.
 \"default\" session is used when none is specified.
@@ -109,11 +116,14 @@ Argument PARAMS the org parameters of the code block."
       (let* ((org-session (cdr (assq :session params)))
               (terminal (cdr (assq :terminal params)))
               (lang (cdr (assq :lang params)))
-              (lang-with-default (or lang "sh"))
-              (delimiter (cdr (assq (intern lang-with-default) ob-tmux-delimiters)))
               (jid (ob-tmux--generate-uuid))
-              (start-delimiter (format "%s start:%s" delimiter jid))
-              (finish-delimiter (format "%s finish:%s" delimiter jid))
+              ;; (lang-with-default (or lang "sh"))
+              ;; (delimiter (cdr (assq (intern lang-with-default) ob-tmux-delimiters)))
+              ;; (start-delimiter (format "%s start:%s" delimiter jid))
+              ;; (finish-delimiter (format "%s finish:%s" delimiter jid))
+              (delimiters (ob-tmux-get-delimiters lang jid))
+              (start-delimiter (car delimiters))
+              (finish-delimiter (car (cdr delimiters)))
               (file (cdr (assq :file params)))
               (socket (cdr (assq :socket params)))
               (socket (when socket (expand-file-name socket)))
@@ -131,7 +141,13 @@ Argument PARAMS the org parameters of the code block."
         ;; Disable window renaming from within tmux
         (ob-tmux--disable-renaming ob-session)
         (ob-tmux--send-body ob-session
-          (org-babel-expand-body:generic (format "%s\n%s\n%s" start-delimiter body finish-delimiter) params))
+          (org-babel-expand-body:generic (if (string-equal lang "sh")
+                                           (format "echo \'%s\'; %s;\necho \'%s\';" start-delimiter
+                                             (->> body
+                                               (s-replace-regexp "[\\]\s*\n\s*" " ")
+                                               (s-replace-regexp "[\n\r]+" "; "))
+                                             finish-delimiter)
+                                           (format "%s\n%s\n%s" start-delimiter body finish-delimiter)) params))
         (org-babel-insert-result jid '("replace"))
         (async-start
           `(lambda ()
@@ -139,6 +155,55 @@ Argument PARAMS the org parameters of the code block."
              (setq load-path ',load-path)
              (package-initialize)
              (org-babel-do-load-languages 'org-babel-load-languages ',org-babel-load-languages)
+             (setq ob-tmux-delimiters ',ob-tmux-delimiters)
+
+             (defun ob-tmux-get-delimiters (lang jid)
+               (let* ((lang-with-default (or lang "sh"))
+                       (delimiter (cdr (assq (intern lang-with-default) ob-tmux-delimiters)))
+                       (start-delimiter (format "%s start:%s" delimiter jid))
+                       (finish-delimiter (format "%s finish:%s" delimiter jid)))
+                 `(,start-delimiter ,finish-delimiter)))
+
+             (defun ob-tmux-parse-output:ruby (raw-output jid)
+               (let* ((delimiters (ob-tmux-get-delimiters "ruby" jid))
+                       (start-delimiter (car delimiters))
+                       (finish-delimiter (car (cdr delimiters)))
+                       (after-start-delimiter (->> raw-output (s-split start-delimiter) -last-item))
+                       (after-finish-delimiter (->> raw-output (s-split finish-delimiter) -last-item)))
+                 (->> (s-replace after-finish-delimiter "" after-start-delimiter)
+                   (s-replace ,start-delimiter "")
+                   (s-replace ,finish-delimiter "")
+                   (s-replace-regexp "=> .*" "")
+                   (s-replace-regexp "irb\([a-z]+\):[0-9]+:[0-9]+.*" "")
+                   (s-replace-regexp "^\[[0-9]+\] .* pry\(.*\).*" "")
+                   (s-replace-regexp "^>> .*" "")
+                   (s-replace-regexp "^nil." "")
+                   (s-replace-regexp "[\n]+" "\n")
+                   s-trim
+                   (s-split "\n")
+                   ;; (-map #'s-trim)
+                   (s-join "\n"))))
+
+             (defun ob-tmux-parse-output:sh (raw-output jid)
+               (let* ((delimiters (ob-tmux-get-delimiters "sh" jid))
+                       (start-delimiter (car delimiters))
+                       (finish-delimiter (car (cdr delimiters)))
+                       (after-start-delimiter (->> raw-output (s-split start-delimiter) -last-item))
+                       (after-finish-delimiter (->> raw-output (s-split finish-delimiter) -last-item)))
+                 (->> (s-replace after-finish-delimiter "" after-start-delimiter)
+                   (s-replace ,start-delimiter "")
+                   (s-replace ,finish-delimiter "")
+                   ;; (s-split "\n$ .*\n")
+                   ;; (-map (lambda (cmd)
+                   ;;         (->> cmd
+                   ;;           (s-replace-regexp "[\n]+" "\n"))))
+                   ;; (s-join "\n")
+                   ;; (s-replace-regexp "^$ .*" "")
+                   s-trim
+                   (s-split "\n")
+                   (-map #'s-trim)
+                   (s-join "\n"))))
+
              (while (not (string-match ,finish-delimiter (ob-tmux--execute-string ,ob-session
                                                            "capture-pane"
                                                            "-J"
@@ -153,22 +218,12 @@ Argument PARAMS the org parameters of the code block."
                                   "-p" ;; print to stdout
                                   "-S" "-" ;; start at beginning of history
                                   "-t" (ob-tmux--target ,ob-session)))
-                     (after-start-delimiter (->> raw-output (s-split ,start-delimiter) -last-item))
-                     (after-finish-delimiter (->> raw-output (s-split ,finish-delimiter) -last-item))
-                     (output (->> (s-replace after-finish-delimiter "" after-start-delimiter)
-                               (s-replace ,start-delimiter "")
-                               (s-replace ,finish-delimiter "")
-                               (s-replace-regexp "=> .*" "")
-                               (s-replace-regexp "irb\([a-z]+\):[0-9]+:[0-9]+.*" "")
-                               (s-replace-regexp "^\[[0-9]+\] .* pry\(.*\).*" "")
-                               (s-replace-regexp "^>> .*" "")
-                               (s-replace-regexp "^nil." "")
-                               (s-replace-regexp "[\n]+" "\n")
-                               s-trim
-                               (s-split "\n")
-                               (-map #'s-trim)
-                               (s-join "\n"))))
-               output))
+                     (jid ,jid)
+                     (lang (or ,lang "sh"))
+                     (parser (intern (concat "ob-tmux-parse-output:" lang))))
+               (if (fboundp parser)
+                 (funcall parser raw-output jid)
+                 raw-output)))
           `(lambda (result)
              (with-current-buffer ,(current-buffer)
                (save-excursion
