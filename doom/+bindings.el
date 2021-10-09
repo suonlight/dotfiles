@@ -666,9 +666,10 @@
           :desc "Flyspell"                   "s" #'flyspell-mode)
         (:when (featurep! :lang org +pomodoro)
           :desc "Pomodoro timer"             "t" #'org-pomodoro)
-
         :desc "Word-wrap mode"               "w" #'+word-wrap-mode
-        :desc "Zen mode"                     "z" #'writeroom-mode))
+        (:when (featurep! :ui zen)
+          :desc "Zen mode"                   "z" #'+zen/toggle
+          :desc "Zen mode (fullscreen)"      "Z" #'+zen/toggle-fullscreen)))
 
 ;; Custom bindings
 (map! :nv "C-l"   #'evil-window-right
