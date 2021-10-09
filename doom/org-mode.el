@@ -141,13 +141,15 @@ Argument PARAMS the org parameters of the code block."
         ;; Disable window renaming from within tmux
         (ob-tmux--disable-renaming ob-session)
         (ob-tmux--send-body ob-session
-          (org-babel-expand-body:generic (if (string-equal lang "sh")
-                                           (format "echo \'%s\'; %s;\necho \'%s\';" start-delimiter
-                                             (->> body
-                                               (s-replace-regexp "[\\]\s*\n\s*" " ")
-                                               (s-replace-regexp "[\n\r]+" "; "))
-                                             finish-delimiter)
-                                           (format "%s\n%s\n%s" start-delimiter body finish-delimiter)) params))
+          (org-babel-expand-body:generic (cond ((string-equal lang "sh") (format "echo \'%s\'; %s;\necho \'%s\';" start-delimiter
+                                                                            (->> body
+                                                                              (s-replace-regexp "[\\]\s*\n\s*" " ")
+                                                                              (s-replace-regexp "[\n\r]+" "; "))
+                                                                            finish-delimiter))
+                                                 ((string-equal lang "ruby") (format "puts \'%s\'\n %s\n\nputs \'%s\'" start-delimiter
+                                                                               body
+                                                                               finish-delimiter))
+                                                 (t (format "%s\n%s\n%s" start-delimiter body finish-delimiter))) params))
         (org-babel-insert-result jid '("replace"))
         (async-start
           `(lambda ()
@@ -168,11 +170,13 @@ Argument PARAMS the org parameters of the code block."
                (let* ((delimiters (ob-tmux-get-delimiters "ruby" jid))
                        (start-delimiter (car delimiters))
                        (finish-delimiter (car (cdr delimiters)))
+                       (body ,body)
                        (after-start-delimiter (->> raw-output (s-split start-delimiter) -last-item))
                        (after-finish-delimiter (->> raw-output (s-split finish-delimiter) -last-item)))
                  (->> (s-replace after-finish-delimiter "" after-start-delimiter)
-                   (s-replace ,start-delimiter "")
-                   (s-replace ,finish-delimiter "")
+                   (s-replace start-delimiter "")
+                   ;; (s-replace ,finish-delimiter "")
+                   (s-replace-regexp (format "^.*%s.*$" finish-delimiter) "")
                    (s-replace-regexp "=> .*" "")
                    (s-replace-regexp "irb\([a-z]+\):[0-9]+:[0-9]+.*" "")
                    (s-replace-regexp "^\[[0-9]+\] .* pry\(.*\).*" "")
@@ -181,7 +185,8 @@ Argument PARAMS the org parameters of the code block."
                    (s-replace-regexp "[\n]+" "\n")
                    s-trim
                    (s-split "\n")
-                   ;; (-map #'s-trim)
+                   (-map #'s-trim-right)
+                   (--remove (s-contains? it body))
                    (s-join "\n"))))
 
              (defun ob-tmux-parse-output:sh (raw-output jid)
@@ -191,8 +196,9 @@ Argument PARAMS the org parameters of the code block."
                        (after-start-delimiter (->> raw-output (s-split start-delimiter) -last-item))
                        (after-finish-delimiter (->> raw-output (s-split finish-delimiter) -last-item)))
                  (->> (s-replace after-finish-delimiter "" after-start-delimiter)
-                   (s-replace ,start-delimiter "")
-                   (s-replace ,finish-delimiter "")
+                   (s-replace start-delimiter "")
+                   ;; (s-replace ,finish-delimiter "")
+                   (s-replace-regexp (format "^.*%s.*$" finish-delimiter) "")
                    ;; (s-split "\n$ .*\n")
                    ;; (-map (lambda (cmd)
                    ;;         (->> cmd
@@ -201,16 +207,37 @@ Argument PARAMS the org parameters of the code block."
                    ;; (s-replace-regexp "^$ .*" "")
                    s-trim
                    (s-split "\n")
-                   (-map #'s-trim)
+                   (-map #'s-trim-right)
+                   (-drop-last 1)
                    (s-join "\n"))))
 
-             (while (not (string-match ,finish-delimiter (ob-tmux--execute-string ,ob-session
+             (defun ob-tmux-job-finish:sh (jid)
+               (let* ((delimiters (ob-tmux-get-delimiters "sh" jid))
+                       (finish-delimiter (car (cdr delimiters)))
+                       (raw-output (ob-tmux--execute-string ,ob-session
                                                            "capture-pane"
                                                            "-J"
                                                            "-p" ;; print to stdout
                                                            "-S" "-" ;; start at beginning of history
                                                            "-t" (ob-tmux--target ,ob-session))))
-               (sleep-for 0.1))
+                 (string-match (concat "^" finish-delimiter) raw-output)))
+
+             (defun ob-tmux-job-finish:ruby (jid)
+               (let* ((delimiters (ob-tmux-get-delimiters "ruby" jid))
+                       (finish-delimiter (car (cdr delimiters)))
+                       (raw-output (ob-tmux--execute-string ,ob-session
+                                     "capture-pane"
+                                     "-J"
+                                     "-p" ;; print to stdout
+                                     "-S" "-" ;; start at beginning of history
+                                     "-t" (ob-tmux--target ,ob-session))))
+                 (string-match (concat "^" finish-delimiter) raw-output)))
+
+             (let* ((jid ,jid)
+                     (lang (or ,lang "sh"))
+                     (job-finish (intern (concat "ob-tmux-job-finish:" (or lang "sh")))))
+               (while (not (funcall job-finish jid))
+                 (sleep-for 0.1)))
              (require 'dash)
              (let* ((raw-output (ob-tmux--execute-string ,ob-session
                                   "capture-pane"
@@ -221,9 +248,7 @@ Argument PARAMS the org parameters of the code block."
                      (jid ,jid)
                      (lang (or ,lang "sh"))
                      (parser (intern (concat "ob-tmux-parse-output:" lang))))
-               (if (fboundp parser)
-                 (funcall parser raw-output jid)
-                 raw-output)))
+               (if (fboundp parser) (funcall parser raw-output jid) raw-output)))
           `(lambda (result)
              (with-current-buffer ,(current-buffer)
                (save-excursion
