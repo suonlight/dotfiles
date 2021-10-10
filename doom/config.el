@@ -45,7 +45,6 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. These are the defaults.
-;; (setq doom-theme 'doom-dark+)
 (setq doom-themes-treemacs-theme "doom-colors")
 
 (setq doom-localleader-key ",")
@@ -106,6 +105,13 @@
 (setq avy-all-windows t)
 
 ;; (after! treemacs (doom-themes-treemacs-config))
+
+;; (setq doom-theme 'doom-dark+)
+(setq doom-theme 'nano-dark)
+(use-package! nano-modeline
+  :defer 3
+  :init
+  (nano-modeline-mode))
 
 (after! company
   (setq company-minimum-prefix-length 2)
