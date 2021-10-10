@@ -38,6 +38,12 @@
       (goto-char (point-max)))
     (switch-to-buffer-other-window buffer)))
 
+(defun ob-tmux-format-code:ruby (jid body)
+  (let* ((delimiters (ob-tmux-get-delimiters "ruby" jid))
+          (start-delimiter (car delimiters))
+          (finish-delimiter (car (cdr delimiters))))
+    (format "puts \'%s\'\n %s\n\nputs \'%s\'" start-delimiter body finish-delimiter)))
+
 (defun ob-tmux-parse-output:ruby (raw-output jid body)
   (let* ((delimiters (ob-tmux-get-delimiters "ruby" jid))
           (start-delimiter (car delimiters))
@@ -71,6 +77,25 @@
                         "-t" (ob-tmux--target ob-session))))
     (string-match (concat "^" finish-delimiter) raw-output)))
 
+(defun ob-tmux-format-code:sh (jid body)
+  (let* ((delimiters (ob-tmux-get-delimiters "sh" jid))
+          (start-delimiter (car delimiters))
+          (finish-delimiter (car (cdr delimiters))))
+    (format "echo \'%s\'; %s;\necho \'%s\';" start-delimiter
+      (->> body
+        (s-replace-regexp "[\\]\s*\n\s*" " ")
+        (s-replace-regexp "[\n\r]+" "; "))
+      finish-delimiter)))
+
+(defun ob-tmux-format-code (lang jid body)
+  (let* ((delimiters (ob-tmux-get-delimiters "sh" jid))
+          (start-delimiter (car delimiters))
+          (finish-delimiter (car (cdr delimiters)))
+          (formatter (intern (concat "ob-tmux-format-code:" lang))))
+    (if (fboundp formatter)
+      (funcall formatter jid body)
+      (format "%s\n%s\n%s" start-delimiter body finish-delimiter))))
+
 (defun ob-tmux-parse-output:sh (raw-output jid body)
   (let* ((delimiters (ob-tmux-get-delimiters "sh" jid))
           (start-delimiter (car delimiters))
@@ -91,6 +116,7 @@
       (s-split "\n")
       (-map #'s-trim-right)
       (-drop-last 1)
+      (--remove (s-contains? it body))
       (s-join "\n"))))
 
 (defun ob-tmux-job-finish:sh (jid ob-session)
@@ -104,7 +130,6 @@
                         "-t" (ob-tmux--target ob-session))))
     (string-match (concat "^" finish-delimiter) raw-output)))
 
-
 (defun ob-tmux-parse-output (lang jid ob-session body)
   (let* ((raw-output (ob-tmux--execute-string ob-session
                        "capture-pane"
@@ -113,11 +138,9 @@
                        "-S" "-" ;; start at beginning of history
                        "-t" (ob-tmux--target ob-session)))
           (parser (intern (concat "ob-tmux-parse-output:" lang))))
-
     (let ((job-finish (intern (concat "ob-tmux-job-finish:" lang))))
       (while (not (funcall job-finish jid ob-session))
         (sleep-for 0.1)))
-
     (if (fboundp parser) (funcall parser raw-output jid body) raw-output)))
 
 (defun org-babel-execute:tmux (body params)
@@ -155,30 +178,19 @@ Argument PARAMS the org parameters of the code block."
       ;; Disable window renaming from within tmux
       (ob-tmux--disable-renaming ob-session)
       (ob-tmux--send-body ob-session
-        (org-babel-expand-body:generic (cond ((string-equal lang "sh") (format "echo \'%s\'; %s;\necho \'%s\';" start-delimiter
-                                                                         (->> body
-                                                                           (s-replace-regexp "[\\]\s*\n\s*" " ")
-                                                                           (s-replace-regexp "[\n\r]+" "; "))
-                                                                         finish-delimiter))
-                                         ((string-equal lang "ruby") (format "puts \'%s\'\n %s\n\nputs \'%s\'" start-delimiter
-                                                                       body
-                                                                       finish-delimiter))
-                                         (t (format "%s\n%s\n%s" start-delimiter body finish-delimiter))) params))
+        (org-babel-expand-body:generic (ob-tmux-format-code lang jid body) params))
       (org-babel-insert-result jid '("replace"))
       (async-start
         `(lambda ()
            (setq exec-path ',exec-path)
            (setq load-path ',load-path)
+           (setq lang (or ,lang "sh"))
+
            (package-initialize)
            (org-babel-do-load-languages 'org-babel-load-languages ',org-babel-load-languages)
            (load-file ,ob-tmux-async-file)
 
-           (setq jid ,jid)
-           (setq lang (or ,lang "sh"))
-           (setq body ,body)
-           (setq ob-session ,ob-session)
-
-           (ob-tmux-parse-output lang jid ob-session body))
+           (ob-tmux-parse-output lang ,jid ,ob-session ,body))
         `(lambda (result)
            (with-current-buffer ,(current-buffer)
              (save-excursion
