@@ -81,7 +81,7 @@
   (let* ((delimiters (ob-tmux-get-delimiters "sh" jid))
           (start-delimiter (car delimiters))
           (finish-delimiter (car (cdr delimiters))))
-    (format "echo \'%s\'; %s;\necho \'%s\';" start-delimiter
+    (format "echo \'%s\'; %s; echo \'%s\';" start-delimiter
       (->> body
         (s-replace-regexp "[\\]\s*\n\s*" " ")
         (s-replace-regexp "[\n\r]+" "; "))
@@ -104,19 +104,10 @@
           (after-finish-delimiter (->> raw-output (s-split finish-delimiter) -last-item)))
     (->> (s-replace after-finish-delimiter "" after-start-delimiter)
       (s-replace start-delimiter "")
-      ;; (s-replace ,finish-delimiter "")
       (s-replace-regexp (format "^.*%s.*$" finish-delimiter) "")
-      ;; (s-split "\n$ .*\n")
-      ;; (-map (lambda (cmd)
-      ;;         (->> cmd
-      ;;           (s-replace-regexp "[\n]+" "\n"))))
-      ;; (s-join "\n")
-      ;; (s-replace-regexp "^$ .*" "")
       s-trim
       (s-split "\n")
       (-map #'s-trim-right)
-      (-drop-last 1)
-      (--remove (s-contains? it body))
       (s-join "\n"))))
 
 (defun ob-tmux-job-finish:sh (jid ob-session)
@@ -126,11 +117,17 @@
                         "capture-pane"
                         "-J"
                         "-p" ;; print to stdout
-                        "-S" "-" ;; start at beginning of history
                         "-t" (ob-tmux--target ob-session))))
     (string-match (concat "^" finish-delimiter) raw-output)))
 
+(defun ob-tmux-wait-for-job-finish (lang jid ob-session)
+  (let ((job-finish (intern (concat "ob-tmux-job-finish:" lang))))
+    (if (fboundp job-finish)
+      (while (not (funcall job-finish jid ob-session))
+        (sleep-for 0.1)))))
+
 (defun ob-tmux-parse-output (lang jid ob-session body)
+  (ob-tmux-wait-for-job-finish lang jid ob-session)
   (let* ((raw-output (ob-tmux--execute-string ob-session
                        "capture-pane"
                        "-J"
@@ -138,9 +135,6 @@
                        "-S" "-" ;; start at beginning of history
                        "-t" (ob-tmux--target ob-session)))
           (parser (intern (concat "ob-tmux-parse-output:" lang))))
-    (let ((job-finish (intern (concat "ob-tmux-job-finish:" lang))))
-      (while (not (funcall job-finish jid ob-session))
-        (sleep-for 0.1)))
     (if (fboundp parser) (funcall parser raw-output jid body) raw-output)))
 
 (defun org-babel-execute:tmux (body params)
