@@ -108,10 +108,10 @@
 
 ;; (setq doom-theme 'doom-dark+)
 (setq doom-theme 'nano-dark)
+
 (use-package! nano-modeline
-  :defer 3
   :init
-  (nano-modeline-mode))
+  (add-hook! emacs-startup #'nano-modeline-mode))
 
 (after! company
   (setq company-minimum-prefix-length 2)
