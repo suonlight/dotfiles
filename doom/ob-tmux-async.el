@@ -14,30 +14,6 @@
   "Generate a 32 character UUID."
   (md5 (number-to-string (random 100000000))))
 
-(defun ob-tmux-view-at-point (&optional arg)
-  (interactive "P")
-  (let* ((info (org-babel-get-src-block-info 'light))
-          (params (nth 2 info))
-          (org-session (cdr (assq :session params)))
-          (file (cdr (assq :file params)))
-          (socket (cdr (assq :socket params)))
-          (socket (when socket (expand-file-name socket)))
-          (ob-session (ob-tmux--from-org-session org-session socket))
-          (session-alive (ob-tmux--session-alive-p ob-session))
-          (window-alive (ob-tmux--window-alive-p ob-session))
-          (buffer (get-buffer-create "*ob-tmux-view*"))
-          (raw-output (ob-tmux--execute-string ob-session
-                        "capture-pane"
-                        "-J"
-                        "-p" ;; print to stdout
-                        "-S" "-" ;; start at beginning of history
-                        "-t" (ob-tmux--target ob-session))))
-    (with-current-buffer buffer
-      (erase-buffer)
-      (insert raw-output)
-      (goto-char (point-max)))
-    (switch-to-buffer-other-window buffer)))
-
 (defun ob-tmux-format-code:ruby (jid body)
   (let* ((delimiters (ob-tmux-get-delimiters "ruby" jid))
           (start-delimiter (car delimiters))
@@ -137,6 +113,13 @@
           (parser (intern (concat "ob-tmux-parse-output:" lang))))
     (if (fboundp parser) (funcall parser raw-output jid body) raw-output)))
 
+(defun ob-tmux--set-session-option (ob-session option value)
+  (when (ob-tmux--session-alive-p ob-session)
+    (ob-tmux--execute ob-session
+      "set"
+      "-t" (ob-tmux--target ob-session)
+      option value)))
+
 (defun org-babel-execute:tmux (body params)
   "Send a block of code via tmux to a terminal using Babel.
 \"default\" session is used when none is specified.
@@ -160,7 +143,8 @@ Argument PARAMS the org parameters of the code block."
             (socket (when socket (expand-file-name socket)))
             (ob-session (ob-tmux--from-org-session org-session socket))
             (session-alive (ob-tmux--session-alive-p ob-session))
-            (window-alive (ob-tmux--window-alive-p ob-session)))
+            (window-alive (ob-tmux--window-alive-p ob-session))
+            (session-window-ready (and session-alive window-alive)))
       ;; Create tmux session and window if they do not yet exist
       (unless session-alive (ob-tmux--create-session ob-session))
       (unless window-alive (ob-tmux--create-window ob-session))
@@ -171,6 +155,8 @@ Argument PARAMS the org parameters of the code block."
       (while (not (ob-tmux--window-alive-p ob-session)))
       ;; Disable window renaming from within tmux
       (ob-tmux--disable-renaming ob-session)
+      (when (not session-window-ready)
+        (ob-tmux--set-session-option ob-session "status" "off"))
       (ob-tmux--send-body ob-session
         (org-babel-expand-body:generic (ob-tmux-format-code lang jid body) params))
       (org-babel-insert-result jid '("replace"))
