@@ -56,7 +56,7 @@
       (s-replace-regexp (format "^.*%s.*$" finish-delimiter) "")
       (s-replace-regexp "=> .*" "")
       (s-replace-regexp "irb\([a-z]+\):[0-9]+:[0-9]+.*" "")
-      (s-replace-regexp "^\[[0-9]+\] .* pry\(.*\).*" "")
+      (s-replace-regexp "^\[[0-9]+\] .*pry\(.*\).*" "")
       (s-replace-regexp "^>> .*" "")
       (s-replace-regexp "^nil." "")
       (s-replace-regexp "[\n]+" "\n")
@@ -124,7 +124,7 @@
   (let ((job-finish (intern (concat "ob-tmux-job-finish:" lang))))
     (if (fboundp job-finish)
       (while (not (funcall job-finish jid ob-session))
-        (sleep-for 0.1)))))
+        (sleep-for 0.05)))))
 
 (defun ob-tmux-parse-output (lang jid ob-session body)
   (ob-tmux-wait-for-job-finish lang jid ob-session)
