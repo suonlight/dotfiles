@@ -129,19 +129,19 @@ asdf global fd 8.2.1
 #+begin_src shell :async :results output
 asdf plugin add fzf https://github.com/kompiro/asdf-fzf.git
 asdf install fzf latest
-asdf global fzf 0.25.1
+asdf global fzf 0.27.2
 #+end_src
 
 #+begin_src shell :async :results output
 asdf plugin-add yq https://github.com/sudermanjr/asdf-yq.git
-asdf install yq latest
+asdf install yq 4.0.0
 asdf global yq 4.0.0
 #+end_src
 
 #+begin_src shell :async :results output
 asdf plugin add bat
 asdf install bat latest
-asdf global bat 0.17.1
+asdf global bat 0.18.3
 #+end_src
 
 ** [#A] Ruby
@@ -154,8 +154,8 @@ asdf global ruby 2.6.6
 ** [#A] Postgres
 
 #+begin_src shell :async :results output
-POSTGRES_EXTRA_CONFIGURE_OPTIONS=--with-uuid=e2fs asdf install postgres 10.3
-asdf global postgres 10.3
+POSTGRES_EXTRA_CONFIGURE_OPTIONS=--with-uuid=e2fs asdf install postgres 13.4
+asdf global postgres 13.4
 #+end_src
 
 ** [#A] Redis
@@ -163,7 +163,7 @@ asdf global postgres 10.3
 #+begin_src shell :async :results output
 asdf plugin-add redis https://github.com/smashedtoatoms/asdf-redis.git
 asdf install redis latest
-asdf global redis 6.0.10
+asdf global redis 6.2.6
 #+end_src
 
 ** [#A] NodeJs
@@ -171,8 +171,8 @@ asdf global redis 6.0.10
 #+begin_src shell :async :results output
 brew install gnupg
 bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
-asdf install nodejs 12.6.0
-asdf global nodejs 12.6.0
+asdf install nodejs 12.22.4
+asdf global nodejs 12.22.4
 asdf install yarn 1.21.1
 asdf global yarn 1.21.1
 #+end_src
@@ -368,8 +368,6 @@ ln -s $WORKSPACE/dotfiles/doom/private/talon/hero ~/.talon/user/hero
 #+BEGIN_SRC shell :results output
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" < /dev/null 2> /dev/null
 #+END_SRC
-
-#+RESULTS:
 
 * Linux
 
