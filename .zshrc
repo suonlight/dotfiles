@@ -132,11 +132,17 @@ alias c=clear
 alias find=fd
 alias de='asdf current'
 
+# customize pure
 export PURE_PROMPT_SYMBOL='$'
 
+# Need tmux 3.2 or later
+if [[ "$TERM_PROGRAM" = "tmux" ]]; then
+  zstyle :prompt:pure:path color yellow
+fi
+
 # other tools
-source ~/.asdf/installs/fzf/0.25.1/shell/completion.zsh
-source ~/.asdf/installs/fzf/0.25.1/shell/key-bindings.zsh
+source ~/.asdf/installs/fzf/0.27.2/shell/completion.zsh
+source ~/.asdf/installs/fzf/0.27.2/shell/key-bindings.zsh
 
 test -d ~/.asdf/plugins/java/set-java-home.zsh && . ~/.asdf/plugins/java/set-java-home.zsh
 
