@@ -152,3 +152,8 @@ If prefix arg is provided, show current buffer twice."
 (defun sl/roam-list-todos ()
   (interactive)
   (+default/search-project-for-symbol-at-point "\\* TODO"))
+
+(defun sl/copy-image-file-to-clipboard ()
+  "Copy current image file to clipboard"
+  (interactive)
+  (async-shell-command (format "ftc %s" (buffer-file-name))))

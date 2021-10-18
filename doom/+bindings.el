@@ -812,6 +812,8 @@
     "C-s" (general-simulate-key "M-o a s <return>")))
 
 (map! :localleader
+  (:map image-mode-map
+    :desc "Copy image to clipboard" :nv "y"    #'sl/copy-image-file-to-clipboard)
   (:map nov-mode-map
     "t" #'google-translate-at-point
     "n" #'nov-next-document
