@@ -57,8 +57,8 @@
 ;; (package! centered-window :disable t) ;; depends by org presentation
 ;; (package! rjsx-mode :disable t)
 ;; (package! js2-mode :disable t)
-;; (package! gitconfig-mode :disable t)
-;; (package! gitignore-mode :disable t)
+(package! gitconfig-mode :disable t)
+(package! gitignore-mode :disable t)
 ;; (package! csv-mode :disable t)
 ;; (package! jsonnet :disable t)
 (package! dhall-mode :disable t)
