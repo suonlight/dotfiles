@@ -43,6 +43,7 @@
                      (shell-command-to-string))))
     (delete-region (point-min) (point-max))
     (insert draft-pr-title)
+    (insert "\n\n")
     (insert pr-template)
     (delete-region (point) (point-max))
     (goto-char (point-min))
