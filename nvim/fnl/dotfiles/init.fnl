@@ -115,7 +115,7 @@
   )
 
 ;; default
-(_: colorscheme :onedark)
+(cmd colorscheme :onedark)
 (set nvim.o.termguicolors true)
 (set nvim.o.clipboard :unnamed)
 (set nvim.o.autoindent true)
@@ -159,6 +159,9 @@
 ;; nvim-web-devicons
 (let [devicons (require :nvim-web-devicons)]
   (devicons.setup {:default true}))
+
+(let [ntree (require :nvim-tree)]
+  (ntree.setup {}))
 
 (set nvim.g.nvim_tree_icons
      {:default ""
