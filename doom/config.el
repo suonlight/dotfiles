@@ -108,10 +108,7 @@
 
 ;; (setq doom-theme 'doom-dark+)
 (setq doom-theme 'nano-dark)
-
-(use-package! nano-modeline
-  :init
-  (add-hook! emacs-startup #'nano-modeline-mode))
+(use-package! nano-modeline :init (add-hook! emacs-startup #'nano-modeline-mode))
 
 (after! company
   (setq company-minimum-prefix-length 2)
@@ -285,8 +282,8 @@ not appropriate in some cases like terminals."
 
 (use-package! evil-matchit
   :config
-  (add-hook! js-mode evil-matchit-mode)
-  (add-hook! ruby-mode evil-matchit-mode))
+  (add-hook! js-mode #'evil-matchit-mode)
+  (add-hook! ruby-mode #'evil-matchit-mode))
 
 (use-package! indent-guide
   :commands indent-guide-global-mode)

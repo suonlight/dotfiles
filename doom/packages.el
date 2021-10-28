@@ -51,14 +51,14 @@
 ;; our package manager can't deal with; see raxod502/straight.el#279)
 ;(package! builtin-package :recipe (:branch "develop"))
 (package! evil-snipe :disable t)
+(package! evil-easymotion :disable t)
 (package! evil-goggles :disable t)
 ;; (package! evil-escape :disable t)
-(package! evil-easymotion :disable t)
 ;; (package! centered-window :disable t) ;; depends by org presentation
 ;; (package! rjsx-mode :disable t)
 ;; (package! js2-mode :disable t)
-(package! gitconfig-mode :disable t)
-(package! gitignore-mode :disable t)
+;; (package! gitconfig-mode :disable t)
+;; (package! gitignore-mode :disable t)
 ;; (package! csv-mode :disable t)
 ;; (package! jsonnet :disable t)
 (package! dhall-mode :disable t)
@@ -91,14 +91,13 @@
 ;; (package! ibuffer-vc :disable t)
 (package! dired-git-info :disable t)
 (package! fd-dired :disable t)
-;; (package! diff-hl :disable t) ;; depends by magit commit
 (package! buttercup :disable t)
-;; (package! eros :disable t)
 (package! quickrun :disable t)
+;; (package! eros :disable t)
 
 ;; org
 (package! org-re-reveal :disable t)
-(package! orgit :disable t)
+;; (package! orgit :disable t)
 
 (package! doom-snippets :ignore t)
 
@@ -108,18 +107,12 @@
 (package! prettier-js)
 (package! indent-guide)
 (package! evil-matchit)
-(package! anki-editor)
 (package! google-translate)
 
 (package! protobuf-mode)
-;; (package! yaml-mode)
 (package! evil-string-inflection)
-;; (package! counsel-etags)
 
 (package! ob-tmux)
-;; (package! ob-mermaid)
-
-(package! reason-mode)
 (package! multi-vterm)
 (package! read-aloud)
 (package! websocket)
@@ -128,6 +121,11 @@
 (package! nano-modeline :recipe (:host github :repo "rougier/nano-modeline"))
 
 (when IS-LINUX (package! exwm))
+
+;; use in case
+;; (package! ob-mermaid)
+;; (package! anki-editor)
+;; (package! reason-mode)
 
 ;; (package! nov)
 ;; (package! package-lint)
