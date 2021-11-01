@@ -163,6 +163,9 @@
 (let [ntree (require :nvim-tree)]
   (ntree.setup {}))
 
+(let [fzf-lua (require :fzf-lua)]
+  (fzf-lua.setup {:winopts {:split "belowright new"}}))
+
 (set nvim.g.nvim_tree_icons
      {:default ""
      :symlink ""
