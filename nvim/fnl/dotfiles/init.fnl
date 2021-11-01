@@ -30,6 +30,7 @@
   :tpope/vim-commentary {}
   :tpope/vim-endwise {}
   :pechorin/any-jump.vim {}
+  :nvim-treesitter/nvim-treesitter {:do ":TSUpdate"}  ; We recommend updating the parsers on update
 
   ; search files/keyword
   :nvim-lua/popup.nvim {}
@@ -115,7 +116,7 @@
   )
 
 ;; default
-(cmd colorscheme :onedark)
+(ex colorscheme :onedark)
 (set nvim.o.termguicolors true)
 (set nvim.o.clipboard :unnamed)
 (set nvim.o.autoindent true)
@@ -442,8 +443,8 @@
 (noremap :n :<C-k> "<cmd>TmuxNavigateUp<CR>")
 (noremap :n :<C-l> "<cmd>TmuxNavigateRight<CR>")
 
-(noremap :n :<Leader>! "yy:let cliptext = getreg('*') | :VimuxPromptCommand(cliptext)<CR><CR>")
-(noremap :v :<Leader>! "y:let cliptext = getreg('*') | :VimuxPromptCommand(cliptext)<CR><CR>")
+(noremap :n :<Leader>! "yy:let cliptext = getreg('*') | :VimuxRunCommand(cliptext)<CR><CR>")
+(noremap :v :<Leader>! "y:let cliptext = getreg('*') | :VimuxRunCommand(cliptext)<CR><CR>")
 
 (noremap :n :<Leader>0 "<cmd>NvimTreeFindFile<CR>")
 (noremap :n :<f5> ":TestNearest<CR>:TmuxNavigateDown<CR>")

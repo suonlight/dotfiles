@@ -1,5 +1,5 @@
 {
-  :cmd
+  :ex
   (fn [name ...]
     `((. nvim.ex ,(tostring name)) ,...))
 
