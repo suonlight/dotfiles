@@ -83,7 +83,7 @@
   :neovim/nvim-lspconfig {}
 
   ; notes
-  :kristijanhusak/orgmode.nvim {}
+  :kristijanhusak/orgmode.nvim {:branch :tree-sitter}
 
   ; completion
   :hrsh7th/nvim-compe {}
@@ -199,6 +199,18 @@
 (set nvim.g.sexp_filetypes "clojure,scheme,lisp,fennel")
 
 ;; orgmode
+(let [parser (require :nvim-treesitter.parsers)
+      parser-config (parser.get_parser_configs)
+      configs (require :nvim-treesitter.configs)]
+  (set parser-config.org {:install_info {:url "https://github.com/milisims/tree-sitter-org"
+                                     :revision "main"
+                                     :files ["src/parser.c" "src/scanner.cc"]}
+                      :filetype "org"})
+  (configs.setup {:highlight {:enable true
+                              :disable ["org"]
+                              :additional_vim_regex_highlighting ["org"]}
+                  :ensure_installed ["org"]}))
+
 (orgmode.setup {})
 
 ;; textobj-entire
