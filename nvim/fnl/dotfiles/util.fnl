@@ -3,8 +3,7 @@
              strings aniseed.string
              a aniseed.core
              packer packer
-             fzf fzf
-             fzf-helpers fzf.helpers
+             fzf-core fzf-lua.core
              pickers telescope.pickers
              finders telescope.finders
              actions telescope.actions
@@ -67,30 +66,24 @@
                       (sh (.. "gh pr view " pr-number " --web"))))
         cmd "gh pr list --search sort:updated-desc --json author,title,number,isDraft --jq '.[] | [\"#\" + (.number|tostring), .author.login, .title + \" \" + (if .isDraft then \"[draft]\" else \"[open]\" end)] | join(\" - \")'"]
     ((coroutine.wrap (fn []
-                       (let [choice (fzf.fzf cmd)]
+                       (let [choice (fzf-core.fzf {:border false} cmd)]
                          (when choice (on-select choice))))))))
 
-
 (defn js-insert-i18n []
-  (let [opts {}
-        jq-arg ".messages | [leaf_paths as $path | { \"key\": $path | join(\".\"), \"value\": getpath($path)}] | map([(.key + \": \" + .value)]) | .[] | .[]"
-        cmd ["jq" "-r" jq-arg (expand "$LOCALE_FILE")]
-        on-select (fn [prompt_bufnr _type]
-                    (let [i18n-key (-> (action_state.get_selected_entry)
-                                    (. 1)
-                                    (strings.split ":") (. 1)
-                                    strings.trim)]
-                      (actions.close prompt_bufnr)
+  (let [cmd (.. "jq -r '.messages | [leaf_paths as $path | { \"key\": $path | join(\".\"), \"value\": getpath($path)}] | map([(.key + \": \" + .value)]) | .[] | .[]' " (expand "src/packages/eh-locale/lang/en-AU.json"))
+        on-select (fn [choice]
+                    (let [i18n-key (-> choice
+                                       (. 1)
+                                       (strings.split ":") (. 1)
+                                       strings.trim)]
                       (let [pos (nvim.win_get_cursor 0)
                             row (-> (. pos 1) (- 1))
                             col (. pos 2)
                             text (.. "Intl.formatMessage({ id: '" i18n-key "' })")]
-                        (nvim.buf_set_text (nvim.win_get_buf 0) row col row col [text]))))
-        picker (pickers.new opts {:prompt_title "I18n"
-                                  :finder (finders.new_oneshot_job cmd)
-                                  :sorter (sorters.get_fuzzy_file)
-                                  :attach_mappings (fn [prompt_bufnr] (action_set.select:replace on-select))})]
-    (picker:find)))
+                        (nvim.buf_set_text (nvim.win_get_buf 0) row col row col [text]))))]
+    ((coroutine.wrap (fn []
+                       (let [choice (fzf-core.fzf {:border false} cmd)]
+                         (when choice (on-select choice))))))))
 
 (defn ci-open []
   (let [org-repo (-> (sh "git remote get-url origin") (. 1)
