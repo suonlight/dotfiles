@@ -32,6 +32,9 @@
   :pechorin/any-jump.vim {}
   :nvim-treesitter/nvim-treesitter {:do ":TSUpdate"}  ; We recommend updating the parsers on update
 
+  ; startup time
+  :lewis6991/impatient.nvim {}
+
   ; search files/keyword
   :nvim-lua/popup.nvim {}
   :nvim-lua/plenary.nvim {}
@@ -114,6 +117,8 @@
   ; :radenling/vim-dispatch-neovim {}
   ; :wlangstroth/vim-racket {}
   )
+
+(require :impatient)
 
 ;; default
 (ex colorscheme :onedark)
