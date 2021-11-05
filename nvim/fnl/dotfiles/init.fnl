@@ -159,6 +159,10 @@
 (set nvim.g.ale_set_quickfix 1)
 (set nvim.g.ale_fix_on_save 1)
 
+;; hop
+(let [hop (require :hop)]
+  (hop.setup {:keys "etovxqpdygfblzhckisuran"}))
+
 ;; nvim-web-devicons
 (let [devicons (require :nvim-web-devicons)]
   (devicons.setup {:default true}))
