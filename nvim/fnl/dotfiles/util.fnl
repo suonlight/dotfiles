@@ -3,6 +3,8 @@
              strings aniseed.string
              a aniseed.core
              packer packer
+             fzf fzf
+             fzf-helpers fzf.helpers
              pickers telescope.pickers
              finders telescope.finders
              actions telescope.actions
@@ -57,22 +59,17 @@
   (nvim.input "<CR>"))
 
 (defn gh-list-pull-requests []
-  (let [opts {}
-        jq-arg ".[] | [\"#\" + (.number|tostring), .author.login, .title + \" \" + (if .isDraft then \"[draft]\" else \"[open]\" end)] | join(\" - \")"
-        cmd ["gh" "pr" "list" "--search" "sort:updated-desc" "--json" "author,title,number,isDraft" "--jq" jq-arg]
-        on-select (fn [prompt_bufnr _type]
-                    (let [ pr-number (-> (action_state.get_selected_entry)
-                                         (. 1)
-                                         (strings.split " - ") (. 1)
-                                         (strings.split "#") (. 2))]
-                      (actions.close prompt_bufnr)
-                      (sh (.. "gh pr view " pr-number " --web"))
-                      (nvim.input "<CR>")))
-        picker (pickers.new opts {:prompt_title "List PRs"
-                                  :finder (finders.new_oneshot_job cmd)
-                                  :sorter (sorters.get_fuzzy_file)
-                                  :attach_mappings (fn [prompt_bufnr] (action_set.select:replace on-select))})]
-    (picker:find)))
+  (let [on-select (fn [choice]
+                    (let [pr-number (-> choice
+                                        (. 1)
+                                        (strings.split " - ") (. 1)
+                                        (strings.split "#") (. 2))]
+                      (sh (.. "gh pr view " pr-number " --web"))))
+        cmd "gh pr list --search sort:updated-desc --json author,title,number,isDraft --jq '.[] | [\"#\" + (.number|tostring), .author.login, .title + \" \" + (if .isDraft then \"[draft]\" else \"[open]\" end)] | join(\" - \")'"]
+    ((coroutine.wrap (fn []
+                       (let [choice (fzf.fzf cmd)]
+                         (when choice (on-select choice))))))))
+
 
 (defn js-insert-i18n []
   (let [opts {}
