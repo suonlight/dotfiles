@@ -3,13 +3,7 @@
              strings aniseed.string
              a aniseed.core
              packer packer
-             fzf-core fzf-lua.core
-             pickers telescope.pickers
-             finders telescope.finders
-             actions telescope.actions
-             action_set telescope.actions.set
-             action_state telescope.actions.state
-             sorters telescope.sorters}
+             fzf-core fzf-lua.core}
    require-macros [dotfiles.macros]})
 
 (defn expand [path]

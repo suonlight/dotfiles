@@ -4,8 +4,6 @@
              nvim-util aniseed.nvim.util
              util dotfiles.util
              modeline dotfiles.modeline
-             telescope telescope
-             actions telescope.actions
              orgmode orgmode
              compe compe
              which-key which-key
@@ -40,7 +38,6 @@
   :nvim-lua/plenary.nvim {}
   :vijaymarupudi/nvim-fzf {}
   :ibhagwan/fzf-lua {}
-  :nvim-telescope/telescope.nvim {}
 
   ; tmux
   :christoomey/vim-tmux-navigator {}
@@ -196,9 +193,6 @@
 (set nvim.g.indentLine_enabled 0)
 (set nvim.g.indentLine_concealcursor "inc")
 (set nvim.g.indentLine_conceallevel 2)
-
-; ;; telescope
-(telescope.setup {:defaults {:mappings {:i {"<esc>" actions.close}}}})
 
 ;; sexp
 (set nvim.g.sexp_filetypes "clojure,scheme,lisp,fennel")
