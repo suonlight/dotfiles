@@ -17,7 +17,8 @@
     "C-a"    #'move-beginning-of-line
     "C-r"    #'evil-paste-from-register
     "C-u"    #'evil-delete-back-to-indentation
-    "C-v"    #'yank
+    "C-v"    (general-simulate-key "C-; C-v")
+    "C-s"    (general-simulate-key "C-; C-s")
     "C-w"    #'doom/delete-backward-word
     "C-z"    (λ! (ignore-errors (call-interactively #'undo)))
     ;; Scrolling lines

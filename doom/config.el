@@ -89,7 +89,7 @@
 (load! "+bindings")
 (load! "debugger")
 (load! "utils")
-(load! "ivy")
+(load! "embark")
 (load! "org-mode")
 
 (when (file-exists-p (concat doom-private-dir "private"))
