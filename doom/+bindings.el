@@ -1,4 +1,4 @@
-;;; ~/projects/doom-emacs-config/+binding.el -*- lexical-binding: t; -*-
+;;; +binding.el -*- lexical-binding: t; -*-
 
 (when (featurep! :editor evil +everywhere)
   ;; NOTE SPC u replaces C-u as the universal argument.
@@ -232,7 +232,6 @@
 ;;
 ;;; <leader>
 (map! :leader
-      :desc "Search project"        "/"    #'+default/search-project
       (:prefix-map ("j" . "jump")
         "D"         #'dired-jump-other-window
         "b"         #'avy-pop-mark
@@ -265,8 +264,13 @@
 
       :desc "Switch buffer"         ","    #'switch-to-buffer
       :desc "Switch to last buffer" "<tab>"    #'evil-switch-to-windows-last-buffer
-      :desc "Resume last search"    "'"    #'ivy-resume
+      :desc "Resume last search"    "'"
+      (cond ((featurep! :completion vertico)    #'vertico-repeat)
+            ((featurep! :completion ivy)        #'ivy-resume)
+            ((featurep! :completion helm)       #'helm-resume))
 
+
+      :desc "Search project"               "/" #'+default/search-project
       :desc "Search for symbol in project" "*" #'+default/search-project-for-symbol-at-point
 
       :desc "Find file in project"  "SPC"  #'projectile-find-file
@@ -622,7 +626,10 @@
 
       ;;; <leader> s --- search
       (:prefix-map ("s" . "search")
-        :desc "Search buffer"                "b" #'swiper
+        :desc "Search buffer"                "b"
+        (cond ((featurep! :completion vertico)   #'+default/search-buffer)
+              ((featurep! :completion ivy)       #'swiper)
+              ((featurep! :completion helm)      #'swiper))
         :desc "Search current directory"     "d" #'+default/search-cwd
         :desc "Search other directory"       "D" #'+default/search-other-cwd
         :desc "Locate file"                  "f" #'locate
@@ -638,15 +645,18 @@
         :desc "Search project"               "p" #'+default/search-project
         :desc "Search other project"         "P" #'+default/search-other-project
         :desc "Jump to mark"                 "r" #'evil-show-marks
-        :desc "Search buffer"                "s" #'swiper-isearch
-        :desc "Search buffer for thing at point" "S" #'swiper-isearch-thing-at-point
+        :desc "Search buffer"                "s" #'+default/search-buffer
+        :desc "Search buffer for thing at point" "S"
+        (cond ((featurep! :completion vertico)   #'+vertico/search-symbol-at-point)
+              ((featurep! :completion ivy)       #'swiper-isearch-thing-at-point)
+              ((featurep! :completion helm)      #'swiper-isearch-thing-at-point))
+
         :desc "Dictionary"                   "t" #'+lookup/dictionary-definition
         :desc "Thesaurus"                    "T" #'+lookup/synonyms)
 
       ;;; <leader> r --- registers
       (:prefix-map ("r" . "registers")
-        :desc "Ivy Resume"                    "l" #'ivy-resume
-        :desc "List Registers"                "e" #'counsel-evil-registers)
+        :desc "List Registers"                "e" #'evil-show-registers)
 
       ;;; <leader> t --- toggle
       (:prefix-map ("t" . "toggle")
@@ -676,7 +686,7 @@
       :nv "C-h"   #'evil-window-left
       :nv "C-j"   #'evil-window-down
       :nv "C-k"   #'evil-window-up
-      :nv "C-p"   #'+ivy/projectile-find-file
+      :nv "C-p"   #'projectile-find-file
       :nv "s-b"   #'projectile-switch-to-buffer
       :nv "<f10>" #'doom/window-maximize-buffer
       :nv "<f12>" #'multi-vterm-project
