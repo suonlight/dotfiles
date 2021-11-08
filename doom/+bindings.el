@@ -239,7 +239,6 @@
         "d"         #'dired-jump
         "f"         #'find-function
         "r"         #'avy-resume
-        "i"         #'counsel-imenu
         "j"         #'evil-avy-goto-char-timer
         "l"         #'evil-avy-goto-line
         "w"         #'evil-avy-goto-word-or-subword-1
@@ -350,6 +349,9 @@
         (:when (featurep! :completion helm)
          :desc "Jump to symbol in current workspace" "j"   #'helm-lsp-workspace-symbol
          :desc "Jump to symbol in any workspace"     "J"   #'helm-lsp-global-workspace-symbol)
+        (:when (featurep! :completion vertico)
+         :desc "Jump to symbol in current workspace" "j"   #'consult-lsp-symbols
+         :desc "Jump to symbol in any workspace"     "J"   (cmd!! #'consult-lsp-symbols 'all-workspaces))
         :desc "LSP"                                  "l"   #'+default/lsp-command-map
         :desc "LSP Rename"                           "r"   #'lsp-rename)
        (:when (featurep! :tools lsp +eglot)
