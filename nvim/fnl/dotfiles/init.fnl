@@ -3,11 +3,7 @@
              a aniseed.core
              nvim-util aniseed.nvim.util
              util dotfiles.util
-             modeline dotfiles.modeline
-             orgmode orgmode
-             compe compe
              which-key which-key
-             autopairs nvim-autopairs
              lsp lspconfig}
    require-macros [dotfiles.macros]})
 
@@ -34,8 +30,8 @@
   :lewis6991/impatient.nvim {}
 
   ; search files/keyword
-  :nvim-lua/popup.nvim {}
-  :nvim-lua/plenary.nvim {}
+  ; :nvim-lua/popup.nvim {}
+  ; :nvim-lua/plenary.nvim {}
   :vijaymarupudi/nvim-fzf {}
   :ibhagwan/fzf-lua {}
 
@@ -47,16 +43,16 @@
   :kana/vim-textobj-user {}
   :kana/vim-textobj-indent  {}
   :kana/vim-textobj-line  {}
-  :kana/vim-textobj-entire  {}
+  :kana/vim-textobj-entire  {:opt true}
   :tpope/vim-surround {}
 
   ; git
-  :tpope/vim-fugitive {}
+  :tpope/vim-fugitive {:opt true}
   :tpope/vim-rhubarb {}
 
   ; ui
   :joshdick/onedark.vim {}
-  :folke/tokyonight.nvim {}
+  :folke/tokyonight.nvim {:opt true}
   :kyazdani42/nvim-web-devicons {}
   :kyazdani42/nvim-tree.lua {}
   ; :yamatsum/nvim-nonicons {}
@@ -64,7 +60,7 @@
   :glepnir/galaxyline.nvim {:branch :main}
 
   ; lisp
-  :guns/vim-sexp {}
+  :guns/vim-sexp {:opt true}
 
   ; linter
   :dense-analysis/ale {}
@@ -118,7 +114,8 @@
 (require :impatient)
 
 ;; default
-(ex colorscheme :onedark)
+; (ex colorscheme :onedark)
+(vim.defer_fn (fn [] (ex colorscheme :onedark)) 1)
 (set nvim.o.termguicolors true)
 (set nvim.o.clipboard :unnamed)
 (set nvim.o.autoindent true)
@@ -159,20 +156,6 @@
 (set nvim.g.ale_set_quickfix 1)
 (set nvim.g.ale_fix_on_save 1)
 
-;; hop
-(let [hop (require :hop)]
-  (hop.setup {:keys "etovxqpdygfblzhckisuran"}))
-
-;; nvim-web-devicons
-(let [devicons (require :nvim-web-devicons)]
-  (devicons.setup {:default true}))
-
-(let [ntree (require :nvim-tree)]
-  (ntree.setup {}))
-
-(let [fzf-lua (require :fzf-lua)]
-  (fzf-lua.setup {:winopts {:split "belowright new"}}))
-
 (set nvim.g.nvim_tree_icons
      {:default ""
      :symlink ""
@@ -201,20 +184,125 @@
 ;; sexp
 (set nvim.g.sexp_filetypes "clojure,scheme,lisp,fennel")
 
-;; orgmode
-(let [parser (require :nvim-treesitter.parsers)
-      parser-config (parser.get_parser_configs)
-      configs (require :nvim-treesitter.configs)]
-  (set parser-config.org {:install_info {:url "https://github.com/milisims/tree-sitter-org"
-                                     :revision "main"
-                                     :files ["src/parser.c" "src/scanner.cc"]}
-                      :filetype "org"})
-  (configs.setup {:highlight {:enable true
-                              :disable ["org"]
-                              :additional_vim_regex_highlighting ["org"]}
-                  :ensure_installed ["org"]}))
+;; async setup
+(vim.schedule
+  (fn []
+    ;; hop
+    (let [hop (require :hop)]
+      (hop.setup {:keys "etovxqpdygfblzhckisuran"}))
 
-(orgmode.setup {})
+    ;; nvim-web-devicons
+    (let [devicons (require :nvim-web-devicons)]
+      (devicons.setup {:default true}))
+
+    (let [ntree (require :nvim-tree)]
+      (ntree.setup {}))
+
+    ;; fzf-lua
+    (let [fzf-lua (require :fzf-lua)]
+      (fzf-lua.setup {:winopts {:split "belowright new"}}))
+
+    ;; modeline
+    (let [modeline (require :dotfiles.modeline)]
+      (modeline.setup))
+
+    ;; autopairs
+    (let [autopairs (require :nvim-autopairs)]
+      (autopairs.setup {})
+      (let [autopairs-compe (require :nvim-autopairs.completion.compe)]
+        (autopairs-compe.setup {:map_cr true :map_complete true })))
+
+    ;; compe
+    (let [compe (require :compe)]
+      (compe.setup
+        {:enabled true
+         :autocomplete true
+         :debug false
+         :min_length 1
+         :preselect "enable"
+         :throttle_time 80
+         :source_timeout 200
+         :incomplete_delay 400
+         :max_abbr_width 100
+         :max_kind_width 100
+         :max_menu_width 100
+         :documentation true
+         :source {:path true
+                  :buffer true
+                  :calc true
+                  :nvim_lsp true
+                  :nvim_lua true
+                  :conjure true
+                  :vsnip false}})) ; TODO handle vsnip with TAB
+
+    ;; lsp javascript
+    (local file-types {:typescript "eslint" :javascript "eslint"})
+
+    (local linters {:eslint {:sourceName :eslint
+                             :command :eslint_d
+                             :rootPatterns [".eslintrc.js" "package.json"]
+                             :debounce 100
+                             :args ["--stdin" "--stdin-filename" "%filepath" "--format" "json"]
+                             :parseJson {:errorsRoot "[0].messages"
+                                         :line :line
+                                         :column :column
+                                         :endLine :endLine
+                                         :endColumn :endColumn
+                                         :message "${message} [${ruleId}]"
+                                         :security "severity"}
+                             :securities {[2] "error"
+                                          [1] "warning"}}})
+
+    (local formatters {:prettier {:command :prettier :args ["--stdin-filepath" "%filepath"]}})
+
+    (local format-file-types {:typescript "prettier" :javascript "prettier"})
+
+    (defn on-attach [client bufnr]
+      ; (_: "command! LspDef lua vim.lsp.buf.definition()")
+      ; (_: "command! LspHover lua vim.lsp.buf.hover()")
+      (noremap-buffer bufnr :n :gD "<cmd>lua vim.lsp.buf.declaration()<CR>" {:noremap true :silent true})
+      (noremap-buffer bufnr :n :gd "<cmd>lua vim.lsp.buf.definition()<CR>" {:noremap true :silent true})
+      (noremap-buffer bufnr :n :K "<cmd>lua vim.lsp.buf.hover()<CR>" {:noremap true :silent true})
+      (noremap-buffer bufnr :n :gi "<cmd>lua vim.lsp.buf.implementation()<cR>" {:noremap true :silent true})
+      (noremap-buffer bufnr :n :<C-k> "<cmd>lua vim.lsp.buf.signature_help()<cR>" {:noremap true :silent true})
+      ; (noremap-buffer bufnr :n :<space>wa "<cmd>lua vim.lsp.buf.add_workspace_folder()<cR>" {:noremap true :silent true})
+      ; (noremap-buffer bufnr :n :<space>wr "<cmd>lua vim.lsp.buf.remove_workspace_folder()<cR>" {:noremap true :silent true})
+      ; (noremap-buffer bufnr :n :<space>wl "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cR>" {:noremap true :silent true})
+      ; (noremap-buffer bufnr :n :<space>D "<cmd>lua vim.lsp.buf.type_definition()<cR>" {:noremap true :silent true})
+      ; (noremap-buffer bufnr :n :<space>rn "<cmd>lua vim.lsp.buf.rename()<cR>" {:noremap true :silent true})
+      ; (noremap-buffer bufnr :n :<space>e "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cR>" {:noremap true :silent true})
+      ; (noremap-buffer bufnr :n :<space>q "<cmd>lua vim.lsp.diagnostic.set_loclist()<cR>" {:noremap true :silent true})
+      (noremap-buffer bufnr :n :gr "<cmd>lua vim.lsp.buf.references()<cR>" {:noremap true :silent true})
+      (noremap-buffer bufnr :n "[d" "<cmd>lua vim.lsp.diagnostic.goto_prev()<cR>" {:noremap true :silent true})
+      (noremap-buffer bufnr :n "]d" "<cmd>lua vim.lsp.diagnostic.goto_next()<cR>" {:noremap true :silent true}))
+
+; (lsp.diagnosticls.setup {:on_attach (fn [client bufnr]
+;                                       ; (local client.resolved_capabilities.document_formatting false)
+;                                       (on-attach client bufnr))
+;                          :filetypes [:typescript :javascript]
+;                          :init_options {:filetypes file-types
+;                                         :linters linters
+;                                         :formatters formatters
+;                                         :formatFiletypes format-file-types}})
+
+(lsp.tsserver.setup {:on_attach on-attach})
+(lsp.solargraph.setup {:on_attach on-attach})
+
+
+    ;; org mode
+    (let [parser (require :nvim-treesitter.parsers)
+          parser-config (parser.get_parser_configs)
+          configs (require :nvim-treesitter.configs)
+          orgmode (require :orgmode)]
+      (set parser-config.org {:install_info {:url "https://github.com/milisims/tree-sitter-org"
+                                             :revision "main"
+                                             :files ["src/parser.c" "src/scanner.cc"]}
+                              :filetype "org"})
+      (configs.setup {:highlight {:enable true
+                                  :disable ["org"]
+                                  :additional_vim_regex_highlighting ["org"]}
+                      :ensure_installed ["org"]})
+      (orgmode.setup {}))))
 
 ;; textobj-entire
 ; (nvim.command "call textobj#user#plugin('entire', {
@@ -260,82 +348,8 @@
 (set nvim.test#enabled_runners ["ruby#rspec"])
 (set nvim.test#ruby#minitest#file_pattern "_spec.rb")
 
-;; lsp javascript
-(local file-types {:typescript "eslint" :javascript "eslint"})
-
-(local linters {:eslint {:sourceName :eslint
-                         :command :eslint_d
-                         :rootPatterns [".eslintrc.js" "package.json"]
-                         :debounce 100
-                         :args ["--stdin" "--stdin-filename" "%filepath" "--format" "json"]
-                         :parseJson {:errorsRoot "[0].messages"
-                                     :line :line
-                                     :column :column
-                                     :endLine :endLine
-                                     :endColumn :endColumn
-                                     :message "${message} [${ruleId}]"
-                                     :security "severity"}
-                         :securities {[2] "error"
-                                      [1] "warning"}}})
-
-(local formatters {:prettier {:command :prettier :args ["--stdin-filepath" "%filepath"]}})
-
-(local format-file-types {:typescript "prettier" :javascript "prettier"})
-
-(defn on-attach [client bufnr]
-  ; (_: "command! LspDef lua vim.lsp.buf.definition()")
-  ; (_: "command! LspHover lua vim.lsp.buf.hover()")
-  (noremap-buffer bufnr :n :gD "<cmd>lua vim.lsp.buf.declaration()<CR>" {:noremap true :silent true})
-  (noremap-buffer bufnr :n :gd "<cmd>lua vim.lsp.buf.definition()<CR>" {:noremap true :silent true})
-  (noremap-buffer bufnr :n :K "<cmd>lua vim.lsp.buf.hover()<CR>" {:noremap true :silent true})
-  (noremap-buffer bufnr :n :gi "<cmd>lua vim.lsp.buf.implementation()<cR>" {:noremap true :silent true})
-  (noremap-buffer bufnr :n :<C-k> "<cmd>lua vim.lsp.buf.signature_help()<cR>" {:noremap true :silent true})
-  ; (noremap-buffer bufnr :n :<space>wa "<cmd>lua vim.lsp.buf.add_workspace_folder()<cR>" {:noremap true :silent true})
-  ; (noremap-buffer bufnr :n :<space>wr "<cmd>lua vim.lsp.buf.remove_workspace_folder()<cR>" {:noremap true :silent true})
-  ; (noremap-buffer bufnr :n :<space>wl "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cR>" {:noremap true :silent true})
-  ; (noremap-buffer bufnr :n :<space>D "<cmd>lua vim.lsp.buf.type_definition()<cR>" {:noremap true :silent true})
-  ; (noremap-buffer bufnr :n :<space>rn "<cmd>lua vim.lsp.buf.rename()<cR>" {:noremap true :silent true})
-  ; (noremap-buffer bufnr :n :<space>e "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cR>" {:noremap true :silent true})
-  ; (noremap-buffer bufnr :n :<space>q "<cmd>lua vim.lsp.diagnostic.set_loclist()<cR>" {:noremap true :silent true})
-  (noremap-buffer bufnr :n :gr "<cmd>lua vim.lsp.buf.references()<cR>" {:noremap true :silent true})
-  (noremap-buffer bufnr :n "[d" "<cmd>lua vim.lsp.diagnostic.goto_prev()<cR>" {:noremap true :silent true})
-  (noremap-buffer bufnr :n "]d" "<cmd>lua vim.lsp.diagnostic.goto_next()<cR>" {:noremap true :silent true}))
-
-; (lsp.diagnosticls.setup {:on_attach (fn [client bufnr]
-;                                       ; (local client.resolved_capabilities.document_formatting false)
-;                                       (on-attach client bufnr))
-;                          :filetypes [:typescript :javascript]
-;                          :init_options {:filetypes file-types
-;                                         :linters linters
-;                                         :formatters formatters
-;                                         :formatFiletypes format-file-types}})
-
-(lsp.tsserver.setup {:on_attach on-attach})
-(lsp.solargraph.setup {:on_attach on-attach})
-
 ;; nvim-compe
 (set nvim.o.completeopt "menuone,noselect")
-
-(compe.setup
-  {:enabled true
-   :autocomplete true
-   :debug false
-   :min_length 1
-   :preselect "enable"
-   :throttle_time 80
-   :source_timeout 200
-   :incomplete_delay 400
-   :max_abbr_width 100
-   :max_kind_width 100
-   :max_menu_width 100
-   :documentation true
-   :source {:path true
-            :buffer true
-            :calc true
-            :nvim_lsp true
-            :nvim_lua true
-            :conjure true
-            :vsnip false}}) ; TODO handle vsnip with TAB
 
 (defn- replace-termcodes [str]
   (nvim.replace_termcodes str true true true))
@@ -362,13 +376,6 @@
 
 (imap :<Tab> "v:lua.tab_complete()" {:expr true})
 (imap :<S-Tab> "v:lua.s_tab_complete()" {:expr true})
-
-;; autopairs
-(autopairs.setup {})
-(let [autopairs-compe (require :nvim-autopairs.completion.compe)]
-  (autopairs-compe.setup {:map_cr true :map_complete true }))
-
-(modeline.setup)
 
 ;; custom commands
 (fn->viml :dotfiles.util :gh-open-pull-request :GhOpenPullRequest)
