@@ -135,10 +135,10 @@ If prefix arg is provided, show current buffer twice."
 
 (defun sl/projectile-find-file-at-point ()
   (interactive)
-  (kill-new (ivy-thing-at-point))
+  (kill-new (thing-at-point 'symbol))
   (minibuffer-with-setup-hook
     'words-at-point
-    (call-interactively #'counsel-projectile-find-file)))
+    (call-interactively #'projectile-find-file)))
 
 (defun sl/eslint-fix-file ()
   (interactive)
