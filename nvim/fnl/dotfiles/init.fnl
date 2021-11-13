@@ -43,11 +43,11 @@
   :kana/vim-textobj-user {}
   :kana/vim-textobj-indent  {}
   :kana/vim-textobj-line  {}
-  :kana/vim-textobj-entire  {:opt true}
+  :kana/vim-textobj-entire  {}
   :tpope/vim-surround {}
 
   ; git
-  :tpope/vim-fugitive {:opt true}
+  :tpope/vim-fugitive {}
   :tpope/vim-rhubarb {}
 
   ; ui
@@ -79,7 +79,7 @@
   :neovim/nvim-lspconfig {}
 
   ; notes
-  :kristijanhusak/orgmode.nvim {:branch :tree-sitter}
+  :kristijanhusak/orgmode.nvim {}
 
   ; completion
   :hrsh7th/nvim-compe {}
