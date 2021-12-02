@@ -153,7 +153,7 @@
 (set nvim.g.ale_echo_msg_format "[%linter%] %s [%severity%]")
 (set nvim.g.ale_set_highlights 0)
 (set nvim.g.ale_set_loclist 0)
-(set nvim.g.ale_set_quickfix 1)
+;; (set nvim.g.ale_set_quickfix 1)
 (set nvim.g.ale_fix_on_save 1)
 
 (set nvim.g.nvim_tree_icons
