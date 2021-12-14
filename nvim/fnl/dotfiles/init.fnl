@@ -31,7 +31,7 @@
 
   ; search files/keyword
   ; :nvim-lua/popup.nvim {}
-  ; :nvim-lua/plenary.nvim {}
+  :nvim-lua/plenary.nvim {}
   :vijaymarupudi/nvim-fzf {}
   :ibhagwan/fzf-lua {}
 
@@ -49,6 +49,8 @@
   ; git
   :tpope/vim-fugitive {}
   :tpope/vim-rhubarb {}
+  :sindrets/diffview.nvim {}
+  :TimUntersberger/neogit {}
 
   ; ui
   :joshdick/onedark.vim {}
@@ -288,6 +290,12 @@
 (lsp.tsserver.setup {:on_attach on-attach})
 (lsp.solargraph.setup {:on_attach on-attach})
 
+    ;; neogit
+    (let [neogit (require :neogit)]
+      (neogit.setup {:integrations {:diffview true}}))
+
+    (let [diffview (require :diffview)]
+      (diffview.setup {}))
 
     ;; org mode
     (let [parser (require :nvim-treesitter.parsers)
@@ -407,7 +415,7 @@
    :g {:name "+git"
        :p ["<cmd>call GhListPullRequests()<CR>" "Github List PRs"]
        :oo ["<cmd>Gbrowse<CR>" "Git browse"]
-       :s ["<cmd>Git<CR>" "Git status"]
+       :s ["<cmd>Neogit<CR>" "Git status"]
        :b ["<cmd>Git blame<CR>" "Git blame"]}
    :b {:name "+buffers"
        :b ["<cmd>FzfLua buffers<CR>" "Find buffer"]
