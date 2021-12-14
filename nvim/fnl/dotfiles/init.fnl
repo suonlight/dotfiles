@@ -287,12 +287,15 @@
 ;                                         :formatters formatters
 ;                                         :formatFiletypes format-file-types}})
 
-(lsp.tsserver.setup {:on_attach on-attach})
-(lsp.solargraph.setup {:on_attach on-attach})
+    (lsp.tsserver.setup {:on_attach on-attach})
+    (lsp.solargraph.setup {:on_attach on-attach})
 
     ;; neogit
     (let [neogit (require :neogit)]
-      (neogit.setup {:integrations {:diffview true}}))
+      (neogit.setup {:integrations {:diffview true}
+                     :disable_hint true
+                     :disable_commit_confirmation true})
+      (neogit.config.use_magit_keybindings))
 
     (let [diffview (require :diffview)]
       (diffview.setup {}))
