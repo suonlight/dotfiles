@@ -41,7 +41,7 @@
 
   ; text objects
   :kana/vim-textobj-user {}
-  :kana/vim-textobj-indent  {}
+  :michaeljsmith/vim-indent-object {}
   :kana/vim-textobj-line  {}
   :kana/vim-textobj-entire  {}
   :tpope/vim-surround {}
@@ -79,6 +79,7 @@
 
   ; lsp
   :neovim/nvim-lspconfig {}
+  :github/copilot.vim {}
 
   ; notes
   :kristijanhusak/orgmode.nvim {}
@@ -265,7 +266,7 @@
       (noremap-buffer bufnr :n :gD "<cmd>lua vim.lsp.buf.declaration()<CR>" {:noremap true :silent true})
       (noremap-buffer bufnr :n :gd "<cmd>lua vim.lsp.buf.definition()<CR>" {:noremap true :silent true})
       (noremap-buffer bufnr :n :K "<cmd>lua vim.lsp.buf.hover()<CR>" {:noremap true :silent true})
-      (noremap-buffer bufnr :n :gi "<cmd>lua vim.lsp.buf.implementation()<cR>" {:noremap true :silent true})
+      ;; (noremap-buffer bufnr :n :gi "<cmd>lua vim.lsp.buf.implementation()<cR>" {:noremap true :silent true})
       (noremap-buffer bufnr :n :<C-k> "<cmd>lua vim.lsp.buf.signature_help()<cR>" {:noremap true :silent true})
       ; (noremap-buffer bufnr :n :<space>wa "<cmd>lua vim.lsp.buf.add_workspace_folder()<cR>" {:noremap true :silent true})
       ; (noremap-buffer bufnr :n :<space>wr "<cmd>lua vim.lsp.buf.remove_workspace_folder()<cR>" {:noremap true :silent true})
@@ -292,10 +293,10 @@
 
     ;; neogit
     (let [neogit (require :neogit)]
+      ;; (neogit.config.use_magit_keybindings)
       (neogit.setup {:integrations {:diffview true}
                      :disable_hint true
-                     :disable_commit_confirmation true})
-      (neogit.config.use_magit_keybindings))
+                     :disable_commit_confirmation true}))
 
     (let [diffview (require :diffview)]
       (diffview.setup {}))
