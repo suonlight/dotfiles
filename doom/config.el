@@ -163,14 +163,38 @@
 (after! ruby-mode
   (set-company-backend! 'ruby-mode '(company-capf company-abbrev company-dabbrev-code company-files company-etags company-keywords company-yasnippet)))
 
+(after! sql
+  (add-hook! sql-mode #'format-all-mode))
+
+(after! format-all
+  (define-format-all-formatter sqlformat
+    (:executable "sqlformat")
+    (:install "pip install sqlparse")
+    (:modes sql-mode)
+    (:format
+      (let* ((ic (car default-process-coding-system))
+              (oc (cdr default-process-coding-system))
+              (ienc (symbol-name (or (coding-system-get ic :mime-charset)
+                                   'utf-8)))
+              (oenc (symbol-name (or (coding-system-get oc :mime-charset)
+                                   'utf-8)))
+              (process-environment (cons (concat "PYTHONIOENCODING=" oenc)
+                                     process-environment)))
+        (format-all--buffer-easy
+          executable
+          "--keywords" "upper"
+          "-r" ;; old --reindent_aligned
+          "--encoding" ienc
+          "-")))))
+
 (after! rspec-mode
   (set-popup-rule! "^\\*rspec-compilation\\*" :select t :size 0.35)
   (setq rspec-use-bundler-when-possible t))
 
 ;; (add-hook! ruby-mode (add-hook 'before-save-hook #'lsp-format-buffer t t))
 
-(after! js
-  (set-company-backend! 'js-mode '(company-capf company-dabbrev-code company-files company-yasnippet)))
+;; (after! js
+;;   (set-company-backend! 'js-mode '(company-capf company-dabbrev-code company-files company-yasnippet)))
 
 (after! rjsx-mode
   (defun select-js-eslint ()
@@ -262,8 +286,8 @@ not appropriate in some cases like terminals."
 
 (use-package! prettier-js
   :config
-  (add-hook! js-mode prettier-js-mode)
-  (add-hook! web-mode prettier-js-mode))
+  (add-hook! js-mode #'prettier-js-mode)
+  (add-hook! web-mode #'prettier-js-mode))
 
 (defun google-translate-at-point ()
   (interactive)

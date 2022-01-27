@@ -41,6 +41,5 @@
 --exclude=TAGS
 --exclude=GTAGS
 --exclude=cscope.*
---languages=-html
 --extra=-q-f
 --fields=-f+n-t-s-k

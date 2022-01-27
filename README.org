@@ -232,6 +232,7 @@ brew install ctags
 #+begin_src shell :async :results output
 # format sql
 pip install sqlparse
+brew install sqlformat
 #+end_src
 
 #+begin_src shell :async :results output
