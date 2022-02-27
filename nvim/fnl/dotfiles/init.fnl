@@ -314,6 +314,7 @@
                                   :disable ["org"]
                                   :additional_vim_regex_highlighting ["org"]}
                       :ensure_installed ["org"]})
+      (orgmode.setup_ts_grammar)
       (orgmode.setup {}))))
 
 ;; textobj-entire
