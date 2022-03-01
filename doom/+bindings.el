@@ -781,7 +781,8 @@
     "C-j"   #'evil-window-down
     "C-k"   #'evil-window-up)
   (:after org :map org-mode-map
-    :nv "t" #'org-todo)
+    :i  "s-l"    #'org-roam-node-insert
+    :nv "t"      #'org-todo)
   (:map xwidget-webkit-mode-map
     :nv "j"      #'xwidget-webkit-scroll-up ;; main object is scroller
     :nv "k"      #'xwidget-webkit-scroll-down
