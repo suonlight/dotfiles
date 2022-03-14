@@ -113,6 +113,7 @@
 (package! evil-string-inflection)
 
 (package! ob-tmux)
+(package! ob-typescript)
 (package! multi-vterm)
 (package! read-aloud)
 (package! websocket)
