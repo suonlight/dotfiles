@@ -134,7 +134,7 @@
 
 (setq rustic-lsp-server 'rust-analyzer)
 
-(after! lsp
+(after! lsp-mode
   ;; configurations https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/
   ;; speed up lsp http://blog.binchen.org/posts/how-to-speed-up-lsp-mode.html
   ;; need to compile t. But it's not stable now
@@ -152,16 +152,16 @@
   (setq flycheck-highlighting-mode 'symbols)
   (setq flycheck-indication-mode nil)
   (setq flycheck-check-syntax-automatically '(save))
-  (setq-default flycheck-disabled-checkers '(ruby-reek emacs-lisp emacs-lisp-checkdoc javascript-jshint lsp)))
-
-(after! (:and lsp flycheck)
-  (flycheck-add-next-checker 'lsp 'javascript-eslint))
+  (setq-default flycheck-disabled-checkers '(ruby-reek emacs-lisp emacs-lisp-checkdoc javascript-jshint)))
 
 (after! evil
   (defalias #'forward-evil-word #'forward-evil-symbol))
 
 (after! ruby-mode
-  (set-company-backend! 'ruby-mode '(company-capf company-abbrev company-dabbrev-code company-files company-etags company-keywords company-yasnippet)))
+  (set-company-backend! 'ruby-mode '(company-capf company-abbrev company-dabbrev-code company-files company-etags company-keywords company-yasnippet))
+
+  (defun select-ruby-checker () (flycheck-select-checker 'ruby-rubocop))
+  (add-hook! ruby-mode #'select-ruby-checker))
 
 (after! sql
   (add-hook! sql-mode #'format-all-mode))
@@ -197,10 +197,14 @@
 ;;   (set-company-backend! 'js-mode '(company-capf company-dabbrev-code company-files company-yasnippet)))
 
 (after! rjsx-mode
-  (defun select-js-eslint ()
-    (flycheck-select-checker 'javascript-eslint))
+  (defun select-js-eslint () (flycheck-select-checker 'javascript-eslint))
+  (add-hook! rjsx-mode #'select-js-eslint))
 
-  (add-hook 'rjsx-mode-hook #'select-js-eslint))
+(after! (:and typescript-mode lsp-mode)
+  (defun add-ts-checkers () (flycheck-add-next-checker 'lsp 'javascript-eslint))
+
+  (add-hook! typescript-mode #'add-ts-checkers)
+  (add-hook! typescript-tsx-mode #'add-ts-checkers))
 
 (after! projectile
   (setq projectile-tags-file-name "ETAGS"))
