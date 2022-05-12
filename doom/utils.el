@@ -147,8 +147,14 @@ If prefix arg is provided, show current buffer twice."
 
 (defun sl/eslint-fix-file-and-revert ()
   (interactive)
-  (sl/eslint-fix-file)
-  (revert-buffer t t))
+  (when (string= major-mode "typescript-tsx-mode")
+    (let* ((b-file-name (buffer-file-name))
+            (b-name (current-buffer)))
+      (async-start
+        `(lambda () ,(message "eslint --fixing the file" b-file-name) (shell-command ,(concat "yarn eslint --fix " b-file-name)))
+        `(lambda (result)
+           ,(with-current-buffer b-name (revert-buffer t t))
+           (message "Eslint fixed: %s" result))))))
 
 (defun sl/roam-list-todos ()
   (interactive)
