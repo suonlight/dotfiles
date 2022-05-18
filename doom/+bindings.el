@@ -680,6 +680,8 @@
         (:when (featurep! :lang org +pomodoro)
           :desc "Pomodoro timer"             "t" #'org-pomodoro)
         :desc "Word-wrap mode"               "w" #'+word-wrap-mode
+        (:when (featurep! :ui minimap)
+          :desc "Minimap"                      "m" #'minimap-mode)
         (:when (featurep! :ui zen)
           :desc "Zen mode"                   "z" #'+zen/toggle
           :desc "Zen mode (fullscreen)"      "Z" #'+zen/toggle-fullscreen)))
