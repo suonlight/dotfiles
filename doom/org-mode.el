@@ -11,34 +11,34 @@
        ("c"
          "Code Review"
          entry
-         (file ,(format-time-string "~/org-modes/roam/daily/%Y-%m-%d.org" (current-time) t))
+         (file ,(format-time-string "~/org-modes/roam/journals/%Y-%m-%d.org" (current-time) t))
          "* %?\n:PROPERTIES:\n:Source: %F\n:Captured_On: %U\n:END:\n\n#+BEGIN_SRC ruby\n%:initial\n#+END_SRC\n")
        ("N"
          "Notes with Browser"
          entry
-         (file ,(format-time-string "~/org-modes/roam/daily/%Y-%m-%d.org" (current-time) t))
+         (file ,(format-time-string "~/org-modes/roam/journals/%Y-%m-%d.org" (current-time) t))
          ;; "* %?\n\nSource: %:link\nCaptured On:%U\n\n%:description\n\n%:initial\n\n")
          "* %?\n:PROPERTIES:\n:Source: %:link\n:Captured_On: %U\n:END:\n\n%:description\n\n%:initial\n\n")
        ("n"
          "Notes with Clipboard"
          entry
-         (file ,(format-time-string "~/org-modes/roam/daily/%Y-%m-%d.org" (current-time) t))
+         (file ,(format-time-string "~/org-modes/roam/journals/%Y-%m-%d.org" (current-time) t))
          ;; "* %?\n\nSource: %:link\nCaptured On:%U\n\n%:description\n\n%:initial\n\n")
          "* %?\n:PROPERTIES:\n:Source: %:link\n:Captured_On: %U\n:END:\n\n%:description\n\n%c\n\n")
        ("D"
          "EH Debugger"
          entry
-         (file ,(format-time-string "~/org-modes/roam/daily/%Y-%m-%d.org" (current-time) t))
+         (file ,(format-time-string "~/org-modes/roam/journals/%Y-%m-%d.org" (current-time) t))
          "* %:description\n:PROPERTIES:\n:Source: %:link\n:Captured_On: %U\n:END:\n\n%:description\n\nSuggestion:\n%(hero/suggest-debuggers \"%:initial\")\n\n")
        ("E"
          "EH Task"
          entry
-         (file ,(format-time-string "~/org-modes/roam/daily/%Y-%m-%d.org" (current-time) t))
+         (file ,(format-time-string "~/org-modes/roam/journals/%Y-%m-%d.org" (current-time) t))
          "* TODO %(get-cleansed-title \"%:description\") \n\nGit Branch: %(git-branch-by-title (get-cleansed-title \"%:description\") \"%:link\")\nSource: %:link\nCaptured On: %U\n\n")
        ("A"
          "EH API"
          entry
-         (file "~/org-modes/roam/20210513122118-eh_api.org")
+         (file "~/org-modes/roam/pages/20210513122118-eh_api.org")
          "* %(hero/get-api-title \"%c\")\n\n#+BEGIN_SRC shell :async :results output :var jwt_token=jwt_token\n%(hero/get-api-curl \"%c\")\n#+END_SRC")))
 
   (require 'org-download))
@@ -67,10 +67,10 @@
   (setq
     org-download-image-org-width 750
     org-download-delete-image-after-download t
-    org-download-link-format "[[file:./images/%s]]\n"
+    org-download-link-format "[[../assets/%s]]\n"
     org-download-method 'directory)
   (setq-default org-download-heading-lvl nil)
-  (setq-default org-download-image-dir "./images"))
+  (setq-default org-download-image-dir "../assets"))
 
 (after! ob-tmux
   (setq org-babel-default-header-args:tmux
@@ -100,6 +100,7 @@
 (after! org-roam
   (setq deft-directory "~/Dropbox/org-modes/roam")
   (setq org-roam-directory "~/Dropbox/org-modes/roam")
+  (setq org-roam-dailies-directory "journals/")
   (setq org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox-bin")
   (setq org-roam-db-location "~/.config/emacs/org-roam.db")
   (setq org-roam-graph-exclude-matcher '("2020-" "2021-"))
@@ -107,12 +108,12 @@
 
   (setq org-roam-capture-templates
     '(("d" "default" plain "%?" :if-new
-        (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+TITLE: ${title}\n\n* What is ${title}?\n\n* Why is ${title}?\n\n* References")
+        (file+head "pages/%<%Y%m%d%H%M%S>-${slug}.org" "#+TITLE: ${title}\n\n* What is ${title}?\n\n* Why is ${title}?\n\n* References")
         :unnarrowed t)))
 
   (setq org-roam-dailies-capture-templates
-    '(("d" "daily" entry "* %?" :if-new
-        (file+head "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+TODO: TODO IN-PROGRESS | DONE\n\n* Morning Routines\n\n- Check Calendar\n- Watch Code Review\n- Run Squad Reports\n- Read Finance News")))))
+    '(("d" "journals" entry "* %?" :if-new
+        (file+head "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+TODO: TODO DOING | DONE\n\n* Morning Routines\n\n- Check Calendar\n- Watch Code Review\n- Run Squad Reports\n- Read Finance News")))))
 
 (after! org-journal
   (setq org-journal-enable-agenda-integration t)
