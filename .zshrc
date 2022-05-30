@@ -4,12 +4,12 @@ export LC_ALL=en_US.UTF-8
 
 # Install zinit if not installed
 if [ ! -d "${HOME}/.zinit" ]; then
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
+    bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
 fi
 
 ### Added by zinit's installer
-source $HOME/.zinit/bin/zinit.zsh
-autoload -Uz _zinit
+source ~/.local/share/zinit/zinit.git/zinit.zsh
+
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
 # Functions to make configuration less verbose
@@ -41,7 +41,7 @@ zt 0b atload'unalias help; unalias cp'; zinit snippet OMZ::plugins/common-aliase
 
 zinit ice as"completion"; zinit snippet OMZ::plugins/docker/_docker
 zinit ice as"completion"; zinit snippet OMZ::plugins/bundler/_bundler
-zinit ice as"completion"; zinit snippet OMZ::plugins/rust/_rust
+# zinit ice as"completion"; zinit snippet OMZ::plugins/rust/_rust
 zinit ice as"completion"; zinit snippet OMZ::plugins/terraform/_terraform
 
 zt 0b compile'{src/*.zsh,src/strategies/*}' atload'_zsh_autosuggest_start'; zinit light zsh-users/zsh-autosuggestions
@@ -157,3 +157,4 @@ if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
   . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 fi
 # End Nix
+### End of Zinit's installer chunk
