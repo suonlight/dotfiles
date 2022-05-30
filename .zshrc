@@ -3,7 +3,7 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 # Install zinit if not installed
-if [ ! -d "${HOME}/.zinit" ]; then
+if [ ! -d "${HOME}/.local/share/zinit" ]; then
     bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
 fi
 
@@ -141,8 +141,8 @@ if [[ "$TERM_PROGRAM" = "tmux" ]]; then
 fi
 
 # other tools
-source ~/.asdf/installs/fzf/0.27.2/shell/completion.zsh
-source ~/.asdf/installs/fzf/0.27.2/shell/key-bindings.zsh
+source ~/.asdf/installs/fzf/0.30.0/shell/completion.zsh
+source ~/.asdf/installs/fzf/0.30.0/shell/key-bindings.zsh
 
 test -d ~/.asdf/plugins/java/set-java-home.zsh && . ~/.asdf/plugins/java/set-java-home.zsh
 
