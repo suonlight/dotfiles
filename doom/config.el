@@ -107,10 +107,11 @@
 ;; (after! treemacs (doom-themes-treemacs-config))
 
 ;; (setq doom-theme 'doom-dark+)
+(setq doom-theme 'doom-one)
 ;; (setq doom-theme 'nano-dark)
-(setq doom-theme 'doom-solarized-light)
+;; (setq doom-theme 'doom-solarized-light)
 
-(use-package! nano-modeline :init (add-hook! emacs-startup #'nano-modeline-mode))
+; (use-package! nano-modeline :init (add-hook! emacs-startup #'nano-modeline-mode))
 
 (after! company
   (setq company-minimum-prefix-length 2)
