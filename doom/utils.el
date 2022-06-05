@@ -158,7 +158,7 @@ If prefix arg is provided, show current buffer twice."
 
 (defun sl/roam-list-todos ()
   (interactive)
-  (+default/search-project-for-symbol-at-point "\\* TODO"))
+  (+default/search-project-for-symbol-at-point "\\* TODO" org-roam-directory))
 
 (defun sl/copy-image-file-to-clipboard ()
   "Copy current image file to clipboard"
