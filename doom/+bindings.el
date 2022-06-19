@@ -400,7 +400,7 @@
       ;;; <leader> g --- git
       (:prefix-map ("g" . "git")
         :desc "Git revert file"             "R"   #'vc-revert
-        :desc "Copy link to remote"         "y"   #'+vc/browse-at-remote-kill-file-or-region
+        :desc "Copy link to remote"         "y"   #'+vc/browse-at-remote-kill
         :desc "Copy link to homepage"       "Y"   #'+vc/browse-at-remote-kill-homepage
         :desc "Timemachine"                 "t"   #'git-timemachine
         (:when (featurep! :ui vc-gutter)
