@@ -19,9 +19,11 @@
        (call-interactively #',fn))))
 
 (after! embark
-  (define-key embark-buffer-map   (kbd "C-v") (embark-vsplit switch-to-buffer))
-  (define-key embark-file-map     (kbd "C-v") (embark-vsplit projectile-find-file))
   (define-key embark-bookmark-map (kbd "C-v") (embark-vsplit bookmark-jump))
+  (define-key embark-bookmark-map (kbd "C-s") (embark-split bookmark-jump))
 
+  (define-key embark-buffer-map   (kbd "C-v") (embark-vsplit switch-to-buffer))
   (define-key embark-buffer-map   (kbd "C-s") (embark-split switch-to-buffer))
+
+  (define-key embark-file-map     (kbd "C-v") (embark-vsplit projectile-find-file))
   (define-key embark-file-map     (kbd "C-s") (embark-split projectile-find-file)))
