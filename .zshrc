@@ -80,13 +80,10 @@ export EDITOR=nvim
 test -n "$TMUX" && export EDITOR=nvim
 export BUNDLER_EDITOR=nvim
 # alias emacsclient=/usr/local/bin/emacsclient
-alias e='emacs -nw'
-alias ec='emacsclient -c'
-alias ek='emacsclient -e "(kill-emacs)"'
-alias ect='emacsclient -a "" -t -c'
+alias ek="ps -ef | grep Emacs | awk '{ print $2 }' | xargs kill -9"
 alias vimdiff='nvim -d'
 alias vim=nvim
-alias v=vim
+alias v=nvim
 
 export FZF_DEFAULT_OPTS="--height 20% --reverse --border"
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
