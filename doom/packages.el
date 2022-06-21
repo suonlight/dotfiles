@@ -52,7 +52,7 @@
 ;(package! builtin-package :recipe (:branch "develop"))
 (package! evil-snipe :disable t)
 (package! evil-easymotion :disable t)
-(package! evil-goggles :disable t)
+;; (package! evil-goggles :disable t)
 ;; (package! evil-escape :disable t)
 ;; (package! centered-window :disable t) ;; depends by org presentation
 ;; (package! rjsx-mode :disable t)
