@@ -333,6 +333,18 @@ not appropriate in some cases like terminals."
   :commands (read-aloud-this read-aloud-buf read-aloud--string)
   :config (setq read-aloud-engine "say"))
 
+;; Config email
+(setq message-send-mail-function 'smtpmail-send-it
+      starttls-use-gnutls t
+      smtpmail-starttls-credentials
+      '(("smtp.gmail.com" 587 nil nil))
+      smtpmail-auth-credentials
+      (expand-file-name "~/.authinfo.gpg")
+      smtpmail-default-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-service 587
+      smtpmail-debug-info t)
+
 ;; (use-package! grammarly)
 ;; (use-package! flycheck-grammarly
 ;;   :config (setq flycheck-grammarly-check-time 0.8))
