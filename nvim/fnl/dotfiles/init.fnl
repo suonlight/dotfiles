@@ -306,10 +306,10 @@
           parser-config (parser.get_parser_configs)
           configs (require :nvim-treesitter.configs)
           orgmode (require :orgmode)]
-      (set parser-config.org {:install_info {:url "https://github.com/milisims/tree-sitter-org"
-                                             :revision "main"
-                                             :files ["src/parser.c" "src/scanner.cc"]}
-                              :filetype "org"})
+      ; (set parser-config.org {:install_info {:url "https://github.com/milisims/tree-sitter-org"
+      ;                                        :revision "main"
+      ;                                        :files ["src/parser.c" "src/scanner.cc"]}
+      ;                         :filetype "org"})
       (configs.setup {:highlight {:enable true
                                   :disable ["org"]
                                   :additional_vim_regex_highlighting ["org"]}
