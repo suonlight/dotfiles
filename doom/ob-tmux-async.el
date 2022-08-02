@@ -120,6 +120,24 @@
       "-t" (ob-tmux--target ob-session)
       option value)))
 
+;; Customize language
+(defun ob-tmux-get-lang (current-lang)
+  (let* ((info (org-babel-get-src-block-info))
+          (params (nth 2 info))
+          (custom-lang (cdr (assq :lang params))))
+
+    (cond ((string= current-lang "tmux")
+            custom-lang)
+      (t current-lang))))
+
+(add-to-list 'org-src-lang-modes '("tmux" . sh))
+
+(defun org-src---get-lang-mode (orig-fun &rest args)
+  (let* ((lang (ob-tmux-get-lang (car args))))
+    (apply orig-fun (list lang))))
+
+(advice-add 'org-src-get-lang-mode :around #'org-src---get-lang-mode)
+
 (defun org-babel-execute:tmux (body params)
   "Send a block of code via tmux to a terminal using Babel.
 \"default\" session is used when none is specified.
