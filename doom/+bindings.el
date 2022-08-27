@@ -728,6 +728,10 @@
   :inv "C-<f6>" #'projectile-toggle-between-implementation-and-test
   :nv "s-'"     #'+vterm/toggle
   :g  "C-\\"    #'toggle-input-method
+  (:map ruby-mode-map
+    :i  "s-l"    #'eacl-complete-multiline)
+  (:map js-mode-map
+    :i  "s-l"    #'eacl-complete-multiline)
   (:map comint-mode-map
     :i "s-1"   #'+workspace/switch-to-0
     :i "s-2"   #'+workspace/switch-to-1
