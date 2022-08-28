@@ -79,10 +79,11 @@
 
   ; lsp
   :neovim/nvim-lspconfig {}
-  :github/copilot.vim {}
+  ;; :github/copilot.vim {}
 
   ; notes
   :kristijanhusak/orgmode.nvim {}
+  :akinsho/org-bullets.nvim {}
 
   ; completion
   :hrsh7th/nvim-compe {}
@@ -177,7 +178,7 @@
               :empty_open ""
               :symlink ""
               :symlink_open ""}
-     :lsp {:hint "" :info "" :warning "" :error "" }})
+     })
 
 ;; indentLine
 (set nvim.g.indentLine_enabled 0)
@@ -315,7 +316,11 @@
                                   :additional_vim_regex_highlighting ["org"]}
                       :ensure_installed ["org"]})
       (orgmode.setup_ts_grammar)
-      (orgmode.setup {}))))
+      (orgmode.setup {})))
+
+    (let [orgbullets (require :org-bullets)]
+      (orgbullets.setup {:concealcursor true
+                         :symbols {:headlines ["◉" "○" "✸" "✿"]}})))
 
 ;; textobj-entire
 ; (nvim.command "call textobj#user#plugin('entire', {
