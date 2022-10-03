@@ -104,7 +104,7 @@
   (setq org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox-bin")
   (setq org-roam-db-location "~/.config/emacs/org-roam.db")
   (setq org-roam-graph-exclude-matcher '("2020-" "2021-"))
-  (setq org-roam-file-exclude-regexp (-map #'expand-file-name '("~/Dropbox/org-modes/roam/logseq/bak/" "~/Dropbox/org-modes/.attach/")))
+  (setq org-roam-file-exclude-regexp (-map #'expand-file-name '("~/Dropbox/org-modes/roam/logseq/bak/journals" "~/Dropbox/org-modes/roam/logseq/bak/pages" "~/Dropbox/org-modes/.attach/")))
   (setq! +org-roam-open-buffer-on-find-file nil)
 
   (setq org-roam-capture-templates
