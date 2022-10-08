@@ -273,6 +273,35 @@ not appropriate in some cases like terminals."
   (setq plantuml-jar-path "~/org-modes/plantuml.jar")
   (setq plantuml-default-exec-mode 'jar))
 
+(use-package! eacl
+  :commands (eacl-complete-line eacl-complete-multiline)
+  :config
+  (dolist (v '("node_modules"
+                "bower_components"
+                ".sass_cache"
+                ".cache"
+                ".npm"
+                "flow"
+                "flow-typed"
+                ".circleci"
+                ".github"
+                ".idea"
+                ".log"
+                ".translation"
+                "dist"
+                "build"
+                "ios"
+                "android"
+                "__mocks__"))
+    (add-to-list 'grep-find-ignored-directories v))
+
+  (dolist (v '("*.min.js"
+                "*.bundle.js"
+                "*.min.css"
+                "*.json"
+                "*.log"))
+    (add-to-list 'grep-find-ignored-files v)))
+
 (use-package! evil-string-inflection
   :after evil
   :commands evil-operator-string-inflection)
@@ -358,6 +387,9 @@ not appropriate in some cases like terminals."
 ;;   :config
 ;;   (require 'tree-sitter-langs)
 ;;   (global-tree-sitter-mode))
+
+
+
 
 (after! smerge-mode
   (defhydra sl/smerge-hydra

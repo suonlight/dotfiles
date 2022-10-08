@@ -729,9 +729,17 @@
   :nv "s-'"     #'+vterm/toggle
   :g  "C-\\"    #'toggle-input-method
   (:map ruby-mode-map
-    :i  "s-l"    #'eacl-complete-multiline)
+    :i  "s-r l"    #'eacl-complete-line
+    :i  "s-r m"    #'eacl-complete-multiline)
   (:map js-mode-map
-    :i  "s-l"    #'eacl-complete-multiline)
+    :i  "s-r l"    #'eacl-complete-line
+    :i  "s-r m"    #'eacl-complete-multiline)
+  (:map typescript-mode-map
+    :i  "s-r l"    #'eacl-complete-line
+    :i  "s-r m"    #'eacl-complete-multiline)
+  (:map typescript-tsx-mode-map
+    :i  "s-r l"    #'eacl-complete-line
+    :i  "s-r m"    #'eacl-complete-multiline)
   (:map comint-mode-map
     :i "s-1"   #'+workspace/switch-to-0
     :i "s-2"   #'+workspace/switch-to-1
@@ -787,7 +795,7 @@
     "C-j"   #'evil-window-down
     "C-k"   #'evil-window-up)
   (:after org :map org-mode-map
-    :i  "s-l"    #'org-roam-node-insert
+    :i  "s-r"    #'org-roam-node-insert
     :nv "t"      #'org-todo)
   (:map xwidget-webkit-mode-map
     :nv "j"      #'xwidget-webkit-scroll-up ;; main object is scroller
