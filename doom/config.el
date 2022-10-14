@@ -276,6 +276,12 @@ not appropriate in some cases like terminals."
 (use-package! eacl
   :commands (eacl-complete-line eacl-complete-multiline)
   :config
+
+  ;; Force eacl using grep instead of git grep
+  (defun eacl-git-p ()
+    "Return non-nil if current file is in a git repository."
+    nil)
+
   (dolist (v '("node_modules"
                 "bower_components"
                 ".sass_cache"
