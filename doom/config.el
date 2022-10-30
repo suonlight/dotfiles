@@ -294,6 +294,7 @@ not appropriate in some cases like terminals."
                 ".idea"
                 ".log"
                 ".translation"
+                "ContractPdfPreview"
                 "dist"
                 "build"
                 "ios"
@@ -627,24 +628,7 @@ not appropriate in some cases like terminals."
     ;; (setq exwm-systemtray-height 16)
     ;; (exwm-systemtray-enable)
 
-    (sl/exwm-config-custom))
-
-  (setq run-command-recipes
-    (list
-      (list :display "Lauch Firefox" :command-line "firefox")
-      (list :display "Launch App Setting" :command-line "gnome-control-center")
-      (list :display "Start Postgres Server" :command-line "pg_ctl start")))
-
-  (defun run-command ()
-    (interactive)
-    (let ((recipes (mapcar
-                     (lambda (x)
-                       (propertize (plist-get x :display) 'property (plist-get x :command-line)))
-                     run-command-recipes)))
-      (ivy-read "Run command: " recipes
-        :action (lambda (recipe)
-                  (let ((command (get-text-property 0 'property recipe)))
-                    (start-process-shell-command command nil command)))))))
+    (sl/exwm-config-custom)))
 
 (setq default-input-method "vietnamese-telex")
 
