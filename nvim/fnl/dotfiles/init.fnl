@@ -78,6 +78,8 @@
   :janko-m/vim-test {}
 
   ; lsp
+  :williamboman/mason.nvim {}
+  :williamboman/mason-lspconfig.nvim {}
   :neovim/nvim-lspconfig {}
   ;; :github/copilot.vim {}
 
@@ -280,17 +282,23 @@
       (noremap-buffer bufnr :n "[d" "<cmd>lua vim.lsp.diagnostic.goto_prev()<cR>" {:noremap true :silent true})
       (noremap-buffer bufnr :n "]d" "<cmd>lua vim.lsp.diagnostic.goto_next()<cR>" {:noremap true :silent true}))
 
-; (lsp.diagnosticls.setup {:on_attach (fn [client bufnr]
-;                                       ; (local client.resolved_capabilities.document_formatting false)
-;                                       (on-attach client bufnr))
-;                          :filetypes [:typescript :javascript]
-;                          :init_options {:filetypes file-types
-;                                         :linters linters
-;                                         :formatters formatters
-;                                         :formatFiletypes format-file-types}})
+    ; (lsp.diagnosticls.setup {:on_attach (fn [client bufnr]
+    ;                                       ; (local client.resolved_capabilities.document_formatting false)
+    ;                                       (on-attach client bufnr))
+    ;                          :filetypes [:typescript :javascript]
+    ;                          :init_options {:filetypes file-types
+    ;                                         :linters linters
+    ;                                         :formatters formatters
+    ;                                         :formatFiletypes format-file-types}})
 
-    (lsp.tsserver.setup {:on_attach on-attach})
-    (lsp.solargraph.setup {:on_attach on-attach})
+
+    ;; mason
+    (let [mason (require :mason)
+          mason-lspconfig (require :mason-lspconfig)]
+      (mason.setup {})
+      (mason-lspconfig.setup {:ensure_installed ["solargraph" "tsserver"]})
+      (lsp.solargraph.setup {:on_attach on-attach})
+      (lsp.tsserver.setup {:on_attach on-attach}))
 
     ;; neogit
     (let [neogit (require :neogit)]
