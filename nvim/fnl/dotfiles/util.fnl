@@ -59,9 +59,9 @@
                                         (strings.split "#") (. 2))]
                       (sh (.. "gh pr view " pr-number " --web"))))
         cmd "gh pr list --search sort:updated-desc --json author,title,number,isDraft --jq '.[] | [\"#\" + (.number|tostring), .author.login, .title + \" \" + (if .isDraft then \"[draft]\" else \"[open]\" end)] | join(\" - \")'"]
-    ((coroutine.wrap (fn []
-                       (let [choice (fzf-core.fzf {:border false} cmd)]
-                         (when choice (on-select choice))))))))
+    (coroutine.wrap (fn []
+                      (let [choice (fzf-core.fzf cmd {:border false})]
+                        (when choice (on-select choice)))))))
 
 (defn js-insert-i18n []
   (let [cmd (.. "jq -r '.messages | [leaf_paths as $path | { \"key\": $path | join(\".\"), \"value\": getpath($path)}] | map([(.key + \": \" + .value)]) | .[] | .[]' " (expand "src/packages/eh-locale/lang/en-AU.json"))
@@ -76,7 +76,7 @@
                             text (.. "Intl.formatMessage({ id: '" i18n-key "' })")]
                         (nvim.buf_set_text (nvim.win_get_buf 0) row col row col [text]))))]
     ((coroutine.wrap (fn []
-                       (let [choice (fzf-core.fzf {:border false} cmd)]
+                       (let [choice (fzf-core.fzf cmd {:border false})]
                          (when choice (on-select choice))))))))
 
 (defn ci-open []
