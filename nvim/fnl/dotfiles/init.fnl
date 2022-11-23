@@ -24,7 +24,7 @@
   :tpope/vim-commentary {}
   :tpope/vim-endwise {}
   :pechorin/any-jump.vim {}
-  :nvim-treesitter/nvim-treesitter {:do ":TSUpdate"}  ; We recommend updating the parsers on update
+  :nvim-treesitter/nvim-treesitter {:run ":TSUpdate"}  ; We recommend updating the parsers on update
 
   ; startup time
   :lewis6991/impatient.nvim {}
@@ -87,6 +87,7 @@
   ; notes
   :kristijanhusak/orgmode.nvim {}
   :akinsho/org-bullets.nvim {}
+  :michaelb/sniprun {:run "bash install.sh"}
 
   ; completion
   :hrsh7th/nvim-compe {}
