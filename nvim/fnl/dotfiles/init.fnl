@@ -165,26 +165,6 @@
 ;; (set nvim.g.ale_set_quickfix 1)
 (set nvim.g.ale_fix_on_save 1)
 
-(set nvim.g.nvim_tree_icons
-     {:default ""
-     :symlink ""
-     :git {:unstaged "✗"
-           :staged "✓"
-           :unmerged ""
-           :renamed "➜"
-           :untracked "★"
-           :deleted ""
-           :ignored "◌" }
-     :folder {:arrow_open ""
-              :arrow_closed ""
-              :default ""
-              :open ""
-              :empty ""
-              :empty_open ""
-              :symlink ""
-              :symlink_open ""}
-     })
-
 ;; indentLine
 (set nvim.g.indentLine_enabled 0)
 (set nvim.g.indentLine_concealcursor "inc")
@@ -199,6 +179,27 @@
     ;; hop
     (let [hop (require :hop)]
       (hop.setup {:keys "etovxqpdygfblzhckisuran"}))
+
+    ;; nvim-tree
+    (let [nvim-tree (require :nvim-tree)
+          glyphs {:default ""
+                  :symlink ""
+                  :git {:unstaged "✗"
+                        :staged "✓"
+                        :unmerged ""
+                        :renamed "➜"
+                        :untracked "★"
+                        :deleted ""
+                        :ignored "◌" }
+                  :folder {:arrow_open ""
+                           :arrow_closed ""
+                           :default ""
+                           :open ""
+                           :empty ""
+                           :empty_open ""
+                           :symlink ""
+                           :symlink_open ""}}]
+      (nvim-tree.setup {:renderer {:icons {:glyphs glyphs}}}))
 
     ;; nvim-web-devicons
     (let [devicons (require :nvim-web-devicons)]
