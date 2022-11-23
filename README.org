@@ -28,6 +28,7 @@ ln -s $WORKSPACE/dotfiles/nvim ~/.config/nvim
 ln -s $WORKSPACE/dotfiles/alacritty.yml ~/.config/alacritty/alacritty.yml
 ln -s $WORKSPACE/dotfiles/doom ~/.config/doom
 ln -s $WORKSPACE/dotfiles/karabiner ~/.config/karabiner
+ln -s $WORKSPACE/dotfiles/tridactyl ~/.config/tridactyl
 
 mkdir -p ~/.config/bat
 ln -s $WORKSPACE/dotfiles/bat.conf ~/.config/bat/config

@@ -92,10 +92,10 @@
 (after! org-pomodoro
   ;; (setq org-pomodoro-long-break-sound (concat doom-private-dir "/assets/bell.wav"))
   ;; (setq org-pomodoro-ticking-sound (concat doom-private-dir "/assets/bell.wav"))
-  (setq org-pomodoro-start-sound (concat doom-private-dir "/assets/bell.wav"))
-  (setq org-pomodoro-finished-sound (concat doom-private-dir "/assets/bell.wav"))
-  (setq org-pomodoro-overtime-sound  (concat doom-private-dir "/assets/bell.wav"))
-  (setq org-pomodoro-short-break-sound (concat doom-private-dir "/assets/bell.wav")))
+  (setq org-pomodoro-start-sound (f-join doom-private-dir "/assets/bell.wav"))
+  (setq org-pomodoro-finished-sound (f-join doom-private-dir "/assets/bell.wav"))
+  (setq org-pomodoro-overtime-sound  (f-join doom-private-dir "/assets/bell.wav"))
+  (setq org-pomodoro-short-break-sound (f-join doom-private-dir "/assets/bell.wav")))
 
 (after! org-roam
   (setq deft-directory "~/Dropbox/org-modes/roam")
