@@ -60,6 +60,7 @@
   ; :yamatsum/nvim-nonicons {}
   ; :itchyny/lightline.vim {}
   :glepnir/galaxyline.nvim {:branch :main}
+  :andymass/vim-matchup {}
 
   ; lisp
   :guns/vim-sexp {:opt true}
@@ -132,7 +133,7 @@
 (set nvim.o.number false)
 (set nvim.o.relativenumber false)
 (set nvim.o.encoding :UTF-8)
-(set nvim.o.hlsearch false) ; disable search result highlighting
+(set nvim.o.hlsearch true) ; enable search result highlighting
 (set nvim.o.ignorecase true)
 (set nvim.o.smartcase true)
 (set nvim.o.wrap false) ; nowrap
@@ -312,16 +313,14 @@
 
     ;; org mode
     (let [parser (require :nvim-treesitter.parsers)
-          parser-config (parser.get_parser_configs)
           configs (require :nvim-treesitter.configs)
           orgmode (require :orgmode)]
-      ; (set parser-config.org {:install_info {:url "https://github.com/milisims/tree-sitter-org"
-      ;                                        :revision "main"
-      ;                                        :files ["src/parser.c" "src/scanner.cc"]}
-      ;                         :filetype "org"})
+
       (configs.setup {:highlight {:enable true
                                   :disable ["org"]
                                   :additional_vim_regex_highlighting ["org"]}
+                      :matchup {:enable true
+                                :include_match_words true}
                       :ensure_installed ["org"]})
       (orgmode.setup_ts_grammar)
       (orgmode.setup {})))
@@ -408,6 +407,7 @@
 (fn->viml :dotfiles.util :gh-list-pull-requests :GhListPullRequests)
 (fn->viml :dotfiles.util :ci-open :CiOpen)
 (fn->viml :dotfiles.util :js-insert-i18n :JsInsertI18n)
+(fn->viml :dotfiles.util :org-roam-dailies-find-today :OrgRoamDailiesFindToday)
 (noremap :n :gog "<cmd>call GhOpenPullRequest()<CR>" {:silent true})
 (noremap :n :goc "<cmd>call CiOpen()<CR>" {:silent true})
 
@@ -468,6 +468,10 @@
    :t {:name "+toggle"
        :l ["<cmd>set nu! rnu!<CR>" "Toggle Line Number"]
        :i ["<cmd>IndentLinesToggle<CR>" "Toggle indent line"]}
+   :n {:name "+notes"
+       :r {:name "+roam"
+           :d {:name "+date"
+               :t ["<cmd>call OrgRoamDailiesFindToday()<CR>" "org-roam-dailies-find-today"]}}}
    :h {:name "+help"
        :? ["<cmd>FzfLua help_tags<CR>" "Help tags"]
        :e ["<cmd>messages<CR>" "View messages"]

@@ -88,3 +88,6 @@
         ci-url (.. "https://app.circleci.com/pipelines/github/" org-repo "?branch=" branch)]
     (sh (.. "open \"" ci-url "\""))))
 
+(defn org-roam-dailies-find-today []
+  (let [file (.. "~/org-modes/roam/journals/" (os.date "%Y-%m-%d.org"))]
+    (nvim.ex.edit file)))
