@@ -61,6 +61,7 @@
   ; :itchyny/lightline.vim {}
   :glepnir/galaxyline.nvim {:branch :main}
   :andymass/vim-matchup {}
+  :rcarriga/nvim-notify {}
 
   ; lisp
   :guns/vim-sexp {:opt true}
@@ -315,6 +316,7 @@
     ;; org mode
     (let [parser (require :nvim-treesitter.parsers)
           configs (require :nvim-treesitter.configs)
+          sniprun (require :sniprun)
           orgmode (require :orgmode)]
 
       (configs.setup {:highlight {:enable true
@@ -323,6 +325,8 @@
                       :matchup {:enable true
                                 :include_match_words true}
                       :ensure_installed ["org"]})
+      (sniprun.setup {:display ["Classic" "NvimNotify"]
+                      :display_options {:notification_timeout 10}})
       (orgmode.setup_ts_grammar)
       (orgmode.setup {})))
 
@@ -529,6 +533,11 @@
 (augroup
   :FileJavascript
   (autocmd :FileType :javascript "nnoremap <LocalLeader>il :call JsInsertI18n()<CR>"))
+
+(augroup
+  :FileOrgMode
+  (autocmd :FileType :org "nmap <buffer> <C-c><C-c> :SnipRun<CR>")
+  (autocmd :FileType :org "nmap <buffer> <LocalLeader>, :SnipRun<CR>"))
 
 (augroup
   :Prettier
