@@ -414,6 +414,7 @@
 (fn->viml :dotfiles.util :ci-open :CiOpen)
 (fn->viml :dotfiles.util :js-insert-i18n :JsInsertI18n)
 (fn->viml :dotfiles.util :org-roam-dailies-find-today :OrgRoamDailiesFindToday)
+(fn->viml :dotfiles.util :org-roam-find-file :OrgRoamFindFile)
 (noremap :n :gog "<cmd>call GhOpenPullRequest()<CR>" {:silent true})
 (noremap :n :goc "<cmd>call CiOpen()<CR>" {:silent true})
 
@@ -476,6 +477,7 @@
        :i ["<cmd>IndentLinesToggle<CR>" "Toggle indent line"]}
    :n {:name "+notes"
        :r {:name "+roam"
+           :f ["<cmd>call OrgRoamFindFile()<CR>" "org-roam-find-file"]
            :d {:name "+date"
                :t ["<cmd>call OrgRoamDailiesFindToday()<CR>" "org-roam-dailies-find-today"]}}}
    :h {:name "+help"

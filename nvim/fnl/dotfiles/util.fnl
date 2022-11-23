@@ -88,6 +88,13 @@
         ci-url (.. "https://app.circleci.com/pipelines/github/" org-repo "?branch=" branch)]
     (sh (.. "open \"" ci-url "\""))))
 
+(def org-roam-directory "~/org-modes/roam")
+
 (defn org-roam-dailies-find-today []
-  (let [file (.. "~/org-modes/roam/journals/" (os.date "%Y-%m-%d.org"))]
+  (let [file (.. org-roam-directory "/journals/" (os.date "%Y-%m-%d.org"))]
     (nvim.ex.edit file)))
+
+(defn org-roam-find-file []
+  (let [pages (.. org-roam-directory "/pages")
+        fzf-lua (require :fzf-lua)]
+    (fzf-lua.files {:cmd "fd -e org" :cwd pages})))
