@@ -70,7 +70,6 @@
   :dense-analysis/ale {}
 
   ; javascript
-  :prettier/vim-prettier {}
   :pangloss/vim-javascript {}
   :maxmellon/vim-jsx-pretty {}
   :alvan/vim-closetag {}
@@ -83,12 +82,14 @@
   :williamboman/mason.nvim {}
   :williamboman/mason-lspconfig.nvim {}
   :neovim/nvim-lspconfig {}
+  :mhartington/formatter.nvim {}
   ;; :github/copilot.vim {}
 
   ; notes
   :kristijanhusak/orgmode.nvim {}
   :akinsho/org-bullets.nvim {}
   :michaelb/sniprun {:run "bash install.sh"}
+  :kkharji/sqlite.lua {}
 
   ; completion
   :hrsh7th/nvim-compe {}
@@ -149,8 +150,7 @@
    :clojure [:clj-kondo :joker]})
 
 (set nvim.g.ale_fixers
-  {:javascript ["prettier" "eslint"]
-   :ruby [:rubocop]})
+  {:ruby [:rubocop]})
 
 (set nvim.g.ale_linters_explicit 1)
 (set nvim.g.ale_completion_enabled 1)
@@ -245,28 +245,6 @@
                   :conjure true
                   :vsnip false}})) ; TODO handle vsnip with TAB
 
-    ;; lsp javascript
-    (local file-types {:typescript "eslint" :javascript "eslint"})
-
-    (local linters {:eslint {:sourceName :eslint
-                             :command :eslint_d
-                             :rootPatterns [".eslintrc.js" "package.json"]
-                             :debounce 100
-                             :args ["--stdin" "--stdin-filename" "%filepath" "--format" "json"]
-                             :parseJson {:errorsRoot "[0].messages"
-                                         :line :line
-                                         :column :column
-                                         :endLine :endLine
-                                         :endColumn :endColumn
-                                         :message "${message} [${ruleId}]"
-                                         :security "severity"}
-                             :securities {[2] "error"
-                                          [1] "warning"}}})
-
-    (local formatters {:prettier {:command :prettier :args ["--stdin-filepath" "%filepath"]}})
-
-    (local format-file-types {:typescript "prettier" :javascript "prettier"})
-
     (defn on-attach [client bufnr]
       ; (_: "command! LspDef lua vim.lsp.buf.definition()")
       ; (_: "command! LspHover lua vim.lsp.buf.hover()")
@@ -286,16 +264,6 @@
       (noremap-buffer bufnr :n "[d" "<cmd>lua vim.lsp.diagnostic.goto_prev()<cR>" {:noremap true :silent true})
       (noremap-buffer bufnr :n "]d" "<cmd>lua vim.lsp.diagnostic.goto_next()<cR>" {:noremap true :silent true}))
 
-    ; (lsp.diagnosticls.setup {:on_attach (fn [client bufnr]
-    ;                                       ; (local client.resolved_capabilities.document_formatting false)
-    ;                                       (on-attach client bufnr))
-    ;                          :filetypes [:typescript :javascript]
-    ;                          :init_options {:filetypes file-types
-    ;                                         :linters linters
-    ;                                         :formatters formatters
-    ;                                         :formatFiletypes format-file-types}})
-
-
     ;; mason
     (let [mason (require :mason)
           mason-lspconfig (require :mason-lspconfig)]
@@ -303,6 +271,16 @@
       (mason-lspconfig.setup {:ensure_installed ["solargraph" "tsserver"]})
       (lsp.solargraph.setup {:on_attach on-attach})
       (lsp.tsserver.setup {:on_attach on-attach}))
+
+    ;; formatter
+    (let [formatter (require :formatter)
+          c (require :formatter.filetypes.typescript)]
+      (formatter.setup {:logging true
+                        :log_level vim.log.levels.WARN
+                        :filetype {:typescriptreact  c.prettier
+                                   :typescript       c.prettier
+                                   :javascriptreact  c.prettier
+                                   :javascript       c.prettier}}))
 
     ;; neogit
     (let [neogit (require :neogit)]
@@ -543,11 +521,8 @@
   (autocmd :FileType :org "nmap <buffer> <LocalLeader>, :SnipRun<CR>"))
 
 (augroup
-  :Prettier
-  (autocmd
-    :BufWritePre
-    "*.js,*.jsx,*.mjs,*.ts,*.tsx,*.less,*.json,*.graphql,*.md,*.vue"
-    "Prettier"))
+  :Formatter
+  (autocmd :BufWritePost "*.js,*.jsx,*.ts,*.tsx" "FormatWrite"))
 
 ;; not work
 (inoremap :<C-Space> "compe#complete()" {:silent true :expr true})
