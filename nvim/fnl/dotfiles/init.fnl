@@ -66,9 +66,6 @@
   ; lisp
   :guns/vim-sexp {:opt true}
 
-  ; linter
-  :dense-analysis/ale {}
-
   ; javascript
   :pangloss/vim-javascript {}
   :maxmellon/vim-jsx-pretty {}
@@ -83,6 +80,7 @@
   :williamboman/mason-lspconfig.nvim {}
   :neovim/nvim-lspconfig {}
   :mhartington/formatter.nvim {}
+  :mfussenegger/nvim-lint {}
   ;; :github/copilot.vim {}
 
   ; notes
@@ -142,28 +140,6 @@
 (set nvim.o.wrap false) ; nowrap
 (set nvim.o.ttyfast true)
 (set nvim.o.lazyredraw true)
-
-;; ale
-(set nvim.g.ale_linters
-  {:javascript [:eslint]
-   :ruby [:rubocop]
-   :clojure [:clj-kondo :joker]})
-
-(set nvim.g.ale_fixers
-  {:ruby [:rubocop]})
-
-(set nvim.g.ale_linters_explicit 1)
-(set nvim.g.ale_completion_enabled 1)
-(set nvim.g.ale_lint_on_save 1)
-(set nvim.g.ale_lint_on_text_changed "never")
-(set nvim.g.ale_echo_cursor 1)
-(set nvim.g.ale_echo_msg_error_str "E")
-(set nvim.g.ale_echo_msg_warning_str "W")
-(set nvim.g.ale_echo_msg_format "[%linter%] %s [%severity%]")
-(set nvim.g.ale_set_highlights 0)
-(set nvim.g.ale_set_loclist 0)
-;; (set nvim.g.ale_set_quickfix 1)
-(set nvim.g.ale_fix_on_save 1)
 
 ;; indentLine
 (set nvim.g.indentLine_enabled 0)
@@ -260,9 +236,7 @@
       ; (noremap-buffer bufnr :n :<space>rn "<cmd>lua vim.lsp.buf.rename()<cR>" {:noremap true :silent true})
       ; (noremap-buffer bufnr :n :<space>e "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cR>" {:noremap true :silent true})
       ; (noremap-buffer bufnr :n :<space>q "<cmd>lua vim.lsp.diagnostic.set_loclist()<cR>" {:noremap true :silent true})
-      (noremap-buffer bufnr :n :gr "<cmd>lua vim.lsp.buf.references()<cR>" {:noremap true :silent true})
-      (noremap-buffer bufnr :n "[d" "<cmd>lua vim.lsp.diagnostic.goto_prev()<cR>" {:noremap true :silent true})
-      (noremap-buffer bufnr :n "]d" "<cmd>lua vim.lsp.diagnostic.goto_next()<cR>" {:noremap true :silent true}))
+      (noremap-buffer bufnr :n :gr "<cmd>lua vim.lsp.buf.references()<cR>" {:noremap true :silent true}))
 
     ;; mason
     (let [mason (require :mason)
@@ -274,13 +248,18 @@
 
     ;; formatter
     (let [formatter (require :formatter)
-          c (require :formatter.filetypes.typescript)]
+          filetypes (require :formatter.filetypes)
+          prettier  filetypes.typescript.prettier
+          rubocop   filetypes.ruby.rubocop]
       (formatter.setup {:logging true
                         :log_level vim.log.levels.WARN
-                        :filetype {:typescriptreact  c.prettier
-                                   :typescript       c.prettier
-                                   :javascriptreact  c.prettier
-                                   :javascript       c.prettier}}))
+                        :filetype {:ruby             rubocop
+                                   :typescriptreact  prettier
+                                   :typescript       prettier
+                                   :javascriptreact  prettier
+                                   :javascript       prettier}}))
+
+    (vim.diagnostic.config {:virtual_text false})
 
     ;; neogit
     (let [neogit (require :neogit)]
@@ -444,6 +423,8 @@
    :s {:name "+search"
        :p ["<cmd>FzfLua live_grep<CR>" "Search in project"]
        :s ["<cmd>FzfLua grep_curbuf<CR>" "Search in buffer"]}
+   :c {:name "+code"
+       :x ["<cmd>lua vim.diagnostic.setqflist()<CR>" "Error List"]}
    :j {:name "+jump"
        :j ["<cmd>HopChar1<CR>" "Jump to char"]
        :w ["<cmd>HopWord<CR>" "Jump to word"]
@@ -490,10 +471,9 @@
 (nmap :s "<cmd>HopChar1<CR>")
 (nmap :gy "yygccp")
 
-;; ALE
-(noremap :n "]e" "<cmd>ALENext<CR>")
-(noremap :n "[e" "<cmd>ALEPrevious<CR>")
-(noremap :n :<Leader>ef "<cmd>ALEFix<CR>")
+;; Diagnostic
+(noremap :n "]e" "<cmd>lua vim.diagnostic.goto_next()<CR>")
+(noremap :n "[e" "<cmd>lua vim.diagnostic.goto_prev()<CR>")
 
 (augroup
   :FileFugitive
@@ -522,7 +502,11 @@
 
 (augroup
   :Formatter
-  (autocmd :BufWritePost "*.js,*.jsx,*.ts,*.tsx" "FormatWrite"))
+  (autocmd :BufWritePost "*.js,*.jsx,*.ts,*.tsx,*.rb" "FormatWrite"))
+
+(augroup
+  :Linter
+  (autocmd :BufWritePost "*.js,*.jsx,*.ts,*.tsx,*.rb" "lua require('lint').try_lint()"))
 
 ;; not work
 (inoremap :<C-Space> "compe#complete()" {:silent true :expr true})
