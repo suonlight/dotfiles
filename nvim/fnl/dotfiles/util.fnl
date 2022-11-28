@@ -90,11 +90,26 @@
 
 (def org-roam-directory "~/org-modes/roam")
 
+(defn string-trim-quote [s]
+  (string.gsub s "\"(.+)\"" "%1"))
+
 (defn org-roam-dailies-find-today []
   (let [file (.. org-roam-directory "/journals/" (os.date "%Y-%m-%d.org"))]
     (nvim.ex.edit file)))
 
 (defn org-roam-find-file []
-  (let [pages (.. org-roam-directory "/pages")
-        fzf-lua (require :fzf-lua)]
-    (fzf-lua.files {:cmd "fd -e org" :cwd pages})))
+  (let [sqlite (require :sqlite)
+      db (sqlite {:uri "~/.config/emacs/org-roam.db"
+                  :nodes {:objectives "luatable"
+                          :id true
+                          :title {:type "string"}
+                          :file {:type "string"}}
+                  :opts {}})
+      nodes (a.map (fn [e] (string-trim-quote (. e :title))) (db.nodes:get))
+      get-node (fn [title] (a.first (db.nodes:get {:where {:title (string.format "%q" title)}})))
+      on-select (fn [choice _]
+                  (let [title (. choice 1)
+                        node (get-node title)
+                        file (string-trim-quote (. node :file))]
+                    (nvim.ex.edit file)))]
+  (fzf-core.fzf_exec nodes {:prompt "Node: " :actions {"default" on-select}})))
