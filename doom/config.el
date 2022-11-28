@@ -151,6 +151,25 @@
 (after! sh
   (add-hook! sh-mode #'lsp-mode))
 
+;; (defun register-lsp-grammarly ()
+;;   (require 'lsp-grammarly)
+;;   (lsp))
+
+;; (setq grammarly-username "minh.nh1989@gmail.com")
+;; (add-hook! writeroom-mode #'register-lsp-grammarly)
+
+;; (add-hook! org-mode #'register-lsp-grammarly)
+
+(setq lsp-ltex-version "15.2.0")  ; make sure you have set this, see below
+(setq lsp-ltex-user-rules-path (expand-file-name "~/org-modes/lsp-ltex"))
+
+(defun register-lsp-ltex ()
+  (require 'lsp-ltex)
+  (lsp))
+
+(add-hook! writeroom-mode #'register-lsp-ltex)
+;; (add-hook! org-mode #'register-lsp-ltex)
+
 (after! flycheck
   (setq flycheck-highlighting-mode 'symbols)
   (setq flycheck-indication-mode nil)
