@@ -228,7 +228,8 @@
       (noremap-buffer bufnr :n :gd "<cmd>lua vim.lsp.buf.definition()<CR>" {:noremap true :silent true})
       (noremap-buffer bufnr :n :K "<cmd>lua vim.lsp.buf.hover()<CR>" {:noremap true :silent true})
       ;; (noremap-buffer bufnr :n :gi "<cmd>lua vim.lsp.buf.implementation()<cR>" {:noremap true :silent true})
-      (noremap-buffer bufnr :n :<C-k> "<cmd>lua vim.lsp.buf.signature_help()<cR>" {:noremap true :silent true})
+      (noremap-buffer bufnr :n :<C-k> "<cmd>lua vim.lsp.buf.signature_help()<CR>" {:noremap true :silent true})
+      (noremap-buffer bufnr :n :<space>ca "<cmd>lua vim.lsp.buf.code_action()<CR>" {:noremap true :silent true})
       ; (noremap-buffer bufnr :n :<space>wa "<cmd>lua vim.lsp.buf.add_workspace_folder()<cR>" {:noremap true :silent true})
       ; (noremap-buffer bufnr :n :<space>wr "<cmd>lua vim.lsp.buf.remove_workspace_folder()<cR>" {:noremap true :silent true})
       ; (noremap-buffer bufnr :n :<space>wl "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cR>" {:noremap true :silent true})
@@ -243,6 +244,8 @@
           mason-lspconfig (require :mason-lspconfig)]
       (mason.setup {})
       (mason-lspconfig.setup {:ensure_installed ["solargraph" "tsserver"]})
+      (lsp.grammarly.setup {:on_attach on-attach :filetypes ["org" "markdown"]})
+      (lsp.ltex.setup {:on_attach on-attach :filetypes ["org" "markdown"]})
       (lsp.solargraph.setup {:on_attach on-attach})
       (lsp.tsserver.setup {:on_attach on-attach}))
 
