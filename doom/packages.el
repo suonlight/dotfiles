@@ -108,6 +108,7 @@
 (package! indent-guide)
 (package! evil-matchit)
 (package! google-translate)
+(package! copy-as-format)
 
 (package! protobuf-mode)
 (package! evil-string-inflection)

@@ -714,6 +714,12 @@
   (:prefix-map ("x" . "text")
     "gt" #'google-translate-at-point
     "s"  #'read-aloud-this
+    (:prefix-map ("f" . "format")
+      "g"       #'copy-as-format-github
+      "h"       #'copy-as-format-html
+      "m"       #'copy-as-format-markdown
+      "o"       #'copy-as-format-org-mode
+      "s"       #'copy-as-format-slack)
     (:prefix-map ("i" . "string-inflection")
       "-"       #'string-inflection-kebab-case
       "C"       #'string-inflection-camelcase
