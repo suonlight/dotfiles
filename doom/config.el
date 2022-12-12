@@ -157,9 +157,8 @@
   (lsp))
 
 (setq grammarly-username "minh.nh1989@gmail.com")
-(add-hook! writeroom-mode #'register-lsp-grammarly)
-
 (add-hook! org-mode #'register-lsp-grammarly)
+(add-hook! markdown-mode #'register-lsp-grammarly)
 
 ;; enable lsp-ltex
 (setq lsp-ltex-version "15.2.0")  ; make sure you have set this, see below
@@ -169,8 +168,8 @@
   (require 'lsp-ltex)
   (lsp))
 
-(add-hook! writeroom-mode #'register-lsp-ltex)
-;; (add-hook! org-mode #'register-lsp-ltex)
+(add-hook! org-mode #'register-lsp-ltex)
+(add-hook! markdown-mode #'register-lsp-ltex)
 
 (after! flycheck
   (setq flycheck-highlighting-mode 'symbols)
