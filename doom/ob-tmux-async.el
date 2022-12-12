@@ -18,7 +18,7 @@
   (let* ((delimiters (ob-tmux-get-delimiters "ruby" jid))
           (start-delimiter (car delimiters))
           (finish-delimiter (car (cdr delimiters))))
-    (format "puts \'%s\'\n %s\n\nputs \'%s\'" start-delimiter body finish-delimiter)))
+    (format "puts \'%s\'; 1\n %s\n\nputs \'%s\'; 1" start-delimiter body finish-delimiter)))
 
 (defun ob-tmux-parse-output:ruby (raw-output jid body)
   (let* ((delimiters (ob-tmux-get-delimiters "ruby" jid))
