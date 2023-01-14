@@ -20,7 +20,7 @@
        ;;layout            ; auie,ctsrnm is the superior home row
 
        :completion
-       (company +tng)           ; the ultimate code completion backend
+       ;; (company +tng)           ; the ultimate code completion backend
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
        ;; (ivy +icons +prescient +childframe)
@@ -98,7 +98,7 @@
        (lookup           ; helps you navigate your code and documentation
         +dictionary
         +docsets)        ; ...or in Dash docsets locally
-       lsp
+       ;; lsp
        (magit +forge)    ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
@@ -202,7 +202,8 @@
        ;;twitter           ; twitter client https://twitter.com/vnought
 
        :suonlight
-       lsp-mode
+       ;; lsp-mode
+       lsp-bridge
        notes
 
        :config
