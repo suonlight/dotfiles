@@ -87,8 +87,6 @@
 ;; they are implemented.
 
 (load! "debugger")
-(load! "utils")
-(load! "embark")
 
 (when (file-exists-p (concat doom-private-dir "private"))
   (load! "private/+bindings")

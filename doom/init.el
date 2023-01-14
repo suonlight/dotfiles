@@ -203,6 +203,7 @@
 
        :suonlight
        bindings
+       utils
        ;; lsp-mode
        lsp-bridge
        notes
