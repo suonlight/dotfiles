@@ -115,8 +115,6 @@
 (package! read-aloud)
 (package! websocket)
 (package! eacl :recipe (:host github :repo "redguardtoo/eacl" :files ("*.el" "out")))
-(package! lsp-grammarly)
-(package! lsp-ltex)
 ;; (package! nano-theme :recipe (:host github :repo "rougier/nano-theme"))
 ;; (package! nano-modeline :recipe (:host github :repo "rougier/nano-modeline"))
 

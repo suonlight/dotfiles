@@ -202,6 +202,7 @@
        ;;twitter           ; twitter client https://twitter.com/vnought
 
        :suonlight
+       lsp-mode
        notes
 
        :config

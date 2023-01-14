@@ -858,9 +858,6 @@
     "n" #'org-tree-slide-move-next-tree
     "c" #'org-tree-slide-content
     "q" #'org-tree-slide-mode)
-  (:map lsp-mode-map
-    "lfb" #'lsp-format-buffer
-    "lfr" #'lsp-format-region)
   (:map ruby-mode-map
     "tv"  nil
     "ts"  nil
