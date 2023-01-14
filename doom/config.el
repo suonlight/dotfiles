@@ -90,7 +90,6 @@
 (load! "debugger")
 (load! "utils")
 (load! "embark")
-(load! "org-mode")
 
 (when (file-exists-p (concat doom-private-dir "private"))
   (load! "private/+bindings")

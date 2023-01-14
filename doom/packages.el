@@ -95,8 +95,6 @@
 (package! quickrun :disable t)
 ;; (package! eros :disable t)
 
-;; org
-(package! org-re-reveal :disable t)
 ;; (package! orgit :disable t)
 
 (package! doom-snippets :ignore t)
@@ -113,12 +111,9 @@
 (package! protobuf-mode)
 (package! evil-string-inflection)
 
-(package! ob-tmux)
-(package! ob-typescript)
 (package! multi-vterm)
 (package! read-aloud)
 (package! websocket)
-(package! org-roam-ui :recipe (:host github :repo "org-roam/org-roam-ui" :files ("*.el" "out")))
 (package! eacl :recipe (:host github :repo "redguardtoo/eacl" :files ("*.el" "out")))
 (package! lsp-grammarly)
 (package! lsp-ltex)

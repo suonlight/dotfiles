@@ -201,6 +201,9 @@
        ;;(rss +org)        ; emacs as an RSS reader
        ;;twitter           ; twitter client https://twitter.com/vnought
 
+       :suonlight
+       notes
+
        :config
        ;;literate
        ;; (default +smartparens))
