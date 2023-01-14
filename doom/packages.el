@@ -118,8 +118,6 @@
 ;; (package! nano-theme :recipe (:host github :repo "rougier/nano-theme"))
 ;; (package! nano-modeline :recipe (:host github :repo "rougier/nano-modeline"))
 
-(when IS-LINUX (package! exwm))
-
 ;; use in case
 ;; (package! ob-mermaid)
 ;; (package! anki-editor)

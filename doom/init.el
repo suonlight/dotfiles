@@ -207,6 +207,7 @@
        ;; lsp-mode
        lsp-bridge
        notes
+       ;; exwm
 
        :config
        ;;literate
