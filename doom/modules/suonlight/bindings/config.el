@@ -1,4 +1,4 @@
-;;; +binding.el -*- lexical-binding: t; -*-
+;;; -*- lexical-binding: t; -*-
 
 (when (modulep! :editor evil +everywhere)
   ;; NOTE SPC u replaces C-u as the universal argument.
@@ -12,20 +12,20 @@
   (define-key! evil-insert-state-map "C-a" #'beginning-of-line)
   (define-key! evil-insert-state-map "C-e" #'end-of-line)
 
-  (define-key! :keymaps +default-minibuffer-maps
-    [escape] #'abort-recursive-edit
-    "C-a"    #'move-beginning-of-line
-    "C-r"    #'evil-paste-from-register
-    "C-u"    #'evil-delete-back-to-indentation
-    "C-v"    (general-simulate-key "C-; C-v")
-    "C-s"    (general-simulate-key "C-; C-s")
-    "C-w"    #'doom/delete-backward-word
-    "C-z"    (λ! (ignore-errors (call-interactively #'undo)))
-    ;; Scrolling lines
-    "C-j"    #'next-line
-    "C-k"    #'previous-line
-    "C-S-j"  #'scroll-up-command
-    "C-S-k"  #'scroll-down-command)
+  ; (define-key! :keymaps +default-minibuffer-maps
+  ;   [escape] #'abort-recursive-edit
+  ;   "C-a"    #'move-beginning-of-line
+  ;   "C-r"    #'evil-paste-from-register
+  ;   "C-u"    #'evil-delete-back-to-indentation
+  ;   "C-v"    (general-simulate-key "C-; C-v")
+  ;   "C-s"    (general-simulate-key "C-; C-s")
+  ;   "C-w"    #'doom/delete-backward-word
+  ;   "C-z"    (λ! (ignore-errors (call-interactively #'undo)))
+  ;   ;; Scrolling lines
+  ;   "C-j"    #'next-line
+  ;   "C-k"    #'previous-line
+  ;   "C-S-j"  #'scroll-up-command
+  ;   "C-S-k"  #'scroll-down-command)
 
   (define-key! read-expression-map
     "C-j" #'next-line-or-history-element
