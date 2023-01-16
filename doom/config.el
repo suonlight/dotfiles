@@ -119,7 +119,8 @@
   (defalias #'forward-evil-word #'forward-evil-symbol))
 
 (after! ruby-mode
-  (set-company-backend! 'ruby-mode '(company-capf company-abbrev company-dabbrev-code company-files company-etags company-keywords company-yasnippet))
+  ;; (set-company-backend! 'ruby-mode '(company-capf company-abbrev company-dabbrev-code company-files company-etags company-keywords company-yasnippet))
+  ;; (set-company-backend! 'rjsx-mode '(:separate company-files company-capf company-yasnippet company-dabbrev-code))
 
   (defun select-ruby-checker () (flycheck-select-checker 'ruby-rubocop))
   (add-hook! ruby-mode #'select-ruby-checker))
@@ -152,20 +153,15 @@
   (set-popup-rule! "^\\*rspec-compilation\\*" :select t :size 0.35)
   (setq rspec-use-bundler-when-possible t))
 
-;; (add-hook! ruby-mode (add-hook 'before-save-hook #'lsp-format-buffer t t))
-
-;; (after! js
-;;   (set-company-backend! 'js-mode '(company-capf company-dabbrev-code company-files company-yasnippet)))
-
 (after! rjsx-mode
   (defun select-js-eslint () (flycheck-select-checker 'javascript-eslint))
   (add-hook! rjsx-mode #'select-js-eslint))
 
-(after! (:and typescript-mode lsp-mode)
-  (defun add-ts-checkers () (flycheck-add-next-checker 'lsp 'javascript-eslint))
+;; (after! (:and typescript-mode lsp-mode)
+;;   (defun add-ts-checkers () (flycheck-add-next-checker 'lsp 'javascript-eslint))
 
-  (add-hook! typescript-mode #'add-ts-checkers)
-  (add-hook! typescript-tsx-mode #'add-ts-checkers))
+;;   (add-hook! typescript-mode #'add-ts-checkers)
+;;   (add-hook! typescript-tsx-mode #'add-ts-checkers))
 
 (after! projectile
   (setq projectile-tags-file-name "ETAGS"))
@@ -215,11 +211,11 @@ not appropriate in some cases like terminals."
 (setq ispell-dictionary "en")
 (setq ispell-personal-dictionary "~/projects/doom-emacs/.local/etc/ispell/en.pws")
 
-;; ReasonML
-(use-package! reason-mode
-  :commands reason-mode
-  :config
-  (add-hook! reason-mode #'lsp))
+;; ;; ReasonML
+;; (use-package! reason-mode
+;;   :commands reason-mode
+;;   :config
+;;   (add-hook! reason-mode #'lsp))
 
 (after! spell-fu
   (setq spell-fu-idle-delay 0.5))
