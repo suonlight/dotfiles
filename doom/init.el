@@ -201,15 +201,15 @@
        ;;(rss +org)        ; emacs as an RSS reader
        ;;twitter           ; twitter client https://twitter.com/vnought
 
-       :suonlight
-       bindings
-       utils
-       ;; lsp-mode
-       lsp-bridge
-       notes
-       ;; exwm
-
        :config
        ;;literate
        ;; (default +smartparens))
-       default)
+       default
+
+       :suonlight
+       ;; lsp-mode
+       ;; exwm
+       bindings
+       utils
+       lsp-bridge
+       notes)
