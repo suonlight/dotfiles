@@ -4,13 +4,12 @@
   ;; NOTE SPC u replaces C-u as the universal argument.
 
   ;; Minibuffer
-  (define-key! evil-ex-completion-map
-    "C-a" #'evil-beginning-of-line
-    "C-b" #'evil-backward-char
-    "C-s" #'counsel-minibuffer-history)
-
-  (define-key! evil-insert-state-map "C-a" #'beginning-of-line)
-  (define-key! evil-insert-state-map "C-e" #'end-of-line)
+  (map! :map (evil-ex-completion-map evil-ex-search-keymap)
+        "C-a" #'evil-beginning-of-line
+        "C-b" #'evil-backward-char
+        "C-f" #'evil-forward-char
+        :gi "C-j" #'next-complete-history-element
+        :gi "C-k" #'previous-complete-history-element)
 
   (define-key! :keymaps +default-minibuffer-maps
     [escape] #'abort-recursive-edit
@@ -20,13 +19,17 @@
     "C-v"    (general-simulate-key "C-; C-v")
     "C-s"    (general-simulate-key "C-; C-s")
     "C-w"    #'doom/delete-backward-word
-    "C-z"    (λ! (ignore-errors (call-interactively #'undo)))
-    ;; Scrolling lines
+    "C-z"    (cmd! (ignore-errors (call-interactively #'undo))))
+
+  (define-key! :keymaps +default-minibuffer-maps
     "C-j"    #'next-line
     "C-k"    #'previous-line
     "C-S-j"  #'scroll-up-command
     "C-S-k"  #'scroll-down-command)
-
+  ;; For folks with `evil-collection-setup-minibuffer' enabled
+  (define-key! :states 'insert :keymaps +default-minibuffer-maps
+    "C-j"    #'next-line
+    "C-k"    #'previous-line)
   (define-key! read-expression-map
     "C-j" #'next-line-or-history-element
     "C-k" #'previous-line-or-history-element))

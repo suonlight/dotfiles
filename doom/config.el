@@ -325,11 +325,11 @@ not appropriate in some cases like terminals."
 
 ;; Config email
 (setq message-send-mail-function 'smtpmail-send-it
+      send-mail-function 'smtpmail-send-it
       starttls-use-gnutls t
       smtpmail-starttls-credentials
       '(("smtp.gmail.com" 587 nil nil))
-      smtpmail-auth-credentials
-      (expand-file-name "~/.authinfo.gpg")
+      smtpmail-auth-credentials (expand-file-name "~/.authinfo")
       smtpmail-default-smtp-server "smtp.gmail.com"
       smtpmail-smtp-server "smtp.gmail.com"
       smtpmail-smtp-service 587
