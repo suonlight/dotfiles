@@ -18,30 +18,33 @@
   :editorconfig/editorconfig-vim {}
   :folke/which-key.nvim {:lazy true}
   :mhinz/vim-startify {}
-  :windwp/nvim-autopairs {}
-  :yggdroot/indentLine {}
-  :danro/rename.vim {}
-  :phaazon/hop.nvim {} ; easy motion
+  :windwp/nvim-autopairs {:lazy true}
+  :yggdroot/indentLine {:lazy true}
+  :danro/rename.vim {:cmd "Rename"}
+  :phaazon/hop.nvim {:cmd ["HopChar1MW" "HopWordMW" "HopLine"]} ; easy motion
   :tpope/vim-commentary {}
   :tpope/vim-endwise {}
-  :pechorin/any-jump.vim {}
+  :pechorin/any-jump.vim {:lazy true}
   :nvim-treesitter/nvim-treesitter {:build ":TSUpdate"}  ; We recommend updating the parsers on update
 
   ; search files/keyword
   ; :nvim-lua/popup.nvim {}
   :nvim-lua/plenary.nvim {}
   :vijaymarupudi/nvim-fzf {}
-  :ibhagwan/fzf-lua {}
+  :ibhagwan/fzf-lua {:cmd "FzfLua"}
 
   ; tmux
-  :christoomey/vim-tmux-navigator {}
+  :christoomey/vim-tmux-navigator {:cmd ["TmuxNavigateLeft"
+                                         "TmuxNavigateDown"
+                                         "TmuxNavigateUp"
+                                         "TmuxNavigateRight"]}
   :benmills/vimux {}
 
   ; text objects
   :michaeljsmith/vim-indent-object {}
   ;; :kana/vim-textobj-user {}
-  ;; :kana/vim-textobj-line  {}
-  ;; :kana/vim-textobj-entire  {}
+  ;; :kana/vim-textobj-line {}
+  ;; :kana/vim-textobj-entire {}
   :tpope/vim-surround {}
 
   ; git
@@ -77,7 +80,7 @@
   :williamboman/mason.nvim {}
   :williamboman/mason-lspconfig.nvim {}
   :neovim/nvim-lspconfig {}
-  :mhartington/formatter.nvim {}
+  :mhartington/formatter.nvim {:event "BufWritePost"}
   :mfussenegger/nvim-lint {}
   ;; :github/copilot.vim {}
 
@@ -366,86 +369,89 @@
 (imap :<Tab> "v:lua.tab_complete()" {:expr true})
 (imap :<S-Tab> "v:lua.s_tab_complete()" {:expr true})
 
-;; custom commands
-(fn->viml :dotfiles.util :gh-open-pull-request :GhOpenPullRequest)
-(fn->viml :dotfiles.util :gh-list-pull-requests :GhListPullRequests)
-(fn->viml :dotfiles.util :ci-open :CiOpen)
-(fn->viml :dotfiles.util :js-insert-i18n :JsInsertI18n)
-(fn->viml :dotfiles.util :org-roam-dailies-find-today :OrgRoamDailiesFindToday)
-(fn->viml :dotfiles.util :org-roam-find-file :OrgRoamFindFile)
-(noremap :n :gog "<cmd>call GhOpenPullRequest()<CR>" {:silent true})
-(noremap :n :goc "<cmd>call CiOpen()<CR>" {:silent true})
-
 ;; bindings
-(which-key.register
-  {:/ ["<cmd>FzfLua live_grep<CR>" "Search project"]
-   :* ["<cmd>FzfLua grep_cword<CR>" "Search at point"]
-   :<tab> ["<C-^>" "Switch to last buffer"]
-   :q {:name "+quit/session"
-       :q ["<cmd>q<CR>" "Quit vim"]}
-   :p {:name "+projects"
-       :f ["<cmd>FzfLua files<CR>" "Find file"]
-       :g ["<cmd>FzfLua tags<CR>" "Find Tags"]
-       :a ["<cmd>A<CR>" "Toggle implementation and test"]}
-   :f {:name "+files"
-       :s ["<cmd>update<CR>" "File save"]
-       :f ["<cmd>NvimTreeFindFile<CR>" "Find file in directory"]
-       :t ["<cmd>NvimTreeToggle<CR>" "Toggle Tree"]
-       :R [":Rename " "Rename file"]
-       :c [":saveas <C-R>=expand(\"%:p:h\")<CR>/" "Copy file"]
-       :r ["<cmd>FzfLua oldfiles<CR>" "Recent files"]
-       :y [":let @*=expand('%:p') | echo @*<CR>" "Copy Full File Path"]}
-   :g {:name "+git"
-       :p ["<cmd>call GhListPullRequests()<CR>" "Github List PRs"]
-       :oo ["<cmd>Gbrowse<CR>" "Git browse"]
-       :s ["<cmd>Neogit<CR>" "Git status"]
-       :b ["<cmd>Git blame<CR>" "Git blame"]}
-   :b {:name "+buffers"
-       :b ["<cmd>FzfLua buffers<CR>" "Find buffer"]
-       :d ["<cmd>bdelete<CR>" "Delete buffer"]
-       :n ["<cmd>bdelete<CR>" "Next buffer"]
-       :p ["<cmd>bdelete<CR>" "Previous buffer"]
-       :h ["<cmd>Startify<CR>" "Home buffer"]}
-   :w {:name "+windows"
-       :h ["<cmd>wincmd h<CR>" "Window left"]
-       :l ["<cmd>wincmd l<CR>" "Window right"]
-       :j ["<cmd>wincmd j<CR>" "Window down"]
-       :k ["<cmd>wincmd k<CR>" "Window up"]
-       :<S-h> ["<cmd>wincmd <S-h><CR>" "Move window far left"]
-       :<S-l> ["<cmd>wincmd <S-l><CR>" "Move window far right"]
-       :<S-j> ["<cmd>wincmd <S-j><CR>" "Move window very down"]
-       :<S-k> ["<cmd>wincmd <S-k><CR>" "Move window very top"]
-       :w ["<cmd>wincmd w<CR>" "Other window"]
-       := ["<cmd>wincmd =<CR>" "Window balance area"]
-       :r ["<cmd>wincmd r<CR>" "Rotate window"]
-       :s ["<cmd>wincmd s<CR>" "Window split"]
-       :v ["<cmd>wincmd v<CR>" "Window vsplit"]
-       :c ["<cmd>close<CR>" "Window close"]}
-   :s {:name "+search"
-       :p ["<cmd>FzfLua live_grep<CR>" "Search in project"]
-       :s ["<cmd>FzfLua grep_curbuf<CR>" "Search in buffer"]}
-   :c {:name "+code"
-       :x ["<cmd>lua vim.diagnostic.setqflist()<CR>" "Error List"]}
-   :j {:name "+jump"
-       :j ["<cmd>HopChar1<CR>" "Jump to char"]
-       :w ["<cmd>HopWord<CR>" "Jump to word"]
-       :l ["<cmd>HopLine<CR>" "Jump to line"]}
-   :r {:name "+registers"
-       :e ["<cmd>FzfLua registers<CR>" "Registers"]}
-   :t {:name "+toggle"
-       :l ["<cmd>set nu! rnu!<CR>" "Toggle Line Number"]
-       :i ["<cmd>IndentLinesToggle<CR>" "Toggle indent line"]}
-   :n {:name "+notes"
-       :r {:name "+roam"
-           :f ["<cmd>call OrgRoamFindFile()<CR>" "org-roam-find-file"]
-           :d {:name "+date"
-               :t ["<cmd>call OrgRoamDailiesFindToday()<CR>" "org-roam-dailies-find-today"]}}}
-   :h {:name "+help"
-       :? ["<cmd>FzfLua help_tags<CR>" "Help tags"]
-       :e ["<cmd>messages<CR>" "View messages"]
-       :df ["<cmd>FzfLua commands<CR>" "Help Commands"]
-       :t ["<cmd>FzfLua colorschemes<CR>" "Load theme"]}}
-  {:prefix "<leader>"})
+(defer
+ 100
+ (fn []
+   ;; custom commands
+   (fn->viml :dotfiles.util :gh-open-pull-request :GhOpenPullRequest)
+   (fn->viml :dotfiles.util :gh-list-pull-requests :GhListPullRequests)
+   (fn->viml :dotfiles.util :ci-open :CiOpen)
+   (fn->viml :dotfiles.util :js-insert-i18n :JsInsertI18n)
+   (fn->viml :dotfiles.util :org-roam-dailies-find-today :OrgRoamDailiesFindToday)
+   (fn->viml :dotfiles.util :org-roam-find-file :OrgRoamFindFile)
+   (noremap :n :gog "<cmd>call GhOpenPullRequest()<CR>" {:silent true})
+   (noremap :n :goc "<cmd>call CiOpen()<CR>" {:silent true})
+
+   (which-key.register
+    {:/ ["<cmd>FzfLua live_grep<CR>" "Search project"]
+     :* ["<cmd>FzfLua grep_cword<CR>" "Search at point"]
+     :<tab> ["<C-^>" "Switch to last buffer"]
+     :q {:name "+quit/session"
+         :q ["<cmd>q<CR>" "Quit vim"]}
+     :p {:name "+projects"
+         :f ["<cmd>FzfLua files<CR>" "Find file"]
+         :g ["<cmd>FzfLua tags<CR>" "Find Tags"]
+         :a ["<cmd>A<CR>" "Toggle implementation and test"]}
+     :f {:name "+files"
+         :s ["<cmd>update<CR>" "File save"]
+         :f ["<cmd>NvimTreeFindFile<CR>" "Find file in directory"]
+         :t ["<cmd>NvimTreeToggle<CR>" "Toggle Tree"]
+         :R [":Rename " "Rename file"]
+         :c [":saveas <C-R>=expand(\"%:p:h\")<CR>/" "Copy file"]
+         :r ["<cmd>FzfLua oldfiles<CR>" "Recent files"]
+         :y [":let @*=expand('%:p') | echo @*<CR>" "Copy Full File Path"]}
+     :g {:name "+git"
+         :p ["<cmd>call GhListPullRequests()<CR>" "Github List PRs"]
+         :oo ["<cmd>Gbrowse<CR>" "Git browse"]
+         :s ["<cmd>Neogit<CR>" "Git status"]
+         :b ["<cmd>Git blame<CR>" "Git blame"]}
+     :b {:name "+buffers"
+         :b ["<cmd>FzfLua buffers<CR>" "Find buffer"]
+         :d ["<cmd>bdelete<CR>" "Delete buffer"]
+         :n ["<cmd>bdelete<CR>" "Next buffer"]
+         :p ["<cmd>bdelete<CR>" "Previous buffer"]
+         :h ["<cmd>Startify<CR>" "Home buffer"]}
+     :w {:name "+windows"
+         :h ["<cmd>wincmd h<CR>" "Window left"]
+         :l ["<cmd>wincmd l<CR>" "Window right"]
+         :j ["<cmd>wincmd j<CR>" "Window down"]
+         :k ["<cmd>wincmd k<CR>" "Window up"]
+         :<S-h> ["<cmd>wincmd <S-h><CR>" "Move window far left"]
+         :<S-l> ["<cmd>wincmd <S-l><CR>" "Move window far right"]
+         :<S-j> ["<cmd>wincmd <S-j><CR>" "Move window very down"]
+         :<S-k> ["<cmd>wincmd <S-k><CR>" "Move window very top"]
+         :w ["<cmd>wincmd w<CR>" "Other window"]
+         := ["<cmd>wincmd =<CR>" "Window balance area"]
+         :r ["<cmd>wincmd r<CR>" "Rotate window"]
+         :s ["<cmd>wincmd s<CR>" "Window split"]
+         :v ["<cmd>wincmd v<CR>" "Window vsplit"]
+         :c ["<cmd>close<CR>" "Window close"]}
+     :s {:name "+search"
+         :p ["<cmd>FzfLua live_grep<CR>" "Search in project"]
+         :s ["<cmd>FzfLua grep_curbuf<CR>" "Search in buffer"]}
+     :c {:name "+code"
+         :x ["<cmd>lua vim.diagnostic.setqflist()<CR>" "Error List"]}
+     :j {:name "+jump"
+         :j ["<cmd>HopChar1MW<CR>" "Jump to char"]
+         :w ["<cmd>HopWordMW<CR>" "Jump to word"]
+         :l ["<cmd>HopLine<CR>" "Jump to line"]}
+     :r {:name "+registers"
+         :e ["<cmd>FzfLua registers<CR>" "Registers"]}
+     :t {:name "+toggle"
+         :l ["<cmd>set nu! rnu!<CR>" "Toggle Line Number"]
+         :i ["<cmd>IndentLinesToggle<CR>" "Toggle indent line"]}
+     :n {:name "+notes"
+         :r {:name "+roam"
+             :f ["<cmd>call OrgRoamFindFile()<CR>" "org-roam-find-file"]
+             :d {:name "+date"
+                 :t ["<cmd>call OrgRoamDailiesFindToday()<CR>" "org-roam-dailies-find-today"]}}}
+     :h {:name "+help"
+         :? ["<cmd>FzfLua help_tags<CR>" "Help tags"]
+         :e ["<cmd>messages<CR>" "View messages"]
+         :df ["<cmd>FzfLua commands<CR>" "Help Commands"]
+         :t ["<cmd>FzfLua colorschemes<CR>" "Load theme"]}}
+    {:prefix "<leader>"})))
 
 ;; Generic mapping configuration.
 (set nvim.g.mapleader " ")
@@ -469,7 +475,7 @@
 (noremap :n :<Leader>0 "<cmd>NvimTreeFindFile<CR>")
 (noremap :n :<f5> ":TestNearest<CR>:TmuxNavigateDown<CR>")
 
-(nmap :s "<cmd>HopChar1<CR>")
+(nmap :s "<cmd>HopChar1MW<CR>")
 (nmap :gy "yygccp")
 
 ;; Diagnostic
