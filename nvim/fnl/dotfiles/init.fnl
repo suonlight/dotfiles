@@ -21,7 +21,11 @@
   :windwp/nvim-autopairs {:lazy true}
   :yggdroot/indentLine {:cmd "IndentLinesToggle"}
   :danro/rename.vim {:cmd "Rename"}
-  :phaazon/hop.nvim {:cmd ["HopChar1MW" "HopWordMW" "HopLine"]} ; easy motion
+  :phaazon/hop.nvim {:cmd ["HopChar1MW" "HopWordMW" "HopLine"] ; easy motion
+                     :config
+                     (fn []
+                       (let [hop (require :hop)]
+                         (hop.setup {:keys "etovxqpdygfblzhckisuran"})))}
   :tpope/vim-commentary {}
   :tpope/vim-endwise {}
   :pechorin/any-jump.vim {:lazy true}
@@ -207,8 +211,6 @@
   )
 
 ;; default
-; (ex colorscheme :onedark)
-;; (vim.defer_fn (fn [] (ex colorscheme :onedark)) 1)
 (set nvim.o.termguicolors true)
 (set nvim.o.clipboard :unnamed)
 (set nvim.o.autoindent true)
@@ -237,10 +239,6 @@
 ;; async setup
 (vim.schedule
   (fn []
-    ;; hop
-    (let [hop (require :hop)]
-      (hop.setup {:keys "etovxqpdygfblzhckisuran"}))
-
     ;; modeline
     (let [modeline (require :dotfiles.modeline)]
       (modeline.setup))
