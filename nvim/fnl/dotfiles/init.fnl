@@ -287,11 +287,11 @@
                       :display_options {:notification_timeout 10}})
       (orgmode.setup_ts_grammar)
       (orgmode.setup {:org_todo_keywords ["TODO" "DOING" "|" "DONE"]
-                      :mappings {:org {:org_todo "t"}}})))
+                      :mappings {:org {:org_todo "t"}}}))
 
     (let [orgbullets (require :org-bullets)]
       (orgbullets.setup {:concealcursor true
-                         :symbols {:headlines ["◉" "○" "✸" "✿"]}})))
+                         :symbols {:headlines ["◉" "○" "✸" "✿"]}}))))
 
 ;; textobj-entire
 ; (nvim.command "call textobj#user#plugin('entire', {
