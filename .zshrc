@@ -147,6 +147,8 @@ test -d ~/.asdf/plugins/java/set-java-home.zsh && . ~/.asdf/plugins/java/set-jav
 # . $HOME/.asdf/completions/asdf.bash
 ### End of Zinit's installer chunk
 
+export PATH="/usr/local/opt/texinfo/bin:$PATH"
+
 setopt interactivecomments
 
 # Nix
