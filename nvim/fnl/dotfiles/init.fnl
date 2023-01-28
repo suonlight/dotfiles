@@ -7,7 +7,6 @@
              lsp lspconfig}
    require-macros [dotfiles.macros]})
 
-
 ;; Plugins to be managed by packer.
 (util.use
   :Olical/aniseed {}
@@ -18,7 +17,14 @@
   :editorconfig/editorconfig-vim {:lazy true}
   :folke/which-key.nvim {:lazy true}
   :mhinz/vim-startify {:cmd "Startify"}
-  :windwp/nvim-autopairs {:lazy true}
+  :windwp/nvim-autopairs {:lazy true
+                          :config
+                          (fn []
+                            (print "Loading autopairs...")
+                            (let [autopairs (require :nvim-autopairs)]
+                              (autopairs.setup {})
+                              (let [autopairs-compe (require :nvim-autopairs.completion.compe)]
+                                (autopairs-compe.setup {:map_cr true :map_complete true }))))}
   :yggdroot/indentLine {:cmd "IndentLinesToggle"}
   :danro/rename.vim {:cmd "Rename"}
   :phaazon/hop.nvim {:cmd ["HopChar1MW" "HopWordMW" "HopLine"] ; easy motion
@@ -120,6 +126,24 @@
   :williamboman/mason.nvim {:cmd "Mason"
                             :config
                             (fn []
+                              (defn on-attach [client bufnr]
+                                    ; (_: "command! LspDef lua vim.lsp.buf.definition()")
+                                    ; (_: "command! LspHover lua vim.lsp.buf.hover()")
+                                    (noremap-buffer bufnr :n :gD "<cmd>lua vim.lsp.buf.declaration()<CR>" {:noremap true :silent true})
+                                    (noremap-buffer bufnr :n :gd "<cmd>lua vim.lsp.buf.definition()<CR>" {:noremap true :silent true})
+                                    (noremap-buffer bufnr :n :K "<cmd>lua vim.lsp.buf.hover()<CR>" {:noremap true :silent true})
+                                    ;; (noremap-buffer bufnr :n :gi "<cmd>lua vim.lsp.buf.implementation()<cR>" {:noremap true :silent true})
+                                    (noremap-buffer bufnr :n :<C-k> "<cmd>lua vim.lsp.buf.signature_help()<CR>" {:noremap true :silent true})
+                                    (noremap-buffer bufnr :n :<space>ca "<cmd>lua vim.lsp.buf.code_action()<CR>" {:noremap true :silent true})
+                                        ; (noremap-buffer bufnr :n :<space>wa "<cmd>lua vim.lsp.buf.add_workspace_folder()<cR>" {:noremap true :silent true})
+                                        ; (noremap-buffer bufnr :n :<space>wr "<cmd>lua vim.lsp.buf.remove_workspace_folder()<cR>" {:noremap true :silent true})
+                                        ; (noremap-buffer bufnr :n :<space>wl "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cR>" {:noremap true :silent true})
+                                        ; (noremap-buffer bufnr :n :<space>D "<cmd>lua vim.lsp.buf.type_definition()<cR>" {:noremap true :silent true})
+                                        ; (noremap-buffer bufnr :n :<space>rn "<cmd>lua vim.lsp.buf.rename()<cR>" {:noremap true :silent true})
+                                        ; (noremap-buffer bufnr :n :<space>e "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cR>" {:noremap true :silent true})
+                                        ; (noremap-buffer bufnr :n :<space>q "<cmd>lua vim.lsp.diagnostic.set_loclist()<cR>" {:noremap true :silent true})
+                                    (noremap-buffer bufnr :n :gr "<cmd>lua vim.lsp.buf.references()<cR>" {:noremap true :silent true}))
+
                               (let [mason (require :mason)
                                     mason-lspconfig (require :mason-lspconfig)]
                                 (mason.setup {})
@@ -181,7 +205,29 @@
   :kkharji/sqlite.lua {:ft "lua"}
 
   ; completion
-  :hrsh7th/nvim-compe {}
+  :hrsh7th/nvim-compe {:config
+                       (fn []
+                         (let [compe (require :compe)] ; TODO handle vsnip with TAB
+                           (compe.setup
+                            {:enabled true
+                             :autocomplete true
+                             :debug false
+                             :min_length 1
+                             :preselect "enable"
+                             :throttle_time 80
+                             :source_timeout 200
+                             :incomplete_delay 400
+                             :max_abbr_width 100
+                             :max_kind_width 100
+                             :max_menu_width 100
+                             :documentation true
+                             :source {:path true
+                                      :buffer true
+                                      :calc true
+                                      :nvim_lsp true
+                                      :nvim_lua true
+                                      :conjure true
+                                      :vsnip false}})))}
 
   ; config
   :dstein64/vim-startuptime {:cmd "StartupTime"}
@@ -242,54 +288,6 @@
     ;; modeline
     (let [modeline (require :dotfiles.modeline)]
       (modeline.setup))
-
-    ;; autopairs
-    (let [autopairs (require :nvim-autopairs)]
-      (autopairs.setup {})
-      (let [autopairs-compe (require :nvim-autopairs.completion.compe)]
-        (autopairs-compe.setup {:map_cr true :map_complete true })))
-
-    ;; compe
-    (let [compe (require :compe)]
-      (compe.setup
-        {:enabled true
-         :autocomplete true
-         :debug false
-         :min_length 1
-         :preselect "enable"
-         :throttle_time 80
-         :source_timeout 200
-         :incomplete_delay 400
-         :max_abbr_width 100
-         :max_kind_width 100
-         :max_menu_width 100
-         :documentation true
-         :source {:path true
-                  :buffer true
-                  :calc true
-                  :nvim_lsp true
-                  :nvim_lua true
-                  :conjure true
-                  :vsnip false}})) ; TODO handle vsnip with TAB
-
-    (defn on-attach [client bufnr]
-      ; (_: "command! LspDef lua vim.lsp.buf.definition()")
-      ; (_: "command! LspHover lua vim.lsp.buf.hover()")
-      (noremap-buffer bufnr :n :gD "<cmd>lua vim.lsp.buf.declaration()<CR>" {:noremap true :silent true})
-      (noremap-buffer bufnr :n :gd "<cmd>lua vim.lsp.buf.definition()<CR>" {:noremap true :silent true})
-      (noremap-buffer bufnr :n :K "<cmd>lua vim.lsp.buf.hover()<CR>" {:noremap true :silent true})
-      ;; (noremap-buffer bufnr :n :gi "<cmd>lua vim.lsp.buf.implementation()<cR>" {:noremap true :silent true})
-      (noremap-buffer bufnr :n :<C-k> "<cmd>lua vim.lsp.buf.signature_help()<CR>" {:noremap true :silent true})
-      (noremap-buffer bufnr :n :<space>ca "<cmd>lua vim.lsp.buf.code_action()<CR>" {:noremap true :silent true})
-      ; (noremap-buffer bufnr :n :<space>wa "<cmd>lua vim.lsp.buf.add_workspace_folder()<cR>" {:noremap true :silent true})
-      ; (noremap-buffer bufnr :n :<space>wr "<cmd>lua vim.lsp.buf.remove_workspace_folder()<cR>" {:noremap true :silent true})
-      ; (noremap-buffer bufnr :n :<space>wl "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cR>" {:noremap true :silent true})
-      ; (noremap-buffer bufnr :n :<space>D "<cmd>lua vim.lsp.buf.type_definition()<cR>" {:noremap true :silent true})
-      ; (noremap-buffer bufnr :n :<space>rn "<cmd>lua vim.lsp.buf.rename()<cR>" {:noremap true :silent true})
-      ; (noremap-buffer bufnr :n :<space>e "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cR>" {:noremap true :silent true})
-      ; (noremap-buffer bufnr :n :<space>q "<cmd>lua vim.lsp.diagnostic.set_loclist()<cR>" {:noremap true :silent true})
-      (noremap-buffer bufnr :n :gr "<cmd>lua vim.lsp.buf.references()<cR>" {:noremap true :silent true}))
-
     (vim.diagnostic.config {:virtual_text false})))
 
 ;; textobj-entire
