@@ -2,7 +2,7 @@
   {autoload {nvim aniseed.nvim
              strings aniseed.string
              a aniseed.core
-             packer packer
+             lazy lazy
              fzf-core fzf-lua.core}
    require-macros [dotfiles.macros]})
 
@@ -35,17 +35,17 @@
       (print (.. "dotfiles error: " val-or-err)))))
 
 (defn use [...]
-  "Iterates through the arguments as pairs and calls packer's use function for
+  "Iterates through the arguments as pairs and calls lazy's setup function for
   each of them. Works around Fennel not liking mixed associative and sequential
   tables as well."
-  (let [pkgs [...]]
-    (packer.startup
-      (fn [use]
-        (for [i 1 (a.count pkgs) 2]
-          (let [name (. pkgs i)
-                opts (. pkgs (+ i 1))]
-            (-?> (. opts :mod) (safe-require-plugin-config))
-            (use (a.assoc opts 1 name))))))))
+  (let [pkgs [...]
+        plugins []]
+    (for [i 1 (a.count pkgs) 2]
+      (let [name (. pkgs i)
+            opts (. pkgs (+ i 1))]
+        (-?> (. opts :mod) (safe-require-plugin-config))
+        (table.insert plugins (a.assoc opts 1 name))))
+    (lazy.setup plugins)))
 
 (defn gh-open-pull-request []
   (sh "gh pr view --web")

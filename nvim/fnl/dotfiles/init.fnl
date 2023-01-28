@@ -7,15 +7,16 @@
              lsp lspconfig}
    require-macros [dotfiles.macros]})
 
+
 ;; Plugins to be managed by packer.
 (util.use
   :Olical/aniseed {}
-  :Olical/nvim-local-fennel {}
-  :Olical/conjure {}
+  :Olical/nvim-local-fennel {:ft "fennel"}
+  :Olical/conjure {:ft "fennel"}
 
   ; defaults
   :editorconfig/editorconfig-vim {}
-  :folke/which-key.nvim {}
+  :folke/which-key.nvim {:lazy true}
   :mhinz/vim-startify {}
   :windwp/nvim-autopairs {}
   :yggdroot/indentLine {}
@@ -24,10 +25,7 @@
   :tpope/vim-commentary {}
   :tpope/vim-endwise {}
   :pechorin/any-jump.vim {}
-  :nvim-treesitter/nvim-treesitter {:run ":TSUpdate"}  ; We recommend updating the parsers on update
-
-  ; startup time
-  :lewis6991/impatient.nvim {}
+  :nvim-treesitter/nvim-treesitter {:build ":TSUpdate"}  ; We recommend updating the parsers on update
 
   ; search files/keyword
   ; :nvim-lua/popup.nvim {}
@@ -40,21 +38,21 @@
   :benmills/vimux {}
 
   ; text objects
-  :kana/vim-textobj-user {}
   :michaeljsmith/vim-indent-object {}
-  :kana/vim-textobj-line  {}
-  :kana/vim-textobj-entire  {}
+  ;; :kana/vim-textobj-user {}
+  ;; :kana/vim-textobj-line  {}
+  ;; :kana/vim-textobj-entire  {}
   :tpope/vim-surround {}
 
   ; git
-  :tpope/vim-fugitive {}
+  :tpope/vim-fugitive {:ft ["fugitive" "fugitiveblame" "gitcommit"]}
   :tpope/vim-rhubarb {}
   :sindrets/diffview.nvim {}
   :TimUntersberger/neogit {}
 
   ; ui
-  :joshdick/onedark.vim {}
-  :folke/tokyonight.nvim {:opt true}
+  :joshdick/onedark.vim {:lazy true}
+  :folke/tokyonight.nvim {:lazy true}
   :kyazdani42/nvim-web-devicons {}
   :kyazdani42/nvim-tree.lua {}
   ; :yamatsum/nvim-nonicons {}
@@ -64,7 +62,7 @@
   :rcarriga/nvim-notify {}
 
   ; lisp
-  :guns/vim-sexp {:opt true}
+  :guns/vim-sexp {:lazy true}
 
   ; javascript
   :pangloss/vim-javascript {}
@@ -84,16 +82,16 @@
   ;; :github/copilot.vim {}
 
   ; notes
-  :kristijanhusak/orgmode.nvim {}
-  :akinsho/org-bullets.nvim {}
-  :michaelb/sniprun {:run "bash install.sh"}
+  :kristijanhusak/orgmode.nvim {:ft "org"}
+  :akinsho/org-bullets.nvim {:ft "org"}
+  :michaelb/sniprun {:build "bash install.sh"}
   :kkharji/sqlite.lua {}
 
   ; completion
   :hrsh7th/nvim-compe {}
 
   ; config
-  :dstein64/vim-startuptime {}
+  :dstein64/vim-startuptime {:cmd "StartupTime"}
 
   ;; TODO research each plugin
   ; :tpope/vim-abolish {}
@@ -119,11 +117,10 @@
   ; :wlangstroth/vim-racket {}
   )
 
-(require :impatient)
-
 ;; default
 ; (ex colorscheme :onedark)
-(vim.defer_fn (fn [] (ex colorscheme :onedark)) 1)
+;; (vim.defer_fn (fn [] (ex colorscheme :onedark)) 1)
+(defer 1 (fn [] (ex colorscheme :onedark)))
 (set nvim.o.termguicolors true)
 (set nvim.o.clipboard :unnamed)
 (set nvim.o.autoindent true)
