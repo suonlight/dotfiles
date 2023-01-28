@@ -62,10 +62,17 @@
     `(nvim-util.fn-bridge ,to ,mod ,from {:return true}))
 
   :use-package!
-  (fn [name opts]
-    `(util.use-package ,name ,opts))
+  (fn [name ...]
+    (let [opts [...]
+          new-opts {}]
+      (for [i 1 (length opts) 2]
+        (let [k (. opts i)
+              v (. opts (+ i 1))]
+          (tset new-opts k v)))
+      (if (= (length opts) 0)
+          `(util.use-package ,name {})
+          `(util.use-package ,name ,new-opts))))
 
   :use-package-setup!
-  (fn []
-    `(util.use-package-setup))
+  (fn [] `(util.use-package-setup))
 }
