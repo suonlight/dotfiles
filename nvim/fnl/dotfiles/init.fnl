@@ -15,11 +15,11 @@
   :Olical/conjure {:ft "fennel"}
 
   ; defaults
-  :editorconfig/editorconfig-vim {}
+  :editorconfig/editorconfig-vim {:lazy true}
   :folke/which-key.nvim {:lazy true}
-  :mhinz/vim-startify {}
+  :mhinz/vim-startify {:cmd "Startify"}
   :windwp/nvim-autopairs {:lazy true}
-  :yggdroot/indentLine {:lazy true}
+  :yggdroot/indentLine {:cmd "IndentLinesToggle"}
   :danro/rename.vim {:cmd "Rename"}
   :phaazon/hop.nvim {:cmd ["HopChar1MW" "HopWordMW" "HopLine"]} ; easy motion
   :tpope/vim-commentary {}
@@ -29,16 +29,20 @@
 
   ; search files/keyword
   ; :nvim-lua/popup.nvim {}
-  :nvim-lua/plenary.nvim {}
-  :vijaymarupudi/nvim-fzf {}
-  :ibhagwan/fzf-lua {:cmd "FzfLua"}
+  :nvim-lua/plenary.nvim {:lazy true}
+  :vijaymarupudi/nvim-fzf {:lazy true}
+  :ibhagwan/fzf-lua {:cmd "FzfLua"
+                     :dependencies ["nvim-tree/nvim-web-devicons" "vijaymarupudi/nvim-fzf"]
+                     :config
+                     (fn []
+                       (let [fzf-lua (require :fzf-lua)]
+                         (fzf-lua.setup {:winopts {:split "belowright new"}})))}
 
-  ; tmux
   :christoomey/vim-tmux-navigator {:cmd ["TmuxNavigateLeft"
                                          "TmuxNavigateDown"
                                          "TmuxNavigateUp"
                                          "TmuxNavigateRight"]}
-  :benmills/vimux {}
+  :benmills/vimux {:cmd "VimuxRunCommand"}
 
   ; text objects
   :michaeljsmith/vim-indent-object {}
@@ -48,47 +52,129 @@
   :tpope/vim-surround {}
 
   ; git
-  :tpope/vim-fugitive {:ft ["fugitive" "fugitiveblame" "gitcommit"]}
-  :tpope/vim-rhubarb {}
-  :sindrets/diffview.nvim {}
-  :TimUntersberger/neogit {}
+  :tpope/vim-fugitive {:cmd ["Git" "GBrowse"]}
+  :tpope/vim-rhubarb {:cmd ["GBrowse"] :dependencies ["tpope/vim-fugitive"]}
+  :sindrets/diffview.nvim {:lazy true}
+  :TimUntersberger/neogit {:cmd "Neogit"
+                           :dependencies ["sindrets/diffview.nvim"]
+                           :config
+                           (fn []
+                             (let [neogit (require :neogit)
+                                   diffview (require :diffview)]
+                               ;; (neogit.config.use_magit_keybindings)
+                               (diffview.setup {})
+                               (neogit.setup {:integrations {:diffview true}
+                                              :disable_hint true
+                                              :disable_commit_confirmation true})))}
 
   ; ui
   :joshdick/onedark.vim {:lazy true}
   :folke/tokyonight.nvim {:lazy true}
-  :kyazdani42/nvim-web-devicons {}
-  :kyazdani42/nvim-tree.lua {}
+  :nvim-tree/nvim-web-devicons {}
+  :nvim-tree/nvim-tree.lua {:cmd ["NvimTreeFindFile" "NvimTreeToggle"]
+                            :dependencies ["nvim-tree/nvim-web-devicons"]
+                            :config
+                            (fn []
+                              (let [nvim-tree (require :nvim-tree)
+                                    glyphs {:default ""
+                                            :symlink ""
+                                            :git {:unstaged "✗"
+                                                  :staged "✓"
+                                                  :unmerged ""
+                                                  :renamed "➜"
+                                                  :untracked "★"
+                                                  :deleted ""
+                                                  :ignored "◌" }
+                                            :folder {:arrow_open ""
+                                                     :arrow_closed ""
+                                                     :default ""
+                                                     :open ""
+                                                     :empty ""
+                                                     :empty_open ""
+                                                     :symlink ""
+                                                     :symlink_open ""}}]
+                                (nvim-tree.setup {:renderer {:icons {:glyphs glyphs}}})))}
   ; :yamatsum/nvim-nonicons {}
   ; :itchyny/lightline.vim {}
   :glepnir/galaxyline.nvim {:branch :main}
   :andymass/vim-matchup {}
-  :rcarriga/nvim-notify {}
+  :rcarriga/nvim-notify {:lazy true}
 
   ; lisp
   :guns/vim-sexp {:lazy true}
 
   ; javascript
-  :pangloss/vim-javascript {}
+  :pangloss/vim-javascript {:ft ["javascript"]}
   :maxmellon/vim-jsx-pretty {}
   :alvan/vim-closetag {}
 
   ; ruby
-  :tpope/vim-projectionist {} ; take ~ 200ms to startup
+  :tpope/vim-projectionist {}
   :janko-m/vim-test {}
 
   ; lsp
-  :williamboman/mason.nvim {}
+  :williamboman/mason.nvim {:cmd "Mason"
+                            :config
+                            (fn []
+                              (let [mason (require :mason)
+                                    mason-lspconfig (require :mason-lspconfig)]
+                                (mason.setup {})
+                                (mason-lspconfig.setup {:ensure_installed ["solargraph" "tsserver"]})
+                                (lsp.grammarly.setup {:on_attach on-attach :filetypes ["org" "markdown"]})
+                                (lsp.ltex.setup {:on_attach on-attach :filetypes ["org" "markdown"]})
+                                (lsp.solargraph.setup {:on_attach on-attach})
+                                (lsp.tsserver.setup {:on_attach on-attach})))}
   :williamboman/mason-lspconfig.nvim {}
   :neovim/nvim-lspconfig {}
-  :mhartington/formatter.nvim {:event "BufWritePost"}
+  :mhartington/formatter.nvim {:event "BufWritePost"
+                               :config
+                               (fn []
+                                 (let [formatter (require :formatter)
+                                       filetypes (require :formatter.filetypes)
+                                       prettier  filetypes.typescript.prettier
+                                       rubocop   filetypes.ruby.rubocop]
+                                   (formatter.setup {:logging true
+                                                     :log_level vim.log.levels.WARN
+                                                     :filetype {:ruby             rubocop
+                                                                :typescriptreact  prettier
+                                                                :typescript       prettier
+                                                                :javascriptreact  prettier
+                                                                :javascript       prettier}})))}
   :mfussenegger/nvim-lint {}
   ;; :github/copilot.vim {}
 
   ; notes
-  :kristijanhusak/orgmode.nvim {:ft "org"}
-  :akinsho/org-bullets.nvim {:ft "org"}
-  :michaelb/sniprun {:build "bash install.sh"}
-  :kkharji/sqlite.lua {}
+  :kristijanhusak/orgmode.nvim {:ft "org"
+                                :dependencies ["nvim-treesitter/nvim-treesitter" "michaelb/sniprun"]
+                                :config
+                                (fn []
+                                  ;; org mode
+                                  (let [parser (require :nvim-treesitter.parsers)
+                                        configs (require :nvim-treesitter.configs)
+                                        sniprun (require :sniprun)
+                                        orgmode (require :orgmode)]
+
+                                    (configs.setup {:highlight {:enable true
+                                                                :disable ["org"]
+                                                                :additional_vim_regex_highlighting ["org"]}
+                                                    :matchup {:enable true
+                                                              :include_match_words true}
+                                                    :ensure_installed ["org"]})
+                                    (sniprun.setup {:display ["Classic" "NvimNotify"]
+                                                    :display_options {:notification_timeout 10}})
+                                    (orgmode.setup_ts_grammar)
+                                    (orgmode.setup {:org_todo_keywords ["TODO" "DOING" "|" "DONE"]
+                                                    :mappings {:org {:org_todo "t"}}})))}
+
+  :akinsho/org-bullets.nvim {:dependencies ["kristijanhusak/orgmode.nvim"]
+                             :config
+                             (fn []
+                               (let [orgbullets (require :org-bullets)]
+                                 (orgbullets.setup
+                                  {:concealcursor true
+                                   :symbols {:headlines ["◉" "○" "✸" "✿"]}})))}
+  :michaelb/sniprun {:build "bash install.sh" :ft "org"}
+  :kkharji/sqlite.lua {:ft "lua"}
 
   ; completion
   :hrsh7th/nvim-compe {}
@@ -123,7 +209,6 @@
 ;; default
 ; (ex colorscheme :onedark)
 ;; (vim.defer_fn (fn [] (ex colorscheme :onedark)) 1)
-(defer 1 (fn [] (ex colorscheme :onedark)))
 (set nvim.o.termguicolors true)
 (set nvim.o.clipboard :unnamed)
 (set nvim.o.autoindent true)
@@ -155,38 +240,6 @@
     ;; hop
     (let [hop (require :hop)]
       (hop.setup {:keys "etovxqpdygfblzhckisuran"}))
-
-    ;; nvim-tree
-    (let [nvim-tree (require :nvim-tree)
-          glyphs {:default ""
-                  :symlink ""
-                  :git {:unstaged "✗"
-                        :staged "✓"
-                        :unmerged ""
-                        :renamed "➜"
-                        :untracked "★"
-                        :deleted ""
-                        :ignored "◌" }
-                  :folder {:arrow_open ""
-                           :arrow_closed ""
-                           :default ""
-                           :open ""
-                           :empty ""
-                           :empty_open ""
-                           :symlink ""
-                           :symlink_open ""}}]
-      (nvim-tree.setup {:renderer {:icons {:glyphs glyphs}}}))
-
-    ;; nvim-web-devicons
-    (let [devicons (require :nvim-web-devicons)]
-      (devicons.setup {:default true}))
-
-    (let [ntree (require :nvim-tree)]
-      (ntree.setup {}))
-
-    ;; fzf-lua
-    (let [fzf-lua (require :fzf-lua)]
-      (fzf-lua.setup {:winopts {:split "belowright new"}}))
 
     ;; modeline
     (let [modeline (require :dotfiles.modeline)]
@@ -239,62 +292,7 @@
       ; (noremap-buffer bufnr :n :<space>q "<cmd>lua vim.lsp.diagnostic.set_loclist()<cR>" {:noremap true :silent true})
       (noremap-buffer bufnr :n :gr "<cmd>lua vim.lsp.buf.references()<cR>" {:noremap true :silent true}))
 
-    ;; mason
-    (let [mason (require :mason)
-          mason-lspconfig (require :mason-lspconfig)]
-      (mason.setup {})
-      (mason-lspconfig.setup {:ensure_installed ["solargraph" "tsserver"]})
-      (lsp.grammarly.setup {:on_attach on-attach :filetypes ["org" "markdown"]})
-      (lsp.ltex.setup {:on_attach on-attach :filetypes ["org" "markdown"]})
-      (lsp.solargraph.setup {:on_attach on-attach})
-      (lsp.tsserver.setup {:on_attach on-attach}))
-
-    ;; formatter
-    (let [formatter (require :formatter)
-          filetypes (require :formatter.filetypes)
-          prettier  filetypes.typescript.prettier
-          rubocop   filetypes.ruby.rubocop]
-      (formatter.setup {:logging true
-                        :log_level vim.log.levels.WARN
-                        :filetype {:ruby             rubocop
-                                   :typescriptreact  prettier
-                                   :typescript       prettier
-                                   :javascriptreact  prettier
-                                   :javascript       prettier}}))
-
-    (vim.diagnostic.config {:virtual_text false})
-
-    ;; neogit
-    (let [neogit (require :neogit)]
-      ;; (neogit.config.use_magit_keybindings)
-      (neogit.setup {:integrations {:diffview true}
-                     :disable_hint true
-                     :disable_commit_confirmation true}))
-
-    (let [diffview (require :diffview)]
-      (diffview.setup {}))
-
-    ;; org mode
-    (let [parser (require :nvim-treesitter.parsers)
-          configs (require :nvim-treesitter.configs)
-          sniprun (require :sniprun)
-          orgmode (require :orgmode)]
-
-      (configs.setup {:highlight {:enable true
-                                  :disable ["org"]
-                                  :additional_vim_regex_highlighting ["org"]}
-                      :matchup {:enable true
-                                :include_match_words true}
-                      :ensure_installed ["org"]})
-      (sniprun.setup {:display ["Classic" "NvimNotify"]
-                      :display_options {:notification_timeout 10}})
-      (orgmode.setup_ts_grammar)
-      (orgmode.setup {:org_todo_keywords ["TODO" "DOING" "|" "DONE"]
-                      :mappings {:org {:org_todo "t"}}}))
-
-    (let [orgbullets (require :org-bullets)]
-      (orgbullets.setup {:concealcursor true
-                         :symbols {:headlines ["◉" "○" "✸" "✿"]}}))))
+    (vim.diagnostic.config {:virtual_text false})))
 
 ;; textobj-entire
 ; (nvim.command "call textobj#user#plugin('entire', {
@@ -305,20 +303,20 @@
 ; \    })
 ; ")
 
-;; lightline
-(fn->viml :dotfiles.util :filename :LightlineFilename)
-(fn->viml :dotfiles.util :readonly :LightlineReadonly)
+;; ;; lightline
+;; (fn->viml :dotfiles.util :filename :LightlineFilename)
+;; (fn->viml :dotfiles.util :readonly :LightlineReadonly)
 
-(set nvim.g.lightline
-     {:colorscheme :default
-      :component_function {:filename :LightlineFilename
-                           :readonly :LightlineReadonly}
-      :active {:left [[:mode :paste]
-                      [:readonly :filename :modified]]
-               :right [[:lineinfo]
-                       [:percent]]}
-      :inactive {:left [[:filename]]
-                 :right []}})
+;; (set nvim.g.lightline
+;;      {:colorscheme :default
+;;       :component_function {:filename :LightlineFilename
+;;                            :readonly :LightlineReadonly}
+;;       :active {:left [[:mode :paste]
+;;                       [:readonly :filename :modified]]
+;;                :right [[:lineinfo]
+;;                        [:percent]]}
+;;       :inactive {:left [[:filename]]
+;;                  :right []}})
 
 ;; closetag
 (set nvim.g.closetag_filenames "*.html,*.xhtml,*.phtml,*.erb,*.jsx,*.js")
@@ -369,10 +367,13 @@
 (imap :<Tab> "v:lua.tab_complete()" {:expr true})
 (imap :<S-Tab> "v:lua.s_tab_complete()" {:expr true})
 
-;; bindings
+;; defer loading
 (defer
- 100
+ 1
  (fn []
+   (ex colorscheme :onedark)
+   ;; (ex :Startify)
+
    ;; custom commands
    (fn->viml :dotfiles.util :gh-open-pull-request :GhOpenPullRequest)
    (fn->viml :dotfiles.util :gh-list-pull-requests :GhListPullRequests)
@@ -403,7 +404,7 @@
          :y [":let @*=expand('%:p') | echo @*<CR>" "Copy Full File Path"]}
      :g {:name "+git"
          :p ["<cmd>call GhListPullRequests()<CR>" "Github List PRs"]
-         :oo ["<cmd>Gbrowse<CR>" "Git browse"]
+         :oo ["<cmd>GBrowse<CR>" "Git browse"]
          :s ["<cmd>Neogit<CR>" "Git status"]
          :b ["<cmd>Git blame<CR>" "Git blame"]}
      :b {:name "+buffers"
