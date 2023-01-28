@@ -60,4 +60,12 @@
   :fn->viml
   (fn [mod from to]
     `(nvim-util.fn-bridge ,to ,mod ,from {:return true}))
+
+  :use-package!
+  (fn [name opts]
+    `(util.use-package ,name ,opts))
+
+  :use-package-setup!
+  (fn []
+    `(util.use-package-setup))
 }

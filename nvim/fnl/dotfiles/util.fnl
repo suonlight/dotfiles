@@ -34,18 +34,13 @@
     (when (not ok?)
       (print (.. "dotfiles error: " val-or-err)))))
 
-(defn use [...]
-  "Iterates through the arguments as pairs and calls lazy's setup function for
-  each of them. Works around Fennel not liking mixed associative and sequential
-  tables as well."
-  (let [pkgs [...]
-        plugins []]
-    (for [i 1 (a.count pkgs) 2]
-      (let [name (. pkgs i)
-            opts (. pkgs (+ i 1))]
-        (-?> (. opts :mod) (safe-require-plugin-config))
-        (table.insert plugins (a.assoc opts 1 name))))
-    (lazy.setup plugins)))
+(def packages [])
+
+(defn use-package [name opts]
+  (table.insert packages (a.assoc opts 1 name)))
+
+(defn use-package-setup []
+  (lazy.setup packages))
 
 (defn gh-open-pull-request []
   (sh "gh pr view --web")
