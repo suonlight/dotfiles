@@ -152,3 +152,9 @@
 (use-package! org-roam-ui
     :after org-roam ;; or :after org
     :hook (org-roam . org-roam-ui-mode))
+
+(use-package! org-excalidraw
+  :after org-roam
+  :config
+  (setq org-excalidraw-directory "~/Dropbox/org-modes/roam/draws")
+  (org-excalidraw-initialize))
