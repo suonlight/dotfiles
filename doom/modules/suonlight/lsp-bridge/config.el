@@ -16,6 +16,9 @@
     :desc "LSP Find declaration"
     "j"             #'lsp-bridge-find-def)
 
+  (push "ruby" lsp-bridge-org-babel-lang-list)
+  (push "javascript" lsp-bridge-org-babel-lang-list)
+
   (require 'yasnippet)
   (yas-global-mode 1)
   (global-lsp-bridge-mode))

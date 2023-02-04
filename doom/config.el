@@ -206,8 +206,6 @@ not appropriate in some cases like terminals."
 
   (setq forge-topic-list-limit '(0 . 0)))
 
-(set +zen-text-scale 3)
-
 (setq ispell-dictionary "en")
 (setq ispell-personal-dictionary "~/projects/doom-emacs/.local/etc/ispell/en.pws")
 
@@ -287,7 +285,6 @@ not appropriate in some cases like terminals."
   (add-hook! js-mode #'prettier-js-mode)
   (add-hook! web-mode #'prettier-js-mode)
 
-  (add-hook! ruby-ts-mode #'prettier-js-mode)
   (add-hook! js-ts-mode #'prettier-js-mode)
   (add-hook! typescript-ts-mode #'prettier-js-mode)
   (add-hook! tsx-ts-mode #'prettier-js-mode))
