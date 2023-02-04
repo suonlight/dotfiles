@@ -129,6 +129,3 @@
 
 ;; (package! grammarly)
 ;; (package! flycheck-grammarly)
-
-;; (package! tree-sitter)
-;; (package! tree-sitter-langs)

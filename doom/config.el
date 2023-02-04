@@ -344,14 +344,6 @@ not appropriate in some cases like terminals."
 ;   :config
 ;   (setq git-link-open-in-browser t))
 
-;; (use-package! tree-sitter
-;;   :config
-;;   (require 'tree-sitter-langs)
-;;   (global-tree-sitter-mode))
-
-
-
-
 (after! smerge-mode
   (defhydra sl/smerge-hydra
     (:color pink :hint nil :post (smerge-auto-leave))
