@@ -12,7 +12,7 @@
 (use-package! :Olical/conjure :ft "fennel")
 
 ; defaults
-(use-package! :editorconfig/editorconfig-vim :lazy true)
+(use-package! :editorconfig/editorconfig-vim :event "VeryLazy")
 (use-package! :folke/which-key.nvim :lazy true)
 (use-package! :mhinz/vim-startify :cmd "Startify")
 (use-package! :windwp/nvim-autopairs
