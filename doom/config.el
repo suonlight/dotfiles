@@ -285,7 +285,12 @@ not appropriate in some cases like terminals."
   :config
   (add-hook! typescript-mode #'prettier-js-mode) ;; remember to install ts-ls by using lsp-install-server
   (add-hook! js-mode #'prettier-js-mode)
-  (add-hook! web-mode #'prettier-js-mode))
+  (add-hook! web-mode #'prettier-js-mode)
+
+  (add-hook! ruby-ts-mode #'prettier-js-mode)
+  (add-hook! js-ts-mode #'prettier-js-mode)
+  (add-hook! typescript-ts-mode #'prettier-js-mode)
+  (add-hook! tsx-ts-mode #'prettier-js-mode))
 
 (defun google-translate-at-point ()
   (interactive)

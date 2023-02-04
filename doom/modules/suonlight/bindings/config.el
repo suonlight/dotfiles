@@ -750,6 +750,18 @@
   (:map typescript-tsx-mode-map
     :i  "s-r l"    #'eacl-complete-line
     :i  "s-r m"    #'eacl-complete-multiline)
+  (:map ruby-ts-mode-map
+    :i  "s-r l"    #'eacl-complete-line
+    :i  "s-r m"    #'eacl-complete-multiline)
+  (:map js-ts-mode-map
+    :i  "s-r l"    #'eacl-complete-line
+    :i  "s-r m"    #'eacl-complete-multiline)
+  (:map typescript-ts-mode-map
+    :i  "s-r l"    #'eacl-complete-line
+    :i  "s-r m"    #'eacl-complete-multiline)
+  (:map tsx-ts-mode-map
+    :i  "s-r l"    #'eacl-complete-line
+    :i  "s-r m"    #'eacl-complete-multiline)
   (:map comint-mode-map
     :i "s-1"   #'+workspace/switch-to-0
     :i "s-2"   #'+workspace/switch-to-1
