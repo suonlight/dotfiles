@@ -54,11 +54,18 @@
 (use-package! :benmills/vimux :cmd "VimuxRunCommand")
 
 ; text objects
-(use-package! :michaeljsmith/vim-indent-object)
-;; :kana/vim-textobj-user {}
-;; :kana/vim-textobj-line {}
-;; :kana/vim-textobj-entire {}
 (use-package! :tpope/vim-surround)
+(use-package! :chrisgrieser/nvim-various-textobjs
+              :config
+              (fn []
+                (let [various-textobjs (require :various-textobjs)]
+                  (various-textobjs.setup {:useDefaultKeymaps false})
+                  (vim.keymap.set ["o" "x"] "ig" (fn [] (various-textobjs.entireBuffer)))
+                  (vim.keymap.set ["o" "x"] "ag" (fn [] (various-textobjs.entireBuffer)))
+
+                  (vim.keymap.set ["o" "x"] "ii" (fn [] (various-textobjs.indentation true true)))
+                  (vim.keymap.set ["o" "x"] "ai" (fn [] (various-textobjs.indentation false true))))))
+
 
 ; git
 (use-package! :tpope/vim-fugitive :cmd ["Git" "GBrowse"])
@@ -298,15 +305,6 @@
     (let [modeline (require :dotfiles.modeline)]
       (modeline.setup))
     (vim.diagnostic.config {:virtual_text false})))
-
-;; textobj-entire
-; (nvim.command "call textobj#user#plugin('entire', {
-; \      '-': {
-; \        'select-a': 'ag',  'select-a-function': 'textobj#entire#select_a',
-; \        'select-i': 'ig',  'select-i-function': 'textobj#entire#select_i'
-; \      }
-; \    })
-; ")
 
 ;; ;; lightline
 ;; (fn->viml :dotfiles.util :filename :LightlineFilename)
