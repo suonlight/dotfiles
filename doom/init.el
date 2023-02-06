@@ -213,4 +213,5 @@
        utils
        lsp-bridge
        treesit
+       chatgpt
        notes)
