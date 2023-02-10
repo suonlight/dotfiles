@@ -1,15 +1,26 @@
 (use-package! lsp-bridge
   :config
+  (setq acm-enable-quick-access t)
+  (setq acm-quick-access-modifier 'meta)
+
   (map! :map acm-mode-map
     "C-n"           #'acm-select-next
     "C-p"           #'acm-select-prev
     [tab]           #'acm-select-next
     [backtab]       #'acm-select-prev)
+
+  (map!
+    (:map org-mode-map
+    :i "C-n"           #'acm-select-next
+    :i "C-p"           #'acm-select-prev
+    :i "C-e"           #'acm-complete))
+
   (map! :map typescript-tsx-mode-map
     :i "C-n"           #'acm-select-next
     :i "C-p"           #'acm-select-prev
     :i [tab]           #'acm-select-next
     :i [backtab]       #'acm-select-prev)
+
   (map! :map doom-leader-code-map
     :desc "LSP Rename"
     "r"             #'lsp-bridge-rename
