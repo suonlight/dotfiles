@@ -13,7 +13,6 @@
 (load! "chatgpt-api")
 
 (after! org
-  ;; (prefer-coding-system 'utf-8)
   (load! "ob-chatgpt")
 
   (add-to-list 'org-src-lang-modes '("chatgpt" . fundamental)))
