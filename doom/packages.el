@@ -123,7 +123,6 @@
 ;; (package! anki-editor)
 ;; (package! reason-mode)
 
-;; (package! nov)
 ;; (package! package-lint)
 ;; (package! clip2org)
 

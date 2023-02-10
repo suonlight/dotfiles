@@ -3,3 +3,4 @@
 (package! ob-typescript)
 (package! org-re-reveal :disable t)
 (package! org-excalidraw :recipe (:host github :repo "wdavew/org-excalidraw"))
+(package! nov)
