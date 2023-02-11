@@ -841,11 +841,6 @@
     :inv "C-h"   #'evil-window-left
     :inv "C-j"   #'evil-window-down
     :inv "C-k"   #'evil-window-up)
-  (:map nov-mode-map
-    :inv "C-l"   #'evil-window-right
-    :inv "C-h"   #'evil-window-left
-    :inv "C-j"   #'evil-window-down
-    :inv "C-k"   #'evil-window-up)
   (:map magit-status-mode-map
     :n "`"       #'forge-browse-topic)
   (:map magit-revision-mode-map

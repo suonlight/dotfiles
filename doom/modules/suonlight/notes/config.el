@@ -158,3 +158,12 @@
   :config
   (setq org-excalidraw-directory "~/Dropbox/org-modes/roam/draws")
   (org-excalidraw-initialize))
+
+(use-package! nov
+  :config
+  (map!
+    (:map nov-mode-map
+    :inv "C-l"   #'evil-window-right
+    :inv "C-h"   #'evil-window-left
+    :inv "C-j"   #'evil-window-down
+    :inv "C-k"   #'evil-window-up)))

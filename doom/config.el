@@ -47,7 +47,8 @@
 ;; `load-theme' function. These are the defaults.
 (setq doom-themes-treemacs-theme "doom-colors")
 
-(setq doom-localleader-key ",")
+;; (setq doom-localleader-key ",")
+(keymap-set evil-motion-state-map "," (general-simulate-key "SPC m"))
 
 ;; If you intend to use org, it is recommended you change this!
 (setq org-directory "~/Dropbox/org-modes")
