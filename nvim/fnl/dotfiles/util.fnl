@@ -47,16 +47,14 @@
   (nvim.input "<CR>"))
 
 (defn gh-list-pull-requests []
-  (let [on-select (fn [choice]
+  (let [on-select (fn [choice _]
                     (let [pr-number (-> choice
                                         (. 1)
                                         (strings.split " - ") (. 1)
                                         (strings.split "#") (. 2))]
                       (sh (.. "gh pr view " pr-number " --web"))))
         cmd "gh pr list --search sort:updated-desc --json author,title,number,isDraft --jq '.[] | [\"#\" + (.number|tostring), .author.login, .title + \" \" + (if .isDraft then \"[draft]\" else \"[open]\" end)] | join(\" - \")'"]
-    (coroutine.wrap (fn []
-                      (let [choice (fzf-core.fzf cmd {:border false})]
-                        (when choice (on-select choice)))))))
+    (fzf-core.fzf_exec (sh cmd) {:prompt "PR: " :actions {"default" on-select}})))
 
 (defn js-insert-i18n []
   (let [cmd (.. "jq -r '.messages | [leaf_paths as $path | { \"key\": $path | join(\".\"), \"value\": getpath($path)}] | map([(.key + \": \" + .value)]) | .[] | .[]' " (expand "src/packages/eh-locale/lang/en-AU.json"))
@@ -70,9 +68,9 @@
                             col (. pos 2)
                             text (.. "Intl.formatMessage({ id: '" i18n-key "' })")]
                         (nvim.buf_set_text (nvim.win_get_buf 0) row col row col [text]))))]
-    ((coroutine.wrap (fn []
-                       (let [choice (fzf-core.fzf cmd {:border false})]
-                         (when choice (on-select choice))))))))
+    (coroutine.wrap (fn []
+                      (let [choice (fzf-core.fzf cmd {:border false})]
+                        (when choice (on-select choice)))))))
 
 (defn ci-open []
   (let [org-repo (-> (sh "git remote get-url origin") (. 1)

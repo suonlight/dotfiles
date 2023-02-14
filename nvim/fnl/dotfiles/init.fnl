@@ -19,7 +19,6 @@
               :lazy true
               :config
               (fn []
-                (print "Loading autopairs...")
                 (let [autopairs (require :nvim-autopairs)]
                   (autopairs.setup {})
                   (let [autopairs-compe (require :nvim-autopairs.completion.compe)]
