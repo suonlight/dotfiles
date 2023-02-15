@@ -168,3 +168,6 @@
     :inv "C-h"   #'evil-window-left
     :inv "C-j"   #'evil-window-down
     :inv "C-k"   #'evil-window-up)))
+
+(use-package! org-appear
+  :hook (org-mode . org-appear-mode))
