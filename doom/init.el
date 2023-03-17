@@ -214,4 +214,5 @@
        lsp-bridge
        treesit
        chatgpt
+       copilot
        notes)
