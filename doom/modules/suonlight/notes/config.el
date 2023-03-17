@@ -130,7 +130,7 @@
 
   (setq org-roam-dailies-capture-templates
     '(("d" "journals" entry "* %?" :if-new
-        (file+head "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+TODO: TODO DOING | DONE\n\n* Morning Routines\n\n- Check Calendar\n- Watch Code Review\n- Run Squad Reports\n- Read Finance News")))))
+        (file+head "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+TODO: TODO DOING | DONE\n\n")))))
 
 (after! org-journal
   (setq org-journal-enable-agenda-integration t)

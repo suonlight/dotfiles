@@ -12,7 +12,6 @@
 
 (after! lsp-bridge
   (push '(ruby-ts-mode . "solargraph") lsp-bridge-single-lang-server-mode-list)
-  (push '(tsx-ts-mode . "typescriptreact") lsp-bridge-single-lang-server-mode-list)
 
   (add-hook! ruby-ts-mode #'lsp-bridge-mode)
   (add-hook! tsx-ts-mode #'lsp-bridge-mode))
