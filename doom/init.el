@@ -213,6 +213,7 @@
        utils
        lsp-bridge
        treesit
+       git
        chatgpt
        copilot
        notes)
