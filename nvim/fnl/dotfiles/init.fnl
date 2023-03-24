@@ -179,7 +179,7 @@
                                                :javascriptreact  prettier
                                                :javascript       prettier}}))))
 (use-package! :mfussenegger/nvim-lint)
-;; :github/copilot.vim {}
+(use-package! :github/copilot.vim)
 
 ; notes
 (use-package! :kristijanhusak/orgmode.nvim

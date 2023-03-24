@@ -2,6 +2,7 @@
   "aniseed": { "branch": "master", "commit": "a7445c340fb7a0529f3c413eb99d3f8d29f50ba2" },
   "any-jump.vim": { "branch": "master", "commit": "9768403b6381ce3758cebac9613910c0160969e3" },
   "conjure": { "branch": "master", "commit": "d2e69a13b32e8574decfe81ea275292234eba6ea" },
+  "copilot.vim": { "branch": "release", "commit": "9e869d29e62e36b7eb6fb238a4ca6a6237e7d78b" },
   "diffview.nvim": { "branch": "main", "commit": "11827d46e939b4748dbdb7e0df4982a63bd59d26" },
   "editorconfig-vim": { "branch": "master", "commit": "1d54632f7fcad38df8e428f349bc58b15af4b206" },
   "formatter.nvim": { "branch": "master", "commit": "8a4c961330cc4688087f23d18fa7d2f1af9a4902" },
