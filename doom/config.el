@@ -124,6 +124,10 @@
   (defun select-ruby-checker () (flycheck-select-checker 'ruby-rubocop))
   (add-hook! ruby-mode #'select-ruby-checker))
 
+(after! ruby-ts-mode
+  (add-hook! ruby-ts-mode #'evil-matchit-mode)
+  (evilmi-load-plugin-rules '(ruby-mode enh-ruby-mode ruby-ts-mode) '(simple ruby)))
+
 (after! sql
   (add-hook! sql-mode #'format-all-mode))
 
