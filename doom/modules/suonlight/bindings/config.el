@@ -407,6 +407,8 @@
         :desc "Copy link to remote"         "y"   #'+vc/browse-at-remote-kill
         :desc "Copy link to homepage"       "Y"   #'+vc/browse-at-remote-kill-homepage
         :desc "Timemachine"                 "t"   #'git-timemachine
+       (:when (modulep! :ui hydra)
+          :desc "SMerge"                    "m"   #'+vc/smerge-hydra/body)
         (:when (modulep! :ui vc-gutter)
           :desc "Git revert hunk"           "r"   #'git-gutter:revert-hunk
           :desc "Git stage hunk"            "s"   #'git-gutter:stage-hunk
