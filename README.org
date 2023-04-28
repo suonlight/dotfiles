@@ -248,7 +248,6 @@ defaults write NSGlobalDomain KeyRepeat -int 1 # normal minimum is 2 (30 ms)
 defaults write NSGlobalDomain InitialKeyRepeat -int 10
 #+end_src
 
-#+RESULTS:
 ** org-protocol
 *** Test org-protocol
 
@@ -268,9 +267,9 @@ location.href='org-protocol:/capture?template=E&url=foo&title=bar'
 
 #+BEGIN_SRC applescript
 on open location this_URL
-	--do shell script "/usr/local/bin/emacsclient \"" & this_URL & "\""
-	do shell script "/usr/local/bin/emacsclient -F '((name . \"doom-capture\") (width . 70) (height . 25) (transient . t))' -e '(org-protocol-capture-frame \"" & this_URL & "\")'"
-	--activate application "Emacs"
+  -- do shell script "/usr/local/bin/emacsclient \"" & this_URL & "\" -F '((name . \"doom-capture\") (width . 70) (height . 25) (transient . t))'"
+  do shell script "/usr/local/bin/emacsclient -F '((name . \"doom-capture\") (width . 70) (height . 25) (transient . t))' -e '(org-protocol-open-frame \"" & this_URL & "\")'"
+  activate application "Emacs"
 end open location
 #+END_SRC
 
