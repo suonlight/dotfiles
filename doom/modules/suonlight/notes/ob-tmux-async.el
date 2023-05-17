@@ -188,11 +188,13 @@ Argument PARAMS the org parameters of the code block."
            (org-babel-do-load-languages 'org-babel-load-languages ',org-babel-load-languages)
            (load-file ,ob-tmux-async-file)
 
-           (ob-tmux-parse-output lang ,jid ,ob-session ,body))
-        `(lambda (result)
+           ;; trick to encode #< and #> characters when passing async
+           (->> (ob-tmux-parse-output lang ,jid ,ob-session ,body) (s-replace "#<" "#>><")))
+        `(lambda (raw-result)
            (with-current-buffer ,(current-buffer)
              (save-excursion
-               (let* ((default-directory ,default-directory)
+               (let* ((result (s-replace "#>><" "#<" raw-result))
+                       (default-directory ,default-directory)
                        (file ,file))
                  (goto-char (point-min))
                  (search-forward ,jid)
