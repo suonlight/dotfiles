@@ -22,10 +22,24 @@
     :i [backtab]       #'acm-select-prev)
 
   (map! :map doom-leader-code-map
-    :desc "LSP Rename"
     "r"             #'lsp-bridge-rename
-    :desc "LSP Find declaration"
-    "j"             #'lsp-bridge-find-def)
+    "t"             #'lsp-bridge-find-type-def
+    "x"             #'lsp-bridge-diagnostic-list)
+
+  (set-lookup-handlers! '(ruby-mode ruby-ts-mode typescript-mode typescript-tsx-mode tsx-ts-mode typescript-ts-mode)
+    :definition #'lsp-bridge-find-def
+    :references #'lsp-bridge-find-references
+    :documentation #'lsp-bridge-popup-documentation)
+
+  (map! :map lsp-bridge-ref-mode-map
+    :nv "q" #'lsp-bridge-ref-quit
+    :nv "j" #'lsp-bridge-ref-jump-next-keyword
+    :nv "k" #'lsp-bridge-ref-jump-prev-keyword
+    :nv "RET" #'lsp-bridge-ref-open-file-and-stay)
+
+  (map! :localleader
+    (:map lsp-bridge-ref-mode-map
+      "e" #'lsp-bridge-ref-switch-to-edit-mode))
 
   (push "ruby" lsp-bridge-org-babel-lang-list)
   (push "javascript" lsp-bridge-org-babel-lang-list)
