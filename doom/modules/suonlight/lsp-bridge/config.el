@@ -11,6 +11,8 @@
 
   (map!
     (:map org-mode-map
+    :nv "]e"           #'lsp-bridge-diagnostic-jump-next
+    :nv "[e"           #'lsp-bridge-diagnostic-jump-prev
     :i "C-n"           #'acm-select-next
     :i "C-p"           #'acm-select-prev
     :i "C-e"           #'acm-complete))
@@ -22,6 +24,7 @@
     :i [backtab]       #'acm-select-prev)
 
   (map! :map doom-leader-code-map
+    "a" #'lsp-bridge-code-action
     "r"             #'lsp-bridge-rename
     "t"             #'lsp-bridge-find-type-def
     "x"             #'lsp-bridge-diagnostic-list)
