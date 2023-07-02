@@ -866,6 +866,8 @@
     "t" #'google-translate-at-point
     "n" #'nov-next-document
     "p" #'nov-previous-document)
+  (:map org-mode-map
+    "t" #'google-translate-at-point)
   (:map org-tree-slide-mode-map
     "e" #'org-tree-slide-slide-in-effect-toggle
     "p" #'org-tree-slide-move-previous-tree
