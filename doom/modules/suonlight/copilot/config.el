@@ -4,4 +4,6 @@
          ("C-TAB" . 'copilot-accept-completion-by-word)
          ("C-<tab>" . 'copilot-accept-completion-by-word)
          ("<tab>" . 'copilot-accept-completion)
-         ("TAB" . 'copilot-accept-completion)))
+         ("TAB" . 'copilot-accept-completion))
+  :config
+  (add-hook! git-commit-mode #'copilot-mode))
