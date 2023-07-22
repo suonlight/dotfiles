@@ -216,4 +216,5 @@
        git
        chatgpt
        copilot
+       ai
        notes)
