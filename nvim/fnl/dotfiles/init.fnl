@@ -33,7 +33,8 @@
                   (hop.setup {:keys "etovxqpdygfblzhckisuran"}))))
 (use-package! :tpope/vim-commentary)
 (use-package! :tpope/vim-endwise)
-(use-package! :pechorin/any-jump.vim :lazy true)
+(use-package! :pechorin/any-jump.vim :lazy true
+              :cmd ["AnyJump"])
 (use-package! :nvim-treesitter/nvim-treesitter :build ":TSUpdate")  ; We recommend updating the parsers on update
 
 ; search files/keyword
