@@ -322,6 +322,7 @@ not appropriate in some cases like terminals."
   :mode "\\.proto$")
 
 (after! dumb-jump
+  (setq dumb-jump-force-searcher 'rg)
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
 (use-package! read-aloud

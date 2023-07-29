@@ -738,9 +738,8 @@
   :nv "ft" #'+treemacs/toggle)
 
 (map!
-  :inv "C-<f6>" #'projectile-toggle-between-implementation-and-test
-  :nv "s-'"     #'+vterm/toggle
-  :g  "C-\\"    #'toggle-input-method
+  :inv "C-<f6>"    #'projectile-toggle-between-implementation-and-test
+  :g  "C-\\"       #'toggle-input-method
   (:map ruby-mode-map
     :i  "s-r l"    #'eacl-complete-line
     :i  "s-r m"    #'eacl-complete-multiline)
@@ -766,27 +765,27 @@
     :i  "s-r l"    #'eacl-complete-line
     :i  "s-r m"    #'eacl-complete-multiline)
   (:map comint-mode-map
-    :i "s-1"   #'+workspace/switch-to-0
-    :i "s-2"   #'+workspace/switch-to-1
-    :i "s-3"   #'+workspace/switch-to-2
-    :i "s-4"   #'+workspace/switch-to-3
-    :i "s-5"   #'+workspace/switch-to-4
-    :i "s-6"   #'+workspace/switch-to-5
-    :i "s-7"   #'+workspace/switch-to-6
-    :i "s-8"   #'+workspace/switch-to-7
-    :i "s-9"   #'+workspace/switch-to-8
-    :i "s-0"   #'+workspace/switch-to-final)
+    :i "s-1"       #'+workspace/switch-to-0
+    :i "s-2"       #'+workspace/switch-to-1
+    :i "s-3"       #'+workspace/switch-to-2
+    :i "s-4"       #'+workspace/switch-to-3
+    :i "s-5"       #'+workspace/switch-to-4
+    :i "s-6"       #'+workspace/switch-to-5
+    :i "s-7"       #'+workspace/switch-to-6
+    :i "s-8"       #'+workspace/switch-to-7
+    :i "s-9"       #'+workspace/switch-to-8
+    :i "s-0"       #'+workspace/switch-to-final)
   (:after vterm :map vterm-mode-map
-    :i "s-1"   #'+workspace/switch-to-0
-    :i "s-2"   #'+workspace/switch-to-1
-    :i "s-3"   #'+workspace/switch-to-2
-    :i "s-4"   #'+workspace/switch-to-3
-    :i "s-5"   #'+workspace/switch-to-4
-    :i "s-6"   #'+workspace/switch-to-5
-    :i "s-7"   #'+workspace/switch-to-6
-    :i "s-8"   #'+workspace/switch-to-7
-    :i "s-9"   #'+workspace/switch-to-8
-    :i "s-0"   #'+workspace/switch-to-final)
+    :i "s-1"       #'+workspace/switch-to-0
+    :i "s-2"       #'+workspace/switch-to-1
+    :i "s-3"       #'+workspace/switch-to-2
+    :i "s-4"       #'+workspace/switch-to-3
+    :i "s-5"       #'+workspace/switch-to-4
+    :i "s-6"       #'+workspace/switch-to-5
+    :i "s-7"       #'+workspace/switch-to-6
+    :i "s-8"       #'+workspace/switch-to-7
+    :i "s-9"       #'+workspace/switch-to-8
+    :i "s-0"       #'+workspace/switch-to-final)
   (:after vterm :map vterm-mode-map
     :nv "i"        #'evil-insert-resume
     :nv "o"        #'evil-insert-resume
@@ -815,10 +814,10 @@
     :i "C-t"       #'vterm--self-insert
     :i "C-SPC"     #'vterm--self-insert)
   (:after treemacs :map treemacs-mode-map
-    "C-l"   #'evil-window-right
-    "C-h"   #'evil-window-left
-    "C-j"   #'evil-window-down
-    "C-k"   #'evil-window-up)
+    "C-l"          #'evil-window-right
+    "C-h"          #'evil-window-left
+    "C-j"          #'evil-window-down
+    "C-k"          #'evil-window-up)
   (:after org :map org-mode-map
     :i  "s-r"    #'org-roam-node-insert
     :nv "t"      #'org-todo)
@@ -834,11 +833,11 @@
     :nv "s-r"    #'xwidget-webkit-reload
     :nv "o"      #'browse-url)
   (:after dired :map dired-mode-map
-    :nv "O" #'dired-display-file
-    :nv "o" #'dired-find-file-other-window
-    :nv "w" #'dired-kill-subdir)
+    :nv "O"      #'dired-display-file
+    :nv "o"      #'dired-find-file-other-window
+    :nv "w"      #'dired-kill-subdir)
   (:map rspec-mode-map
-    "<f5>"  #'rspec-verify-single)
+    "<f5>"       #'rspec-verify-single)
   (:map rspec-compilation-mode-map
     :inv "C-l"   #'evil-window-right
     :inv "C-h"   #'evil-window-left
@@ -889,12 +888,6 @@
     "Mi" #'anki-editor-insert-note
     "Mp" #'anki-editor-push-notes
     "Mr" #'anki-editor-retry-failure-notes)
-  (:after smerge-mode :map smerge-mode-map
-    "."  #'sl/smerge-hydra/body
-    "n"  #'smerge-next
-    "p"  #'smerge-prev
-    "u"  #'smerge-keep-upper
-    "l"  #'smerge-keep-lower)
   (:after org :map org-mode-map
     "'"          #'org-edit-special
     ","          #'org-babel-execute-src-block
