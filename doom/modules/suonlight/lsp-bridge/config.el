@@ -2,6 +2,7 @@
   :config
   (setq acm-enable-quick-access t)
   (setq acm-quick-access-modifier 'meta)
+  ;; (setq acm-enable-copilot t)
 
   (map! :map acm-mode-map
     "C-n"           #'acm-select-next
@@ -24,7 +25,7 @@
     :i [backtab]       #'acm-select-prev)
 
   (map! :map doom-leader-code-map
-    "a" #'lsp-bridge-code-action
+    "a"             #'lsp-bridge-code-action
     "r"             #'lsp-bridge-rename
     "t"             #'lsp-bridge-find-type-def
     "x"             #'lsp-bridge-diagnostic-list)
