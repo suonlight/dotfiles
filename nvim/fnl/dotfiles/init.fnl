@@ -34,7 +34,10 @@
 (use-package! :tpope/vim-commentary)
 (use-package! :tpope/vim-endwise)
 (use-package! :pechorin/any-jump.vim :lazy true
-              :cmd ["AnyJump"])
+              :cmd ["AnyJump"]
+              :config
+              (fn []
+                (set nvim.g.any_jump_references_enabled 0)))
 (use-package! :nvim-treesitter/nvim-treesitter :build ":TSUpdate")  ; We recommend updating the parsers on update
 
 ; search files/keyword
@@ -437,6 +440,7 @@
        :c {:name "+code"
            :x ["<cmd>lua vim.diagnostic.setqflist()<CR>" "Error List"]}
        :j {:name "+jump"
+           :L ["<cmd>AnyJumpLastResults<CR>" "Jump to Last Results"]
            :j ["<cmd>HopChar1MW<CR>" "Jump to char"]
            :w ["<cmd>HopWordMW<CR>" "Jump to word"]
            :l ["<cmd>HopLine<CR>" "Jump to line"]}
@@ -485,6 +489,11 @@
 ;; Diagnostic
 (noremap :n "]e" "<cmd>lua vim.diagnostic.goto_next()<CR>")
 (noremap :n "[e" "<cmd>lua vim.diagnostic.goto_prev()<CR>")
+
+;; Jump
+(noremap :n "g]" "<cmd>AnyJump<CR>")
+(noremap :v "g]" "<cmd>AnyJumpVisual<CR>")
+(noremap :n "g[" "<cmd>AnyJumpBack<CR>")
 
 (augroup
   :FileFugitive
