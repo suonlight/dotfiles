@@ -248,7 +248,8 @@
         "w"         #'evil-avy-goto-word-or-subword-1
         "n"         #'sp-newline
         "o"         #'open-line
-        "q"         #'dumb-jump-quick-look
+        "q"         #'dumb-jump-go-prefer-external
+        "Q"         #'dumb-jump-go-other-window
         "s"         #'sp-split-sexp
         "v"         #'find-variable))
 
