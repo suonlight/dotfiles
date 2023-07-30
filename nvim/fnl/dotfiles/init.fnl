@@ -135,7 +135,6 @@
 
 ; lsp
 (use-package! :williamboman/mason.nvim
-              :cmd "Mason"
               :config
               (fn []
                 (defn on-attach [client bufnr]
