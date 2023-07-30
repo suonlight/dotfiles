@@ -54,7 +54,7 @@
                   (fzf-lua.setup {:winopts {:split "belowright new"}}))))
 (use-package! :christoomey/vim-tmux-navigator
               :cmd ["TmuxNavigateLeft" "TmuxNavigateDown" "TmuxNavigateUp" "TmuxNavigateRight"])
-(use-package! :benmills/vimux :cmd "VimuxRunCommand")
+(use-package! :preservim/vimux)
 
 ; text objects
 (use-package! :tpope/vim-surround)
