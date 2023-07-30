@@ -1,8 +1,6 @@
 #+TITLE: Dotfiles
 #+Author: Minh Nguyen
 
-#+PROPERTY: header-args+ :tangle yes
-
 * [#A] Basic Tools
 ** Setup dotfiles
 
@@ -16,16 +14,15 @@ export WORKSPACE="$HOME/projects"
 mkdir -p $WORKSPACE
 cd $WORKSPACE
 git clone git@github.com:suonlight/dotfiles.git
-mkdir -p ~/.config/alacritty
 mkdir -p ~/.config/nvim
-rm -rf ~/.zshrc ~/.tmux.conf ~/.tmux.sp ~/.ctags ~/.editorconfig ~/.config/doom ~/.config/nvim
+rm -rf ~/.zshrc ~/.tmux.conf ~/.tmux.sp ~/.ctags ~/.editorconfig ~/.config/doom ~/.config/nvim ~/.config/alacritty
 ln -s $WORKSPACE/dotfiles/.zshrc ~/.zshrc
 ln -s $WORKSPACE/dotfiles/.tmux.conf ~/.tmux.conf
 ln -s $WORKSPACE/dotfiles/.tmux.sp ~/.tmux.sp
 ln -s $WORKSPACE/dotfiles/.editorconfig ~/.editorconfig
 ln -s $WORKSPACE/dotfiles/.ctags ~/.ctags
 ln -s $WORKSPACE/dotfiles/nvim ~/.config/nvim
-ln -s $WORKSPACE/dotfiles/alacritty.yml ~/.config/alacritty/alacritty.yml
+ln -s $WORKSPACE/dotfiles/alacritty ~/.config/alacritty
 ln -s $WORKSPACE/dotfiles/doom ~/.config/doom
 ln -s $WORKSPACE/dotfiles/karabiner ~/.config/karabiner
 ln -s $WORKSPACE/dotfiles/tridactyl ~/.config/tridactyl

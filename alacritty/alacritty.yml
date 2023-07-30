@@ -1,16 +1,26 @@
 # Configuration for Alacritty, the GPU enhanced terminal emulator.
 
+# Import additional configuration files
+#
+# Imports are loaded in order, skipping all missing files, with the importing
+# file being loaded last. If a field is already present in a previous import, it
+# will be replaced.
+#
+# All imports must either be absolute paths starting with `/`, or paths relative
+# to the user's home directory starting with `~/`.
+import:
+  - doom_one.yml
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
 # set by alacritty itself.
-#env:
+env:
   # TERM variable
   #
   # This value is used to set the `$TERM` environment variable for
   # each instance of Alacritty. If it is not present, alacritty will
   # check the local terminfo database and use 'alacritty' if it is
   # available, otherwise 'xterm-256color' is used.
-  # TERM: xterm-256color
+  TERM: xterm-256color
 
 window:
   # Window dimensions (changes require restart)
@@ -116,56 +126,11 @@ font:
     x: 0
     y: 0
 
-  # Thin stroke font rendering (OS X only)
-  #
-  # Thin strokes are suitable for retina displays, but for non-retina screens
-  # it is recommended to set `use_thin_strokes` to `false`
-  use_thin_strokes: true
-
 # Display the time it takes to redraw each frame.
 debug.render_timer: false
 
 # If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
-
-# Colors (Taerminal)
-colors:
-  # Default colors
-  primary:
-    background: '0x26282a'
-    foreground: '0xf0f0f0'
-  cursor:
-    background: '0xf0f0f0'
-    foreground: '0x26282a'
-
-  # Normal colors
-  normal:
-    black:   '0x26282a'
-    red:     '0xff8878'
-    green:   '0xb4fb73'
-    yellow:  '0xfffcb7'
-    blue:    '0x8bbce5'
-    magenta: '0xffb2fe'
-    cyan:    '0xa2e1f8'
-    white:   '0xf1f1f1'
-
-  # Bright colors
-  bright:
-    black:   '0x6f6f6f'
-    red:     '0xfe978b'
-    green:   '0xd6fcba'
-    yellow:  '0xfffed5'
-    blue:    '0xc2e3ff'
-    magenta: '0xffc6ff'
-    cyan:    '0xc0e9f8'
-    white:   '0xffffff'
-
-  # Indexed Colors
-  #
-  # The indexed colors include all colors from 16 to 256.
-  # When these are not set, they're filled with sensible defaults.
-  #indexed_colors:
-  #  - { index: 16, color: '0x000000' }
 
 # Visual Bell
 #
@@ -196,7 +161,7 @@ bell:
 #
 # Window opacity as a floating point number from `0.0` to `1.0`.
 # The value `0.0` is completely transparent and `1.0` is opaque.
-background_opacity: 1.0
+# background_opacity: 1.0
 
 # Mouse bindings
 #
@@ -228,7 +193,7 @@ mouse:
   # If this is `true`, the cursor is temporarily hidden when typing.
   hide_when_typing: false
 
-  url:
+  hints:
     # URL launcher
     #
     # This program is executed when clicking on a text which is recognized as a URL.

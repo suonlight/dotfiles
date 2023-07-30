@@ -377,7 +377,8 @@
 (defer
   1
   (fn []
-    (ex colorscheme :onedark)
+    (ex colorscheme :tokyonight-night)
+    ;; (ex colorscheme :onedark)
     ;; (ex :Startify)
 
     ;; custom commands
