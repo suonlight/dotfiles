@@ -9,7 +9,8 @@ set-option -g visual-silence off
 set-window-option -g monitor-activity off
 set-option -g bell-action none
 
-set -g default-terminal "screen-256color"
+# set -g default-terminal "screen-256color"
+set -g default-terminal "xterm-256color"
 
 # The modes {
 
