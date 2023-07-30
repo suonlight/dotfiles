@@ -14,7 +14,10 @@
 ; defaults
 (use-package! :editorconfig/editorconfig-vim :event "VeryLazy")
 (use-package! :folke/which-key.nvim :lazy true)
-(use-package! :mhinz/vim-startify :cmd "Startify")
+(use-package! :mhinz/vim-startify
+              :cmd "Startify"
+              :config
+              (fn [] (set nvim.g.startify_change_to_vcs_root 1)))
 (use-package! :windwp/nvim-autopairs
               :lazy true
               :config
@@ -23,7 +26,14 @@
                   (autopairs.setup {})
                   (let [autopairs-compe (require :nvim-autopairs.completion.compe)]
                     (autopairs-compe.setup {:map_cr true :map_complete true })))))
-(use-package! :yggdroot/indentLine :cmd "IndentLinesToggle")
+
+(use-package! :yggdroot/indentLine :cmd "IndentLinesToggle"
+              :config
+              (fn []
+                (set nvim.g.indentLine_enabled 0)
+                (set nvim.g.indentLine_concealcursor "inc")
+                (set nvim.g.indentLine_conceallevel 2)))
+
 (use-package! :danro/rename.vim :cmd "Rename")
 (use-package! :phaazon/hop.nvim ; easy motion
               :cmd ["HopChar1MW" "HopWordMW" "HopLine"]
@@ -52,8 +62,14 @@
               (fn []
                 (let [fzf-lua (require :fzf-lua)]
                   (fzf-lua.setup {:winopts {:split "belowright new"}}))))
+
 (use-package! :christoomey/vim-tmux-navigator
-              :cmd ["TmuxNavigateLeft" "TmuxNavigateDown" "TmuxNavigateUp" "TmuxNavigateRight"])
+              :cmd ["TmuxNavigateLeft" "TmuxNavigateDown" "TmuxNavigateUp" "TmuxNavigateRight"]
+              :config
+              (fn []
+                (set nvim.g.tmux_navigator_no_mappings 1)
+                (set nvim.g.tmux_navigator_save_on_switch 1)))
+
 (use-package! :preservim/vimux)
 
 ; text objects
@@ -122,16 +138,30 @@
 (use-package! :rcarriga/nvim-notify :lazy true)
 
 ; lisp
-(use-package! :guns/vim-sexp :lazy true)
+(use-package! :guns/vim-sexp :lazy true
+              :config (fn [] (set nvim.g.sexp_filetypes "clojure,scheme,lisp,fennel")))
 
 ; javascript
 (use-package! :pangloss/vim-javascript :ft ["javascript"])
 (use-package! :maxmellon/vim-jsx-pretty)
-(use-package! :alvan/vim-closetag)
+(use-package! :alvan/vim-closetag
+              :config
+              (fn []
+                (set nvim.g.closetag_close_shortcut "<leader>>") ; Add > at current position without closing the current tag, default is ''
+                (set nvim.g.closetag_filenames "*.html,*.xhtml,*.phtml,*.erb,*.jsx,*.js")
+                (set nvim.g.closetag_xhtml_filenames "*.xhtml,*.jsx,*.erb,*.js")
+                (set nvim.g.closetag_emptyTags_caseSensitive 1)))
 
 ; ruby
 (use-package! :tpope/vim-projectionist)
-(use-package! :janko-m/vim-test)
+(use-package! :janko-m/vim-test
+              :config
+              (fn []
+                (set nvim.g.test#strategy "vimux")
+                (set nvim.g.test#preserve_screen 1)
+
+                (set nvim.test#enabled_runners ["ruby#rspec"])
+                (set nvim.test#ruby#minitest#file_pattern "_spec.rb")))
 
 ; lsp
 (use-package! :williamboman/mason.nvim
@@ -225,6 +255,7 @@
               :config
               (fn []
                 (let [compe (require :compe)] ; TODO handle vsnip with TAB
+                  (set nvim.o.completeopt "menuone,noselect")
                   (compe.setup
                    {:enabled true
                     :autocomplete true
@@ -292,14 +323,6 @@
 (set nvim.o.ttyfast true)
 (set nvim.o.lazyredraw true)
 
-;; indentLine
-(set nvim.g.indentLine_enabled 0)
-(set nvim.g.indentLine_concealcursor "inc")
-(set nvim.g.indentLine_conceallevel 2)
-
-;; sexp
-(set nvim.g.sexp_filetypes "clojure,scheme,lisp,fennel")
-
 ;; async setup
 (vim.schedule
   (fn []
@@ -322,30 +345,6 @@
 ;;                        [:percent]]}
 ;;       :inactive {:left [[:filename]]
 ;;                  :right []}})
-
-;; closetag
-(set nvim.g.closetag_filenames "*.html,*.xhtml,*.phtml,*.erb,*.jsx,*.js")
-(set nvim.g.closetag_xhtml_filenames "*.xhtml,*.jsx,*.erb,*.js")
-(set nvim.g.closetag_emptyTags_caseSensitive 1)
-(set nvim.g.closetag_close_shortcut "<leader>>") ; Add > at current position without closing the current tag, default is ''
-
-;; Startify
-(set nvim.g.startify_change_to_vcs_root 1)
-
-;; tmux
-(set nvim.g.tmux_navigator_no_mappings 1)
-(set nvim.g.tmux_navigator_save_on_switch 1)
-
-;; vim-test
-(set nvim.g.test#strategy "vimux")
-(set nvim.g.test#preserve_screen 1)
-
-(set nvim.test#enabled_runners ["ruby#rspec"])
-(set nvim.test#ruby#minitest#file_pattern "_spec.rb")
-
-;; nvim-compe
-(set nvim.o.completeopt "menuone,noselect")
-
 (defn- replace-termcodes [str]
   (nvim.replace_termcodes str true true true))
 
