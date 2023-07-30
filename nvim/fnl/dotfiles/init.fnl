@@ -152,8 +152,15 @@
                 (set nvim.g.closetag_xhtml_filenames "*.xhtml,*.jsx,*.erb,*.js")
                 (set nvim.g.closetag_emptyTags_caseSensitive 1)))
 
-; ruby
-(use-package! :tpope/vim-projectionist)
+(use-package! :rgroli/other.nvim
+              :config
+              (fn []
+                (let [other-nvim (require :other-nvim)]
+                  (other-nvim.setup
+                    {:mappings ["rails" ;; example https://github.com/rgroli/other.nvim/blob/main/lua/other-nvim/builtin/mappings/rails.lua
+                                {:pattern "spec/(.*)/(.*)_spec.rb$"
+                                 :target "app/%1/%2.rb" :context "test"}]}))))
+
 (use-package! :janko-m/vim-test
               :config
               (fn []
@@ -398,7 +405,7 @@
        :p {:name "+projects"
            :f ["<cmd>FzfLua files<CR>" "Find file"]
            :g ["<cmd>FzfLua tags<CR>" "Find Tags"]
-           :a ["<cmd>A<CR>" "Toggle implementation and test"]}
+           :a ["<cmd>:Other<CR>" "Toggle implementation and test"]}
        :f {:name "+files"
            :s ["<cmd>update<CR>" "File save"]
            :f ["<cmd>NvimTreeFindFile<CR>" "Find file in directory"]
