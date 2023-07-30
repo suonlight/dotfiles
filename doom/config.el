@@ -152,8 +152,8 @@
           "-")))))
 
 (after! rspec-mode
-  (set-popup-rule! "^\\*rspec-compilation\\*" :select t :size 0.35)
-  (setq rspec-use-bundler-when-possible t))
+  (add-hook 'compilation-filter-hook 'inf-ruby-auto-enter)
+  (set-popup-rule! "^\\*rspec-compilation\\*" :select t :size 0.35))
 
 (after! rjsx-mode
   (defun select-js-eslint () (flycheck-select-checker 'javascript-eslint))
