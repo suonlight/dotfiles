@@ -97,9 +97,9 @@
               (fn []
                 (let [neogit (require :neogit)
                       diffview (require :diffview)]
-                  ;; (neogit.config.use_magit_keybindings)
                   (diffview.setup {})
                   (neogit.setup {:integrations {:diffview true}
+                                 :use_magit_keybindings true
                                  :disable_hint true
                                  :disable_commit_confirmation true}))))
 
@@ -502,14 +502,20 @@
 (noremap :n "g[" "<cmd>AnyJumpBack<CR>")
 
 (augroup
-  :FileFugitive
+  :MagitGit
   (autocmd :FileType :fugitive "nmap <buffer> q gq")
   (autocmd :FileType :fugitive "nmap <buffer> pp :Git push<CR>")
   (autocmd :FileType :fugitiveblame "nmap <buffer> q gq")
-  (autocmd :FileType :gitcommit "imap <buffer> <C-c><C-c> :wq<CR>")
-  (autocmd :FileType :gitcommit "nmap <buffer> <C-c><C-c> :wq<CR>")
-  (autocmd :FileType :gitcommit "imap <buffer> <C-c><C-k> :q!<CR>")
-  (autocmd :FileType :gitcommit "nmap <buffer> <C-c><C-k> :q!<CR>"))
+
+  (autocmd :FileType :NeogitRebaseTodo "imap <buffer> <C-c><C-c> <cmd>wq<CR>")
+  (autocmd :FileType :NeogitRebaseTodo "nmap <buffer> <C-c><C-c> <cmd>wq<CR>")
+  (autocmd :FileType :NeogitRebaseTodo "imap <buffer> <C-c><C-k> <cmd>q!<CR>")
+  (autocmd :FileType :NeogitRebaseTodo "nmap <buffer> <C-c><C-k> <cmd>q!<CR>")
+
+  (autocmd :FileType :NeogitCommitMessage "imap <buffer> <C-c><C-c> <cmd>wq<CR>")
+  (autocmd :FileType :NeogitCommitMessage "nmap <buffer> <C-c><C-c> <cmd>wq<CR>")
+  (autocmd :FileType :NeogitCommitMessage "imap <buffer> <C-c><C-k> <cmd>q!<CR>")
+  (autocmd :FileType :NeogitCommitMessage "nmap <buffer> <C-c><C-k> <cmd>q!<CR>"))
 
 (augroup
   :FileRuby
