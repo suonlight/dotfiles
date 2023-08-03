@@ -194,3 +194,8 @@ If prefix arg is provided, show current buffer twice."
   "Copy current image file to clipboard"
   (interactive)
   (async-shell-command (format "ftc \"%s\"" (buffer-file-name))))
+
+(defun sl/markdown-to-org (text)
+  (shell-command-to-string (concat "echo "
+                             (shell-quote-argument text)
+                             " | pandoc -f markdown -t org")))
