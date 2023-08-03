@@ -209,10 +209,16 @@
 
   (map!
     (:map nov-mode-map
+    :n   "o"     #'nov-xwidget-view
     :inv "C-l"   #'evil-window-right
     :inv "C-h"   #'evil-window-left
     :inv "C-j"   #'evil-window-down
     :inv "C-k"   #'evil-window-up)))
+
+(use-package! nov-xwidget
+  :commands nov-xwidget-view
+  :config
+  (add-hook! nov-mode #'nov-xwidget-inject-all-files))
 
 (use-package! org-appear
   :hook (org-mode . org-appear-mode))
