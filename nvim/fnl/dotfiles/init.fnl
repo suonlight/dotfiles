@@ -196,8 +196,8 @@
                       mason-lspconfig (require :mason-lspconfig)]
                   (mason.setup {})
                   (mason-lspconfig.setup {:ensure_installed ["solargraph" "tsserver"]})
-                  (lsp.grammarly.setup {:on_attach on-attach :filetypes ["org" "markdown"]})
-                  (lsp.ltex.setup {:on_attach on-attach :filetypes ["org" "markdown"]})
+                  ; (lsp.grammarly.setup {:on_attach on-attach :filetypes ["org" "markdown"]})
+                  ; (lsp.ltex.setup {:on_attach on-attach :filetypes ["org" "markdown"]})
                   (lsp.solargraph.setup {:on_attach on-attach})
                   (lsp.tsserver.setup {:on_attach on-attach}))))
 
@@ -392,6 +392,9 @@
     (fn->viml :dotfiles.util :ci-open :CiOpen)
     (fn->viml :dotfiles.util :js-insert-i18n :JsInsertI18n)
     (fn->viml :dotfiles.util :org-roam-dailies-find-today :OrgRoamDailiesFindToday)
+    (fn->viml :dotfiles.util :org-roam-dailies-find-yesterday :OrgRoamDailiesFindYesterday)
+    (fn->viml :dotfiles.util :org-roam-dailies-find-tomorrow :OrgRoamDailiesFindTomorrow)
+
     (fn->viml :dotfiles.util :org-roam-find-file :OrgRoamFindFile)
     (noremap :n :gog "<cmd>call GhOpenPullRequest()<CR>" {:silent true})
     (noremap :n :goc "<cmd>call CiOpen()<CR>" {:silent true})
@@ -459,6 +462,8 @@
            :r {:name "+roam"
                :f ["<cmd>call OrgRoamFindFile()<CR>" "org-roam-find-file"]
                :d {:name "+date"
+                   :y ["<cmd>call OrgRoamDailiesFindYesterday()<CR>" "org-roam-dailies-find-yesterday"]
+                   :m ["<cmd>call OrgRoamDailiesFindTomorrow()<CR>" "org-roam-dailies-find-tomorrow"]
                    :t ["<cmd>call OrgRoamDailiesFindToday()<CR>" "org-roam-dailies-find-today"]}}}
        :h {:name "+help"
            :? ["<cmd>FzfLua help_tags<CR>" "Help tags"]

@@ -90,6 +90,16 @@
   (let [file (.. org-roam-directory "/journals/" (os.date "%Y-%m-%d.org"))]
     (nvim.ex.edit file)))
 
+(defn org-roam-dailies-find-yesterday []
+  (let [yesterday (os.date "%Y-%m-%d.org" (- (os.time) (* 24 60 60)))
+        file (.. org-roam-directory "/journals/" yesterday)]
+    (nvim.ex.edit file)))
+
+(defn org-roam-dailies-find-tomorrow []
+  (let [tomorrow (os.date "%Y-%m-%d.org" (+ (os.time) (* 24 60 60)))
+        file (.. org-roam-directory "/journals/" tomorrow)]
+    (nvim.ex.edit file)))
+
 (defn org-roam-find-file []
   (let [sqlite (require :sqlite)
       db (sqlite {:uri "~/.config/emacs/org-roam.db"
