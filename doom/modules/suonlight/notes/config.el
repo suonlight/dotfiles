@@ -18,7 +18,7 @@
          entry
          (file ,(format-time-string "~/org-modes/roam/journals/%Y-%m-%d.org" (current-time) t))
          ;; "* %?\n\nSource: %:link\nCaptured On:%U\n\n%:description\n\n%:initial\n\n")
-         "* %:initial\n:PROPERTIES:\n:Source: %:link\n:Captured_On: %U\n:END:\n\n%:description\n\n%:initial\n\n")
+         "* %:description%?\n:PROPERTIES:\n:Source: %:link\n:Captured_On: %U\n:END:\n\n%:initial\n\n")
        ("n"
          "Notes with Clipboard"
          entry
@@ -219,6 +219,15 @@
   :commands nov-xwidget-view
   :config
   (add-hook! nov-mode #'nov-xwidget-inject-all-files))
+
+(after! doc-view
+  (setq doc-view-resolution 500)
+  (map!
+    (:map doc-view-mode-map
+      :inv "]"       #'doc-view-next-page
+      :inv "["       #'doc-view-previous-page
+      :inv "C-b"     (lambda () (interactive) (doc-view-previous-line-or-previous-page 10))
+      :inv "C-d"     (lambda () (interactive) (doc-view-next-line-or-next-page 10)))))
 
 (use-package! org-appear
   :hook (org-mode . org-appear-mode))
