@@ -19,9 +19,11 @@
               (setq bard-draft--end (point-max)))))
         (push formatted-content bard-drafts))))
 
-  (setq bard-http-proxy ""))
+  (setq bard-http-proxy "")
+  (map! :leader "aa" #'bard-chat))
 
 (use-package! aichat
   :config
   ;; (setq aichat-bingai-cookies-file (format "%s/.config/bing.cookies.json" (getenv "HOME")))
-  (setq aichat-http-backend 'url))
+  (setq aichat-http-backend 'url)
+  (map! :leader "ai" #'aichat-bingai-chat))
