@@ -394,10 +394,11 @@
     (fn->viml :dotfiles.util :org-roam-dailies-find-today :OrgRoamDailiesFindToday)
     (fn->viml :dotfiles.util :org-roam-dailies-find-yesterday :OrgRoamDailiesFindYesterday)
     (fn->viml :dotfiles.util :org-roam-dailies-find-tomorrow :OrgRoamDailiesFindTomorrow)
-
     (fn->viml :dotfiles.util :org-roam-find-file :OrgRoamFindFile)
+
     (noremap :n :gog "<cmd>call GhOpenPullRequest()<CR>" {:silent true})
     (noremap :n :goc "<cmd>call CiOpen()<CR>" {:silent true})
+    (noremap :n :<f9> "<cmd>call OrgRoamFindFile()<CR>" {:silent true})
 
     (which-key.register
       {:/ ["<cmd>FzfLua live_grep<CR>" "Search project"]
