@@ -551,3 +551,6 @@
 (inoremap :<C-e> "compe#close('<C-e>')" {:silent true :expr true})
 (inoremap :<C-f> "compe#scroll({ 'delta': +4 })" {:silent true :expr true})
 (inoremap :<C-d> "compe#scroll({ 'delta': -4 })" {:silent true :expr true})
+
+;; complete with auto-import
+(inoremap :<CR> "compe#confirm({ 'keys': '<CR>', 'select': v:true })" {:expr true})
