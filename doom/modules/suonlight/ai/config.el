@@ -64,9 +64,9 @@
     :on-error (lambda (err) (message "Error: %s" err))))
 
 (defun bard-chat-with-region (prompt &optional selected)
-  (when (not selected)
-    (goto-char (point-max))
-    (save-excursion
+  (save-excursion
+    (when (not selected)
+      (goto-char (point-max))
       (insert "## User:\n")
       (insert (format "%s\n" prompt))))
   (bard-chat-with-message prompt))
@@ -75,9 +75,9 @@
 (defun ai-chat ()
   (interactive)
   (let* ((selected (use-region-p))
-          (prompt (if selected
-                    (buffer-substring (region-beginning) (region-end))
-                    (read-string "Prompt: ")))
+          (prompt (read-string "Prompt: "
+                    (if selected
+                      (buffer-substring (region-beginning) (region-end)))))
           (ai (completing-read "AI: " '("Google Bard" "Bing AI"))))
     (when selected
       (deactivate-mark))
