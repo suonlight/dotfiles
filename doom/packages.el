@@ -120,7 +120,7 @@
 
 ;; use in case
 ;; (package! ob-mermaid)
-;; (package! anki-editor)
+(package! anki-editor)
 ;; (package! reason-mode)
 
 ;; (package! package-lint)
