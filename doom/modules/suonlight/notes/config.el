@@ -3,6 +3,31 @@
 
   (setq org-capture-templates
     `(
+       ("e" "English")
+       ("er" "Reading")
+       ("el" "Listening")
+       ("es" "Speaking")
+       ("ew" "Writing")
+       ("elw"
+         "PTE WFD"
+         entry
+         (file+headline "~/org-modes/roam/pages/20231013085723-write_from_dictation.org" "Repeated")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE Write From Dictation - Repeated\n:ANKI_NOTE_TYPE: Basic (type in the answer)\n:END:\n** Front\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n")
+       ("esr"
+         "PTE RS"
+         entry
+         (file+headline "~/org-modes/roam/pages/20231013165737-repeat_sentence.org" "Repeated")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE Repeat Sentence - Repeated\n:ANKI_NOTE_TYPE: Basic (type in the answer)\n:END:\n** Front\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n")
+       ("esa"
+         "PTE Read Aloud"
+         entry
+         (file+headline "~/org-modes/roam/pages/20231016143844-read_aloud.org" "Repeated")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE Read Aloud\n:ANKI_NOTE_TYPE: Basic\n:END:\n** Front\n\n%:initial\n\n** Back\n\n[[../assets/english/%(covert-wav-to-mp3 \"%:description\").mp3]]\n\n")
+       ("erf"
+         "PTE RW Fill in Blanks"
+         entry
+         (file+headline "~/org-modes/roam/pages/20231014134842-rw_fill_in_the_blanks.org" "Repeated")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RW - FIB - Repeated\n:ANKI_NOTE_TYPE: Cloze (FIB)\n:END:\n** Text\n\n%:initial\n\n** Explain\n\n** Translation\n\n")
        ("v"
          "Vocabulary"
          entry
@@ -43,6 +68,24 @@
 
   (add-hook 'org-mode-hook #'org-modern-mode)
   (require 'org-download))
+
+(defun copy-and-return-file-name (file-name)
+  (rename-file
+    (concat "~/Downloads/" file-name ".mp3")
+    (concat "~/org-modes/roam/assets/english/" file-name ".mp3")
+    t)
+  file-name)
+
+(defun covert-wav-to-mp3 (file-name)
+  (let ((command (concat "echo y | ffmpeg -i " "~/Downloads/"
+      (last-download-file-name) ".wav" " -acodec mp3 "
+      "~/org-modes/roam/assets/english/" file-name ".mp3")))
+    (shell-command-to-string command))
+  file-name)
+
+(defun last-download-file-name ()
+  (s-trim
+    (shell-command-to-string "ls -t ~/Downloads | head -n 1 | sed 's/\\..*//'")))
 
 (defun org-agenda-only-window ()
   (interactive)
