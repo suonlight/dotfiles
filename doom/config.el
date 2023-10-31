@@ -356,3 +356,5 @@ not appropriate in some cases like terminals."
 (global-set-key (kbd "C-x 2")  #'sl/split-below-last-buffer)
 (global-set-key (kbd "C-x 3")  #'sl/split-right-last-buffer)
 (setq switch-to-prev-buffer-skip 'this)
+
+(add-to-list '+lookup-provider-url-alist '("Oxford" "https://www.oxfordlearnersdictionaries.com/definition/english/%s"))

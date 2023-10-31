@@ -17,7 +17,7 @@
          "PTE RS"
          entry
          (file+headline "~/org-modes/roam/pages/20231013165737-repeat_sentence.org" "Repeated")
-         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE Repeat Sentence - Repeated\n:ANKI_NOTE_TYPE: Basic (type in the answer)\n:END:\n** Front\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE Repeat Sentence - Repeated\n:ANKI_NOTE_TYPE: Basic (type in the answer) with Hint\n:END:\n** Front\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n** Hint\n\n")
        ("esa"
          "PTE Read Aloud"
          entry
@@ -28,6 +28,11 @@
          entry
          (file+headline "~/org-modes/roam/pages/20231014134842-rw_fill_in_the_blanks.org" "Repeated")
          "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RW - FIB - Repeated\n:ANKI_NOTE_TYPE: Cloze (FIB)\n:END:\n** Text\n\n%:initial\n\n** Explain\n\n** Translation\n\n")
+       ("erd"
+         "PTE R Fill in Blanks - Drag & Drop"
+         entry
+         (file+headline "~/org-modes/roam/pages/20231025201731-r_fill_in_the_blanks.org" "Repeated")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE R - FIB - Repeated\n:ANKI_NOTE_TYPE: Cloze (FIB)\n:END:\n** Text\n\n%:initial\n\n** Explain\n\n** Translation\n\n")
        ("v"
          "Vocabulary"
          entry
@@ -67,6 +72,7 @@
          "* %(hero/get-api-title \"%c\")\n\n#+BEGIN_SRC shell :async :results output :var jwt_token=jwt_token\n%(hero/get-api-curl \"%c\")\n#+END_SRC")))
 
   (add-hook 'org-mode-hook #'org-modern-mode)
+  (require 'ob-async)
   (require 'org-download))
 
 (defun copy-and-return-file-name (file-name)
