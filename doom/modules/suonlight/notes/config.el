@@ -1,6 +1,8 @@
 (after! org
   (setq evil-org-key-theme '(navigation insert textobjects additional calendar todo))
 
+  (setq org-use-sub-superscripts nil)
+  (setq org-export-with-sub-superscripts nil)
   (setq org-capture-templates
     `(
        ("e" "English")
@@ -12,7 +14,12 @@
          "PTE WFD"
          entry
          (file+headline "~/org-modes/roam/pages/20231013085723-write_from_dictation.org" "Repeated")
-         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE Write From Dictation - Repeated\n:ANKI_NOTE_TYPE: Basic (type in the answer)\n:END:\n** Front\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE WFD::Repeated\n:ANKI_NOTE_TYPE: Basic (type in the answer)\n:END:\n** Front\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n")
+       ("elh"
+         "PTE HIW"
+         entry
+         (file+headline "~/org-modes/roam/pages/20231022123442-highlight_incorrect_words.org" "Learn")
+         "* Item #%:description\n\n%:initial\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n")
        ("esr"
          "PTE RS"
          entry
@@ -23,11 +30,21 @@
          entry
          (file+headline "~/org-modes/roam/pages/20231016143844-read_aloud.org" "Repeated")
          "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE Read Aloud\n:ANKI_NOTE_TYPE: Basic\n:END:\n** Front\n\n%:initial\n\n** Back\n\n[[../assets/english/%(covert-wav-to-mp3 \"%:description\").mp3]]\n\n")
+       ("esd"
+         "PTE Describe Image"
+         entry
+         (file+headline "~/org-modes/roam/pages/20231030201035-describe_image.org" "Learn")
+         "* Item #%:description\n\n%:initial\n\n[[../assets/english/%(covert-wav-to-mp3 \"%:description\").mp3]]\n\n")
+       ("esl"
+         "PTE Retell Lecture"
+         entry
+         (file+headline "~/org-modes/roam/pages/20231106211343-retell_lecture.org" "Learn")
+         "* Item #%:description\n\n%:initial\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n")
        ("erf"
          "PTE RW Fill in Blanks"
          entry
          (file+headline "~/org-modes/roam/pages/20231014134842-rw_fill_in_the_blanks.org" "Repeated")
-         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RW - FIB - Repeated\n:ANKI_NOTE_TYPE: Cloze (FIB)\n:END:\n** Text\n\n%:initial\n\n** Explain\n\n** Translation\n\n")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RW - FIB::Repeated\n:ANKI_NOTE_TYPE: Cloze (FIB)\n:END:\n** Text\n\n%:initial\n\n** Explain\n\n** Translation\n\n")
        ("erd"
          "PTE R Fill in Blanks - Drag & Drop"
          entry
