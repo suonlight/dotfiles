@@ -15,6 +15,11 @@
          entry
          (file+headline "~/org-modes/roam/pages/20231013085723-write_from_dictation.org" "Repeated")
          "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE WFD::Repeated\n:ANKI_NOTE_TYPE: Basic (type in the answer)\n:END:\n** Front\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n")
+       ("ell"
+         "PTE L Fill in Blanks"
+         entry
+         (file+headline "~/org-modes/roam/pages/20231022124135-l_fill_in_the_blanks.org" "Repeated")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE LFIB::Repeated\n:ANKI_NOTE_TYPE: Cloze (LFIB)\n:END:\n** Audio\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Text\n\n%:initial\n\n** Explain\n\n")
        ("elh"
          "PTE HIW"
          entry
@@ -24,12 +29,12 @@
          "PTE RS"
          entry
          (file+headline "~/org-modes/roam/pages/20231013165737-repeat_sentence.org" "Repeated")
-         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE Repeat Sentence - Repeated\n:ANKI_NOTE_TYPE: Basic (type in the answer) with Hint\n:END:\n** Front\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n** Hint\n\n")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RS::Repeated\n:ANKI_NOTE_TYPE: Basic (type in the answer) with Hint\n:END:\n** Front\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n** Hint\n\n")
        ("esa"
          "PTE Read Aloud"
          entry
          (file+headline "~/org-modes/roam/pages/20231016143844-read_aloud.org" "Repeated")
-         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE Read Aloud\n:ANKI_NOTE_TYPE: Basic\n:END:\n** Front\n\n%:initial\n\n** Back\n\n[[../assets/english/%(covert-wav-to-mp3 \"%:description\").mp3]]\n\n")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RA::Repeated\n:ANKI_NOTE_TYPE: Basic\n:END:\n** Front\n\n%:initial\n\n** Back\n\n[[../assets/english/%(covert-wav-to-mp3 \"%:description\").mp3]]\n\n")
        ("esd"
          "PTE Describe Image"
          entry
@@ -44,12 +49,12 @@
          "PTE RW Fill in Blanks"
          entry
          (file+headline "~/org-modes/roam/pages/20231014134842-rw_fill_in_the_blanks.org" "Repeated")
-         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RW - FIB::Repeated\n:ANKI_NOTE_TYPE: Cloze (FIB)\n:END:\n** Text\n\n%:initial\n\n** Explain\n\n** Translation\n\n")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RWFIB::Repeated\n:ANKI_NOTE_TYPE: Cloze (FIB)\n:END:\n** Text\n\n%:initial\n\n** Explain\n\n** Translation\n\n")
        ("erd"
          "PTE R Fill in Blanks - Drag & Drop"
          entry
          (file+headline "~/org-modes/roam/pages/20231025201731-r_fill_in_the_blanks.org" "Repeated")
-         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE R - FIB - Repeated\n:ANKI_NOTE_TYPE: Cloze (FIB)\n:END:\n** Text\n\n%:initial\n\n** Explain\n\n** Translation\n\n")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RFIB::Repeated\n:ANKI_NOTE_TYPE: Cloze (FIB)\n:END:\n** Text\n\n%:initial\n\n** Explain\n\n** Translation\n\n")
        ("v"
          "Vocabulary"
          entry
