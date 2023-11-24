@@ -25,6 +25,11 @@
          entry
          (file+headline "~/org-modes/roam/pages/20231022123442-highlight_incorrect_words.org" "Learn")
          "* Item #%:description\n\n%:initial\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n")
+       ("els"
+         "PTE SST"
+         entry
+         (file+headline "~/org-modes/roam/pages/20231022112746-summarize_spoken_text.org" "Learn")
+         "* Item #%:description\n** Front\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n** Hint\n\nTotal: \n\n%c\n\n")
        ("esr"
          "PTE RS"
          entry
@@ -34,7 +39,7 @@
          "PTE Read Aloud"
          entry
          (file+headline "~/org-modes/roam/pages/20231016143844-read_aloud.org" "Repeated")
-         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RA::Repeated\n:ANKI_NOTE_TYPE: Basic\n:END:\n** Front\n\n%:initial\n\n** Back\n\n[[../assets/english/%(covert-wav-to-mp3 \"%:description\").mp3]]\n\n")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RA::Repeated\n:ANKI_NOTE_TYPE: Basic\n:END:\n** Front\n\nItem #%:description\n\n%:initial\n\n** Back\n\n[[../assets/english/%(covert-wav-to-mp3 \"%:description\").mp3]]\n\n")
        ("esd"
          "PTE Describe Image"
          entry
@@ -49,12 +54,17 @@
          "PTE RW Fill in Blanks"
          entry
          (file+headline "~/org-modes/roam/pages/20231014134842-rw_fill_in_the_blanks.org" "Repeated")
-         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RWFIB::Repeated\n:ANKI_NOTE_TYPE: Cloze (FIB)\n:END:\n** Text\n\n%:initial\n\n** Explain\n\n** Translation\n\n")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RWFIB::Repeated\n:ANKI_NOTE_TYPE: Cloze (FIB)\n:END:\n** Text\n\nItem #%:description\n\n%c\n\n%:initial\n\n** Explain\n\n** Translation\n\n")
        ("erd"
          "PTE R Fill in Blanks - Drag & Drop"
          entry
          (file+headline "~/org-modes/roam/pages/20231025201731-r_fill_in_the_blanks.org" "Repeated")
-         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RFIB::Repeated\n:ANKI_NOTE_TYPE: Cloze (FIB)\n:END:\n** Text\n\n%:initial\n\n** Explain\n\n** Translation\n\n")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RFIB::Repeated\n:ANKI_NOTE_TYPE: Cloze (FIB)\n:END:\n** Text\n\n%c\n\n%:initial\n\n** Explain\n\n** Translation\n\n")
+       ("err"
+         "PTE Re-order Paragraphs"
+         entry
+         (file+headline "~/org-modes/roam/pages/20231101203133-reorder_paragraphs.org" "Repeated")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE ROP::Repeated\n:ANKI_NOTE_TYPE: Cloze (FIB)\n:END:\n** Text\n\n%:initial\n\n** Explain\n\n%c\n\n")
        ("v"
          "Vocabulary"
          entry
