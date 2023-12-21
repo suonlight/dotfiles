@@ -10,3 +10,5 @@
   :config
   (setq magit-circleci-token (getenv "MAGIT_CIRCLECI_TOKEN"))
   (setq magit-circleci--project-slug  (getenv "MAGIT_CIRCLECI_ORGANISATION_NAME")))
+
+(use-package! diffview :after magit)
