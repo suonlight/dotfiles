@@ -237,8 +237,15 @@
 
 (use-package! org-excalidraw
   :after org-roam
-  :config
+  :init
   (setq org-excalidraw-directory "~/Dropbox/org-modes/roam/draws")
+  :config
+  ;; force activate app Excalidraw first
+  (defun org-excalidraw--shell-cmd-open (path os-type)
+    "Construct shell cmd to open excalidraw file with PATH for OS-TYPE."
+    (if (eq os-type 'darwin)
+      (concat "open -a Excalidraw && open " (shell-quote-argument path))
+      (concat "xdg-open " (shell-quote-argument path))))
   (org-excalidraw-initialize))
 
 (use-package! nov
