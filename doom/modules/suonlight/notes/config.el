@@ -39,7 +39,7 @@
          "PTE Read Aloud"
          entry
          (file+headline "~/org-modes/roam/pages/20231016143844-read_aloud.org" "Repeated")
-         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RA::Repeated\n:ANKI_NOTE_TYPE: Basic\n:END:\n** Front\n\nItem #%:description\n\n%:initial\n\n** Back\n\n[[../assets/english/%(covert-wav-to-mp3 \"%:description\").mp3]]\n\n")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RA::Repeated\n:ANKI_NOTE_TYPE: Basic with Hint\n:END:\n** Front\n\nItem #%:description\n\n%:initial\n\n** Back\n\n[[../assets/english/%(covert-wav-to-mp3 \"%:description\").mp3]]\n\n")
        ("esd"
          "PTE Describe Image"
          entry
@@ -199,9 +199,16 @@
   (setq org-roam-directory "~/Dropbox/org-modes/roam")
   (setq org-roam-dailies-directory "journals/")
   (setq org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox-bin")
-  (setq org-roam-db-location "~/.config/emacs/org-roam.db")
-  (setq org-roam-graph-exclude-matcher '("2020-" "2021-"))
-  (setq org-roam-file-exclude-regexp (-map #'expand-file-name '("~/Dropbox/org-modes/roam/logseq/bak/journals" "~/Dropbox/org-modes/roam/logseq/bak/pages" "~/Dropbox/org-modes/.attach/")))
+  (setq org-roam-db-location "~/.config/org-roam.db")
+  (setq org-roam-graph-exclude-matcher '("2020-" "2021-" "2022-"))
+  (setq org-roam-file-exclude-regexp (-map #'expand-file-name
+                                           '("~/Dropbox/org-modes/roam/logseq/bak/journals"
+                                             "~/Dropbox/org-modes/roam/logseq/bak/pages"
+                                             "~/Dropbox/org-modes/roam/assests"
+                                             "~/Dropbox/org-modes/roam/draws"
+                                             "~/Dropbox/org-modes/roam/logseq"
+                                             "~/Dropbox/org-modes/roam/whiteboards"
+                                             "~/Dropbox/org-modes/.attach/")))
   (setq! +org-roam-open-buffer-on-find-file nil)
 
   (setq org-roam-capture-templates
