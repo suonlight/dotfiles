@@ -20,13 +20,11 @@
     "C-s"    (general-simulate-key "C-; C-s")
     "C-w"    #'doom/delete-backward-word
     "C-z"    (cmd! (ignore-errors (call-interactively #'undo))))
-
   (define-key! :keymaps +default-minibuffer-maps
     "C-j"    #'next-line
     "C-k"    #'previous-line
     "C-S-j"  #'scroll-up-command
     "C-S-k"  #'scroll-down-command)
-  ;; For folks with `evil-collection-setup-minibuffer' enabled
   (define-key! :states 'insert :keymaps +default-minibuffer-maps
     "C-j"    #'next-line
     "C-k"    #'previous-line)
@@ -264,7 +262,7 @@
       :desc "help"                  "h"    help-map
 
       (:when (modulep! :ui popup)
-        :desc "Toggle last popup"     "~"    #'+popup/toggle)
+        :desc "Toggle last popup"   "~"  #'+popup/toggle)
       :desc "Find file"             "."    #'find-file
 
       :desc "Switch buffer"         ","    #'switch-to-buffer

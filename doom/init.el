@@ -204,7 +204,7 @@
        :config
        ;;literate
        ;; (default +smartparens))
-       default
+       (default)
 
        :suonlight
        ;; lsp-mode
