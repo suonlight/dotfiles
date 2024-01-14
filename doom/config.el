@@ -20,6 +20,9 @@
 ;; (setq scroll-step           1
 ;;   scroll-conservatively 10000)
 
+(setq warning-minimum-level :error)
+(setq warning-minimum-log-level :error)
+
 (setq scroll-margin 0
   scroll-conservatively 10000
   scroll-up-aggressively 0.03
