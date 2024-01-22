@@ -34,7 +34,7 @@
          "PTE RS"
          entry
          (file+headline "~/org-modes/roam/pages/20231013165737-repeat_sentence.org" "Repeated")
-         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RS::Repeated\n:ANKI_NOTE_TYPE: Basic (type in the answer) with Hint\n:END:\n** Front\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n** Hint\n\n")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RS::Repeated\n:ANKI_NOTE_TYPE: Basic (type in the answer) with Hint\n:END:\n** Front\n\nItem #%:description\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n** Hint\n\n")
        ("esa"
          "PTE Read Aloud"
          entry
@@ -247,12 +247,12 @@
   :init
   (setq org-excalidraw-directory "~/Dropbox/org-modes/roam/draws")
   :config
-  ;; force activate app Excalidraw first
-  (defun org-excalidraw--shell-cmd-open (path os-type)
-    "Construct shell cmd to open excalidraw file with PATH for OS-TYPE."
-    (if (eq os-type 'darwin)
-      (concat "open -a Excalidraw && open " (shell-quote-argument path))
-      (concat "xdg-open " (shell-quote-argument path))))
+  ;; ;; force activate app Excalidraw first
+  ;; (defun org-excalidraw--shell-cmd-open (path os-type)
+  ;;   "Construct shell cmd to open excalidraw file with PATH for OS-TYPE."
+  ;;   (if (eq os-type 'darwin)
+  ;;     (concat "open -a Excalidraw && open " (shell-quote-argument path))
+  ;;     (concat "xdg-open " (shell-quote-argument path))))
   (org-excalidraw-initialize))
 
 (use-package! nov

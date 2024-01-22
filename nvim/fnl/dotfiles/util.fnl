@@ -102,7 +102,7 @@
 
 (defn org-roam-find-file []
   (let [sqlite (require :sqlite)
-      db (sqlite {:uri "~/.config/emacs/org-roam.db"
+      db (sqlite {:uri "~/.config/org-roam.db"
                   :nodes {:objectives "luatable"
                           :id true
                           :title {:type "string"}
