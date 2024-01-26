@@ -711,8 +711,8 @@
       :nv "g["    #'dumb-jump-back)
 
 (map! :leader
-  "2" (general-simulate-key "SPC w C-o SPC w v SPC w l SPC b p SPC w h")
-  "3" (general-simulate-key "SPC w C-o SPC w v SPC w l SPC b p SPC w v SPC w l SPC b p 2 SPC w h")
+  "2" (general-simulate-key "SPC w C-o SPC <tab> SPC w v SPC <tab>")
+  "3" (general-simulate-key "SPC w C-o 2 SPC b p SPC w v SPC b n SPC w v SPC b n")
   "!"   #'sl/send-cmd-to-multi-vterm-project
   (:prefix-map ("a" . "application")
     "c" #'calendar
