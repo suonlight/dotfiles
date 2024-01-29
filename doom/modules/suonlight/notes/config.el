@@ -10,6 +10,11 @@
        ("el" "Listening")
        ("es" "Speaking")
        ("ew" "Writing")
+       ("ewe"
+         "PTE WE"
+         entry
+         (file+headline "~/org-modes/roam/pages/20231110200450-writing_essay.org" "Learn")
+         "* Item #%:description\n** Front\n\n%:initial** Back\n\n%c")
        ("elw"
          "PTE WFD"
          entry
@@ -54,12 +59,12 @@
          "PTE RW Fill in Blanks"
          entry
          (file+headline "~/org-modes/roam/pages/20231014134842-rw_fill_in_the_blanks.org" "Repeated")
-         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RWFIB::Repeated\n:ANKI_NOTE_TYPE: Cloze (FIB)\n:END:\n** Text\n\nItem #%:description\n\n%c\n\n%:initial\n\n** Explain\n\n** Translation\n\n")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RWFIB::Repeated\n:ANKI_NOTE_TYPE: Cloze (FIB)\n:END:\n** Text\n\nItem #%:description\n\n%c\n\n%:initial\n\n** Explain\n\n** Translation\n\n%:initial\n\n")
        ("erd"
          "PTE R Fill in Blanks - Drag & Drop"
          entry
          (file+headline "~/org-modes/roam/pages/20231025201731-r_fill_in_the_blanks.org" "Repeated")
-         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RFIB::Repeated\n:ANKI_NOTE_TYPE: Cloze (FIB)\n:END:\n** Text\n\n%c\n\n%:initial\n\n** Explain\n\n** Translation\n\n")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RFIB::Repeated\n:ANKI_NOTE_TYPE: Cloze (FIB)\n:END:\n** Text\n\n%c\n\n%:initial\n\n** Explain\n\n** Translation\n\n%:initial\n")
        ("err"
          "PTE Re-order Paragraphs"
          entry
