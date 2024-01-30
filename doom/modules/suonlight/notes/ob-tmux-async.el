@@ -1,6 +1,6 @@
 (require 'dash)
 
-(defvar ob-tmux-delimiters '((ruby . "#####") (sh . "#####")))
+(defvar ob-tmux-delimiters '((ruby . "#####") (sh . "#####") (sql . "-----")))
 (defconst ob-tmux-async-file load-file-name)
 
 (defun ob-tmux-get-delimiters (lang jid)
@@ -88,6 +88,45 @@
 
 (defun ob-tmux-job-finish:sh (jid ob-session)
   (let* ((delimiters (ob-tmux-get-delimiters "sh" jid))
+          (finish-delimiter (car (cdr delimiters)))
+          (raw-output (ob-tmux--execute-string ob-session
+                        "capture-pane"
+                        "-J"
+                        "-p" ;; print to stdout
+                        "-t" (ob-tmux--target ob-session))))
+    (string-match (concat "^" finish-delimiter) raw-output)))
+
+(defun ob-tmux-format-code:sql (jid body)
+  (let* ((delimiters (ob-tmux-get-delimiters "sql" jid))
+          (start-delimiter (car delimiters))
+          (finish-delimiter (car (cdr delimiters))))
+    (format "\\echo \'%s\'\n%s;\n\\echo \'%s\'" start-delimiter
+      (->> body
+        (s-replace-regexp "[\\]\s*\n\s*" " ")
+        (s-replace-regexp "[\n\r]+" " "))
+      finish-delimiter)))
+
+(defun ob-tmux-parse-output:sql (raw-output jid body)
+  (let* ((delimiters (ob-tmux-get-delimiters "sql" jid))
+          (start-delimiter (car delimiters))
+          (finish-delimiter (car (cdr delimiters)))
+          (formatted-body (->> body
+                           (s-replace-regexp "[\\]\s*\n\s*" " ")
+                           (s-replace-regexp "[\n\r]+" " ")))
+          (after-start-delimiter (->> raw-output (s-split start-delimiter) -last-item))
+          (after-finish-delimiter (->> raw-output (s-split finish-delimiter) -last-item)))
+    (->> (s-replace after-finish-delimiter "" after-start-delimiter)
+      (s-replace start-delimiter "")
+      (s-replace-regexp (format "^.*%s.*$" finish-delimiter) "")
+      (s-replace-regexp "[\n]+" "\n")
+      s-trim
+      (s-split "\n")
+      (--remove (s-contains? formatted-body it))
+      (-map #'s-trim-right)
+      (s-join "\n"))))
+
+(defun ob-tmux-job-finish:sql (jid ob-session)
+  (let* ((delimiters (ob-tmux-get-delimiters "sql" jid))
           (finish-delimiter (car (cdr delimiters)))
           (raw-output (ob-tmux--execute-string ob-session
                         "capture-pane"
