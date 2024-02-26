@@ -10,6 +10,11 @@
        ("el" "Listening")
        ("es" "Speaking")
        ("ew" "Writing")
+       ("ews"
+         "PTE SWT"
+         entry
+         (file+headline "~/org-modes/roam/pages/20231023201016-summarize_written_text.org" "Learn")
+         "* Item #%:description\n** Front\n\n%:initial** Back\n\n%c")
        ("ewe"
          "PTE WE"
          entry
@@ -39,7 +44,7 @@
          "PTE RS"
          entry
          (file+headline "~/org-modes/roam/pages/20231013165737-repeat_sentence.org" "Repeated")
-         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RS::Repeated\n:ANKI_NOTE_TYPE: Basic (type in the answer) with Hint\n:END:\n** Front\n\nItem #%:description\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n** Hint\n\n")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RS::Repeated\n:ANKI_NOTE_TYPE: Basic (type in the answer) with Hint\n:END:\n** Front\n\nItem #%:description\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n** Hint\n\n[[../assets/english/%(covert-wav-to-mp3 \"%:description.me\").mp3]]\n\n")
        ("esa"
          "PTE Read Aloud"
          entry
@@ -73,7 +78,7 @@
        ("v"
          "Vocabulary"
          entry
-         (file "~/org-modes/flashcards.org")
+         (file "~/org-modes/roam/pages/20231103220135-vocabulary.org")
          "* %i%^{prompt} :vocabulary:\n:PROPERTIES:\n:ANKI_DECK: Vocabulary\n:ANKI_NOTE_TYPE: Basic\n:END:\n** Front\n%\\1\n\n** Back\n\n")
        ("c"
          "Code Review"
@@ -161,7 +166,7 @@
 
 (after! ob-tmux
   (setq org-babel-default-header-args:tmux
-    '((:results . "silent")
+    '((:results . "none")
        (:session . "default")
        (:socket  . nil)))
 
