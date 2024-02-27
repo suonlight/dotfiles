@@ -54,7 +54,7 @@
          "PTE Describe Image"
          entry
          (file+headline "~/org-modes/roam/pages/20231030201035-describe_image.org" "Learn")
-         "* Item #%:description\n\n%:initial\n\n[[../assets/english/%(covert-wav-to-mp3 \"%:description\").mp3]]\n\n")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE DI\n:ANKI_NOTE_TYPE: Basic with Hint\n:END:\n** Front\n\nItem #%:description\n\n** Back\n\n%(pte-magic-phrase-hints \"%:description\" \"~/org-modes/roam/assets/english/pte_magic/describe_image.json\")\n\n** Hint\n\n[[../assets/english/%(covert-wav-to-mp3 \"%:description\").mp3]]\n\n")
        ("esl"
          "PTE Retell Lecture"
          entry
@@ -150,6 +150,21 @@
           (branch (format "b/%s--%s" dashed-title card-id)))
     (puthash branch title sl/jira-cache) ;; write to cache
     branch))
+
+(defun pte-magic-phrase-hints (orderId jsonFile)
+  (let* ((json (with-temp-buffer
+                 (insert-file-contents jsonFile)
+                 (json-read)))
+         (data (cdr (assoc 'data json)))
+         (item (car (seq-filter (lambda (item) (string= orderId (cdr (assoc 'orderId item)))) data)))
+         (value (cdr (assoc 'phraseHints item)))
+         )
+    (if (not value)
+        (message "No value")
+        (message "Value: %s" value)
+        (with-temp-buffer
+            (insert value)
+            (buffer-string)))))
 
 (defun get-cleansed-title (title)
   "Get cleansed title"
