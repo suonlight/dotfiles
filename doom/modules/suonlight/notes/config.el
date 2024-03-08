@@ -49,12 +49,12 @@
          "PTE Read Aloud"
          entry
          (file+headline "~/org-modes/roam/pages/20231016143844-read_aloud.org" "Repeated")
-         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RA::Repeated\n:ANKI_NOTE_TYPE: Basic with Hint\n:END:\n** Front\n\nItem #%:description\n\n%:initial\n\n** Back\n\n[[../assets/english/%(covert-wav-to-mp3 \"%:description\").mp3]]\n\n")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RA::Repeated\n:ANKI_NOTE_TYPE: Basic with Hint\n:END:\n** Front\n\nItem #%:description\n\n%:initial\n\n** Back\n\n[[../assets/english/%(covert-wav-to-mp3 \"%:description\").mp3]]\n\n** Hint\n\n%(pte-ra-hint \"%:description\")\n\n")
        ("esd"
          "PTE Describe Image"
          entry
          (file+headline "~/org-modes/roam/pages/20231030201035-describe_image.org" "Learn")
-         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE DI\n:ANKI_NOTE_TYPE: Basic with Hint\n:END:\n** Front\n\nItem #%:description\n\n** Back\n\n%(pte-magic-phrase-hints \"%:description\" \"~/org-modes/roam/assets/english/pte_magic/describe_image.json\")\n\n** Hint\n\n[[../assets/english/%(covert-wav-to-mp3 \"%:description\").mp3]]\n\n")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE DI\n:ANKI_NOTE_TYPE: Basic with Hint\n:END:\n** Front\n\nItem #%:description\n\n** Back\n\n%(pte-phrase-hints \"%:description\" \"~/org-modes/roam/assets/english/pte_magic/describe_image.json\")\n\n** Hint\n\n[[../assets/english/%(covert-wav-to-mp3 \"%:description\").mp3]]\n\n")
        ("esl"
          "PTE Retell Lecture"
          entry
@@ -151,7 +151,7 @@
     (puthash branch title sl/jira-cache) ;; write to cache
     branch))
 
-(defun pte-magic-phrase-hints (orderId jsonFile)
+(defun pte-phrase-hints (orderId jsonFile)
   (let* ((json (with-temp-buffer
                  (insert-file-contents jsonFile)
                  (json-read)))
@@ -165,6 +165,49 @@
         (with-temp-buffer
             (insert value)
             (buffer-string)))))
+
+(defun pte-shadow-audio (orderId jsonFile)
+  (let* ((json (with-temp-buffer
+                 (insert-file-contents jsonFile)
+                 (json-read)))
+         (data (cdr (assoc 'data json)))
+         (item (car (seq-filter (lambda (item) (string= orderId (cdr (assoc 'orderId item)))) data)))
+         (shadow-audio (cdr (assoc 'shadowAudio item)))
+         (shadow-local-file (concat (file-name-directory jsonFile) orderId ".shadow.mp3")))
+    (if (not shadow-audio)
+      (message "No shadow audio")
+      (message "Downloading shadow audio %s" shadow-audio)
+      (if (not (file-exists-p shadow-local-file))
+        (url-copy-file shadow-audio shadow-local-file)))
+    shadow-local-file))
+
+(defun pte-shadow-text (orderId jsonFile)
+  (let* ((json (with-temp-buffer
+                 (insert-file-contents jsonFile)
+                 (json-read)))
+         (data (cdr (assoc 'data json)))
+         (item (car (seq-filter (lambda (item) (string= orderId (cdr (assoc 'orderId item)))) data)))
+         (shadow-text (cdr (assoc 'shadowText item)))
+         )
+    (if (not shadow-text)
+        (message "No shadow text")
+        (message "Shadow text: %s" shadow-text)
+        (with-temp-buffer
+            (insert shadow-text)
+            (goto-char (point-min))
+            (while (search-forward "<span class=\"ra-pause\">[pause]</span>" nil t)
+                (replace-match "⏸"))
+            (buffer-string)))))
+
+(defun pte-ra-hint (orderId)
+  (let* ((jsonFile "~/org-modes/roam/assets/english/pte_magic/read_aloud.json")
+         (shadow-audio (pte-shadow-audio orderId jsonFile))
+         (shadow-audio (replace-regexp-in-string "~/org-modes/roam/assets/" "../assets/" shadow-audio))
+         (shadow-text (pte-shadow-text orderId jsonFile))
+         (heading (concat
+                   (format "%s\n" shadow-text)
+                   (format "\n[[%s]]\n" shadow-audio))))
+    heading))
 
 (defun get-cleansed-title (title)
   "Get cleansed title"
