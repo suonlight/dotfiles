@@ -394,3 +394,8 @@
 
 (use-package! org-appear
   :hook (org-mode . org-appear-mode))
+
+(use-package! epc
+  :ensure t)
+
+(load! "ob-astmux")

@@ -8,3 +8,5 @@
 (package! nov-xwidget :recipe (:host github :repo "chenyanming/nov-xwidget"))
 (package! justify-kp :recipe (:host github :repo "Fuco1/justify-kp"))
 (package! org-modern)
+
+(package! epc)
