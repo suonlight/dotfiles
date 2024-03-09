@@ -13,6 +13,11 @@
   (expand-file-name "astmux_server.py" (file-name-directory load-file-name))
   "Path to the astmux server script.")
 
+(defcustom astmux-session-prefix "ob-"
+  "The default prefix for tmux sessions."
+  :group 'astmux
+  :type 'string)
+
 (defun astmux--generate-uuid ()
   "Generate a 32 character UUID."
   (md5 (number-to-string (random 100000000))))
@@ -38,6 +43,7 @@
 (defun org-babel-execute:astmux (body params)
   "Execute the astmux commands specified in BODY asynchronously using EPC."
   (let* ((session (cdr (assoc :session params)))
+         (session (concat astmux-session-prefix session))
          (socket (or (cdr (assoc :socket params)) "/tmp/tmux-501/default"))
          (lang (cdr (assoc :lang params)))
          (results (or (cdr (assq :results params))))
