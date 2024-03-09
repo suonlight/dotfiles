@@ -38,13 +38,14 @@
 (defun org-babel-execute:astmux (body params)
   "Execute the astmux commands specified in BODY asynchronously using EPC."
   (let* ((session (cdr (assoc :session params)))
+         (socket (or (cdr (assoc :socket params)) "/tmp/tmux-501/default"))
          (lang (cdr (assoc :lang params)))
          (results (or (cdr (assq :results params))))
          (file (cdr (assq :file params)))
          (jid (astmux--generate-uuid))
          (connection (epc:start-epc "python3" `(,astmux-server-path))))
     (deferred:$
-      (epc:call-deferred connection 'execute_astmux `(,session ,lang ,jid ,body))
+      (epc:call-deferred connection 'execute_astmux `(,socket ,session ,lang ,jid ,body))
       (deferred:nextc it
         `(lambda (response)
            (with-current-buffer ,(current-buffer)

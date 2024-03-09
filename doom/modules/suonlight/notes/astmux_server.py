@@ -2,36 +2,113 @@ import re
 import subprocess
 import uuid
 import time
+import os
 from epc.server import EPCServer
 
 server = EPCServer(('localhost', 0))
 
-def wrap_command(jid, lang, command):
-    command = '; '.join(map(lambda x: x.strip(), command.split("\n")))
-    if lang == 'ruby':
-        return f'puts "# start:{jid}"; {command}; puts "# finish:{jid}"'
-    elif lang == 'sh':
+class RubyInterativeHandler:
+    @staticmethod
+    def wrap_command(jid, command):
+        command = '; '.join(map(lambda x: x.strip(), command.split("\n")))
+        return f'puts("# start:{jid}"); 1\n {command}\n puts "# finish:{jid}"; 1\n'
+
+    @staticmethod
+    def format_output(output):
+      print('format------------------')
+      print(output)
+
+      # remove the first character
+      output = re.sub(r'^1', '', output)
+
+      # replace finish marker
+      output = re.sub(r'puts "# finish:[a-z0-9]+"; 1', '', output)
+      # replace line started with string 'nil'
+      output = re.sub(r'nil', '', output)
+      # replace line started with string '=>'
+      output = re.sub(r'=>', '', output)
+      # replace line started with string 'pry'
+      output = re.sub(r'pry', '', output)
+      # replace line started with string 'irb'
+      output = re.sub(r'irb', '', output)
+      # replace whole line started with number [number]
+      output = re.sub(r'\[\d+\].*', '', output)
+      # replace empty lines
+      output = re.sub(r'\n+', '\n', output)
+
+      output = output.strip()
+
+      return output
+
+class ShellInterativeHandler:
+    @staticmethod
+    def wrap_command(jid, command):
         return f'echo "# start:{jid}"; {command}; echo "# finish:{jid}"'
+
+    @staticmethod
+    def format_output(output):
+        return output.strip()
+
+def get_command_wrapper(lang):
+    if lang == 'ruby':
+        return RubyInterativeHandler
+    elif lang == 'sh':
+        return ShellInterativeHandler
     else:
         return None
 
-def run_command_in_tmux(session, window, wrapped_command):
-    subprocess.run(['tmux', 'send-keys', '-t', f'{session}:{window}', wrapped_command, 'C-m'], check=True)
+def wrap_command(jid, lang, command):
+    command_wrapper = get_command_wrapper(lang)
+    if command_wrapper:
+        return command_wrapper.wrap_command(jid, command)
+    else:
+        return None
 
-def capture_tmux_output(session, jid):
+def format_output(lang, output):
+    command_wrapper = get_command_wrapper(lang)
+    if command_wrapper:
+        return command_wrapper.format_output(output)
+    else:
+        return output
+
+def run_command_in_tmux(socket, session, window, wrapped_command):
+    subprocess.run(['tmux', '-S', socket, 'send-keys', '-t', f'{session}:{window}', wrapped_command, 'C-m'], check=True)
+
+def generate_log_filename(jid):
+    # You can customize the log file directory and format as needed
+    return f'/tmp/astmux_{jid}.log'
+
+def capture_tmux_output(socket, session, window, lang, jid):
     output = ""
+    os.environ["PYTHONUNBUFFERED"] = "1"
     while True:
+        log_filename = generate_log_filename(jid)
+
+        cmd = ['tmux', '-S', socket, 'capture-pane', '-J', '-p', '-S', '-', '-t', f'{session}:{window}']
+        subprocess.run(cmd, stdout=open(log_filename, 'w'), check=True)
+
         time.sleep(1)
-        capture_process = subprocess.run([
-            'tmux', 'capture-pane', '-J', '-p', '-S', '-', '-t', session
-        ], capture_output=True, text=True, check=False)
-        captured_output = capture_process.stdout
+
+        # open log file
+        captured_output = ''
+        with open(log_filename, 'r') as f:
+            captured_output = f.read()
+
+        # remove log file
+        os.remove(log_filename)
+
         output += captured_output
+
         finish_match = re.search(f"# finish:{jid}", output)
         if finish_match and finish_match.start() != finish_match.end():
             break
 
-    return extract_output(jid, output)
+    output = extract_output(jid, output)
+
+    if output is not None:
+        return format_output(lang, output)
+
+    return output
 
 def extract_output(jid, output):
     start_match = re.search(f"\n# start:{jid}", output)
@@ -50,38 +127,44 @@ def extract_output(jid, output):
     else:
         return None
 
-def check_session_existence(session):
+def check_session_existence(socket, session):
     try:
-        subprocess.run(['tmux', 'has-session', '-t', session], check=True)
+        subprocess.run(['tmux', '-S', socket, 'has-session', '-t', session], check=True)
         return True
     except subprocess.CalledProcessError:
         return False
 
-def check_window_existence(session, window):
+def check_window_existence(socket, session, window):
     try:
-        subprocess.run(['tmux', 'list-windows', '-t', f'{session}:{window}'], check=True)
+        subprocess.run(['tmux', '-S', socket, 'list-windows', '-t', f'{session}:{window}'], check=True)
         return True
     except subprocess.CalledProcessError:
         return False
 
-def create_session(session):
-    subprocess.run(['tmux', 'new-session', '-d', '-s', session], check=True)
+def create_session(socket, session):
+    subprocess.run(['tmux', '-S', socket, 'new-session', '-d', '-s', session], check=True)
 
-def create_window(session, window):
-  subprocess.run([
-    'tmux', 'new-window',
-     "-c", "~",
-     '-n', window,
-     '-t', session
-  ], check=True)
+def create_window(socket, session, window):
+    subprocess.run([
+      'tmux', '-S', socket,
+      'new-window',
+      '-n', window,
+      '-t', session
+    ], check=True)
 
-  # sleep to wait for window to be created
-  time.sleep(1)
+    # sleep to wait for window creation
+    time.sleep(1)
 
 @server.register_function
-def execute_astmux(session, lang, jid, command):
+def execute_astmux(socket, session, lang, jid, command):
     try:
         jid = str(jid)
+
+        print('0000000000000000')
+        print(lang)
+        if lang == []:
+          lang = 'sh'
+
         wrapped_command = wrap_command(jid, lang, command)
 
         if wrapped_command is None:
@@ -94,14 +177,16 @@ def execute_astmux(session, lang, jid, command):
         else:
             session_name, window_name = session_parts[0], '0'
 
-        if not check_session_existence(session_name):
-            create_session(session_name)
+        if not check_session_existence(socket, session_name):
+            create_session(socket, session_name)
 
-        if not check_window_existence(session_name, window_name):
-            create_window(session_name, window_name)
+        if not check_window_existence(socket, session_name, window_name):
+            create_window(socket, session_name, window_name)
 
-        run_command_in_tmux(session_name, window_name, wrapped_command)
-        output = capture_tmux_output(session_name, jid)
+        run_command_in_tmux(socket, session_name, window_name, wrapped_command)
+        output = capture_tmux_output(socket, session_name, window_name, lang, jid)
+        print('final----------------')
+        print(output)
 
         if output is not None:
             return {'jid': jid, 'status': 'ok', 'message': output}
