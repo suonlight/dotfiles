@@ -222,19 +222,19 @@
   (setq-default org-download-heading-lvl nil)
   (setq-default org-download-image-dir "../assets"))
 
-(after! ob-tmux
-  (setq org-babel-default-header-args:tmux
-    '((:results . "none")
-       (:session . "default")
-       (:socket  . nil)))
+; (after! ob-tmux
+;   (setq org-babel-default-header-args:tmux
+;     '((:results . "none")
+;        (:session . "default")
+;        (:socket  . nil)))
 
-  (setq org-babel-tmux-session-prefix "ob-")
-  ;; (setq org-babel-tmux-terminal (if IS-MAC "iterm" "xfce4-termimal"))
-  (setq org-babel-tmux-terminal (if IS-MAC "alacritty" "xfce4-termimal"))
-  (setq org-babel-tmux-terminal-opts '("-t" "ob-tmux" "-e"))
-  (setq org-babel-tmux-location (if IS-MAC "/usr/local/bin/tmux" "/usr/bin/tmux"))
+;   (setq org-babel-tmux-session-prefix "ob-")
+;   ;; (setq org-babel-tmux-terminal (if IS-MAC "iterm" "xfce4-termimal"))
+;   (setq org-babel-tmux-terminal (if IS-MAC "alacritty" "xfce4-termimal"))
+;   (setq org-babel-tmux-terminal-opts '("-t" "ob-tmux" "-e"))
+;   (setq org-babel-tmux-location (if IS-MAC "/usr/local/bin/tmux" "/usr/bin/tmux"))
 
-  (load! "ob-tmux-async"))
+;   (load! "ob-tmux-async"))
 
 (after! ob-mermaid
   (setq ob-mermaid-cli-path "~/.asdf/shims/mmdc"))

@@ -2,9 +2,9 @@
 
 (org-babel-do-load-languages
  'org-babel-load-languages
- '((astmux . t)))
+ '((tmux . t)))
 
-(setq org-babel-default-header-args:astmux
+(setq org-babel-default-header-args:tmux
     '((:results . "none")
        (:session . "default")
        (:socket  . nil)))
@@ -40,7 +40,7 @@
 
 (advice-add 'org-src-get-lang-mode :around #'org-src---get-lang-mode)
 
-(defun org-babel-execute:astmux (body params)
+(defun org-babel-execute:tmux (body params)
   "Execute the astmux commands specified in BODY asynchronously using EPC."
   (let* ((session (cdr (assoc :session params)))
          (session (concat astmux-session-prefix session))

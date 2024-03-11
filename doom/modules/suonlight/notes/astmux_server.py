@@ -43,6 +43,9 @@ class RubyInterativeHandler:
 class ShellInterativeHandler:
     @staticmethod
     def wrap_command(jid, command):
+        command = re.sub(r'[\\]\s*\n\s*', ' ', command)
+        command = re.sub(r'[\n\r]+', '; ', command)
+
         return f'echo "# start:{jid}"; {command}; echo "# finish:{jid}"'
 
     @staticmethod
@@ -97,10 +100,11 @@ def capture_tmux_output(socket, session, window, lang, jid):
         # remove log file
         os.remove(log_filename)
 
-        output += captured_output
+        output = captured_output
 
-        finish_match = re.search(f"# finish:{jid}", output)
-        if finish_match and finish_match.start() != finish_match.end():
+        finish_match = re.search(f"\n# finish:{jid}", output)
+
+        if finish_match and finish_match.start() < finish_match.end():
             break
 
     output = extract_output(jid, output)
