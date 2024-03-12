@@ -1,5 +1,5 @@
-(package! bard
-  :recipe (:host github :repo "AllTheLife/Bard.el" :files ("*.el" "dist" "*.py")))
+(package! gemini
+  :recipe (:host github :repo "AllTheLife/Gemini.el" :files ("*.el" "dist" "*.py")))
 
 (package! aichat
   :recipe (:host github :repo "xhcoding/emacs-aichat" :files ("*.el" "dist" "*.py")))

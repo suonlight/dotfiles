@@ -1,41 +1,42 @@
-(use-package! bard
-  :commands (bard-chat bard-chat-with-multiline bard-chat-with-message)
+(use-package! gemini
   :config
-  (defun bard-chat-with-message (prompt)
-    (message "[Bard] Please wait for Bard...")
-    (bard-call-async "bard_chat"
-      prompt
-      (buffer-name)))
+  (setq gemini-api-token (getenv "GEMINI_TOKEN"))
 
-  (defun bard-chat ()
-    (interactive)
-    (let ((prompt (read-string "Chat with Bard: ")))
-      (if (string-empty-p (string-trim prompt))
-        (message "Please do not enter an empty prompt.")
-        (save-excursion
-          (goto-char (point-max))
-          (insert "## User:\n")
-          (insert (format "%s\n" prompt)))
-        (bard-chat-with-message prompt))))
+  ; (defun bard-chat-with-message (prompt)
+  ;   (message "[Bard] Please wait for Bard...")
+  ;   (bard-call-async "bard_chat"
+  ;     prompt
+  ;     (buffer-name)))
+
+  ; (defun bard-chat ()
+  ;   (interactive)
+  ;   (let ((prompt (read-string "Chat with Bard: ")))
+  ;     (if (string-empty-p (string-trim prompt))
+  ;       (message "Please do not enter an empty prompt.")
+  ;       (save-excursion
+  ;         (goto-char (point-max))
+  ;         (insert "## User:\n")
+  ;         (insert (format "%s\n" prompt)))
+  ;       (bard-chat-with-message prompt))))
 
   ;; override bard-response to insert the response with org format in the current buffer
-  (defun bard-response (serial-number content buffer)
-    (let ((formatted-content (sl/markdown-to-org content)))
-      (if (equal serial-number 1)
-        (progn
-          (setq bard-drafts (list))
-          (push formatted-content bard-drafts)
-          (with-current-buffer buffer
-            (save-excursion
-              (goto-char (point-max))
-              (insert "\n### Bard:\n")
-              (setq bard-draft--begin (point-max))
-              (insert formatted-content)
-              (setq bard-draft--end (point-max)))))
-        (push formatted-content bard-drafts))))
+  ; (defun bard-response (serial-number content buffer)
+  ;   (let ((formatted-content (sl/markdown-to-org content)))
+  ;     (if (equal serial-number 1)
+  ;       (progn
+  ;         (setq bard-drafts (list))
+  ;         (push formatted-content bard-drafts)
+  ;         (with-current-buffer buffer
+  ;           (save-excursion
+  ;             (goto-char (point-max))
+  ;             (insert "\n### Bard:\n")
+  ;             (setq bard-draft--begin (point-max))
+  ;             (insert formatted-content)
+  ;             (setq bard-draft--end (point-max)))))
+  ;       (push formatted-content bard-drafts))))
 
-  (setq bard-http-proxy "")
-  (map! :leader "aa" #'bard-chat))
+  ; (setq bard-http-proxy "")
+  (map! :leader "aa" #'gemini-chat))
 
 (use-package! aichat
   :commands (aichat-read-region-or-input aichat-bingai-conversation aichat-bingai-chat)
