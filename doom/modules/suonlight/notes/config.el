@@ -113,7 +113,6 @@
          (file "~/org-modes/roam/pages/20210513122118-eh_api.org")
          "* %(hero/get-api-title \"%c\")\n\n#+BEGIN_SRC shell :async :results output :var jwt_token=jwt_token\n%(hero/get-api-curl \"%c\")\n#+END_SRC")))
 
-  (add-hook 'org-mode-hook #'org-modern-mode)
   (require 'ob-async)
   (require 'org-download))
 
@@ -394,6 +393,9 @@
 
 (use-package! org-appear
   :hook (org-mode . org-appear-mode))
+
+(use-package! org-modern
+  :hook (org-mode . org-modern-mode))
 
 (use-package! epc
   :ensure t)
