@@ -52,7 +52,7 @@
 
 ; search files/keyword
 ; :nvim-lua/popup.nvim {}
-(use-package! :nvim-lua/plenary.nvim :lazy true)
+(use-package! :nvim-lua/plenary.nvim)
 (use-package! :vijaymarupudi/nvim-fzf :lazy true)
 
 (use-package! :ibhagwan/fzf-lua
@@ -220,6 +220,14 @@
                                                :javascript       prettier}}))))
 (use-package! :mfussenegger/nvim-lint)
 (use-package! :github/copilot.vim)
+(use-package! :CopilotC-Nvim/CopilotChat.nvim
+              ; :ft "canary"
+              :dependencies ["github/copilot.vim" "nvim-lua/plenary.nvim"]
+              :opts {:debug true}
+              :config
+              (fn []
+                (let [copilot-chat (require :CopilotChat)]
+                  (copilot-chat.setup {:debug true}))))
 
 ; notes
 (use-package! :kristijanhusak/orgmode.nvim
