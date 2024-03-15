@@ -15,9 +15,6 @@ class RubyInterativeHandler:
 
     @staticmethod
     def format_output(output):
-      print('format------------------')
-      print(output)
-
       # remove the first character
       output = re.sub(r'^1', '', output)
 
@@ -145,13 +142,21 @@ def check_window_existence(socket, session, window):
     except subprocess.CalledProcessError:
         return False
 
-def create_session(socket, session):
-    subprocess.run(['tmux', '-S', socket, 'new-session', '-d', '-s', session], check=True)
+def create_session(socket, session, window):
+    subprocess.run([
+      'tmux', '-S', socket,
+      'new-session',
+      '-d',
+      '-c', os.path.expanduser('~'),
+      '-n', window,
+      '-s', session
+    ], check=True)
 
 def create_window(socket, session, window):
     subprocess.run([
       'tmux', '-S', socket,
       'new-window',
+      '-c', os.path.expanduser('~'),
       '-n', window,
       '-t', session
     ], check=True)
@@ -164,8 +169,6 @@ def execute_astmux(socket, session, lang, jid, command):
     try:
         jid = str(jid)
 
-        print('0000000000000000')
-        print(lang)
         if lang == []:
           lang = 'sh'
 
@@ -182,15 +185,13 @@ def execute_astmux(socket, session, lang, jid, command):
             session_name, window_name = session_parts[0], '0'
 
         if not check_session_existence(socket, session_name):
-            create_session(socket, session_name)
+            create_session(socket, session_name, window_name)
 
         if not check_window_existence(socket, session_name, window_name):
             create_window(socket, session_name, window_name)
 
         run_command_in_tmux(socket, session_name, window_name, wrapped_command)
         output = capture_tmux_output(socket, session_name, window_name, lang, jid)
-        print('final----------------')
-        print(output)
 
         if output is not None:
             return {'jid': jid, 'status': 'ok', 'message': output}

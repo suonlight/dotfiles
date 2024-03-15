@@ -43,13 +43,13 @@
 (defun org-babel-execute:tmux (body params)
   "Execute the astmux commands specified in BODY asynchronously using EPC."
   (let* ((session (cdr (assoc :session params)))
-         (session (concat astmux-session-prefix session))
-         (socket (or (cdr (assoc :socket params)) "/tmp/tmux-501/default"))
-         (lang (cdr (assoc :lang params)))
-         (results (or (cdr (assq :results params))))
-         (file (cdr (assq :file params)))
-         (jid (astmux--generate-uuid))
-         (connection (epc:start-epc "python3" `(,astmux-server-path))))
+          (session (concat astmux-session-prefix session))
+          (socket (or (cdr (assoc :socket params)) "/tmp/tmux-501/default"))
+          (lang (cdr (assoc :lang params)))
+          (results (or (cdr (assq :results params))))
+          (file (cdr (assq :file params)))
+          (jid (astmux--generate-uuid))
+          (connection (epc:start-epc "python3" `(,astmux-server-path))))
     (deferred:$
       (epc:call-deferred connection 'execute_astmux `(,socket ,session ,lang ,jid ,body))
       (deferred:nextc it
@@ -69,5 +69,8 @@
                      ((s-contains? "silent" ,results)
                        (org-babel-remove-result)
                        (message result))
-                     (t (org-babel-insert-result result '("replace")))))))))))
+                     (t (org-babel-insert-result result '("replace"))))))))))
+      (deferred:nextc it
+        `(lambda (_)
+          (epc:stop-epc ,connection))))
     (org-babel-insert-result jid '("replace"))))
