@@ -39,7 +39,7 @@ zt 0b; zinit snippet OMZ::plugins/docker-compose/docker-compose.plugin.zsh
 zt 1a; zinit light djui/alias-tips
 zt 0b atload'unalias help; unalias cp'; zinit snippet OMZ::plugins/common-aliases/common-aliases.plugin.zsh
 
-zinit ice as"completion"; zinit snippet OMZ::plugins/docker/_docker
+# zinit ice as"completion"; zinit snippet OMZ::plugins/docker/_docker
 zinit ice as"completion"; zinit snippet OMZ::plugins/bundler/_bundler
 # zinit ice as"completion"; zinit snippet OMZ::plugins/rust/_rust
 zinit ice as"completion"; zinit snippet OMZ::plugins/terraform/_terraform
@@ -138,13 +138,15 @@ if [[ "$TERM_PROGRAM" = "tmux" ]]; then
 fi
 
 # other tools
-source ~/.asdf/installs/fzf/0.30.0/shell/completion.zsh
-source ~/.asdf/installs/fzf/0.30.0/shell/key-bindings.zsh
+source ~/.asdf/installs/fzf/0.48.1/shell/completion.zsh
+source ~/.asdf/installs/fzf/0.48.1/shell/key-bindings.zsh
 
 test -d ~/.asdf/plugins/java/set-java-home.zsh && . ~/.asdf/plugins/java/set-java-home.zsh
 
+autoload -Uz compinit && compinit
+
 . $HOME/.asdf/asdf.sh
-# . $HOME/.asdf/completions/asdf.bash
+. $HOME/.asdf/completions/asdf.bash
 ### End of Zinit's installer chunk
 
 export PATH="/usr/local/opt/texinfo/bin:$PATH"

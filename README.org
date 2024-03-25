@@ -94,7 +94,7 @@ bin/doom install
 *To make sure vterm use zsh by default*
 
 #+begin_src shell
-export SHELL=/usr/bin/zsh
+export SHELL=$(which zsh)
 bin/doom sync
 #+end_src
 
@@ -102,6 +102,11 @@ bin/doom sync
 ** [#A] asdf
 
 https://asdf-vm.com/#/core-manage-asdf-vm
+
+#+begin_src shell :async :results output
+# Install asdf by git
+git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0
+#+end_src
 
 #+begin_src shell :async :results output
 asdf plugin-add postgres
@@ -113,40 +118,51 @@ asdf plugin-add yarn
 ** [#A] Terminal tools
 
 #+begin_src shell :async :results output
-brew install ripgrep
 brew install autojump
 brew install wget
 #+end_src
 
 #+begin_src shell :async :results output
+# OR brew install ripgrep
+asdf plugin add ripgrep
+asdf install ripgrep latest
+asdf global ripgrep $(ls ~/.asdf/installs/ripgrep/ | head -n 1)
+#+end_src
+
+#+begin_src shell :async :results output
 asdf plugin add fd
 asdf install fd latest
-asdf global fd 8.2.1
+asdf global fd $(ls ~/.asdf/installs/fd/ | head -n 1)
 #+end_src
 
 #+begin_src shell :async :results output
 asdf plugin add fzf https://github.com/kompiro/asdf-fzf.git
 asdf install fzf latest
-asdf global fzf 0.27.2
+asdf global fzf $(ls ~/.asdf/installs/fzf/ | head -n 1)
 #+end_src
 
 #+begin_src shell :async :results output
 asdf plugin-add yq https://github.com/sudermanjr/asdf-yq.git
-asdf install yq 4.0.0
-asdf global yq 4.0.0
+asdf install yq latest
+asdf global yq $(ls ~/.asdf/installs/yq/ | head -n 1)
 #+end_src
 
 #+begin_src shell :async :results output
+# DO NOT SUPPORT m3
 asdf plugin add bat
 asdf install bat latest
-asdf global bat 0.18.3
+asdf global bat $(ls ~/.asdf/installs/bat/ | head -n 1)
 #+end_src
 
 ** [#A] Ruby
 
 #+begin_src shell :async :results output
-asdf install ruby 2.6.6
-asdf global ruby 2.6.6
+brew install openssl@1.1
+
+RUBY_CONFIGURE_OPTS="--with-zlib-dir=$(brew --prefix zlib) --with-openssl-dir=$(brew --prefix openssl@1.1) --with-readline-dir=$(brew --prefix readline) --with-libyaml-dir=$(brew --prefix libyaml) --with-gdbm-dir=$(brew --prefix gdbm)" \
+CFLAGS="-Wno-error=implicit-function-declaration" \
+asdf install ruby 2.7.8
+asdf global ruby 2.7.8
 #+end_src
 
 ** [#A] Postgres
@@ -169,8 +185,9 @@ asdf global redis 6.2.6
 #+begin_src shell :async :results output
 brew install gnupg
 bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
-asdf install nodejs 12.22.4
-asdf global nodejs 12.22.4
+asdf install nodejs 18.19.1
+asdf global nodejs 18.19.1
+
 asdf install yarn 1.21.1
 asdf global yarn 1.21.1
 #+end_src
@@ -230,7 +247,8 @@ brew install ctags
 #+begin_src shell :async :results output
 # format sql
 pip install sqlparse
-brew install sqlformat
+# brew install sqlformat
+brew install sqlfmt
 #+end_src
 
 #+begin_src shell :async :results output
