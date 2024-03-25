@@ -13,104 +13,104 @@
        ("ews"
          "PTE SWT"
          entry
-         (file+headline "~/org-modes/roam/pages/20231023201016-summarize_written_text.org" "Learn")
+         (file+headline "~/notes/roam/pages/20231023201016-summarize_written_text.org" "Learn")
          "* Item #%:description\n** Front\n\n%:initial** Back\n\n%c")
        ("ewe"
          "PTE WE"
          entry
-         (file+headline "~/org-modes/roam/pages/20231110200450-writing_essay.org" "Learn")
-         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE Essay\n:ANKI_NOTE_TYPE: Basic with Hint\n:END:\n** Front\n\nItem #%:description\n\n%:initial\n\n** Back\n\n%c\n\n** Hint\n\nTotal: 10/15\n\n%(pte-magic-phrase-hints \"%:description\" \"~/org-modes/roam/assets/english/pte_magic/writing_essay.json\")\n\n")
+         (file+headline "~/notes/roam/pages/20231110200450-writing_essay.org" "Learn")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE Essay\n:ANKI_NOTE_TYPE: Basic with Hint\n:END:\n** Front\n\nItem #%:description\n\n%:initial\n\n** Back\n\n%c\n\n** Hint\n\nTotal: 10/15\n\n%(pte-magic-phrase-hints \"%:description\" \"~/notes/roam/assets/english/pte_magic/writing_essay.json\")\n\n")
        ("elw"
          "PTE WFD"
          entry
-         (file+headline "~/org-modes/roam/pages/20231013085723-write_from_dictation.org" "Repeated")
+         (file+headline "~/notes/roam/pages/20231013085723-write_from_dictation.org" "Repeated")
          "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE WFD::Repeated\n:ANKI_NOTE_TYPE: Basic (type in the answer)\n:END:\n** Front\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n")
        ("ell"
          "PTE L Fill in Blanks"
          entry
-         (file+headline "~/org-modes/roam/pages/20231022124135-l_fill_in_the_blanks.org" "Repeated")
+         (file+headline "~/notes/roam/pages/20231022124135-l_fill_in_the_blanks.org" "Repeated")
          "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE LFIB::Repeated\n:ANKI_NOTE_TYPE: Cloze (LFIB)\n:END:\n** Audio\n\nItem #%:description\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Text\n\n%:initial\n\n** Explain\n\n")
        ("elh"
          "PTE HIW"
          entry
-         (file+headline "~/org-modes/roam/pages/20231022123442-highlight_incorrect_words.org" "Learn")
+         (file+headline "~/notes/roam/pages/20231022123442-highlight_incorrect_words.org" "Learn")
          "* Item #%:description\n\n%:initial\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n")
        ("els"
          "PTE SST"
          entry
-         (file+headline "~/org-modes/roam/pages/20231022112746-summarize_spoken_text.org" "Learn")
-         "* Item #%:description\n** Front\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n** Keyword\n\n%(pte-phrase-hints \"%:description\" \"~/org-modes/roam/assets/english/pte_magic/summarize_spoken_text.json\")\n\n** Hint\n\nTotal: \n\n%c\n\n")
+         (file+headline "~/notes/roam/pages/20231022112746-summarize_spoken_text.org" "Learn")
+         "* Item #%:description\n** Front\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n** Keyword\n\n%(pte-phrase-hints \"%:description\" \"~/notes/roam/assets/english/pte_magic/summarize_spoken_text.json\")\n\n** Hint\n\nTotal: \n\n%c\n\n")
        ("esr"
          "PTE RS"
          entry
-         (file+headline "~/org-modes/roam/pages/20231013165737-repeat_sentence.org" "Repeated")
+         (file+headline "~/notes/roam/pages/20231013165737-repeat_sentence.org" "Repeated")
          "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RS::Repeated\n:ANKI_NOTE_TYPE: Basic (type in the answer) with Hint\n:END:\n** Front\n\nItem #%:description\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n** Hint\n\n[[../assets/english/%(covert-wav-to-mp3 \"%:description.me\").mp3]]\n\n")
        ("esa"
          "PTE Read Aloud"
          entry
-         (file+headline "~/org-modes/roam/pages/20231016143844-read_aloud.org" "Repeated")
+         (file+headline "~/notes/roam/pages/20231016143844-read_aloud.org" "Repeated")
          "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RA::Repeated\n:ANKI_NOTE_TYPE: Basic with Hint\n:END:\n** Front\n\nItem #%:description\n\n%:initial\n\n** Back\n\n[[../assets/english/%(covert-wav-to-mp3 \"%:description\").mp3]]\n\n** Hint\n\n%(pte-ra-hint \"%:description\")\n\n")
        ("esd"
          "PTE Describe Image"
          entry
-         (file+headline "~/org-modes/roam/pages/20231030201035-describe_image.org" "Learn")
-         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE DI\n:ANKI_NOTE_TYPE: Basic with Hint\n:END:\n** Front\n\nItem #%:description\n\n** Back\n\n%(pte-phrase-hints \"%:description\" \"~/org-modes/roam/assets/english/pte_magic/describe_image.json\")\n\n** Hint\n\n[[../assets/english/%(covert-wav-to-mp3 \"%:description\").mp3]]\n\n")
+         (file+headline "~/notes/roam/pages/20231030201035-describe_image.org" "Learn")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE DI\n:ANKI_NOTE_TYPE: Basic with Hint\n:END:\n** Front\n\nItem #%:description\n\n** Back\n\n%(pte-phrase-hints \"%:description\" \"~/notes/roam/assets/english/pte_magic/describe_image.json\")\n\n** Hint\n\n[[../assets/english/%(covert-wav-to-mp3 \"%:description\").mp3]]\n\n")
        ("esl"
          "PTE Retell Lecture"
          entry
-         (file+headline "~/org-modes/roam/pages/20231106211343-retell_lecture.org" "Learn")
+         (file+headline "~/notes/roam/pages/20231106211343-retell_lecture.org" "Learn")
          "* Item #%:description\n\n%:initial\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n")
        ("erf"
          "PTE RW Fill in Blanks"
          entry
-         (file+headline "~/org-modes/roam/pages/20231014134842-rw_fill_in_the_blanks.org" "Repeated")
+         (file+headline "~/notes/roam/pages/20231014134842-rw_fill_in_the_blanks.org" "Repeated")
          "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RWFIB::Repeated\n:ANKI_NOTE_TYPE: Cloze (FIB)\n:END:\n** Text\n\nItem #%:description\n\n%c\n\n%:initial\n\n** Explain\n\n** Translation\n\n%:initial\n\n")
        ("erd"
          "PTE R Fill in Blanks - Drag & Drop"
          entry
-         (file+headline "~/org-modes/roam/pages/20231025201731-r_fill_in_the_blanks.org" "Repeated")
+         (file+headline "~/notes/roam/pages/20231025201731-r_fill_in_the_blanks.org" "Repeated")
          "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RFIB::Repeated\n:ANKI_NOTE_TYPE: Cloze (FIB)\n:END:\n** Text\n\n%c\n\n%:initial\n\n** Explain\n\n** Translation\n\n%:initial\n")
        ("err"
          "PTE Re-order Paragraphs"
          entry
-         (file+headline "~/org-modes/roam/pages/20231101203133-reorder_paragraphs.org" "Repeated")
+         (file+headline "~/notes/roam/pages/20231101203133-reorder_paragraphs.org" "Repeated")
          "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE ROP::Repeated\n:ANKI_NOTE_TYPE: Cloze (FIB)\n:END:\n** Text\n\n%:initial\n\n** Explain\n\n%c\n\n")
        ("v"
          "Vocabulary"
          entry
-         (file "~/org-modes/roam/pages/20231103220135-vocabulary.org")
+         (file "~/notes/roam/pages/20231103220135-vocabulary.org")
          "* %i%^{prompt} :vocabulary:\n:PROPERTIES:\n:ANKI_DECK: Vocabulary\n:ANKI_NOTE_TYPE: Basic\n:END:\n** Front\n%\\1\n\n** Back\n\n")
        ("c"
          "Code Review"
          entry
-         (file ,(format-time-string "~/org-modes/roam/journals/%Y-%m-%d.org" (current-time) t))
+         (file ,(format-time-string "~/notes/roam/journals/%Y-%m-%d.org" (current-time) t))
          "* %?\n:PROPERTIES:\n:Source: %F\n:Captured_On: %U\n:END:\n\n#+BEGIN_SRC ruby\n%:initial\n#+END_SRC\n")
        ("N"
          "Notes with Browser"
          entry
-         (file ,(format-time-string "~/org-modes/roam/journals/%Y-%m-%d.org" (current-time) t))
+         (file ,(format-time-string "~/notes/roam/journals/%Y-%m-%d.org" (current-time) t))
          ;; "* %?\n\nSource: %:link\nCaptured On:%U\n\n%:description\n\n%:initial\n\n")
          "* %:description%?\n:PROPERTIES:\n:Source: %:link\n:Captured_On: %U\n:END:\n\n%:initial\n\n")
        ("n"
          "Notes with Clipboard"
          entry
-         (file ,(format-time-string "~/org-modes/roam/journals/%Y-%m-%d.org" (current-time) t))
+         (file ,(format-time-string "~/notes/roam/journals/%Y-%m-%d.org" (current-time) t))
          ;; "* %?\n\nSource: %:link\nCaptured On:%U\n\n%:description\n\n%:initial\n\n")
          "* %?\n:PROPERTIES:\n:Source: %:link\n:Captured_On: %U\n:END:\n\n%:description\n\n%c\n\n")
        ("D"
          "EH Debugger"
          entry
-         (file ,(format-time-string "~/org-modes/roam/journals/%Y-%m-%d.org" (current-time) t))
+         (file ,(format-time-string "~/notes/roam/journals/%Y-%m-%d.org" (current-time) t))
          "* %:description\n:PROPERTIES:\n:Source: %:link\n:Captured_On: %U\n:END:\n\n%:description\n\nSuggestion:\n%(hero/suggest-debuggers \"%:initial\")\n\n")
        ("E"
          "EH Task"
          entry
-         (file ,(format-time-string "~/org-modes/roam/journals/%Y-%m-%d.org" (current-time) t))
+         (file ,(format-time-string "~/notes/roam/journals/%Y-%m-%d.org" (current-time) t))
          "* TODO %(get-cleansed-title \"%:description\") \n\nGit Branch: %(git-branch-by-title (get-cleansed-title \"%:description\") \"%:link\")\nSource: %:link\nCaptured On: %U\n\n")
        ("A"
          "EH API"
          entry
-         (file "~/org-modes/roam/pages/20210513122118-eh_api.org")
+         (file "~/notes/roam/pages/20210513122118-eh_api.org")
          "* %(hero/get-api-title \"%c\")\n\n#+BEGIN_SRC shell :async :results output :var jwt_token=jwt_token\n%(hero/get-api-curl \"%c\")\n#+END_SRC")))
 
   (require 'ob-async)
@@ -119,14 +119,14 @@
 (defun copy-and-return-file-name (file-name)
   (rename-file
     (concat "~/Downloads/" file-name ".mp3")
-    (concat "~/org-modes/roam/assets/english/" file-name ".mp3")
+    (concat "~/notes/roam/assets/english/" file-name ".mp3")
     t)
   file-name)
 
 (defun covert-wav-to-mp3 (file-name)
   (let ((command (concat "echo y | ffmpeg -i " "~/Downloads/"
       (last-download-file-name) ".wav" " -acodec mp3 "
-      "~/org-modes/roam/assets/english/" file-name ".mp3")))
+      "~/notes/roam/assets/english/" file-name ".mp3")))
     (shell-command-to-string command))
   file-name)
 
@@ -199,9 +199,9 @@
             (buffer-string)))))
 
 (defun pte-ra-hint (orderId)
-  (let* ((jsonFile "~/org-modes/roam/assets/english/pte_magic/read_aloud.json")
+  (let* ((jsonFile "~/notes/roam/assets/english/pte_magic/read_aloud.json")
          (shadow-audio (pte-shadow-audio orderId jsonFile))
-         (shadow-audio (replace-regexp-in-string "~/org-modes/roam/assets/" "../assets/" shadow-audio))
+         (shadow-audio (replace-regexp-in-string "~/notes/roam/assets/" "../assets/" shadow-audio))
          (shadow-text (pte-shadow-text orderId jsonFile))
          (heading (concat
                    (format "%s\n" shadow-text)
@@ -262,20 +262,20 @@
   (setq org-pomodoro-short-break-sound (f-join doom-private-dir "/assets/bell.wav")))
 
 (after! org-roam
-  (setq deft-directory "~/Dropbox/org-modes/roam")
-  (setq org-roam-directory "~/Dropbox/org-modes/roam")
+  (setq deft-directory "~/notes/roam")
+  (setq org-roam-directory "~/notes/roam")
   (setq org-roam-dailies-directory "journals/")
   (setq org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox-bin")
   (setq org-roam-db-location "~/.config/org-roam.db")
   (setq org-roam-graph-exclude-matcher '("2020-" "2021-" "2022-"))
   (setq org-roam-file-exclude-regexp (-map #'expand-file-name
-                                           '("~/Dropbox/org-modes/roam/logseq/bak/journals"
-                                             "~/Dropbox/org-modes/roam/logseq/bak/pages"
-                                             "~/Dropbox/org-modes/roam/assests"
-                                             "~/Dropbox/org-modes/roam/draws"
-                                             "~/Dropbox/org-modes/roam/logseq"
-                                             "~/Dropbox/org-modes/roam/whiteboards"
-                                             "~/Dropbox/org-modes/.attach/")))
+                                           '("~/notes/roam/logseq/bak/journals"
+                                             "~/notes/roam/logseq/bak/pages"
+                                             "~/notes/roam/assests"
+                                             "~/notes/roam/draws"
+                                             "~/notes/roam/logseq"
+                                             "~/notes/roam/whiteboards"
+                                             "~/notes/.attach/")))
   (setq! +org-roam-open-buffer-on-find-file nil)
 
   (setq org-roam-capture-templates
@@ -291,7 +291,7 @@
   (setq org-journal-enable-agenda-integration t)
   (setq org-journal-date-prefix "#+TITLE: ")
   (setq org-journal-file-format "%Y-%m-%d.org")
-  (setq org-journal-dir "~/Dropbox/org-modes/roam")
+  (setq org-journal-dir "~/notes/roam")
   (setq org-journal-date-format "%A, %d %B %Y")
   ;; (setq org-agenda-file-regexp "\\`\\\([^.].*\\.org\\\|[0-9]\\\{8\\\}\\\(\\.gpg\\\)?\\\)\\'")
   ;; (add-to-list 'org-agenda-files org-journal-dir)
@@ -312,7 +312,7 @@
 (use-package! org-excalidraw
   :after org-roam
   :init
-  (setq org-excalidraw-directory "~/Dropbox/org-modes/roam/draws")
+  (setq org-excalidraw-directory "~/notes/roam/draws")
   :config
   ;; ;; force activate app Excalidraw first
   ;; (defun org-excalidraw--shell-cmd-open (path os-type)

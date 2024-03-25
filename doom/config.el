@@ -54,9 +54,9 @@
 (keymap-set evil-motion-state-map "," (general-simulate-key "SPC m"))
 
 ;; If you intend to use org, it is recommended you change this!
-(setq org-directory "~/Dropbox/org-modes")
-(setq bookmark-default-file "~/Dropbox/org-modes/bookmarks")
-(setq projectile-known-projects-file "~/Dropbox/org-modes/projectile.projects")
+(setq org-directory "~/notes")
+(setq bookmark-default-file "~/notes/bookmarks")
+(setq projectile-known-projects-file "~/notes/projectile.projects")
 (setq org-babel-python-command "python3")
 (setq python-shell-interpreter "python3")
 
@@ -227,7 +227,7 @@ not appropriate in some cases like terminals."
 (set-popup-rule! "^\\*Async Shell Command\\*" :ttl 0 :size 1)
 
 (after! plantuml-mode
-  (setq plantuml-jar-path "~/org-modes/plantuml.jar")
+  (setq plantuml-jar-path "~/notes/plantuml.jar")
   (setq plantuml-default-exec-mode 'jar))
 
 (use-package! eacl

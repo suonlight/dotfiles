@@ -81,7 +81,7 @@
         ci-url (.. "https://app.circleci.com/pipelines/github/" org-repo "?branch=" branch)]
     (sh (.. "open \"" ci-url "\""))))
 
-(def org-roam-directory "~/org-modes/roam")
+(def org-roam-directory "~/notes/roam")
 
 (defn string-trim-quote [s]
   (string.gsub s "\"(.+)\"" "%1"))
