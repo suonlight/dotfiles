@@ -126,32 +126,32 @@ brew install wget
 # OR brew install ripgrep
 asdf plugin add ripgrep
 asdf install ripgrep latest
-asdf global ripgrep $(ls ~/.asdf/installs/ripgrep/ | head -n 1)
+asdf global ripgrep $(ls ~/.asdf/installs/ripgrep/ | sort -r | head -n 1)
 #+end_src
 
 #+begin_src shell :async :results output
 asdf plugin add fd
 asdf install fd latest
-asdf global fd $(ls ~/.asdf/installs/fd/ | head -n 1)
+asdf global fd $(ls ~/.asdf/installs/fd/ | sort -r | head -n 1)
 #+end_src
 
 #+begin_src shell :async :results output
 asdf plugin add fzf https://github.com/kompiro/asdf-fzf.git
 asdf install fzf latest
-asdf global fzf $(ls ~/.asdf/installs/fzf/ | head -n 1)
+asdf global fzf $(ls ~/.asdf/installs/fzf/ | sort -r | head -n 1)
 #+end_src
 
 #+begin_src shell :async :results output
 asdf plugin-add yq https://github.com/sudermanjr/asdf-yq.git
 asdf install yq latest
-asdf global yq $(ls ~/.asdf/installs/yq/ | head -n 1)
+asdf global yq $(ls ~/.asdf/installs/yq/ | sort -r | head -n 1)
 #+end_src
 
 #+begin_src shell :async :results output
 # DO NOT SUPPORT m3
 asdf plugin add bat
 asdf install bat latest
-asdf global bat $(ls ~/.asdf/installs/bat/ | head -n 1)
+asdf global bat $(ls ~/.asdf/installs/bat/ | sort -r | head -n 1)
 #+end_src
 
 ** [#A] Ruby
@@ -191,6 +191,7 @@ asdf global nodejs 18.19.1
 asdf install yarn 1.21.1
 asdf global yarn 1.21.1
 #+end_src
+
 ** [#B] Python
 
 #+begin_src shell :async :results output
@@ -199,9 +200,6 @@ asdf install python 2.7.16
 asdf install python 3.9.1
 asdf global python 2.7.16 3.9.1
 #+end_src
-
-#+RESULTS:
-: 82759ff0eb6345e2432a6c33ea604a7a
 
 ** [#B] R
 

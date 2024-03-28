@@ -138,8 +138,9 @@ if [[ "$TERM_PROGRAM" = "tmux" ]]; then
 fi
 
 # other tools
-source ~/.asdf/installs/fzf/0.48.1/shell/completion.zsh
-source ~/.asdf/installs/fzf/0.48.1/shell/key-bindings.zsh
+LATEST_FZF_VERSION=$(ls ~/.asdf/installs/fzf/ | sort -r | head -n 1)
+source ~/.asdf/installs/fzf/$LATEST_FZF_VERSION/shell/completion.zsh
+source ~/.asdf/installs/fzf/$LATEST_FZF_VERSION/shell/key-bindings.zsh
 
 test -d ~/.asdf/plugins/java/set-java-home.zsh && . ~/.asdf/plugins/java/set-java-home.zsh
 
