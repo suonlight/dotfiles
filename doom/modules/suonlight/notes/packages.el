@@ -5,7 +5,7 @@
 (package! nov)
 (package! nov-xwidget :recipe (:host github :repo "chenyanming/nov-xwidget"))
 (package! justify-kp :recipe (:host github :repo "Fuco1/justify-kp"))
-(package! org :pin "28dc5dd1ac1325ecb6bdec3e9f72997c35eebfa0")
+;; (package! org :pin "28dc5dd1ac1325ecb6bdec3e9f72997c35eebfa0")
 
 (package! org-superstar :disable t)
 (package! org-modern)
