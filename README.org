@@ -223,6 +223,7 @@ asdf global java adoptopenjdk-15.0.1+9
 #+end_src
 
 ** [#B] Rust
+
 #+begin_src shell :async :results output
 curl https://sh.rustup.rs -sSf | sh
 #+end_src

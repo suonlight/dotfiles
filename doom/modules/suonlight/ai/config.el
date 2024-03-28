@@ -89,3 +89,51 @@
         (bing-chat-with-region prompt selected)))))
 
 ; (map! :leader "aq" #'ai-chat)
+
+(use-package! ellama
+  :init
+  (setopt ellama-language "English")
+  :config
+  (map! :leader
+    (:prefix-map ("e" . "Ellama")
+      (:prefix-map ("c" . "code")
+        "c" #'ellama-code-complete
+        "a" #'ellama-code-add
+        "e" #'ellama-code-edit
+        "i" #'ellama-code-improve
+        "r" #'ellama-code-review)
+      (:prefix-map ("s" . "summary/sessions")
+        "s" #'ellama-summarize
+        "w" #'ellama-summarize-webpage
+        "l" #'ellama-load-session
+        "r" #'ellama-session-rename
+        "d" #'ellama-session-remove
+        "a" #'ellama-session-switch)
+      (:prefix-map ("i" . "improve")
+        "w" #'ellama-improve-wording
+        "g" #'ellama-improve-grammar
+        "c" #'ellama-improve-conciseness)
+      (:prefix-map ("m" . "make")
+        "l" #'ellama-make-list
+        "t" #'ellama-make-table
+        "f" #'ellama-make-format)
+      (:prefix-map ("a" . "ask")
+        "a" #'ellama-ask-about
+        "i" #'ellama-chat
+        "l" #'ellama-ask-line
+        "s" #'ellama-ask-selection)
+      (:prefix-map ("t" . "translate")
+        "t" #'ellama-translate
+        "b" #'ellama-translate-buffer
+        "c" #'ellama-complete
+        "e" #'ellama-chat-translation-enable
+        "d" #'ellama-chat-translation-disable)
+      (:prefix-map ("d" . "define")
+        "w" #'ellama-define-word)
+      (:prefix-map ("x" . "context")
+        "b" #'ellama-context-add-buffer
+        "f" #'ellama-context-add-file
+        "s" #'ellama-context-add-selection
+        "i" #'ellama-context-add-info-node)
+      (:prefix-map ("p" . "provider")
+        "s" #'ellama-provider-select))))
