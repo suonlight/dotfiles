@@ -1,4 +1,5 @@
 (use-package! gemini
+  :commands (gemini-chat)
   :config
   (setq gemini-api-token (getenv "GEMINI_TOKEN"))
 
@@ -87,4 +88,4 @@
       ((equal ai "Bing AI")
         (bing-chat-with-region prompt selected)))))
 
-(map! :leader "aq" #'ai-chat)
+; (map! :leader "aq" #'ai-chat)

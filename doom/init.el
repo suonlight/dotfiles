@@ -209,7 +209,6 @@
        :suonlight
        ;; lsp-mode
        ;; exwm
-       bindings
        utils
        lsp-bridge
        treesit

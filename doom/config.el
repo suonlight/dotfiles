@@ -90,6 +90,8 @@
 ;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
 ;; they are implemented.
 
+(load! "bindings")
+
 (when (file-exists-p (concat doom-private-dir "private"))
   (load! "private/+bindings")
   (load! "private/prodigy")
