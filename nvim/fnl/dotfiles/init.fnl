@@ -195,10 +195,12 @@
                 (let [mason (require :mason)
                       mason-lspconfig (require :mason-lspconfig)]
                   (mason.setup {})
-                  (mason-lspconfig.setup {:ensure_installed ["solargraph" "tsserver"]})
+                  ; (mason-lspconfig.setup {:ensure_installed ["solargraph" "tsserver"]})
                   ; (lsp.grammarly.setup {:on_attach on-attach :filetypes ["org" "markdown"]})
                   ; (lsp.ltex.setup {:on_attach on-attach :filetypes ["org" "markdown"]})
-                  (lsp.solargraph.setup {:on_attach on-attach})
+                  (lsp.solargraph.setup {:on_attach on-attach
+                                         :root_dir (lsp.util.root_pattern "Gemfile" ".git" ".")
+                                         :cmd [(.. (os.getenv "HOME") "/.asdf/installs/ruby/2.7.8/bin/solargraph") "stdio"]})
                   (lsp.tsserver.setup {:on_attach on-attach}))))
 
 (use-package! :williamboman/mason-lspconfig.nvim)
@@ -497,7 +499,7 @@
 (noremap :n :<C-k> "<cmd>TmuxNavigateUp<CR>")
 (noremap :n :<C-l> "<cmd>TmuxNavigateRight<CR>")
 
-(noremap :n :<Leader>! "yy:let cliptext = getreg('*') | :VimuxRunCommand(cliptext)<CR><CR>")
+(noremap :n :<Leader>! "yy:let cliptext = getreg('*') | :call VimuxRunCommand(cliptext)<CR><CR>")
 (noremap :v :<Leader>! "y:let cliptext = getreg('*') | :VimuxRunCommand(cliptext)<CR><CR>")
 
 (noremap :n :<Leader>0 "<cmd>NvimTreeFindFile<CR>")
