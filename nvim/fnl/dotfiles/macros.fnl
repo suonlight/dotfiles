@@ -23,8 +23,8 @@
   (fn [mode from to ?opts]
     (if ?opts
       (do (set ?opts.noremap true)
-        `(nvim.set_keymap ,mode ,from ,to ,?opts))
-      `(nvim.set_keymap ,mode ,from ,to {:noremap true})))
+        `(vim.keymap.set ,mode ,from ,to ,?opts))
+      `(vim.keymap.set ,mode ,from ,to {:noremap true})))
 
   :inoremap
   (fn [from to ?opts]
@@ -34,8 +34,8 @@
   (fn [mode from to ?opts]
     (if ?opts
       (do (set ?opts.noremap false)
-        `(nvim.set_keymap ,mode ,from ,to ,?opts))
-      `(nvim.set_keymap ,mode ,from ,to {:noremap false})))
+        `(vim.keymap.set ,mode ,from ,to ,?opts))
+      `(vim.keymap.set ,mode ,from ,to {:noremap false})))
 
   :nmap
   (fn [from to ?opts]

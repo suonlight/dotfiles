@@ -13,7 +13,97 @@
 
 ; defaults
 (use-package! :editorconfig/editorconfig-vim :event "VeryLazy")
-(use-package! :folke/which-key.nvim :lazy true)
+
+(use-package! :folke/which-key.nvim
+              :event "VeryLazy"
+              :config 
+              (fn []
+                (fn->viml :dotfiles.util :gh-open-pull-request :GhOpenPullRequest)
+                (fn->viml :dotfiles.util :gh-list-pull-requests :GhListPullRequests)
+                (fn->viml :dotfiles.util :ci-open :CiOpen)
+                (fn->viml :dotfiles.util :js-insert-i18n :JsInsertI18n)
+                (fn->viml :dotfiles.util :org-roam-dailies-find-today :OrgRoamDailiesFindToday)
+                (fn->viml :dotfiles.util :org-roam-dailies-find-yesterday :OrgRoamDailiesFindYesterday)
+                (fn->viml :dotfiles.util :org-roam-dailies-find-tomorrow :OrgRoamDailiesFindTomorrow)
+                (fn->viml :dotfiles.util :org-roam-find-file :OrgRoamFindFile)
+
+                (noremap :n :gog "<cmd>call GhOpenPullRequest()<CR>" {:silent true})
+                (noremap :n :goc "<cmd>call CiOpen()<CR>" {:silent true})
+                (noremap :n :<f9> "<cmd>call OrgRoamFindFile()<CR>" {:silent true})
+
+                (which-key.register
+                  {:/ ["<cmd>FzfLua live_grep<CR>" "Search project"]
+                   :* ["<cmd>FzfLua grep_cword<CR>" "Search at point"]
+                   :<tab> ["<C-^>" "Switch to last buffer"]
+                   :q {:name "+quit/session"
+                       :q ["<cmd>q<CR>" "Quit vim"]}
+                   :p {:name "+projects"
+                       :f ["<cmd>FzfLua files<CR>" "Find file"]
+                       :g ["<cmd>FzfLua tags<CR>" "Find Tags"]
+                       :a ["<cmd>:Other<CR>" "Toggle implementation and test"]}
+                   :f {:name "+files"
+                       :s ["<cmd>update<CR>" "File save"]
+                       :f ["<cmd>NvimTreeFindFile<CR>" "Find file in directory"]
+                       :t ["<cmd>NvimTreeToggle<CR>" "Toggle Tree"]
+                       :R [":Rename " "Rename file"]
+                       :c [":saveas <C-R>=expand(\"%:p:h\")<CR>/" "Copy file"]
+                       :r ["<cmd>FzfLua oldfiles<CR>" "Recent files"]
+                       :y [":let @*=expand('%:p') | echo @*<CR>" "Copy Full File Path"]}
+                   :g {:name "+git"
+                       :p ["<cmd>call GhListPullRequests()<CR>" "Github List PRs"]
+                       :oo ["<cmd>GBrowse<CR>" "Git browse"]
+                       :s ["<cmd>Neogit<CR>" "Git status"]
+                       :b ["<cmd>Git blame<CR>" "Git blame"]}
+                   :b {:name "+buffers"
+                       :b ["<cmd>FzfLua buffers<CR>" "Find buffer"]
+                       :d ["<cmd>bdelete<CR>" "Delete buffer"]
+                       :n ["<cmd>bdelete<CR>" "Next buffer"]
+                       :p ["<cmd>bdelete<CR>" "Previous buffer"]
+                       :h ["<cmd>Startify<CR>" "Home buffer"]}
+                   :w {:name "+windows"
+                       :h ["<cmd>wincmd h<CR>" "Window left"]
+                       :l ["<cmd>wincmd l<CR>" "Window right"]
+                       :j ["<cmd>wincmd j<CR>" "Window down"]
+                       :k ["<cmd>wincmd k<CR>" "Window up"]
+                       :<S-h> ["<cmd>wincmd <S-h><CR>" "Move window far left"]
+                       :<S-l> ["<cmd>wincmd <S-l><CR>" "Move window far right"]
+                       :<S-j> ["<cmd>wincmd <S-j><CR>" "Move window very down"]
+                       :<S-k> ["<cmd>wincmd <S-k><CR>" "Move window very top"]
+                       :w ["<cmd>wincmd w<CR>" "Other window"]
+                       := ["<cmd>wincmd =<CR>" "Window balance area"]
+                       :r ["<cmd>wincmd r<CR>" "Rotate window"]
+                       :s ["<cmd>wincmd s<CR>" "Window split"]
+                       :v ["<cmd>wincmd v<CR>" "Window vsplit"]
+                       :c ["<cmd>close<CR>" "Window close"]}
+                   :s {:name "+search"
+                       :p ["<cmd>FzfLua live_grep<CR>" "Search in project"]
+                       :s ["<cmd>FzfLua grep_curbuf<CR>" "Search in buffer"]}
+                   :c {:name "+code"
+                       :x ["<cmd>lua vim.diagnostic.setqflist()<CR>" "Error List"]}
+                   :j {:name "+jump"
+                       :L ["<cmd>AnyJumpLastResults<CR>" "Jump to Last Results"]
+                       :j ["<cmd>HopChar1MW<CR>" "Jump to char"]
+                       :w ["<cmd>HopWordMW<CR>" "Jump to word"]
+                       :l ["<cmd>HopLine<CR>" "Jump to line"]}
+                   :r {:name "+registers"
+                       :e ["<cmd>FzfLua registers<CR>" "Registers"]}
+                   :t {:name "+toggle"
+                       :l ["<cmd>set nu! rnu!<CR>" "Toggle Line Number"]
+                       :i ["<cmd>IndentLinesToggle<CR>" "Toggle indent line"]}
+                   :n {:name "+notes"
+                       :r {:name "+roam"
+                           :f ["<cmd>call OrgRoamFindFile()<CR>" "org-roam-find-file"]
+                           :d {:name "+date"
+                               :y ["<cmd>call OrgRoamDailiesFindYesterday()<CR>" "org-roam-dailies-find-yesterday"]
+                               :m ["<cmd>call OrgRoamDailiesFindTomorrow()<CR>" "org-roam-dailies-find-tomorrow"]
+                               :t ["<cmd>call OrgRoamDailiesFindToday()<CR>" "org-roam-dailies-find-today"]}}}
+                   :h {:name "+help"
+                       :? ["<cmd>FzfLua help_tags<CR>" "Help tags"]
+                       :e ["<cmd>messages<CR>" "View messages"]
+                       :df ["<cmd>FzfLua commands<CR>" "Help Commands"]
+                       :t ["<cmd>FzfLua colorschemes<CR>" "Load theme"]}}
+                  {:prefix "<leader>"})))
+
 (use-package! :mhinz/vim-startify
               :cmd "Startify"
               :config
@@ -26,6 +116,73 @@
                   (autopairs.setup {})
                   (let [autopairs-compe (require :nvim-autopairs.completion.compe)]
                     (autopairs-compe.setup {:map_cr true :map_complete true })))))
+
+(use-package! :stevearc/dressing.nvim
+              :enabled true
+              :config
+              (fn []
+                (let [dressing (require :dressing)]
+                  (dressing.setup 
+                    {:input {:enabled true
+                             :default_prompt "Input:"
+                             :title_pos "center"
+                             :insert_only true
+                             :start_in_insert true
+                             ;; :anchor "SW"
+                             :border "rounded"
+                             :relative "cursor"
+                             :prefer_width 40
+                             :width nil
+                             :max_width [140 0.9]
+                             :min_width [20 0.2]
+                             :buf_options {}
+                             :win_options {:winblend 10
+                                           :wrap false
+                                           :list true
+                                           :listchars "precedes:…,extends:…"
+                                           :sidescrolloff 0}
+                             :mappings {:n {"<Esc>" "Close"
+                                            "<CR>" "Confirm"}
+                                        :i {"<C-c>" "Close"
+                                            "<CR>" "Confirm"
+                                            "<Up>" "HistoryPrev"
+                                            "<Down>" "HistoryNext"}}
+                             :override (fn [conf]
+                                         ;; This is the config that will be passed to nvim_open_win.
+                                         ;; Change values here to customize the layout
+                                         conf)
+                             ;; :see :help dressing_get_config
+                             :get_config nil}
+                     :select {:enabled true
+                              :backend ["telescope" "fzf_lua" "fzf" "builtin" "nui"]
+                              :trim-prompt true
+                              :telescope nil
+                              :fzf {:window {:width 0.5 :height 0.4}}
+                              :fzf-lua {}
+                              :nui {:position "50%"
+                                    :relative "editor"
+                                    :border {:style "rounded"}
+                                    :buf-options {:swapfile false :filetype "DressingSelect"}
+                                    :win-options {:winblend 10}
+                                    :max-width 80
+                                    :max-height 40
+                                    :min-width 40
+                                    :min-height 10}
+                              :builtin {:override "NW"
+                                        :border "rounded"
+                                        :relative "editor"
+                                        :buf-options {}
+                                        :win-options {:winblend 10}
+                                        :max-width [140 0.8]
+                                        :min-width [40 0.2]
+                                        :max-height 0.9
+                                        :min-height [10 0.2]
+                                        :mappings {["<Esc>"] "Close"
+                                                   ["<C-c>"] "Close"
+                                                   ["<CR>"] "Confirm"}
+                                        :override (fn [conf] conf)}
+                              :format-item-override {}
+                              :get-config nil}}))))
 
 (use-package! :yggdroot/indentLine :cmd "IndentLinesToggle"
               :config
@@ -61,7 +218,9 @@
               :config
               (fn []
                 (let [fzf-lua (require :fzf-lua)]
-                  (fzf-lua.setup {:winopts {:split "belowright new"}}))))
+                  (fzf-lua.setup {})
+                  ; (fzf-lua.setup {:winopts {:split "belowright new"}})
+                  )))
 
 (use-package! :christoomey/vim-tmux-navigator
               :cmd ["TmuxNavigateLeft" "TmuxNavigateDown" "TmuxNavigateUp" "TmuxNavigateRight"]
@@ -220,16 +379,46 @@
                                                :typescript       prettier
                                                :javascriptreact  prettier
                                                :javascript       prettier}}))))
-(use-package! :mfussenegger/nvim-lint)
-(use-package! :github/copilot.vim)
+(use-package! :mfussenegger/nvim-lint :event "VeryLazy")
+(use-package! :github/copilot.vim :event "VeryLazy")
 (use-package! :CopilotC-Nvim/CopilotChat.nvim
-              ; :ft "canary"
+              :event "VeryLazy"
               :dependencies ["github/copilot.vim" "nvim-lua/plenary.nvim"]
               :opts {:debug true}
               :config
               (fn []
                 (let [copilot-chat (require :CopilotChat)]
-                  (copilot-chat.setup {:debug true}))))
+                  (copilot-chat.setup 
+                    {:debug true
+                     :prompts {:TextWording {:prompt "Please improve the grammar and wording of the following text."}
+                               :TextConcise { :prompt "Please rewrite the following text to make it more concise." }}}))
+
+                (noremap [:n :v] :<Leader>cch
+                           (fn []
+                               (let [actions (require :CopilotChat.actions)
+                                     fzf-lua-int (require :CopilotChat.integrations.fzflua)]
+                                 (fzf-lua-int.pick (actions.help_actions))))
+                           {:desc "Help actions"})
+                (noremap [:n :v] :<Leader>ccp
+                         (fn []
+                           (let [actions (require :CopilotChat.actions)
+                                 fzf-lua-int (require :CopilotChat.integrations.fzflua)]
+                             (fzf-lua-int.pick (actions.prompt_actions))))
+                         {:desc "Prompt actions"})
+                (noremap [:n :v] :<Leader>ccq
+                         (fn []
+                           (vim.ui.input {:prompt "Quick Chat: "}
+                                         (fn [input]
+                                           (when (not (= nil input))
+                                             (vim.cmd (.. "CopilotChat " input))))))
+                         {:desc "Quick chat"})
+                (noremap [:n :v] :<Leader>ccc
+                         "<cmd>CopilotChatToggle<CR>"
+                         {:desc "Toggle Chat"})
+                (noremap [:n :v] :<Leader>cco
+                         "<cmd>CopilotChat<CR>"
+                         {:desc "Open Chat"})
+                (noremap [:n :v] :<Leader>cc " " {:desc "CopilotChat"})))
 
 ; notes
 (use-package! :kristijanhusak/orgmode.nvim
@@ -251,7 +440,6 @@
                                   :ensure_installed ["org"]})
                   (sniprun.setup {:display ["Classic" "NvimNotify"]
                                   :display_options {:notification_timeout 10}})
-                  (orgmode.setup_ts_grammar)
                   (orgmode.setup {:org_todo_keywords ["TODO" "DOING" "|" "DONE"]
                                   :mappings {:org {:org_todo "t"}}}))))
 
@@ -396,92 +584,7 @@
     ;; (ex colorscheme :onedark)
     ;; (ex :Startify)
 
-    ;; custom commands
-    (fn->viml :dotfiles.util :gh-open-pull-request :GhOpenPullRequest)
-    (fn->viml :dotfiles.util :gh-list-pull-requests :GhListPullRequests)
-    (fn->viml :dotfiles.util :ci-open :CiOpen)
-    (fn->viml :dotfiles.util :js-insert-i18n :JsInsertI18n)
-    (fn->viml :dotfiles.util :org-roam-dailies-find-today :OrgRoamDailiesFindToday)
-    (fn->viml :dotfiles.util :org-roam-dailies-find-yesterday :OrgRoamDailiesFindYesterday)
-    (fn->viml :dotfiles.util :org-roam-dailies-find-tomorrow :OrgRoamDailiesFindTomorrow)
-    (fn->viml :dotfiles.util :org-roam-find-file :OrgRoamFindFile)
-
-    (noremap :n :gog "<cmd>call GhOpenPullRequest()<CR>" {:silent true})
-    (noremap :n :goc "<cmd>call CiOpen()<CR>" {:silent true})
-    (noremap :n :<f9> "<cmd>call OrgRoamFindFile()<CR>" {:silent true})
-
-    (which-key.register
-      {:/ ["<cmd>FzfLua live_grep<CR>" "Search project"]
-       :* ["<cmd>FzfLua grep_cword<CR>" "Search at point"]
-       :<tab> ["<C-^>" "Switch to last buffer"]
-       :q {:name "+quit/session"
-           :q ["<cmd>q<CR>" "Quit vim"]}
-       :p {:name "+projects"
-           :f ["<cmd>FzfLua files<CR>" "Find file"]
-           :g ["<cmd>FzfLua tags<CR>" "Find Tags"]
-           :a ["<cmd>:Other<CR>" "Toggle implementation and test"]}
-       :f {:name "+files"
-           :s ["<cmd>update<CR>" "File save"]
-           :f ["<cmd>NvimTreeFindFile<CR>" "Find file in directory"]
-           :t ["<cmd>NvimTreeToggle<CR>" "Toggle Tree"]
-           :R [":Rename " "Rename file"]
-           :c [":saveas <C-R>=expand(\"%:p:h\")<CR>/" "Copy file"]
-           :r ["<cmd>FzfLua oldfiles<CR>" "Recent files"]
-           :y [":let @*=expand('%:p') | echo @*<CR>" "Copy Full File Path"]}
-       :g {:name "+git"
-           :p ["<cmd>call GhListPullRequests()<CR>" "Github List PRs"]
-           :oo ["<cmd>GBrowse<CR>" "Git browse"]
-           :s ["<cmd>Neogit<CR>" "Git status"]
-           :b ["<cmd>Git blame<CR>" "Git blame"]}
-       :b {:name "+buffers"
-           :b ["<cmd>FzfLua buffers<CR>" "Find buffer"]
-           :d ["<cmd>bdelete<CR>" "Delete buffer"]
-           :n ["<cmd>bdelete<CR>" "Next buffer"]
-           :p ["<cmd>bdelete<CR>" "Previous buffer"]
-           :h ["<cmd>Startify<CR>" "Home buffer"]}
-       :w {:name "+windows"
-           :h ["<cmd>wincmd h<CR>" "Window left"]
-           :l ["<cmd>wincmd l<CR>" "Window right"]
-           :j ["<cmd>wincmd j<CR>" "Window down"]
-           :k ["<cmd>wincmd k<CR>" "Window up"]
-           :<S-h> ["<cmd>wincmd <S-h><CR>" "Move window far left"]
-           :<S-l> ["<cmd>wincmd <S-l><CR>" "Move window far right"]
-           :<S-j> ["<cmd>wincmd <S-j><CR>" "Move window very down"]
-           :<S-k> ["<cmd>wincmd <S-k><CR>" "Move window very top"]
-           :w ["<cmd>wincmd w<CR>" "Other window"]
-           := ["<cmd>wincmd =<CR>" "Window balance area"]
-           :r ["<cmd>wincmd r<CR>" "Rotate window"]
-           :s ["<cmd>wincmd s<CR>" "Window split"]
-           :v ["<cmd>wincmd v<CR>" "Window vsplit"]
-           :c ["<cmd>close<CR>" "Window close"]}
-       :s {:name "+search"
-           :p ["<cmd>FzfLua live_grep<CR>" "Search in project"]
-           :s ["<cmd>FzfLua grep_curbuf<CR>" "Search in buffer"]}
-       :c {:name "+code"
-           :x ["<cmd>lua vim.diagnostic.setqflist()<CR>" "Error List"]}
-       :j {:name "+jump"
-           :L ["<cmd>AnyJumpLastResults<CR>" "Jump to Last Results"]
-           :j ["<cmd>HopChar1MW<CR>" "Jump to char"]
-           :w ["<cmd>HopWordMW<CR>" "Jump to word"]
-           :l ["<cmd>HopLine<CR>" "Jump to line"]}
-       :r {:name "+registers"
-           :e ["<cmd>FzfLua registers<CR>" "Registers"]}
-       :t {:name "+toggle"
-           :l ["<cmd>set nu! rnu!<CR>" "Toggle Line Number"]
-           :i ["<cmd>IndentLinesToggle<CR>" "Toggle indent line"]}
-       :n {:name "+notes"
-           :r {:name "+roam"
-               :f ["<cmd>call OrgRoamFindFile()<CR>" "org-roam-find-file"]
-               :d {:name "+date"
-                   :y ["<cmd>call OrgRoamDailiesFindYesterday()<CR>" "org-roam-dailies-find-yesterday"]
-                   :m ["<cmd>call OrgRoamDailiesFindTomorrow()<CR>" "org-roam-dailies-find-tomorrow"]
-                   :t ["<cmd>call OrgRoamDailiesFindToday()<CR>" "org-roam-dailies-find-today"]}}}
-       :h {:name "+help"
-           :? ["<cmd>FzfLua help_tags<CR>" "Help tags"]
-           :e ["<cmd>messages<CR>" "View messages"]
-           :df ["<cmd>FzfLua commands<CR>" "Help Commands"]
-           :t ["<cmd>FzfLua colorschemes<CR>" "Load theme"]}}
-      {:prefix "<leader>"})))
+    ))
 
 ;; Generic mapping configuration.
 (set nvim.g.mapleader " ")
