@@ -19,7 +19,7 @@
          "PTE WE"
          entry
          (file+headline "~/notes/roam/pages/20231110200450-writing_essay.org" "Learn")
-         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE Essay\n:ANKI_NOTE_TYPE: Basic with Hint\n:END:\n** Front\n\nItem #%:description\n\n%:initial\n\n** Back\n\n%c\n\n** Hint\n\nTotal: 10/15\n\n%(pte-magic-phrase-hints \"%:description\" \"~/notes/roam/assets/english/pte_magic/writing_essay.json\")\n\n")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE Essay\n:ANKI_NOTE_TYPE: Basic with Hint\n:END:\n** Front\n\nItem #%:description\n\n%:initial\n\n** Back\n\n%c\n\n** Hint\n\nTotal: 10/15\n\n%(pte-phrase-hints \"%:description\" \"~/notes/roam/assets/english/pte_magic/writing_essay.json\")\n\n")
        ("elw"
          "PTE WFD"
          entry
@@ -39,7 +39,7 @@
          "PTE SST"
          entry
          (file+headline "~/notes/roam/pages/20231022112746-summarize_spoken_text.org" "Learn")
-         "* Item #%:description\n** Front\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n** Keyword\n\n%(pte-phrase-hints \"%:description\" \"~/notes/roam/assets/english/pte_magic/summarize_spoken_text.json\")\n\n** Hint\n\nTotal: \n\n%c\n\n")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE SST::Repeated\n:ANKI_NOTE_TYPE: Basic with Hint and Keywords\n:END:\n** Front\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n** Keyword\n\n%(pte-phrase-hints \"%:description\" \"~/notes/roam/assets/english/pte_magic/summarize_spoken_text.json\")\n\n** Hint\n\nTotal: \n\n%c\n\n")
        ("esr"
          "PTE RS"
          entry
