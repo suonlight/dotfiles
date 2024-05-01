@@ -1,6 +1,6 @@
 (after! org
+  (setq find-file-visit-truename t)
   (setq evil-org-key-theme '(navigation insert textobjects additional calendar todo))
-
   (setq org-use-sub-superscripts nil)
   (setq org-export-with-sub-superscripts nil)
   (setq org-capture-templates
@@ -262,13 +262,13 @@
   (setq org-pomodoro-short-break-sound (f-join doom-private-dir "/assets/bell.wav")))
 
 (after! org-roam
-  (setq deft-directory "~/notes/roam")
-  (setq org-roam-directory "~/notes/roam")
+  (setq deft-directory (file-truename "~/notes/roam"))
+  (setq org-roam-directory (file-truename "~/notes/roam"))
   (setq org-roam-dailies-directory "journals/")
   (setq org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox-bin")
   (setq org-roam-db-location "~/.config/org-roam.db")
   (setq org-roam-graph-exclude-matcher '("2020-" "2021-" "2022-"))
-  (setq org-roam-file-exclude-regexp (-map #'expand-file-name
+  (setq org-roam-file-exclude-regexp (-map #'file-truename
                                            '("~/notes/roam/logseq/bak/journals"
                                              "~/notes/roam/logseq/bak/pages"
                                              "~/notes/roam/assests"
@@ -291,7 +291,7 @@
   (setq org-journal-enable-agenda-integration t)
   (setq org-journal-date-prefix "#+TITLE: ")
   (setq org-journal-file-format "%Y-%m-%d.org")
-  (setq org-journal-dir "~/notes/roam")
+  (setq org-journal-dir (file-truename "~/notes/roam"))
   (setq org-journal-date-format "%A, %d %B %Y")
   ;; (setq org-agenda-file-regexp "\\`\\\([^.].*\\.org\\\|[0-9]\\\{8\\\}\\\(\\.gpg\\\)?\\\)\\'")
   ;; (add-to-list 'org-agenda-files org-journal-dir)
@@ -312,7 +312,7 @@
 (use-package! org-excalidraw
   :after org-roam
   :init
-  (setq org-excalidraw-directory "~/notes/roam/draws")
+  (setq org-excalidraw-directory (file-truename "~/notes/roam/draws"))
   :config
   ;; ;; force activate app Excalidraw first
   ;; (defun org-excalidraw--shell-cmd-open (path os-type)
