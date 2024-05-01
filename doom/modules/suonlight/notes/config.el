@@ -400,4 +400,11 @@
 (use-package! epc
   :ensure t)
 
+(use-package! org-node
+  :hook (org-mode . org-node-cache-mode)
+  :config
+  (setq org-node-creation-fn #'org-node-new-by-roam-capture)
+  (setq org-node-slug-fn #'org-node-slugify-like-roam)
+  (setq org-node-creation-hook nil))
+
 (load! "ob-astmux")
