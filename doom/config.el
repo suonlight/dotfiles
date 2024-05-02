@@ -54,9 +54,9 @@
 (keymap-set evil-motion-state-map "," (general-simulate-key "SPC m"))
 
 ;; If you intend to use org, it is recommended you change this!
-(setq org-directory "~/notes")
-(setq bookmark-default-file "~/notes/bookmarks")
-(setq projectile-known-projects-file "~/notes/projectile.projects")
+(setq org-directory (file-truename "~/notes"))
+(setq bookmark-default-file (file-truename "~/notes/bookmarks"))
+(setq projectile-known-projects-file (file-truename "~/notes/projectile.projects"))
 (setq org-babel-python-command "python3")
 (setq python-shell-interpreter "python3")
 
@@ -229,7 +229,7 @@ not appropriate in some cases like terminals."
 (set-popup-rule! "^\\*Async Shell Command\\*" :ttl 0 :size 1)
 
 (after! plantuml-mode
-  (setq plantuml-jar-path "~/notes/plantuml.jar")
+  (setq plantuml-jar-path (file-truename "~/notes/plantuml.jar"))
   (setq plantuml-default-exec-mode 'jar))
 
 (use-package! eacl
