@@ -1,4 +1,5 @@
 (after! org
+  (setq org-todo-keywords '((sequence "TODO" "DOING" "DONE")))
   (setq find-file-visit-truename t)
   (setq evil-org-key-theme '(navigation insert textobjects additional calendar todo))
   (setq org-use-sub-superscripts nil)
@@ -29,7 +30,7 @@
          "PTE L Fill in Blanks"
          entry
          (file+headline "~/notes/roam/pages/20231022124135-l_fill_in_the_blanks.org" "Repeated")
-         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE LFIB::Repeated\n:ANKI_NOTE_TYPE: Cloze (LFIB)\n:END:\n** Audio\n\nItem #%:description\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Text\n\n%:initial\n\n** Explain\n\n")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE LFIB::Repeated\n:ANKI_NOTE_TYPE: Multiple FIB\n:END:\n** Audio\n\nItem #%:description\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Text\n\n%(pte-magic-fib-text \"%:description\" \"~/notes/roam/assets/english/pte_magic/listening_fib.json\")\n\n** Explain\n\n** Translation\n\n%(yank)\n\n")
        ("elh"
          "PTE HIW"
          entry
@@ -207,6 +208,34 @@
                    (format "%s\n" shadow-text)
                    (format "\n[[%s]]\n" shadow-audio))))
     heading))
+
+(defun pte-magic-fib-text (orderId jsonFile)
+  (let* ((json (with-temp-buffer
+                 (insert-file-contents jsonFile)
+                 (json-read)))
+         (data (cdr (assoc 'data json)))
+         (item (car (seq-filter (lambda (item) (string= orderId (cdr (assoc 'orderId item)))) data)))
+         (text (cdr (assoc 'description item)))
+         (answer (s-split ", " (cdr (assoc 'answer item))))
+         (new-text (concat (s-join
+                            ""
+                            (seq-mapn (lambda (a b) (format "%s{{cu::%s}}" a b))
+                                      (s-split "@Blank@" text)
+                                      answer))
+                           (car (last (s-split "@Blank@" text)))))
+         (translation-text (concat (s-join
+                            ""
+                            (seq-mapn (lambda (a b) (format "%s%s" a b))
+                                      (s-split "@Blank@" text)
+                                      answer))
+                           (car (last (s-split "@Blank@" text))))))
+    (require 'google-translate)
+    (google-translate-translate "en" "vi" translation-text 'kill-ring)
+    (if (not text)
+        (message "No value")
+      (with-temp-buffer
+        (insert new-text)
+        (buffer-string)))))
 
 (defun get-cleansed-title (title)
   "Get cleansed title"
@@ -395,7 +424,9 @@
   :hook (org-mode . org-appear-mode))
 
 (use-package! org-modern
-  :hook (org-mode . org-modern-mode))
+  :hook (org-mode . org-modern-mode)
+  :config
+  (setq org-modern-star 'replace))
 
 (use-package! epc
   :ensure t)
@@ -406,5 +437,21 @@
   (setq org-node-creation-fn #'org-node-new-by-roam-capture)
   (setq org-node-slug-fn #'org-node-slugify-like-roam)
   (setq org-node-creation-hook nil))
+
+(use-package! org-transclusion
+  :after org
+  :init
+
+  (defun org-transclusion-toggle-active ()
+    (interactive)
+    (condition-case nil
+      (if (org-transclusion-check-add) (org-transclusion-add))
+      (error (org-transclusion-deactivate))))
+
+  (map! :map global-map "S-<f9>" #'org-transclusion-toggle-active)
+  (map! :localleader
+    :map org-mode-map
+    :prefix ("m" . "Transclusion")
+    :desc "Toggle Transclusion" "t" #'org-transclusion-mode))
 
 (load! "ob-astmux")

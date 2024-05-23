@@ -10,6 +10,7 @@
 (package! org-node :recipe (:host github :repo "meedstrom/org-node"))
 (package! org-superstar :disable t)
 (package! org-modern)
+(package! org-transclusion)
 
 (package! epc)
 ;; (package! ob-tmux)
