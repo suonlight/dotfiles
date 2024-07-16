@@ -16,7 +16,7 @@
 
 (use-package! :folke/which-key.nvim
               :event "VeryLazy"
-              :config 
+              :config
               (fn []
                 (fn->viml :dotfiles.util :gh-open-pull-request :GhOpenPullRequest)
                 (fn->viml :dotfiles.util :gh-list-pull-requests :GhListPullRequests)
@@ -92,7 +92,11 @@
                        :i ["<cmd>IndentLinesToggle<CR>" "Toggle indent line"]}
                    :n {:name "+notes"
                        :r {:name "+roam"
-                           :f ["<cmd>call OrgRoamFindFile()<CR>" "org-roam-find-file"]
+                           ;; :f ["<cmd>call OrgRoamFindFile()<CR>" "org-roam-find-file"]
+                           ;;
+                           :S ["<cmd>:RoamReset true<CR>" "Sync Database"]
+                           :f ["<cmd>lua require('org-roam').api.find_node()<CR>" "org-roam-find-file"]
+                           :i ["<cmd>lua require('org-roam').api.insert_node()<CR>" "org-roam-insert-node"]
                            :d {:name "+date"
                                :y ["<cmd>call OrgRoamDailiesFindYesterday()<CR>" "org-roam-dailies-find-yesterday"]
                                :m ["<cmd>call OrgRoamDailiesFindTomorrow()<CR>" "org-roam-dailies-find-tomorrow"]
@@ -122,7 +126,7 @@
               :config
               (fn []
                 (let [dressing (require :dressing)]
-                  (dressing.setup 
+                  (dressing.setup
                     {:input {:enabled true
                              :default_prompt "Input:"
                              :title_pos "center"
@@ -388,7 +392,7 @@
               :config
               (fn []
                 (let [copilot-chat (require :CopilotChat)]
-                  (copilot-chat.setup 
+                  (copilot-chat.setup
                     {:debug true
                      :prompts {:TextWording {:prompt "Please improve the grammar and wording of the following text."}
                                :TextConcise { :prompt "Please rewrite the following text to make it more concise." }}}))
@@ -421,8 +425,7 @@
                 (noremap [:n :v] :<Leader>cc " " {:desc "CopilotChat"})))
 
 ; notes
-(use-package! :kristijanhusak/orgmode.nvim
-              :ft "org"
+(use-package! :nvim-orgmode/orgmode
               :dependencies ["nvim-treesitter/nvim-treesitter" "michaelb/sniprun"]
               :config
               (fn []
@@ -444,13 +447,22 @@
                                   :mappings {:org {:org_todo "t"}}}))))
 
 (use-package! :akinsho/org-bullets.nvim
-              :dependencies ["kristijanhusak/orgmode.nvim"]
+              :dependencies [:nvim-orgmode/orgmode]
               :config
               (fn []
                 (let [orgbullets (require :org-bullets)]
                   (orgbullets.setup
                    {:concealcursor true
                     :symbols {:headlines ["◉" "○" "✸" "✿"]}}))))
+
+; (use-package! :chipsenkbeil/org-roam.nvim
+;               :dependencies [:nvim-orgmode/orgmode]
+;               :config
+;               (fn []
+;                 (let [org-roam (require :org-roam)]
+;                     (org-roam.setup {:directory "~/notes/roam"
+;                                      :database {:path "~/.local/share/nvim/org-roam/db"}
+;                                      :extensions {:dailies {:directory "journals"}}}))))
 
 (use-package! :michaelb/sniprun :build "bash install.sh" :ft "org")
 (use-package! :kkharji/sqlite.lua :ft "lua")
