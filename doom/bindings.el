@@ -699,7 +699,7 @@
       :nv "C-p"   #'projectile-find-file
       :nv "s-b"   #'projectile-switch-to-buffer
       :nv "<f10>" #'doom/window-maximize-buffer
-      :nv "<f9>"   #'org-roam-node-find
+      :nv "<f9>"   #'org-node-find
       :nv "<f12>" #'multi-vterm-project
       :nv "gh"    #'sl/jump-to-cursor
       :nv "s-`"   #'+evil/next-frame
