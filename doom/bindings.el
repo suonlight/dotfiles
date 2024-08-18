@@ -932,6 +932,7 @@
       "x"         #'org-babel-do-key-sequence-in-edit-buffer
       "z"         #'org-babel-switch-to-session
       "Z"         #'org-babel-switch-to-session-with-code
+      "K"         #'+org/remove-result-blocks
       "k"         #'org-babel-remove-result-one-or-many)
     (:prefix-map ("m" . "modes")
       "a" #'anki-editor-mode)))
