@@ -137,3 +137,9 @@
         "i" #'ellama-context-add-info-node)
       (:prefix-map ("p" . "provider")
         "s" #'ellama-provider-select))))
+
+(use-package! copilot-chat
+  :after (request)
+  :config
+  (setq copilot-chat-frontend 'org)
+  (map! :leader "aC" #'copilot-chat-display))

@@ -9,3 +9,5 @@
 (package! async-await
   :recipe (:host github :repo "chuntaro/emacs-async-await"))
 
+(package! copilot-chat
+  :recipe (:host github :repo "chep/copilot-chat.el" :files ("*.el")))
