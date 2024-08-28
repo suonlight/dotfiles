@@ -9,3 +9,9 @@
           ("TAB" . 'copilot-accept-completion))
   :config
   (setq copilot-indent-offset-warning-disable t))
+
+(use-package! copilot-chat
+  :after (request)
+  :config
+  (setq copilot-chat-frontend 'org)
+  (map! :leader "aC" #'copilot-chat-display))
