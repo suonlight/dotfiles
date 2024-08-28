@@ -11,6 +11,7 @@
        ("el" "Listening")
        ("es" "Speaking")
        ("ew" "Writing")
+       ("a" "Application")
        ("ews"
          "PTE SWT"
          entry
@@ -98,6 +99,11 @@
          (file ,(format-time-string "~/notes/roam/journals/%Y-%m-%d.org" (current-time) t))
          ;; "* %?\n\nSource: %:link\nCaptured On:%U\n\n%:description\n\n%:initial\n\n")
          "* %?\n:PROPERTIES:\n:Source: %:link\n:Captured_On: %U\n:END:\n\n%:description\n\n%c\n\n")
+       ("ac"
+         "Notes with Customisation"
+         entry
+         (file ,(format-time-string "~/notes/roam/journals/%Y-%m-%d.org" (current-time) t))
+         "* %?\n:PROPERTIES:\n:Captured_On: %U\n:END:\n\n%(shell-command-to-string \"cat /tmp/org-capture.message\")\n\n")
        ("D"
          "EH Debugger"
          entry
