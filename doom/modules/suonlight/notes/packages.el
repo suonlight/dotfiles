@@ -11,6 +11,7 @@
 (package! org-superstar :disable t)
 (package! org-modern)
 (package! org-transclusion)
+(package! org-yt :recipe (:host github :repo "TobiasZawada/org-yt"))
 
 (package! epc)
 ;; (package! ob-tmux)
