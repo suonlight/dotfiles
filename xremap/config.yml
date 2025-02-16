@@ -1,0 +1,110 @@
+modmap:
+  - name: Global
+    remap:
+      CapsLock:
+        alone: Esc
+        held: Ctrl_L
+      Esc: CapsLock
+
+keymap:
+  - name: Alacritty
+    application:
+      only: Alacritty
+    remap:
+      Super-q: C-q
+      Super-v: C-v
+      Super-w: M-w
+      Super-t: M-t
+      Super-1: M-1
+      Super-2: M-2
+      Super-3: M-3
+      Super-4: M-4
+      Super-5: M-5
+      Super-6: M-6
+      Super-7: M-7
+      Super-8: M-8
+      Super-9: M-9
+  - name: Firefox
+    application:
+      only: firefox_firefox
+    remap:
+      Super-q: C-q
+      Super-1: M-1
+      Super-2: M-2
+      Super-3: M-3
+      Super-4: M-4
+      Super-5: M-5
+      Super-6: M-6
+      Super-7: M-7
+      Super-8: M-8
+      Super-9: M-9
+
+  - name: Emacs
+    application:
+      only: Emacs
+    remap:
+      Super-v: Shift-Insert
+      Super-q: [C-x, C-c]
+
+  # - name: Slack
+  #   application:
+  #     only: Slack
+  #   remap:
+  #     Super-o: C-Shift-tab
+  #     Super-p: C-tab
+  #     Super-n: C-k
+  #     Super-k: M-up
+  #     Super-j: M-down
+  #     C-M-k: Shift-Alt-up
+  #     C-M-j: Shift-Alt-down
+
+  #     Super-1: C-1
+  #     Super-2: C-2
+  #     Super-3: C-3
+  #     Super-4: C-4
+  #     Super-5: C-5
+  #     Super-6: C-6
+  #     Super-7: C-7
+  #     Super-8: C-8
+  #     Super-9: C-9
+
+  - name: Default -- some of these are overridden by the above definitions
+    application:
+      not: [Emacs]
+    remap:
+      # Emacs basic
+      C-b: left
+      C-f: right
+      C-p: up
+      C-n: down
+
+      # Emacs word
+      Super-b: C-left
+      Super-f: C-right
+
+      # Alt -> Ctrl
+      Super-a: C-a
+      Super-z: C-z
+      Super-x: C-x
+      Super-c: C-c
+      Super-v: C-v
+      Super-w: C-w
+      Super-t: C-t
+      Super-l: C-l
+
+      # # Tab changes + Alt-Enter simulation
+      # Super-o: C-Shift-tab
+      # Super-p: C-tab
+      # Super-Enter: M-Enter
+
+      # # actually these are vim insert mode bindings, but compatible with shell
+      # C-w: [C-Shift-left, delete]
+
+      # C-d: delete
+      # Super-d: C-delete
+
+      # # Underscore without Shift
+      # RO: Shift-RO
+
+      # # SKK hack for Chrome
+      # C-j: C-m

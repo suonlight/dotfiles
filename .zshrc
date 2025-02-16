@@ -36,16 +36,24 @@ zt 0b; zinit snippet OMZ::plugins/bundler/bundler.plugin.zsh
 zt 0b; zinit snippet OMZ::plugins/yarn/yarn.plugin.zsh
 zt 0b; zinit snippet OMZ::plugins/postgres/postgres.plugin.zsh
 zt 0b; zinit snippet OMZ::plugins/docker-compose/docker-compose.plugin.zsh
+zt 0b; zinit light joshskidmore/zsh-fzf-history-search
 zt 1a; zinit light djui/alias-tips
 zt 0b atload'unalias help; unalias cp'; zinit snippet OMZ::plugins/common-aliases/common-aliases.plugin.zsh
 
-zinit ice as"completion"; zinit snippet OMZ::plugins/docker/_docker
+# zinit ice as"completion"; zinit snippet OMZ::plugins/docker/_docker
 zinit ice as"completion"; zinit snippet OMZ::plugins/bundler/_bundler
 # zinit ice as"completion"; zinit snippet OMZ::plugins/rust/_rust
 zinit ice as"completion"; zinit snippet OMZ::plugins/terraform/_terraform
 
 zt 0b compile'{src/*.zsh,src/strategies/*}' atload'_zsh_autosuggest_start'; zinit light zsh-users/zsh-autosuggestions
-zt 0b blockf atpull'zinit creinstall -q .'; zinit light zsh-users/zsh-completions
+# zt 0b blockf atpull'zinit creinstall -q .'; zinit light zsh-users/zsh-completions
+zi for \
+    atload"zicompinit; zicdreplay" \
+    blockf \
+    lucid \
+    wait \
+    zsh-users/zsh-completions && \
+    fpath=($HOME/.asdf/completions $fpath)
 
 zt 1a atinit'zpcompinit; zpcdreplay'
 zinit light zdharma/fast-syntax-highlighting
@@ -58,6 +66,12 @@ function j() {
     [[ -f "$pfx/etc/autojump.sh" ]] && . "$pfx/etc/autojump.sh"
     j "$@"
   }
+
+  test -e /usr/share/autojump/autojump.zsh && {
+    source /usr/share/autojump/autojump.zsh
+    j "$@"
+  }
+
   test -e ~/.nix-profile/etc/profile.d/autojump.sh && {
     source ~/.nix-profile/etc/profile.d/autojump.sh
     j "$@"
@@ -137,17 +151,15 @@ if [[ "$TERM_PROGRAM" = "tmux" ]]; then
   zstyle :prompt:pure:path color yellow
 fi
 
-# other tools
-source ~/.asdf/installs/fzf/0.30.0/shell/completion.zsh
-source ~/.asdf/installs/fzf/0.30.0/shell/key-bindings.zsh
-
 test -d ~/.asdf/plugins/java/set-java-home.zsh && . ~/.asdf/plugins/java/set-java-home.zsh
 
-. $HOME/.asdf/asdf.sh
-# . $HOME/.asdf/completions/asdf.bash
+# . $HOME/.asdf/asdf.sh
+# mkdir -p "$HOME/.asdf/completions"
+# asdf completion zsh > "$HOME/.asdf/completions/_asdf"
 ### End of Zinit's installer chunk
 
 export PATH="/usr/local/opt/texinfo/bin:$PATH"
+export PATH="$HOME/.asdf/shims:$PATH"
 
 setopt interactivecomments
 
@@ -156,4 +168,14 @@ if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
   . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 fi
 # End Nix
+### End of Zinit's installer chunk
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zdharma-continuum/zinit-annex-as-monitor \
+    zdharma-continuum/zinit-annex-bin-gem-node \
+    zdharma-continuum/zinit-annex-patch-dl \
+    zdharma-continuum/zinit-annex-rust
+
 ### End of Zinit's installer chunk

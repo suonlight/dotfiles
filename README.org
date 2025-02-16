@@ -15,6 +15,7 @@ mkdir -p $WORKSPACE
 cd $WORKSPACE
 git clone git@github.com:suonlight/dotfiles.git
 mkdir -p ~/.config/nvim
+mkdir -p ~/.config/bat
 rm -rf ~/.zshrc ~/.tmux.conf ~/.tmux.sp ~/.ctags ~/.editorconfig ~/.config/doom ~/.config/nvim ~/.config/alacritty
 ln -s $WORKSPACE/dotfiles/.zshrc ~/.zshrc
 ln -s $WORKSPACE/dotfiles/.tmux.conf ~/.tmux.conf
@@ -22,13 +23,17 @@ ln -s $WORKSPACE/dotfiles/.tmux.sp ~/.tmux.sp
 ln -s $WORKSPACE/dotfiles/.editorconfig ~/.editorconfig
 ln -s $WORKSPACE/dotfiles/.ctags ~/.ctags
 ln -s $WORKSPACE/dotfiles/nvim ~/.config/nvim
-ln -s $WORKSPACE/dotfiles/alacritty ~/.config/alacritty
 ln -s $WORKSPACE/dotfiles/doom ~/.config/doom
 ln -s $WORKSPACE/dotfiles/karabiner ~/.config/karabiner
 ln -s $WORKSPACE/dotfiles/tridactyl ~/.config/tridactyl
 
-mkdir -p ~/.config/bat
+ln -s $WORKSPACE/dotfiles/alacritty ~/.config/alacritty
 ln -s $WORKSPACE/dotfiles/bat.conf ~/.config/bat/config
+
+# for ubuntu
+ln -s $WORKSPACE/dotfiles/ubuntu/alacritty ~/.config/alacritty
+ln -s $WORKSPACE/dotfiles/xremap ~/.config/xremap
+ln -s $WORKSPACE/dotfiles/systemd ~/.config/systemd
 #+end_src
 
 ** Neovim
