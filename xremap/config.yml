@@ -11,8 +11,7 @@ keymap:
     application:
       only: Alacritty
     remap:
-      Super-q: C-q
-      Super-v: C-v
+      # Alt -> Ctrl
       Super-w: M-w
       Super-t: M-t
       Super-1: M-1
@@ -24,6 +23,7 @@ keymap:
       Super-7: M-7
       Super-8: M-8
       Super-9: M-9
+
   - name: Firefox
     application:
       only: firefox_firefox
@@ -69,15 +69,7 @@ keymap:
   #     Super-9: C-9
 
   - name: Default -- some of these are overridden by the above definitions
-    application:
-      not: [Emacs]
     remap:
-      # Emacs basic
-      C-b: left
-      C-f: right
-      C-p: up
-      C-n: down
-
       # Emacs word
       Super-b: C-left
       Super-f: C-right
@@ -92,6 +84,9 @@ keymap:
       Super-t: C-t
       Super-l: C-l
 
+      Super-equal: C-equal
+      Super-minus: C-minus
+      Super-0: C-0
       # # Tab changes + Alt-Enter simulation
       # Super-o: C-Shift-tab
       # Super-p: C-tab

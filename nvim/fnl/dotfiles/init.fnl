@@ -31,82 +31,79 @@
                 (noremap :n :goc "<cmd>call CiOpen()<CR>" {:silent true})
                 (noremap :n :<f9> "<cmd>call OrgRoamFindFile()<CR>" {:silent true})
 
-                (which-key.register
-                  {:/ ["<cmd>FzfLua live_grep<CR>" "Search project"]
-                   :* ["<cmd>FzfLua grep_cword<CR>" "Search at point"]
-                   :<tab> ["<C-^>" "Switch to last buffer"]
-                   :q {:name "+quit/session"
-                       :q ["<cmd>q<CR>" "Quit vim"]}
-                   :p {:name "+projects"
-                       :f ["<cmd>FzfLua files<CR>" "Find file"]
-                       :g ["<cmd>FzfLua tags<CR>" "Find Tags"]
-                       :a ["<cmd>:Other<CR>" "Toggle implementation and test"]}
-                   :f {:name "+files"
-                       :s ["<cmd>update<CR>" "File save"]
-                       :f ["<cmd>NvimTreeFindFile<CR>" "Find file in directory"]
-                       :t ["<cmd>NvimTreeToggle<CR>" "Toggle Tree"]
-                       :R [":Rename " "Rename file"]
-                       :c [":saveas <C-R>=expand(\"%:p:h\")<CR>/" "Copy file"]
-                       :r ["<cmd>FzfLua oldfiles<CR>" "Recent files"]
-                       :y [":let @*=expand('%:p') | echo @*<CR>" "Copy Full File Path"]}
-                   :g {:name "+git"
-                       :p ["<cmd>call GhListPullRequests()<CR>" "Github List PRs"]
-                       :oo ["<cmd>GBrowse<CR>" "Git browse"]
-                       :s ["<cmd>Neogit<CR>" "Git status"]
-                       :b ["<cmd>Git blame<CR>" "Git blame"]}
-                   :b {:name "+buffers"
-                       :b ["<cmd>FzfLua buffers<CR>" "Find buffer"]
-                       :d ["<cmd>bdelete<CR>" "Delete buffer"]
-                       :n ["<cmd>bdelete<CR>" "Next buffer"]
-                       :p ["<cmd>bdelete<CR>" "Previous buffer"]
-                       :h ["<cmd>Startify<CR>" "Home buffer"]}
-                   :w {:name "+windows"
-                       :h ["<cmd>wincmd h<CR>" "Window left"]
-                       :l ["<cmd>wincmd l<CR>" "Window right"]
-                       :j ["<cmd>wincmd j<CR>" "Window down"]
-                       :k ["<cmd>wincmd k<CR>" "Window up"]
-                       :<S-h> ["<cmd>wincmd <S-h><CR>" "Move window far left"]
-                       :<S-l> ["<cmd>wincmd <S-l><CR>" "Move window far right"]
-                       :<S-j> ["<cmd>wincmd <S-j><CR>" "Move window very down"]
-                       :<S-k> ["<cmd>wincmd <S-k><CR>" "Move window very top"]
-                       :w ["<cmd>wincmd w<CR>" "Other window"]
-                       := ["<cmd>wincmd =<CR>" "Window balance area"]
-                       :r ["<cmd>wincmd r<CR>" "Rotate window"]
-                       :s ["<cmd>wincmd s<CR>" "Window split"]
-                       :v ["<cmd>wincmd v<CR>" "Window vsplit"]
-                       :c ["<cmd>close<CR>" "Window close"]}
-                   :s {:name "+search"
-                       :p ["<cmd>FzfLua live_grep<CR>" "Search in project"]
-                       :s ["<cmd>FzfLua grep_curbuf<CR>" "Search in buffer"]}
-                   :c {:name "+code"
-                       :x ["<cmd>lua vim.diagnostic.setqflist()<CR>" "Error List"]}
-                   :j {:name "+jump"
-                       :L ["<cmd>AnyJumpLastResults<CR>" "Jump to Last Results"]
-                       :j ["<cmd>HopChar1MW<CR>" "Jump to char"]
-                       :w ["<cmd>HopWordMW<CR>" "Jump to word"]
-                       :l ["<cmd>HopLine<CR>" "Jump to line"]}
-                   :r {:name "+registers"
-                       :e ["<cmd>FzfLua registers<CR>" "Registers"]}
-                   :t {:name "+toggle"
-                       :l ["<cmd>set nu! rnu!<CR>" "Toggle Line Number"]
-                       :i ["<cmd>IndentLinesToggle<CR>" "Toggle indent line"]}
-                   :n {:name "+notes"
-                       :r {:name "+roam"
-                           ;; :f ["<cmd>call OrgRoamFindFile()<CR>" "org-roam-find-file"]
-                           ;;
-                           :S ["<cmd>:RoamReset true<CR>" "Sync Database"]
-                           :f ["<cmd>lua require('org-roam').api.find_node()<CR>" "org-roam-find-file"]
-                           :i ["<cmd>lua require('org-roam').api.insert_node()<CR>" "org-roam-insert-node"]
-                           :d {:name "+date"
-                               :y ["<cmd>call OrgRoamDailiesFindYesterday()<CR>" "org-roam-dailies-find-yesterday"]
-                               :m ["<cmd>call OrgRoamDailiesFindTomorrow()<CR>" "org-roam-dailies-find-tomorrow"]
-                               :t ["<cmd>call OrgRoamDailiesFindToday()<CR>" "org-roam-dailies-find-today"]}}}
-                   :h {:name "+help"
-                       :? ["<cmd>FzfLua help_tags<CR>" "Help tags"]
-                       :e ["<cmd>messages<CR>" "View messages"]
-                       :df ["<cmd>FzfLua commands<CR>" "Help Commands"]
-                       :t ["<cmd>FzfLua colorschemes<CR>" "Load theme"]}}
-                  {:prefix "<leader>"})))
+                (which-key.add
+                  [{1 "<leader>/" 2 "<cmd>FzfLua live_grep<CR>" :desc "Search project"}
+                   {1 "<leader>*" 2 "<cmd>FzfLua grep_cword<CR>" :desc "Search at point"}
+                   {1 "<leader><tab>" 2 "<C-^>" :desc "Switch to last buffer"}
+                   {1 "<leader>q" :group "+quit/session"}
+                   {1 "<leader>qq" 2 "<cmd>q<CR>" :desc "Quit vim"}
+                   {1 "<leader>p" :group "+projects"}
+                   {1 "<leader>pf" 2 "<cmd>FzfLua files<CR>" :desc "Find file"}
+                   {1 "<leader>pg" 2 "<cmd>FzfLua tags<CR>" :desc "Find Tags"}
+                   {1 "<leader>pa" 2 "<cmd>:Other<CR>" :desc "Toggle implementation and test"}
+                   {1 "<leader>f" :group "+files"}
+                   {1 "<leader>fs" 2 "<cmd>update<CR>" :desc "File save"}
+                   {1 "<leader>ff" 2 "<cmd>NvimTreeFindFile<CR>" :desc "Find file in directory"}
+                   {1 "<leader>ft" 2 "<cmd>NvimTreeToggle<CR>" :desc "Toggle Tree"}
+                   {1 "<leader>fR" 2 ":Rename " :desc "Rename file"}
+                   {1 "<leader>fc" 2 ":saveas <C-R>=expand(\"%:p:h\")<CR>/" :desc "Copy file"}
+                   {1 "<leader>fr" 2 "<cmd>FzfLua oldfiles<CR>" :desc "Recent files"}
+                   {1 "<leader>fy" 2 ":let @*=expand('%:p') | echo @*<CR>" :desc "Copy Full File Path"}
+                   {1 "<leader>g" :group "+git"}
+                   {1 "<leader>gp" 2 "<cmd>call GhListPullRequests()<CR>" :desc "Github List PRs"}
+                   {1 "<leader>goo" 2 "<cmd>GBrowse<CR>" :desc "Git browse"}
+                   {1 "<leader>gs" 2 "<cmd>Neogit<CR>" :desc "Git status"}
+                   {1 "<leader>gb" 2 "<cmd>Git blame<CR>" :desc "Git blame"}
+                   {1 "<leader>b" :group "+buffers"}
+                   {1 "<leader>bb" 2 "<cmd>FzfLua buffers<CR>" :desc "Find buffer"}
+                   {1 "<leader>bd" 2 "<cmd>bdelete<CR>" :desc "Delete buffer"}
+                   {1 "<leader>bn" 2 "<cmd>bdelete<CR>" :desc "Next buffer"}
+                   {1 "<leader>bp" 2 "<cmd>bdelete<CR>" :desc "Previous buffer"}
+                   {1 "<leader>bh" 2 "<cmd>Startify<CR>" :desc "Home buffer"}
+                   {1 "<leader>w" :group "+windows"}
+                   {1 "<leader>wh" 2 "<cmd>wincmd h<CR>" :desc "Window left"}
+                   {1 "<leader>wl" 2 "<cmd>wincmd l<CR>" :desc "Window right"}
+                   {1 "<leader>wj" 2 "<cmd>wincmd j<CR>" :desc "Window down"}
+                   {1 "<leader>wk" 2 "<cmd>wincmd k<CR>" :desc "Window up"}
+                   {1 "<leader>w<S-h>" 2 "<cmd>wincmd <S-h><CR>" :desc "Move window far left"}
+                   {1 "<leader>w<S-l>" 2 "<cmd>wincmd <S-l><CR>" :desc "Move window far right"}
+                   {1 "<leader>w<S-j>" 2 "<cmd>wincmd <S-j><CR>" :desc "Move window very down"}
+                   {1 "<leader>w<S-k>" 2 "<cmd>wincmd <S-k><CR>" :desc "Move window very top"}
+                   {1 "<leader>ww" 2 "<cmd>wincmd w<CR>" :desc "Other window"}
+                   {1 "<leader>w=" 2 "<cmd>wincmd =<CR>" :desc "Window balance area"}
+                   {1 "<leader>wr" 2 "<cmd>wincmd r<CR>" :desc "Rotate window"}
+                   {1 "<leader>ws" 2 "<cmd>wincmd s<CR>" :desc "Window split"}
+                   {1 "<leader>wv" 2 "<cmd>wincmd v<CR>" :desc "Window vsplit"}
+                   {1 "<leader>wc" 2 "<cmd>close<CR>" :desc "Window close"}
+                   {1 "<leader>s" :group "+search"}
+                   {1 "<leader>sp" 2 "<cmd>FzfLua live_grep<CR>" :desc "Search in project"}
+                   {1 "<leader>ss" 2 "<cmd>FzfLua grep_curbuf<CR>" :desc "Search in buffer"}
+                   {1 "<leader>c" :group "+code"}
+                   {1 "<leader>cx" 2 "<cmd>lua vim.diagnostic.setqflist()<CR>" :desc "Error List"}
+                   {1 "<leader>j" :group "+jump"}
+                   {1 "<leader>jL" 2 "<cmd>AnyJumpLastResults<CR>" :desc "Jump to Last Results"}
+                   {1 "<leader>jj" 2 "<cmd>HopChar1MW<CR>" :desc "Jump to char"}
+                   {1 "<leader>jw" 2 "<cmd>HopWordMW<CR>" :desc "Jump to word"}
+                   {1 "<leader>jl" 2 "<cmd>HopLine<CR>" :desc "Jump to line"}
+                   {1 "<leader>r" :group "+registers"}
+                   {1 "<leader>re" 2 "<cmd>FzfLua registers<CR>" :desc "Registers"}
+                   {1 "<leader>t" :group "+toggle"}
+                   {1 "<leader>tl" 2 "<cmd>set nu! rnu!<CR>" :desc "Toggle Line Number"}
+                   {1 "<leader>ti" 2 "<cmd>IndentLinesToggle<CR>" :desc "Toggle indent line"}
+                   {1 "<leader>n" :group "+notes"}
+                   {1 "<leader>nr" :group "+roam"}
+                   {1 "<leader>nrS" 2 "<cmd>:RoamReset true<CR>" :desc "Sync Database"}
+                   {1 "<leader>nrf" 2 "<cmd>lua require('org-roam').api.find_node()<CR>" :desc "org-roam-find-file"}
+                   {1 "<leader>nri" 2 "<cmd>lua require('org-roam').api.insert_node()<CR>" :desc "org-roam-insert-node"}
+                   {1 "<leader>nrd" :group "+date"}
+                   {1 "<leader>nrdy" 2 "<cmd>call OrgRoamDailiesFindYesterday()<CR>" :desc "org-roam-dailies-find-yesterday"}
+                   {1 "<leader>nrdm" 2 "<cmd>call OrgRoamDailiesFindTomorrow()<CR>" :desc "org-roam-dailies-find-tomorrow"}
+                   {1 "<leader>nrdt" 2 "<cmd>call OrgRoamDailiesFindToday()<CR>" :desc "org-roam-dailies-find-today"}
+                   {1 "<leader>h" :group "+help"}
+                   {1 "<leader>h?" 2 "<cmd>FzfLua help_tags<CR>" :desc "Help tags"}
+                   {1 "<leader>he" 2 "<cmd>messages<CR>" :desc "View messages"}
+                   {1 "<leader>hdf" 2 "<cmd>FzfLua commands<CR>" :desc "Help Commands"}
+                   {1 "<leader>ht" 2 "<cmd>FzfLua colorschemes<CR>" :desc "Load theme"}])))
 
 (use-package! :mhinz/vim-startify
               :cmd "Startify"
@@ -269,6 +266,7 @@
 ; ui
 (use-package! :joshdick/onedark.vim :lazy true)
 (use-package! :folke/tokyonight.nvim :lazy true)
+(use-package! :echasnovski/mini.icons )
 (use-package! :nvim-tree/nvim-web-devicons )
 (use-package! :nvim-tree/nvim-tree.lua
               :cmd ["NvimTreeFindFile" "NvimTreeToggle"]
@@ -364,7 +362,7 @@
                   (lsp.solargraph.setup {:on_attach on-attach
                                          :root_dir (lsp.util.root_pattern "Gemfile" ".git" ".")
                                          :cmd [(.. (os.getenv "HOME") "/.asdf/installs/ruby/2.7.8/bin/solargraph") "stdio"]})
-                  (lsp.tsserver.setup {:on_attach on-attach}))))
+                  (lsp.ts_ls.setup {:on_attach on-attach}))))
 
 (use-package! :williamboman/mason-lspconfig.nvim)
 (use-package! :neovim/nvim-lspconfig)
@@ -421,8 +419,7 @@
                          {:desc "Toggle Chat"})
                 (noremap [:n :v] :<Leader>cco
                          "<cmd>CopilotChat<CR>"
-                         {:desc "Open Chat"})
-                (noremap [:n :v] :<Leader>cc " " {:desc "CopilotChat"})))
+                         {:desc "Open Chat"})))
 
 ; notes
 (use-package! :nvim-orgmode/orgmode
@@ -440,7 +437,7 @@
                                               :additional_vim_regex_highlighting ["org"]}
                                   :matchup {:enable true
                                             :include_match_words true}
-                                  :ensure_installed ["org"]})
+                                  :ensure_installed ["org" "markdown" "diff"]})
                   (sniprun.setup {:display ["Classic" "NvimNotify"]
                                   :display_options {:notification_timeout 10}})
                   (orgmode.setup {:org_todo_keywords ["TODO" "DOING" "|" "DONE"]

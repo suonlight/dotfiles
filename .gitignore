@@ -5,6 +5,7 @@ doom/snippets
 doom/custom.el
 doom/gcal.el
 emacs/forge-database.sqlite
+systemd/user/default.target.wants/
 tag
 ETAG
 .DS_Store

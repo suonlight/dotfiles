@@ -102,7 +102,7 @@
     (.. " " line "/" max-lines ":" column)))
 
 (set section.right [{:LspStatus {:provider (fn []
-                                             (let [clients (vim.lsp.get_active_clients)]
+                                             (let [clients (vim.lsp.get_clients)]
                                                (if (not= (next clients) nil)
                                                  (.. "    LSP")
                                                  "")))}}
