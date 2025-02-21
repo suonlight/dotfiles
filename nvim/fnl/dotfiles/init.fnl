@@ -521,7 +521,7 @@
 
 ;; default
 (set nvim.o.termguicolors true)
-(set nvim.o.clipboard :unnamed)
+(set nvim.o.clipboard :unnamedplus)
 (set nvim.o.autoindent true)
 (set nvim.o.smartindent true)
 (set nvim.o.expandtab true)

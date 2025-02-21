@@ -1,3 +1,8 @@
+# Key Code
+# https://github.com/emberian/evdev/blob/8a498d41ec78ffd5f585bdfccbce82bb30295dcd/src/scancodes.rs#L99
+shared:
+  sleep: &sleep {sleep: 200}
+
 modmap:
   - name: Global
     remap:
@@ -28,7 +33,6 @@ keymap:
     application:
       only: firefox_firefox
     remap:
-      Super-q: C-q
       Super-1: M-1
       Super-2: M-2
       Super-3: M-3
@@ -39,12 +43,21 @@ keymap:
       Super-8: M-8
       Super-9: M-9
 
+      Super-R: C-R
+      # mouse
+      # Super-Btn_Left: C-Btn_Left
+      Super-Btn_Left: [Btn_Right, *sleep, Key_Right, Enter] # workaround for the above
+
+      C-n: Down
+      C-p: Up
+
   - name: Emacs
     application:
       only: Emacs
     remap:
       Super-v: Shift-Insert
       Super-q: [C-x, C-c]
+      Super-w: Super-w
 
   # - name: Slack
   #   application:
@@ -84,9 +97,15 @@ keymap:
       Super-t: C-t
       Super-l: C-l
 
+      Super-q: C-q
       Super-equal: C-equal
       Super-minus: C-minus
       Super-0: C-0
+
+      Key_Sysrq: Btn_Left
+      Key_ScrollLock: C-Shift-0
+      Key_Pause: Btn_Right
+
       # # Tab changes + Alt-Enter simulation
       # Super-o: C-Shift-tab
       # Super-p: C-tab

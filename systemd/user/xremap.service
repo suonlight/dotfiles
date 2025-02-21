@@ -6,7 +6,7 @@ Type=exec
 TimeoutStartSec=30
 WorkingDirectory=%h
 StandardOutput=journal
-ExecStart=%h/.cargo/bin/xremap %h/.config/xremap/config.yml
+ExecStart=%h/.cargo/bin/xremap %h/.config/xremap/config.yml --watch=device --mouse
 Restart=always
 
 [Install]
