@@ -17,47 +17,72 @@ keymap:
       only: Alacritty
     remap:
       # Alt -> Ctrl
-      Super-w: M-w
-      Super-t: M-t
-      Super-1: M-1
-      Super-2: M-2
-      Super-3: M-3
-      Super-4: M-4
-      Super-5: M-5
-      Super-6: M-6
-      Super-7: M-7
-      Super-8: M-8
-      Super-9: M-9
+      M-w: M-w
+      M-t: M-t
+      # Super-w: M-w
+      # Super-t: M-t
+      # Super-1: M-1
+      # Super-2: M-2
+      # Super-3: M-3
+      # Super-4: M-4
+      # Super-5: M-5
+      # Super-6: M-6
+      # Super-7: M-7
+      # Super-8: M-8
+      # Super-9: M-9
 
   - name: Firefox
     application:
       only: firefox_firefox
     remap:
-      Super-1: M-1
-      Super-2: M-2
-      Super-3: M-3
-      Super-4: M-4
-      Super-5: M-5
-      Super-6: M-6
-      Super-7: M-7
-      Super-8: M-8
-      Super-9: M-9
+      # Emacs word
+      M-b: C-left
+      M-f: C-right
 
-      Super-R: C-R
+      # Super-1: M-1
+      # Super-2: M-2
+      # Super-3: M-3
+      # Super-4: M-4
+      # Super-5: M-5
+      # Super-6: M-6
+      # Super-7: M-7
+      # Super-8: M-8
+      # Super-9: M-9
+
+      M-R: C-R
       # mouse
-      # Super-Btn_Left: C-Btn_Left
-      Super-Btn_Left: [Btn_Right, *sleep, Key_Right, Enter] # workaround for the above
+      M-Btn_Left: C-Btn_Left
+      M-Btn_Left: [Btn_Right, *sleep, Key_Right, Enter] # workaround for the above
+      M-Key_Sysrq: [Btn_Right, *sleep, Key_Right, Enter]
+      Btn_Extra: [Btn_Right, *sleep, Key_Right, Enter]
 
       C-n: Down
       C-p: Up
 
+  - name: Cursor
+    application:
+      only: Cursor
+    remap:
+      Super-s: C-s
+
   - name: Emacs
     application:
-      only: Emacs
+      only: emacs
     remap:
-      Super-v: Shift-Insert
-      Super-q: [C-x, C-c]
-      Super-w: Super-w
+      M-v: Shift-Insert
+      M-q: [C-x, C-c]
+      M-w: Super-w
+      M-s: Super-s
+      M-1: Super-1
+      M-2: Super-2
+      M-3: Super-3
+      M-4: Super-4
+      M-5: Super-5
+      M-6: Super-6
+      M-7: Super-7
+      M-8: Super-8
+      M-9: Super-9
+      M-0: Super-0
 
   # - name: Slack
   #   application:
@@ -82,29 +107,32 @@ keymap:
   #     Super-9: C-9
 
   - name: Default -- some of these are overridden by the above definitions
+    application:
+      only: icloud-notes
     remap:
-      # Emacs word
-      Super-b: C-left
-      Super-f: C-right
-
-      # Alt -> Ctrl
-      Super-a: C-a
-      Super-z: C-z
-      Super-x: C-x
       Super-c: C-c
-      Super-v: C-v
-      Super-w: C-w
-      Super-t: C-t
-      Super-l: C-l
+  - name: Default -- some of these are overridden by the above definitions
+    application:
+      not: [Emacs]
+    remap:
+      # Alt -> Ctrl
+      M-a: C-a
+      M-z: C-z
+      M-x: C-x
+      M-c: C-c
+      M-v: C-v
+      M-w: C-w
+      M-t: C-t
+      M-l: C-l
 
-      Super-q: C-q
-      Super-equal: C-equal
-      Super-minus: C-minus
-      Super-0: C-0
+      M-q: C-q
+      M-equal: C-equal
+      M-minus: C-minus
+      M-0: C-0
 
-      Key_Sysrq: Btn_Left
-      Key_ScrollLock: C-Shift-0
-      Key_Pause: Btn_Right
+      Sysrq: Btn_Left
+      ScrollLock: C-Shift-0
+      Pause: Btn_Right
 
       # # Tab changes + Alt-Enter simulation
       # Super-o: C-Shift-tab

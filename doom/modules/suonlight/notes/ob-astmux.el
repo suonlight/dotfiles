@@ -44,7 +44,8 @@
   "Execute the astmux commands specified in BODY asynchronously using EPC."
   (let* ((session (cdr (assoc :session params)))
           (session (concat astmux-session-prefix session))
-          (socket (or (cdr (assoc :socket params)) "/tmp/tmux-501/default"))
+          (socket (or (cdr (assoc :socket params))
+                    (or (getenv "TMUX") (concat "/tmp/tmux-" (number-to-string (user-uid)) "/default"))))
           (lang (cdr (assoc :lang params)))
           (results (or (cdr (assq :results params))))
           (file (cdr (assq :file params)))
@@ -55,6 +56,7 @@
       (deferred:nextc it
         `(lambda (response)
            (with-current-buffer ,(current-buffer)
+             (message "socket %s session %s lang %s jid %s" ,socket ,session ,lang ,jid)
              (save-excursion
                (let* ((result (plist-get response :message))
                        (file ,file))
