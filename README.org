@@ -223,8 +223,8 @@ install.packages("ggplot2")
 
 #+begin_src shell :async :results output
 asdf plugin-add java https://github.com/halcyon/asdf-java.git
-asdf install java adoptopenjdk-15.0.1+9
-asdf global java adoptopenjdk-15.0.1+9
+asdf install java adoptopenjdk-23.0.1+11
+asdf global java adoptopenjdk-23.0.1+11
 #+end_src
 
 ** [#B] Rust

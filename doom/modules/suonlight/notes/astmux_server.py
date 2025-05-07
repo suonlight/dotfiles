@@ -41,7 +41,7 @@ class ShellInterativeHandler:
     @staticmethod
     def wrap_command(jid, command):
         command = re.sub(r'[\\]\s*\n\s*', ' ', command)
-        command = re.sub(r'[\n\r]+', '; ', command)
+        # command = re.sub(r'[\n\r]+', '; ', command)
 
         return f'echo "# start:{jid}"; {command}; echo "# finish:{jid}"'
 
