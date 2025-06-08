@@ -10,6 +10,13 @@ modmap:
         alone: Esc
         held: Ctrl_L
       Esc: CapsLock
+  - name: Workarround Super+Space for toogle-overview
+    application:
+      only: firefox_firefox
+    remap:
+      Alt_L:
+        held: Alt_R
+        alone: Ctrl_R
 
 keymap:
   - name: Alacritty
