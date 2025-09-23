@@ -110,14 +110,14 @@ https://asdf-vm.com/#/core-manage-asdf-vm
 
 #+begin_src shell :async :results output
 # Install asdf by git
-git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0
+git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.18.0
 #+end_src
 
 #+begin_src shell :async :results output
-asdf plugin-add postgres
-asdf plugin-add ruby
-asdf plugin-add nodejs https://github.com/asdf-vm/asdf-nodejs.git
-asdf plugin-add yarn
+asdf plugin add postgres
+asdf plugin add ruby
+asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+asdf plugin add yarn
 #+end_src
 
 ** [#A] Terminal tools
@@ -143,7 +143,7 @@ asdf global fd $(ls ~/.asdf/installs/fd/ | sort -r | head -n 1)
 #+begin_src shell :async :results output
 asdf plugin add fzf https://github.com/kompiro/asdf-fzf.git
 asdf install fzf latest
-asdf global fzf $(ls ~/.asdf/installs/fzf/ | sort -r | head -n 1)
+asdf set -p fzf $(ls ~/.asdf/installs/fzf/ | sort -r | head -n 1)
 #+end_src
 
 #+begin_src shell :async :results output
@@ -200,10 +200,10 @@ asdf global yarn 1.21.1
 ** [#B] Python
 
 #+begin_src shell :async :results output
-asdf plugin-add python
+asdf plugin add python
 asdf install python 2.7.16
-asdf install python 3.9.1
-asdf global python 2.7.16 3.9.1
+asdf install python 3.13.6
+asdf global python 2.7.16 3.13.6
 #+end_src
 
 ** [#B] R

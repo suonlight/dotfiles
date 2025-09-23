@@ -98,7 +98,7 @@
        (lookup           ; helps you navigate your code and documentation
         +dictionary
         +docsets)        ; ...or in Dash docsets locally
-       ;; lsp
+       (lsp +eglot +booster)
        (magit +forge)    ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
@@ -108,7 +108,7 @@
        ;;taskrunner        ; taskrunner for all your projects
        ;;terraform         ; infrastructure as code
        ;;tmux              ; an API for interacting with tmux
-       ;;tree-sitter       ; syntax and parsing, sitting in a tree...
+       tree-sitter       ; syntax and parsing, sitting in a tree...
        ;;upload            ; map local to remote projects via ssh/ftp
 
        :os
@@ -143,7 +143,7 @@
        ;;json              ; At least it ain't XML
        ;;(java +meghanada) ; the poster child for carpal tunnel syndrome
        ;; (javascript +lsp)          ; all(hope(abandon(ye(who(enter(here))))))
-       javascript
+       (javascript +tree-sitter)
        ;;julia             ; a better, faster MATLAB
        ;;kotlin            ; a better, slicker Java(Script)
        ;;latex             ; writing papers in Emacs has never been so fun
@@ -175,7 +175,7 @@
        ;;raku              ; the artist formerly known as perl6
        (rest +jq)              ; Emacs as a REST client
        ;;rst               ; ReST in peace
-       ruby
+       (ruby +lsp +tree-sitter)
        rust
        ;;scala             ; java, but good
        ;;(scheme +guile)   ; a fully conniving family of lisps
@@ -210,8 +210,8 @@
        ;; lsp-mode
        ;; exwm
        utils
-       lsp-bridge
-       treesit
+       ;; lsp-bridge
+       ;; treesit
        git
        copilot
        ai

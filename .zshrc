@@ -181,3 +181,7 @@ zinit light-mode for \
     zdharma-continuum/zinit-annex-rust
 
 ### End of Zinit's installer chunk
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:$HOME/.lmstudio/bin"
+# End of LM Studio CLI section
