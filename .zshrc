@@ -185,3 +185,8 @@ zinit light-mode for \
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:$HOME/.lmstudio/bin"
 # End of LM Studio CLI section
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/minhnguyenhue/.lmstudio/bin"
+# End of LM Studio CLI section
+
