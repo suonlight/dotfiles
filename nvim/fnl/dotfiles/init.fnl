@@ -3,8 +3,7 @@
              a aniseed.core
              nvim-util aniseed.nvim.util
              util dotfiles.util
-             which-key which-key
-             lsp lspconfig}
+             which-key which-key}
    require-macros [dotfiles.macros]})
 
 (use-package! :Olical/aniseed)
@@ -359,10 +358,16 @@
                   ; (mason-lspconfig.setup {:ensure_installed ["solargraph" "tsserver"]})
                   ; (lsp.grammarly.setup {:on_attach on-attach :filetypes ["org" "markdown"]})
                   ; (lsp.ltex.setup {:on_attach on-attach :filetypes ["org" "markdown"]})
-                  (lsp.solargraph.setup {:on_attach on-attach
-                                         :root_dir (lsp.util.root_pattern "Gemfile" ".git" ".")
-                                         :cmd [(.. (os.getenv "HOME") "/.asdf/installs/ruby/2.7.8/bin/solargraph") "stdio"]})
-                  (lsp.ts_ls.setup {:on_attach on-attach}))))
+                  (vim.lsp.config :solargraph
+                                  {:on_attach on-attach
+                                   ;; :root_dir (lsp.util.root_pattern "Gemfile" ".git" ".")
+                                   :cmd [(.. (os.getenv "HOME") "/.asdf/installs/ruby/2.7.8/bin/solargraph") "stdio"]})
+                  (vim.lsp.config :ts_ls {:on_attach on-attach})
+                  ;; (lsp.solargraph.setup {:on_attach on-attach
+                  ;;                        :root_dir (lsp.util.root_pattern "Gemfile" ".git" ".")
+                  ;;                        :cmd [(.. (os.getenv "HOME") "/.asdf/installs/ruby/2.7.8/bin/solargraph") "stdio"]})
+                  ;; (lsp.ts_ls.setup {:on_attach on-attach})))
+                )))
 
 (use-package! :williamboman/mason-lspconfig.nvim)
 (use-package! :neovim/nvim-lspconfig)
@@ -423,21 +428,19 @@
 
 ; notes
 (use-package! :nvim-orgmode/orgmode
-              :dependencies ["nvim-treesitter/nvim-treesitter" "michaelb/sniprun"]
+              :dependencies ["michaelb/sniprun"]
               :config
               (fn []
                 ;; org mode
-                (let [parser (require :nvim-treesitter.parsers)
-                      configs (require :nvim-treesitter.configs)
-                      sniprun (require :sniprun)
+                (let [sniprun (require :sniprun)
                       orgmode (require :orgmode)]
 
-                  (configs.setup {:highlight {:enable true
-                                              :disable ["org"]
-                                              :additional_vim_regex_highlighting ["org"]}
-                                  :matchup {:enable true
-                                            :include_match_words true}
-                                  :ensure_installed ["org" "markdown" "diff"]})
+                  ;; (configs.setup {:highlight {:enable true
+                  ;;                             :disable ["org"]
+                  ;;                             :additional_vim_regex_highlighting ["org"]}
+                  ;;                 :matchup {:enable true
+                  ;;                           :include_match_words true}
+                  ;;                 :ensure_installed ["org" "markdown" "diff"]})
                   (sniprun.setup {:display ["Classic" "NvimNotify"]
                                   :display_options {:notification_timeout 10}})
                   (orgmode.setup {:org_todo_keywords ["TODO" "DOING" "|" "DONE"]
@@ -461,7 +464,7 @@
 ;                                      :database {:path "~/.local/share/nvim/org-roam/db"}
 ;                                      :extensions {:dailies {:directory "journals"}}}))))
 
-(use-package! :michaelb/sniprun :build "bash install.sh" :ft "org")
+(use-package! :michaelb/sniprun :build "sh install.sh")
 (use-package! :kkharji/sqlite.lua :ft "lua")
 
 ; completion
@@ -521,7 +524,8 @@
 
 ;; default
 (set nvim.o.termguicolors true)
-(set nvim.o.clipboard :unnamedplus)
+; (set nvim.o.clipboard :unnamedplus)
+(set vim.opt.clipboard :unnamedplus)
 (set nvim.o.autoindent true)
 (set nvim.o.smartindent true)
 (set nvim.o.expandtab true)

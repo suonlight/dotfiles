@@ -74,14 +74,14 @@ brew tap d12frosted/emacs-plus
 #+end_src
 
 #+BEGIN_SRC shell :async :results output
-brew install emacs-plus@29 --with-native-comp --with-modern-sexy-v1-icon
+brew install emacs-plus@30 --with-native-comp --with-modern-sexy-v1-icon
 #+END_SRC
 
 *** Doom
 
 #+begin_src shell :async :results output
 rm -rf ~/.emacs.d
-git clone --depth 1 https://github.com/hlissner/doom-emacs ~/projects/doom-emacs
+git clone --depth 1 git@github.com:doomemacs/doomemacs.git ~/projects/doom-emacs
 ln -s ~/projects/doom-emacs ~/.config/emacs
 #+end_src
 
@@ -131,32 +131,32 @@ brew install wget
 # OR brew install ripgrep
 asdf plugin add ripgrep
 asdf install ripgrep latest
-asdf global ripgrep $(ls ~/.asdf/installs/ripgrep/ | sort -r | head -n 1)
+asdf set ripgrep $(ls ~/.asdf/installs/ripgrep/ | sort -r | head -n 1)
 #+end_src
 
 #+begin_src shell :async :results output
 asdf plugin add fd
 asdf install fd latest
-asdf global fd $(ls ~/.asdf/installs/fd/ | sort -r | head -n 1)
+asdf set fd $(ls ~/.asdf/installs/fd/ | sort -r | head -n 1)
 #+end_src
 
 #+begin_src shell :async :results output
 asdf plugin add fzf https://github.com/kompiro/asdf-fzf.git
 asdf install fzf latest
-asdf set -p fzf $(ls ~/.asdf/installs/fzf/ | sort -r | head -n 1)
+asdf set fzf $(ls ~/.asdf/installs/fzf/ | sort -r | head -n 1)
 #+end_src
 
 #+begin_src shell :async :results output
 asdf plugin-add yq https://github.com/sudermanjr/asdf-yq.git
 asdf install yq latest
-asdf global yq $(ls ~/.asdf/installs/yq/ | sort -r | head -n 1)
+asdf set yq $(ls ~/.asdf/installs/yq/ | sort -r | head -n 1)
 #+end_src
 
 #+begin_src shell :async :results output
 # DO NOT SUPPORT m3
 asdf plugin add bat
 asdf install bat latest
-asdf global bat $(ls ~/.asdf/installs/bat/ | sort -r | head -n 1)
+asdf set bat $(ls ~/.asdf/installs/bat/ | sort -r | head -n 1)
 #+end_src
 
 ** [#A] Ruby
@@ -167,14 +167,14 @@ brew install openssl@1.1
 RUBY_CONFIGURE_OPTS="--with-zlib-dir=$(brew --prefix zlib) --with-openssl-dir=$(brew --prefix openssl@1.1) --with-readline-dir=$(brew --prefix readline) --with-libyaml-dir=$(brew --prefix libyaml) --with-gdbm-dir=$(brew --prefix gdbm)" \
 CFLAGS="-Wno-error=implicit-function-declaration" \
 asdf install ruby 2.7.8
-asdf global ruby 2.7.8
+asdf set ruby 2.7.8
 #+end_src
 
 ** [#A] Postgres
 
 #+begin_src shell :async :results output
 POSTGRES_EXTRA_CONFIGURE_OPTIONS=--with-uuid=e2fs asdf install postgres 13.4
-asdf global postgres 13.4
+asdf set postgres 13.4
 #+end_src
 
 ** [#A] Redis
@@ -182,7 +182,7 @@ asdf global postgres 13.4
 #+begin_src shell :async :results output
 asdf plugin-add redis https://github.com/smashedtoatoms/asdf-redis.git
 asdf install redis latest
-asdf global redis 6.2.6
+asdf set redis 6.2.6
 #+end_src
 
 ** [#A] NodeJs
@@ -191,10 +191,10 @@ asdf global redis 6.2.6
 brew install gnupg
 bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
 asdf install nodejs 18.19.1
-asdf global nodejs 18.19.1
+asdf set nodejs 18.19.1
 
 asdf install yarn 1.21.1
-asdf global yarn 1.21.1
+asdf set yarn 1.21.1
 #+end_src
 
 ** [#B] Python
@@ -203,7 +203,7 @@ asdf global yarn 1.21.1
 asdf plugin add python
 asdf install python 2.7.16
 asdf install python 3.13.6
-asdf global python 2.7.16 3.13.6
+asdf set python 2.7.16 3.13.6
 #+end_src
 
 ** [#B] R
@@ -359,8 +359,10 @@ cp ~/projects/dotfiles/org-protocol* /Applications/
 
 ** Install Fonts
 
+https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/FiraCode/Regular/FiraCodeNerdFont-Regular.ttf
+
 #+begin_src shell :async :results output
-brew tap homebrew/cask-fonts && brew install --cask font-source-code-pro
+brew install --cask font-source-code-pro
 #+end_src
 
 Install all the icons by Emacs

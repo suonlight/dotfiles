@@ -190,3 +190,4 @@ export PATH="$PATH:$HOME/.lmstudio/bin"
 export PATH="$PATH:/Users/minhnguyenhue/.lmstudio/bin"
 # End of LM Studio CLI section
 
+### End of Zinit's installer chunk
