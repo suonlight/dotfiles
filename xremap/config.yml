@@ -1,7 +1,7 @@
 # Key Code
 # https://github.com/emberian/evdev/blob/8a498d41ec78ffd5f585bdfccbce82bb30295dcd/src/scancodes.rs#L99
 shared:
-  sleep: &sleep {sleep: 200}
+  sleep: &sleep {sleep: 100}
 
 modmap:
   - name: Global
@@ -24,44 +24,49 @@ keymap:
       only: Alacritty
     remap:
       # Alt -> Ctrl
-      M-w: M-w
-      M-t: M-t
-      # Super-w: M-w
-      # Super-t: M-t
-      # Super-1: M-1
-      # Super-2: M-2
-      # Super-3: M-3
-      # Super-4: M-4
-      # Super-5: M-5
-      # Super-6: M-6
-      # Super-7: M-7
-      # Super-8: M-8
-      # Super-9: M-9
+      KEY_LEFTMETA-w: M-w
+      KEY_LEFTMETA-t: M-t
+
+      KEY_LEFTMETA-1: M-1
+      KEY_LEFTMETA-2: M-2
+      KEY_LEFTMETA-3: M-3
+      KEY_LEFTMETA-4: M-4
+      KEY_LEFTMETA-5: M-5
+      KEY_LEFTMETA-6: M-6
+      KEY_LEFTMETA-7: M-7
+      KEY_LEFTMETA-8: M-8
+      KEY_LEFTMETA-9: M-9
 
   - name: Firefox
     application:
       only: firefox_firefox
     remap:
       # Emacs word
-      M-b: C-left
-      M-f: C-right
+      KEY_LEFTMETA-b: C-left
+      KEY_LEFTMETA-f: C-right
 
-      # Super-1: M-1
-      # Super-2: M-2
-      # Super-3: M-3
-      # Super-4: M-4
-      # Super-5: M-5
-      # Super-6: M-6
-      # Super-7: M-7
-      # Super-8: M-8
-      # Super-9: M-9
+      KEY_LEFTMETA-1: M-1
+      KEY_LEFTMETA-2: M-2
+      KEY_LEFTMETA-3: M-3
+      KEY_LEFTMETA-4: M-4
+      KEY_LEFTMETA-5: M-5
+      KEY_LEFTMETA-6: M-6
+      KEY_LEFTMETA-7: M-7
+      KEY_LEFTMETA-8: M-8
+      KEY_LEFTMETA-9: M-9
 
-      M-R: C-R
+      KEY_LEFTMETA-r: C-R
+
       # mouse
-      M-Btn_Left: C-Btn_Left
-      M-Btn_Left: [Btn_Right, *sleep, Key_Right, Enter] # workaround for the above
-      M-Key_Sysrq: [Btn_Right, *sleep, Key_Right, Enter]
-      Btn_Extra: [Btn_Right, *sleep, Key_Right, Enter]
+      # KEY_LEFTMETA-Btn_Left: C-Btn_Left
+      # M-Btn_Left: C-Btn_Left
+      # Super-Btn_Left: C-Btn_Left
+
+      KEY_LEFTMETA-Btn_Left: [Btn_Right, *sleep, Down, *sleep, Enter] # workaround for the above
+      # M-Btn_Left: [Btn_Right, *sleep, Down, *sleep] # workaround for the above
+      # M-Btn_Left: [Btn_Right, *sleep, *sleep, *sleep] # workaround for the above
+      # M-Key_Sysrq: [Btn_Right, *sleep, Key_Right, Enter]
+      # Btn_Extra: [Btn_Right, *sleep, Key_Right, Enter]
 
       C-n: Down
       C-p: Up
@@ -123,19 +128,19 @@ keymap:
       not: [Emacs]
     remap:
       # Alt -> Ctrl
-      M-a: C-a
-      M-z: C-z
-      M-x: C-x
-      M-c: C-c
-      M-v: C-v
-      M-w: C-w
-      M-t: C-t
-      M-l: C-l
+      KEY_LEFTMETA-a: C-a
+      KEY_LEFTMETA-z: C-z
+      KEY_LEFTMETA-x: C-x
+      KEY_LEFTMETA-c: C-c
+      KEY_LEFTMETA-v: C-v
+      KEY_LEFTMETA-w: C-w
+      KEY_LEFTMETA-t: C-t
+      KEY_LEFTMETA-l: C-l
 
-      M-q: C-q
-      M-equal: C-equal
-      M-minus: C-minus
-      M-0: C-0
+      KEY_LEFTMETA-q: C-q
+      KEY_LEFTMETA-equal: C-equal
+      KEY_LEFTMETA-minus: C-minus
+      KEY_LEFTMETA-0: C-0
 
       Sysrq: Btn_Left
       ScrollLock: C-Shift-0
