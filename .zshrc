@@ -191,3 +191,12 @@ export PATH="$PATH:/Users/minhnguyenhue/.lmstudio/bin"
 # End of LM Studio CLI section
 
 ### End of Zinit's installer chunk
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/home/minh/.lmstudio/bin"
+# End of LM Studio CLI section
+
+### End of Zinit's installer chunk
+
+# opencode
+export PATH=/home/minh/.opencode/bin:$PATH
