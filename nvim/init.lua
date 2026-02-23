@@ -35,25 +35,6 @@ if not vim.loop.fs_stat(main_config_file) then
   local original_dir = vim.fn.getcwd()
   vim.cmd.cd(config_dir)
 
-  -- vim.opt.exrc = true
-  -- vim.secure.trust({action = "allow", path = (config_dir .. "/.nfnl.fnl")})
-  local function to_truststring(file)
-    local fullpath = vim.fn.fnamemodify(file, ':p')
-    local f = io.open(fullpath, 'r')
-    if not f then error('Cannot read file ' .. file) end
-    local contents = f:read('*a')
-    f:close()
-    local hash = vim.fn.sha256(contents)
-    return string.format('%s %s', hash, fullpath)
-  end
-
-  local trusted_files = {
-    config_dir .. "/.nfnl.fnl"
-  }
-  local trustfile = vim.fn.stdpath('state') .. '/trust'
-  local trust_content = vim.tbl_map(to_truststring, trusted_files)
-  vim.fn.writefile(trust_content, trustfile, 's')
-
   -- Now, compile. This will find the .nfnl.fnl file in the new current directory.
   nfnl_api["compile-all-files"]()
 
@@ -73,6 +54,5 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
--- { "Olical/nfnl", ft = "fennel" }
 
 require("dotfiles.init")
