@@ -362,4 +362,8 @@ not appropriate in some cases like terminals."
 (global-set-key (kbd "C-x 3")  #'sl/split-right-last-buffer)
 (setq switch-to-prev-buffer-skip 'this)
 
+(after! acp (require 'agent-shell)
+  (setq agent-shell-google-authentication
+    (agent-shell-google-make-authentication :api-key (getenv "GEMINI_API_KEY"))))
+
 (add-to-list '+lookup-provider-url-alist '("Oxford" "https://www.oxfordlearnersdictionaries.com/definition/english/%s"))

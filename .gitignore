@@ -1,5 +1,6 @@
 flycheck_*
 
+.agent-shell
 doom/private
 doom/snippets
 doom/custom.el
