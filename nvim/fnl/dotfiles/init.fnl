@@ -232,7 +232,6 @@
               :config
               (fn []
                 (set vim.g.any_jump_references_enabled 0)))
-(use-package! :nvim-treesitter/nvim-treesitter :build ":TSUpdate")  ; We recommend updating the parsers on update
 
 ; search files/keyword
 ; :nvim-lua/popup.nvim {}
@@ -441,27 +440,34 @@
                          "<cmd>CopilotChat<CR>"
                          {:desc "Open Chat"})))
 
-;; ; notes
-;; (use-package! :nvim-orgmode/orgmode
-;;               :dependencies ["nvim-treesitter/nvim-treesitter" "michaelb/sniprun"]
-;;               :config
-;;               (fn []
-;;                 ;; org mode
-;;                 (let [parser (require :nvim-treesitter.parsers)
-;;                       configs (require :nvim-treesitter.configs)
-;;                       sniprun (require :sniprun)
-;;                       orgmode (require :orgmode)]
+; notes
+;; https://github.com/nvim-treesitter/nvim-treesitter/issues/3258
+(use-package! :nvim-treesitter/nvim-treesitter :build ":TSUpdate"
+              :config
+              (fn []
+                (let [configs (require :nvim-treesitter.config)]
+                  (configs.setup {:highlight {:enable true
+                                              :additional_vim_regex_highlighting ["org"]}
+                                  :matchup {:enable true
+                                            :include_match_words true}
+                                  :ensure_installed ["org" "markdown" "diff"]}))
+                ))
 
-;;                   (configs.setup {:highlight {:enable true
-;;                                               :disable ["org"]
-;;                                               :additional_vim_regex_highlighting ["org"]}
-;;                                   :matchup {:enable true
-;;                                             :include_match_words true}
-;;                                   :ensure_installed ["org" "markdown" "diff"]})
-;;                   (sniprun.setup {:display ["Classic" "NvimNotify"]
-;;                                   :display_options {:notification_timeout 10}})
-;;                   (orgmode.setup {:org_todo_keywords ["TODO" "DOING" "|" "DONE"]
-;;                                   :mappings {:org {:org_todo "t"}}}))))
+; We recommend updating the parsers on update
+(use-package! :nvim-orgmode/orgmode
+              :ft "org"
+              :event "VeryLazy"
+              :dependencies ["nvim-treesitter/nvim-treesitter" "michaelb/sniprun"]
+              :config
+              (fn []
+                ;; org mode
+                (let [parser (require :nvim-treesitter.parsers)
+                      sniprun (require :sniprun)
+                      orgmode (require :orgmode)]
+                  (sniprun.setup {:display ["Classic" "NvimNotify"]
+                                  :display_options {:notification_timeout 10}})
+                  (orgmode.setup {:org_todo_keywords ["TODO" "DOING" "|" "DONE"]
+                                  :mappings {:org {:org_todo "t"}}}))))
 
 (use-package! :akinsho/org-bullets.nvim
               :dependencies [:nvim-orgmode/orgmode]
@@ -472,14 +478,14 @@
                    {:concealcursor true
                     :symbols {:headlines ["◉" "○" "✸" "✿"]}}))))
 
-; (use-package! :chipsenkbeil/org-roam.nvim
-;               :dependencies [:nvim-orgmode/orgmode]
-;               :config
-;               (fn []
-;                 (let [org-roam (require :org-roam)]
-;                     (org-roam.setup {:directory "~/notes/roam"
-;                                      :database {:path "~/.local/share/nvim/org-roam/db"}
-;                                      :extensions {:dailies {:directory "journals"}}}))))
+;; (use-package! :chipsenkbeil/org-roam.nvim
+;;               :dependencies [:nvim-orgmode/orgmode]
+;;               :config
+;;               (fn []
+;;                 (let [org-roam (require :org-roam)]
+;;                     (org-roam.setup {:directory "~/notes/roam"
+;;                                      :database {:path "~/.local/share/nvim/org-roam/db"}
+;;                                      :extensions {:dailies {:directory "journals"}}}))))
 
 (use-package! :michaelb/sniprun :build "sh install.sh")
 (use-package! :kkharji/sqlite.lua :ft "lua")
@@ -694,4 +700,3 @@
 
 ;; complete with auto-import
 (inoremap :<CR> "compe#confirm({ 'keys': '<CR>', 'select': v:true })" {:expr true})
-
