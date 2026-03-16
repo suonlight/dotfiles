@@ -132,3 +132,4 @@
 (package! shell-maker)
 (package! acp)
 (package! agent-shell)
+(package! agent-shell-attention :recipe (:host github :repo "ultronozm/agent-shell-attention.el" :files ("*.el")))
