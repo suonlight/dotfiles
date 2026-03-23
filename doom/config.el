@@ -96,7 +96,6 @@
   (load! "private/+bindings")
   (load! "private/prodigy")
   (load! "private/hero")
-  (load! "private/js-import")
   (load! "private/config"))
 
 ;; prevent eslint check command: eslint --print-config .
@@ -361,46 +360,5 @@ not appropriate in some cases like terminals."
 (global-set-key (kbd "C-x 2")  #'sl/split-below-last-buffer)
 (global-set-key (kbd "C-x 3")  #'sl/split-right-last-buffer)
 (setq switch-to-prev-buffer-skip 'this)
-
-(defun agent-shell-attention-notify-telegram (buffer title message)
-  "Send notification to Telegram using bot API.
-BUFFER is the source buffer, TITLE and MESSAGE are notification info.
-Will extract content from BUFFER starting from the last 'Thought process' to end."
-  (let* ((telegram-bot-token (getenv "TELEGRAM_BOT_TOKEN"))
-         (telegram-chat-id (getenv "TELEGRAM_ALLOWED_CHAT_ID"))
-         (url-request-method "POST")
-         (url-request-extra-headers '(("Content-Type" . "application/x-www-form-urlencoded")))
-         (content (with-current-buffer buffer
-                    (save-excursion
-                      (goto-char (point-max))
-                      (if (re-search-backward "Thought process" nil t)
-                          (let ((extracted (buffer-substring-no-properties (point) (point-max))))
-                            ;; Remove "Thought process" text from the beginning of extracted content
-                            (replace-regexp-in-string "^Thought process" "" extracted))
-                        (buffer-substring-no-properties (point-min) (point-max))))))
-         ;; Properly format the body data
-         (url-request-data (format "chat_id=%s&text=%s&parse_mode=HTML"
-                                   (url-hexify-string telegram-chat-id)
-                                   (url-hexify-string (format "🔔 %s\n\n%s" title content)))))
-    (when (and telegram-bot-token telegram-chat-id)
-      (url-retrieve
-       (format "https://api.telegram.org/bot%s/sendMessage" telegram-bot-token)
-       (lambda (status)
-         (if (plist-get status :error)
-             (message "Telegram notification failed: %S" (plist-get status :error))
-           (message "Telegram notification sent successfully!")))))))
-
-(after! acp
-  (require 'agent-shell)
-  (require 'agent-shell-attention)
-  ;; (setq agent-shell-attention-mode t)
-  (add-hook! agent-shell-mode #'agent-shell-attention-mode)
-  (setq! agent-shell-attention-notify-function
-          (lambda (buffer title message)
-            (message "Attention: %s\n%s" title message)
-            (agent-shell-attention-notify-telegram buffer title message)
-            (agent-shell-attention-notify-default buffer title message)))
-  (setq agent-shell-google-authentication
-    (agent-shell-google-make-authentication :api-key (getenv "GEMINI_API_KEY"))))
 
 (add-to-list '+lookup-provider-url-alist '("Oxford" "https://www.oxfordlearnersdictionaries.com/definition/english/%s"))

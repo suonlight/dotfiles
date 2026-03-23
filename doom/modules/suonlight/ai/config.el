@@ -1,139 +1,67 @@
-(use-package! gemini
-  :commands (gemini-chat)
-  :config
-  (setq gemini-api-token (getenv "GEMINI_TOKEN"))
+(load! "~/projects/faa/bot/emacs-remote-server.el")
 
-  ; (defun bard-chat-with-message (prompt)
-  ;   (message "[Bard] Please wait for Bard...")
-  ;   (bard-call-async "bard_chat"
-  ;     prompt
-  ;     (buffer-name)))
-
-  ; (defun bard-chat ()
-  ;   (interactive)
-  ;   (let ((prompt (read-string "Chat with Bard: ")))
-  ;     (if (string-empty-p (string-trim prompt))
-  ;       (message "Please do not enter an empty prompt.")
-  ;       (save-excursion
-  ;         (goto-char (point-max))
-  ;         (insert "## User:\n")
-  ;         (insert (format "%s\n" prompt)))
-  ;       (bard-chat-with-message prompt))))
-
-  ;; override bard-response to insert the response with org format in the current buffer
-  ; (defun bard-response (serial-number content buffer)
-  ;   (let ((formatted-content (sl/markdown-to-org content)))
-  ;     (if (equal serial-number 1)
-  ;       (progn
-  ;         (setq bard-drafts (list))
-  ;         (push formatted-content bard-drafts)
-  ;         (with-current-buffer buffer
-  ;           (save-excursion
-  ;             (goto-char (point-max))
-  ;             (insert "\n### Bard:\n")
-  ;             (setq bard-draft--begin (point-max))
-  ;             (insert formatted-content)
-  ;             (setq bard-draft--end (point-max)))))
-  ;       (push formatted-content bard-drafts))))
-
-  ; (setq bard-http-proxy "")
-  (map! :leader "aa" #'gemini-chat))
-
-(use-package! aichat
-  :commands (aichat-read-region-or-input aichat-bingai-conversation aichat-bingai-chat)
-  :config
-  ;; (setq aichat-bingai-cookies-file (format "%s/.config/bing.cookies.json" (getenv "HOME")))
-  (setq aichat-http-backend 'url)
-  (map! :leader "ai" #'aichat-bingai-chat))
-
-(defun bing-chat-with-region (text &optional selected)
-  "Send the region or input to Bing and replace the selected region or insert at the current position with the returned result."
-  (interactive)
-  (save-excursion
-    (goto-char (point-max))
-    (when (not selected)
-      (insert "\n## User:\n")
-      (insert (format "%s\n\n\n" text))))
-  (message "[Bing AI] Please wait for Bing AI...")
-  (aichat-bingai-conversation text
-    :on-success (lambda (msg)
-                  (when-let ((content (aichat-bingai-message-type-2-text msg)))
+(defun agent-shell-attention-notify-telegram (buffer title message)
+  "Send notification to Telegram using bot API.
+BUFFER is the source buffer, TITLE and MESSAGE are notification info.
+Will extract content from BUFFER starting from the last 'Thought process' to end."
+  (let* ((telegram-bot-token (getenv "TELEGRAM_BOT_TOKEN"))
+         (telegram-chat-id (getenv "TELEGRAM_ALLOWED_CHAT_ID"))
+         (url-request-method "POST")
+         (url-request-extra-headers '(("Content-Type" . "application/x-www-form-urlencoded")))
+         (content (with-current-buffer buffer
                     (save-excursion
                       (goto-char (point-max))
-                      (insert "## Bing AI:\n")
-                      (insert (format "%s\n" content)))
-                    (message "Success: %s" content)))
-    :on-error (lambda (err) (message "Error: %s" err))))
+                      (if (re-search-backward "Thought process" nil t)
+                          (let ((extracted (buffer-substring-no-properties (point) (point-max))))
+                            ;; Remove "Thought process" text from the beginning of extracted content
+                            (replace-regexp-in-string "^Thought process" "" extracted))
+                        (buffer-substring-no-properties (point-min) (point-max))))))
+         ;; Properly format the body data
+         (url-request-data (format "chat_id=%s&text=%s&parse_mode=HTML"
+                                   (url-hexify-string telegram-chat-id)
+                                   (url-hexify-string (format "🔔 %s\n\n%s" title content)))))
+    (when (and telegram-bot-token telegram-chat-id)
+      (url-retrieve
+       (format "https://api.telegram.org/bot%s/sendMessage" telegram-bot-token)
+       (lambda (status)
+         (if (plist-get status :error)
+             (message "Telegram notification failed: %S" (plist-get status :error))
+           (message "Telegram notification sent successfully!")))))))
 
-(defun bard-chat-with-region (prompt &optional selected)
-  (save-excursion
-    (when (not selected)
-      (goto-char (point-max))
-      (insert "## User:\n")
-      (insert (format "%s\n" prompt))))
-  (bard-chat-with-message prompt))
-
-;; write a method to firstly choose AI prompts: fix grammar, explain code, custom prompt
-(defun ai-chat ()
-  (interactive)
-  (let* ((selected (use-region-p))
-          (prompt (read-string "Prompt: "
-                    (if selected
-                      (buffer-substring (region-beginning) (region-end)))))
-          (ai (completing-read "AI: " '("Google Bard" "Bing AI"))))
-    (when selected
-      (deactivate-mark))
-    (cond ((equal ai "Google Bard")
-            (bard-chat-with-region prompt selected))
-      ((equal ai "Bing AI")
-        (bing-chat-with-region prompt selected)))))
-
-; (map! :leader "aq" #'ai-chat)
-
-(use-package! ellama
-  :init
-  (setopt ellama-language "English")
+(use-package! acp
   :config
-  (map! :leader
-    (:prefix-map ("e" . "Ellama")
-      (:prefix-map ("c" . "code")
-        "c" #'ellama-code-complete
-        "a" #'ellama-code-add
-        "e" #'ellama-code-edit
-        "i" #'ellama-code-improve
-        "r" #'ellama-code-review)
-      (:prefix-map ("s" . "summary/sessions")
-        "s" #'ellama-summarize
-        "w" #'ellama-summarize-webpage
-        "l" #'ellama-load-session
-        "r" #'ellama-session-rename
-        "d" #'ellama-session-remove
-        "a" #'ellama-session-switch)
-      (:prefix-map ("i" . "improve")
-        "w" #'ellama-improve-wording
-        "g" #'ellama-improve-grammar
-        "c" #'ellama-improve-conciseness)
-      (:prefix-map ("m" . "make")
-        "l" #'ellama-make-list
-        "t" #'ellama-make-table
-        "f" #'ellama-make-format)
-      (:prefix-map ("a" . "ask")
-        "a" #'ellama-ask-about
-        "i" #'ellama-chat
-        "l" #'ellama-ask-line
-        "s" #'ellama-ask-selection)
-      (:prefix-map ("t" . "translate")
-        "t" #'ellama-translate
-        "b" #'ellama-translate-buffer
-        "c" #'ellama-complete
-        "e" #'ellama-chat-translation-enable
-        "d" #'ellama-chat-translation-disable)
-      (:prefix-map ("d" . "define")
-        "w" #'ellama-define-word)
-      (:prefix-map ("x" . "context")
-        "b" #'ellama-context-add-buffer
-        "f" #'ellama-context-add-file
-        "s" #'ellama-context-add-selection
-        "i" #'ellama-context-add-info-node)
-      (:prefix-map ("p" . "provider")
-        "s" #'ellama-provider-select))))
+  (require 'agent-shell)
+  (require 'agent-shell-attention)
+  ;; (setq agent-shell-attention-mode t)
+  (add-hook! agent-shell-mode #'agent-shell-attention-mode)
+  (setq! agent-shell-attention-notify-function
+    (lambda (buffer title message)
+      (agent-shell-attention-notify-telegram buffer title message)
+      (agent-shell-attention-notify-default buffer title message)))
+  ;; (setq agent-shell-google-authentication
+  ;;   (agent-shell-google-make-authentication :login t))
+  (setq agent-shell-google-authentication
+    (agent-shell-google-make-authentication :api-key (getenv "GEMINI_API_KEY")))
+  (setq agent-shell-auggie-authentication
+      (agent-shell-make-auggie-authentication :login t))
+  (setq agent-shell-mistral-authentication
+    (agent-shell-mistral-make-authentication :api-key (getenv "MISTRAL_API_KEY")))
+  (setq agent-shell-goose-authentication
+    (agent-shell-make-goose-authentication :openai-api-key (getenv "OPENROUTER_API_KEY")))
+  (setq agent-shell-anthropic-claude-environment
+    (agent-shell-make-environment-variables
+      ;; "ANTHROPIC_BASE_URL" "http://localhost:11434"
+      ;; "ANTHROPIC_AUTH_TOKEN" "ollama"
+      ;; "ANTHROPIC_MODEL" "crow-heretic:latest"
+      ;; https://bailian.console.alibabacloud.com/cn-beijing/?tab=model&accounttraceid=390346ff833e4f0f914694eb78765c94dzzo#/model-market/detail/qwen3-coder-next
+      "ANTHROPIC_BASE_URL" "https://dashscope.aliyuncs.com/compatible-mode/v1"
+      "ANTHROPIC_API_KEY" (getenv "DASHSCOPE_API_KEY")
+      "ANTHROPIC_MODEL" "qwen3.5-plus"))
+
+  ;; https://dashscope.aliyuncs.com/compatible-mode/v1
+  (add-to-list 'agent-shell-agent-configs
+    '(ollama-crow
+       :command ("ollama" "run" "crow-heretic")
+       :header-line "Ollama: Crow-9B Heretic"))
+
+  (emacs-remote-server-start))
