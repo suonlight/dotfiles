@@ -116,7 +116,7 @@
   (setq flycheck-highlighting-mode 'symbols)
   (setq flycheck-indication-mode nil)
   (setq flycheck-check-syntax-automatically '(save))
-  (setq-default flycheck-disabled-checkers '(ruby-reek emacs-lisp emacs-lisp-checkdoc javascript-jshint)))
+  (setq-default flycheck-disabled-checkers '(ruby-reek emacs-lisp emacs-lisp-checkdoc javascript-jshint org-lint)))
 
 (after! evil
   (defalias #'forward-evil-word #'forward-evil-symbol))
