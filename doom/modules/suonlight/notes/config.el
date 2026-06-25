@@ -635,3 +635,38 @@ Hook this function into `org-mode-hook'."
   )
 
 (load! "ob-astmux")
+
+
+(defun my/org-roam-create-node-from-id-link ()
+  "Create a new Org-roam node from the [[id:UUID][Description]] link at point.
+Extracts the UUID and description, creates a new file named
+<timestamp>_<slug>.org with the ID and title."
+  (interactive)
+  (save-excursion
+    (unless (org-in-regexp org-link-any-re)
+      (user-error "No link found at point"))
+    (goto-char (match-beginning 0))
+    (let* ((context (org-element-context))
+           (type (org-element-property :type context))
+           (id (org-element-property :path context)))
+      (unless (and (eq (org-element-type context) 'link)
+                   (string= type "id") id)
+        (user-error "Not on an id: link"))
+      (when (org-roam-node-from-id id)
+        (user-error "Node with ID %s already exists" id))
+      (let* ((desc-begin (org-element-property :contents-begin context))
+             (desc-end (org-element-property :contents-end context))
+             (description (and desc-begin desc-end
+                               (buffer-substring-no-properties desc-begin desc-end)))
+             (slug (org-roam-node-slugify (or description "")))
+             (filename (format "pages/%s-eh_%s.org"
+                               (format-time-string "%Y%m%d%H%M%S")
+                               (if (string-empty-p slug) "untitled" slug)))
+             (node (org-roam-node-create :id id :title description)))
+        (org-roam-capture-
+         :node node
+         :props '(:finalize find-file)
+         :templates `(("d" "default" plain "%?"
+                       :target (file+head ,filename
+                                          "#+title: ${title}\n")
+                       :unnarrowed t)))))))

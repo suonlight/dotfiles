@@ -71,6 +71,12 @@ keymap:
       C-n: Down
       C-p: Up
 
+  - name: Antigravity
+    application:
+      only: antigravity
+    remap:
+      Super-f: C-f
+      Super-s: C-s
   - name: Cursor
     application:
       only: Cursor
