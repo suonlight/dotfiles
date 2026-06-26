@@ -682,8 +682,6 @@
         :desc "Read-only mode"               "r" #'read-only-mode
         (:when (modulep! :checkers spell)
           :desc "Flyspell"                   "s" #'flyspell-mode)
-        (:when (modulep! :lang org +pomodoro)
-          :desc "Pomodoro timer"             "t" #'org-pomodoro)
         :desc "Word-wrap mode"               "w" #'+word-wrap-mode
         (:when (modulep! :ui minimap)
           :desc "Minimap"                      "m" #'minimap-mode)
@@ -895,7 +893,6 @@
     "J"          #'org-shiftdown
     "H"          #'org-shiftleft
     "L"          #'org-shiftright
-    "cp"         #'org-pomodoro
     "cs"         #'org-gcal-sync
     (:prefix-map ("d" . "date")
       "T"         #'org-time-stamp-inactive
@@ -908,8 +905,7 @@
     ;;   "g"         #'org-clock-goto
     ;;   "R"         #'org-clock-report
     ;;   "c"         #'org-clock-cancel
-    ;;   "d"         #'org-clock-display
-    ;;   "p"         #'org-pomodoro)
+    ;;   "d"         #'org-clock-display)
     (:prefix-map ("b" . "babel")
       "a"         #'org-babel-sha1-hash
       "b"         #'org-babel-execute-buffer

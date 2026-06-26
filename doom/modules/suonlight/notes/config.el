@@ -273,29 +273,6 @@
 (after! ob-mermaid
   (setq ob-mermaid-cli-path "~/.asdf/shims/mmdc"))
 
-(after! org-pomodoro
-  ;; (setq org-pomodoro-long-break-sound (concat doom-private-dir "/assets/bell.wav"))
-  ;; (setq org-pomodoro-ticking-sound (concat doom-private-dir "/assets/bell.wav"))
-  (defun open-mindfulness-buffer ()
-    (interactive)
-    (make-frame '((name . "Mindfulness")))
-    (with-current-buffer (get-buffer-create "*mindfulness*")
-      (erase-buffer)
-      (text-scale-increase 0)
-      (insert-image (create-image "~/.config/doom/assets/mindfulness_1.jpg" 'jpeg nil :scale 0.6))
-      (insert "\n\nVào, ra\nSâu, chậm\nKhỏe, nhẹ\nLắng, Cười\nHiện tại, Tuyệt vời\n")
-      (switch-to-buffer (current-buffer))
-      (delete-other-windows)
-      (toggle-frame-maximized)
-      (text-scale-increase 5)
-      (set-fringe-style '(200 . 200))))
-
-  (add-hook 'org-pomodoro-finished-hook #'open-mindfulness-buffer)
-  (setq org-pomodoro-start-sound (f-join doom-private-dir "/assets/bell.wav"))
-  (setq org-pomodoro-finished-sound (f-join doom-private-dir "/assets/bell.wav"))
-  (setq org-pomodoro-overtime-sound  (f-join doom-private-dir "/assets/bell.wav"))
-  (setq org-pomodoro-short-break-sound (f-join doom-private-dir "/assets/bell.wav")))
-
 (after! org-roam
   (setq deft-directory (file-truename "~/notes/roam"))
   (setq org-roam-directory (file-truename "~/notes/roam"))
