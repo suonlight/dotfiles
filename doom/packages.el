@@ -119,8 +119,9 @@
 ;; (package! nano-modeline :recipe (:host github :repo "rougier/nano-modeline"))
 
 ;; use in case
-;; (package! ob-mermaid)
+(package! ob-mermaid)
 (package! anki-editor)
+(package! prodigy)
 ;; (package! reason-mode)
 
 ;; (package! package-lint)

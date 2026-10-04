@@ -20,13 +20,11 @@
     "C-s"    (general-simulate-key "C-; C-s")
     "C-w"    #'doom/delete-backward-word
     "C-z"    (cmd! (ignore-errors (call-interactively #'undo))))
-
   (define-key! :keymaps +default-minibuffer-maps
     "C-j"    #'next-line
     "C-k"    #'previous-line
     "C-S-j"  #'scroll-up-command
     "C-S-k"  #'scroll-down-command)
-  ;; For folks with `evil-collection-setup-minibuffer' enabled
   (define-key! :states 'insert :keymaps +default-minibuffer-maps
     "C-j"    #'next-line
     "C-k"    #'previous-line)
@@ -264,7 +262,7 @@
       :desc "help"                  "h"    help-map
 
       (:when (modulep! :ui popup)
-        :desc "Toggle last popup"     "~"    #'+popup/toggle)
+        :desc "Toggle last popup"   "~"  #'+popup/toggle)
       :desc "Find file"             "."    #'find-file
 
       :desc "Switch buffer"         ","    #'switch-to-buffer
@@ -684,8 +682,6 @@
         :desc "Read-only mode"               "r" #'read-only-mode
         (:when (modulep! :checkers spell)
           :desc "Flyspell"                   "s" #'flyspell-mode)
-        (:when (modulep! :lang org +pomodoro)
-          :desc "Pomodoro timer"             "t" #'org-pomodoro)
         :desc "Word-wrap mode"               "w" #'+word-wrap-mode
         (:when (modulep! :ui minimap)
           :desc "Minimap"                      "m" #'minimap-mode)
@@ -701,7 +697,7 @@
       :nv "C-p"   #'projectile-find-file
       :nv "s-b"   #'projectile-switch-to-buffer
       :nv "<f10>" #'doom/window-maximize-buffer
-      :nv "<f9>"   #'org-roam-node-find
+      :nv "<f9>"   #'org-node-find
       :nv "<f12>" #'multi-vterm-project
       :nv "gh"    #'sl/jump-to-cursor
       :nv "s-`"   #'+evil/next-frame
@@ -713,8 +709,8 @@
       :nv "g["    #'dumb-jump-back)
 
 (map! :leader
-  "2" (general-simulate-key "SPC w C-o SPC w v SPC w l SPC b p SPC w h")
-  "3" (general-simulate-key "SPC w C-o SPC w v SPC w l SPC b p SPC w v SPC w l SPC b p 2 SPC w h")
+  "2" (general-simulate-key "SPC w C-o SPC <tab> SPC w v SPC <tab>")
+  "3" (general-simulate-key "SPC w C-o 2 SPC b p SPC w v SPC b n SPC w v SPC b n")
   "!"   #'sl/send-cmd-to-multi-vterm-project
   (:prefix-map ("a" . "application")
     "c" #'calendar
@@ -820,7 +816,8 @@
     "C-j"          #'evil-window-down
     "C-k"          #'evil-window-up)
   (:after org :map org-mode-map
-    :i  "s-r"    #'org-roam-node-insert
+    :i  "s-r"    #'org-node-insert-link
+    :i  "s-<f9>"    #'org-node-insert-link
     :nv "t"      #'org-todo)
   (:map xwidget-webkit-mode-map
     :nv "j"      #'xwidget-webkit-scroll-up ;; main object is scroller
@@ -896,7 +893,6 @@
     "J"          #'org-shiftdown
     "H"          #'org-shiftleft
     "L"          #'org-shiftright
-    "cp"         #'org-pomodoro
     "cs"         #'org-gcal-sync
     (:prefix-map ("d" . "date")
       "T"         #'org-time-stamp-inactive
@@ -909,8 +905,7 @@
     ;;   "g"         #'org-clock-goto
     ;;   "R"         #'org-clock-report
     ;;   "c"         #'org-clock-cancel
-    ;;   "d"         #'org-clock-display
-    ;;   "p"         #'org-pomodoro)
+    ;;   "d"         #'org-clock-display)
     (:prefix-map ("b" . "babel")
       "a"         #'org-babel-sha1-hash
       "b"         #'org-babel-execute-buffer
@@ -934,6 +929,7 @@
       "x"         #'org-babel-do-key-sequence-in-edit-buffer
       "z"         #'org-babel-switch-to-session
       "Z"         #'org-babel-switch-to-session-with-code
+      "K"         #'+org/remove-result-blocks
       "k"         #'org-babel-remove-result-one-or-many)
     (:prefix-map ("m" . "modes")
       "a" #'anki-editor-mode)))

@@ -20,6 +20,9 @@
 ;; (setq scroll-step           1
 ;;   scroll-conservatively 10000)
 
+(setq warning-minimum-level :error)
+(setq warning-minimum-log-level :error)
+
 (setq scroll-margin 0
   scroll-conservatively 10000
   scroll-up-aggressively 0.03
@@ -40,7 +43,7 @@
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 14))
 ;; (setq doom-font (font-spec :family "Source Code Pro" :size 14))
-(setq doom-font (font-spec :family "FiraCode Nerd Font" :size 18))
+(setq doom-font (font-spec :family "FiraCode Nerd Font" :size 32))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -51,9 +54,9 @@
 (keymap-set evil-motion-state-map "," (general-simulate-key "SPC m"))
 
 ;; If you intend to use org, it is recommended you change this!
-(setq org-directory "~/Dropbox/org-modes")
-(setq bookmark-default-file "~/Dropbox/org-modes/bookmarks")
-(setq projectile-known-projects-file "~/Dropbox/org-modes/projectile.projects")
+(setq org-directory (file-truename "~/notes"))
+(setq bookmark-default-file (file-truename "~/notes/bookmarks"))
+(setq projectile-known-projects-file (file-truename "~/notes/projectile.projects"))
 (setq org-babel-python-command "python3")
 (setq python-shell-interpreter "python3")
 
@@ -87,11 +90,12 @@
 ;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
 ;; they are implemented.
 
+(load! "bindings")
+
 (when (file-exists-p (concat doom-private-dir "private"))
   (load! "private/+bindings")
   (load! "private/prodigy")
   (load! "private/hero")
-  (load! "private/js-import")
   (load! "private/config"))
 
 ;; prevent eslint check command: eslint --print-config .
@@ -112,7 +116,7 @@
   (setq flycheck-highlighting-mode 'symbols)
   (setq flycheck-indication-mode nil)
   (setq flycheck-check-syntax-automatically '(save))
-  (setq-default flycheck-disabled-checkers '(ruby-reek emacs-lisp emacs-lisp-checkdoc javascript-jshint)))
+  (setq-default flycheck-disabled-checkers '(ruby-reek emacs-lisp emacs-lisp-checkdoc javascript-jshint org-lint)))
 
 (after! evil
   (defalias #'forward-evil-word #'forward-evil-symbol))
@@ -224,7 +228,7 @@ not appropriate in some cases like terminals."
 (set-popup-rule! "^\\*Async Shell Command\\*" :ttl 0 :size 1)
 
 (after! plantuml-mode
-  (setq plantuml-jar-path "~/org-modes/plantuml.jar")
+  (setq plantuml-jar-path (file-truename "~/notes/plantuml.jar"))
   (setq plantuml-default-exec-mode 'jar))
 
 (use-package! eacl
@@ -356,3 +360,5 @@ not appropriate in some cases like terminals."
 (global-set-key (kbd "C-x 2")  #'sl/split-below-last-buffer)
 (global-set-key (kbd "C-x 3")  #'sl/split-right-last-buffer)
 (setq switch-to-prev-buffer-skip 'this)
+
+(add-to-list '+lookup-provider-url-alist '("Oxford" "https://www.oxfordlearnersdictionaries.com/definition/english/%s"))

@@ -199,3 +199,10 @@ If prefix arg is provided, show current buffer twice."
   (shell-command-to-string (concat "echo "
                              (shell-quote-argument text)
                              " | pandoc -f markdown -t org")))
+
+(defun sl/normalize-carrage-returns ()
+  (interactive)
+  (save-excursion
+    (goto-char 0)
+    (while (search-forward "\r" nil :noerror)
+      (replace-match "\n"))))

@@ -46,7 +46,7 @@
 
 ;; enable lsp-ltex
 (setq lsp-ltex-version "15.2.0")  ; make sure you have set this, see below
-(setq lsp-ltex-user-rules-path (expand-file-name "~/org-modes/lsp-ltex"))
+(setq lsp-ltex-user-rules-path (expand-file-name "~/notes/lsp-ltex"))
 
 (defun register-lsp-ltex ()
   (require 'lsp-ltex)

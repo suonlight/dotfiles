@@ -153,7 +153,6 @@ fi
 
 test -d ~/.asdf/plugins/java/set-java-home.zsh && . ~/.asdf/plugins/java/set-java-home.zsh
 
-# . $HOME/.asdf/asdf.sh
 # mkdir -p "$HOME/.asdf/completions"
 # asdf completion zsh > "$HOME/.asdf/completions/_asdf"
 ### End of Zinit's installer chunk
@@ -179,3 +178,14 @@ zinit light-mode for \
     zdharma-continuum/zinit-annex-rust
 
 ### End of Zinit's installer chunk
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:$HOME/.lmstudio/bin"
+# End of LM Studio CLI section
+
+### End of Zinit's installer chunk
+
+# GoLang
+export GOROOT="$PATH:$HOME/.go"
+export PATH=$GOROOT/bin:$PATH
+export GOPATH=="$PATH:$HOME/go"
+export PATH=$GOPATH/bin:$PATH

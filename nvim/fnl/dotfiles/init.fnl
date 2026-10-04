@@ -1,23 +1,140 @@
-(module dotfiles.init
-  {autoload {nvim aniseed.nvim
-             a aniseed.core
-             nvim-util aniseed.nvim.util
-             util dotfiles.util
-             which-key which-key
-             lsp lspconfig}
-   require-macros [dotfiles.macros]})
+;; Load your custom macros and utility functions first.
+(import-macros {: use-package!
+                : use-package-setup!
+                : defer
+                : ex
+                : autocmd
+                : noremap
+                : inoremap
+                : map
+                : nmap
+                : imap
+                : noremap-buffer
+                } :dotfiles.macros)
 
-(use-package! :Olical/aniseed)
-(use-package! :Olical/nvim-local-fennel :ft "fennel")
-(use-package! :Olical/conjure :ft "fennel")
+(local util (require :dotfiles.util))
+
+;; --- Plugin Declarations ---
+;; (use-package! :folke/lazy.nvim :branch :stable) ; Explicitly declare the plugin manager
+(use-package! :Olical/nfnl)
+(use-package! :Olical/nvim-local-fennel :ft :fennel)
+(use-package! :Olical/conjure :ft :fennel)
 
 ; defaults
-(use-package! :editorconfig/editorconfig-vim :event "VeryLazy")
-(use-package! :folke/which-key.nvim :lazy true)
+(use-package! :editorconfig/editorconfig-vim :event :VeryLazy)
+
+(use-package! :folke/which-key.nvim
+              :event :VeryLazy
+              :config
+              (fn []
+                (local which-key (require :which-key))
+                (which-key.setup {})
+                ;; Create vim commands that call your Fennel functions from util.fnl
+                (vim.cmd "command! GhOpenPullRequest lua require('dotfiles.util')['gh-open-pull-request']()")
+                (vim.cmd "command! GhListPullRequests lua require('dotfiles.util')['gh-list-pull-requests']()")
+                (vim.cmd "command! CiOpen lua require('dotfiles.util')['ci-open']()")
+                (vim.cmd "command! JsInsertI18n lua require('dotfiles.util')['js-insert-i18n']()")
+                (vim.cmd "command! OrgRoamDailiesFindToday lua require('dotfiles.util')['org-roam-dailies-find-today']()")
+                (vim.cmd "command! OrgRoamDailiesFindYesterday lua require('dotfiles.util')['org-roam-dailies-find-yesterday']()")
+                (vim.cmd "command! OrgRoamDailiesFindTomorrow lua require('dotfiles.util')['org-roam-dailies-find-tomorrow']()")
+                (vim.cmd "command! OrgRoamFindFile lua require('dotfiles.util')['org-roam-find-file']()")
+
+                ;; Use standard vim.keymap.set for mappings
+                (vim.keymap.set :n :gog "<cmd>GhOpenPullRequest<CR>" {:silent true})
+                (vim.keymap.set :n :goc "<cmd>CiOpen<CR>" {:silent true})
+                (vim.keymap.set :n :<f9> "<cmd>OrgRoamFindFile<CR>" {:silent true})
+
+                ;; (fn->viml :dotfiles.util :gh-open-pull-request :GhOpenPullRequest)
+                ;; (fn->viml :dotfiles.util :gh-list-pull-requests :GhListPullRequests)
+                ;; (fn->viml :dotfiles.util :ci-open :CiOpen)
+                ;; (fn->viml :dotfiles.util :js-insert-i18n :JsInsertI18n)
+                ;; (fn->viml :dotfiles.util :org-roam-dailies-find-today :OrgRoamDailiesFindToday)
+                ;; (fn->viml :dotfiles.util :org-roam-dailies-find-yesterday :OrgRoamDailiesFindYesterday)
+                ;; (fn->viml :dotfiles.util :org-roam-dailies-find-tomorrow :OrgRoamDailiesFindTomorrow)
+                ;; (fn->viml :dotfiles.util :org-roam-find-file :OrgRoamFindFile)
+
+                ;; (noremap :n :gog "<cmd>call GhOpenPullRequest()<CR>" {:silent true})
+                ;; (noremap :n :goc "<cmd>call CiOpen()<CR>" {:silent true})
+                ;; (noremap :n :<f9> "<cmd>call OrgRoamFindFile()<CR>" {:silent true})
+
+                (which-key.add
+                  [{1 "<leader>/" 2 "<cmd>FzfLua live_grep<CR>" :desc "Search project"}
+                   {1 "<leader>*" 2 "<cmd>FzfLua grep_cword<CR>" :desc "Search at point"}
+                   {1 "<leader><tab>" 2 "<C-^>" :desc "Switch to last buffer"}
+                   {1 "<leader>q" :group "+quit/session"}
+                   {1 "<leader>qq" 2 "<cmd>q<CR>" :desc "Quit vim"}
+                   {1 "<leader>p" :group "+projects"}
+                   {1 "<leader>pf" 2 "<cmd>FzfLua files<CR>" :desc "Find file"}
+                   {1 "<leader>pg" 2 "<cmd>FzfLua tags<CR>" :desc "Find Tags"}
+                   {1 "<leader>pa" 2 "<cmd>:Other<CR>" :desc "Toggle implementation and test"}
+                   {1 "<leader>f" :group "+files"}
+                   {1 "<leader>fs" 2 "<cmd>update<CR>" :desc "File save"}
+                   {1 "<leader>ff" 2 "<cmd>NvimTreeFindFile<CR>" :desc "Find file in directory"}
+                   {1 "<leader>ft" 2 "<cmd>NvimTreeToggle<CR>" :desc "Toggle Tree"}
+                   {1 "<leader>fR" 2 ":Rename " :desc "Rename file"}
+                   {1 "<leader>fc" 2 ":saveas <C-R>=expand(\"%:p:h\")<CR>/" :desc "Copy file"}
+                   {1 "<leader>fr" 2 "<cmd>FzfLua oldfiles<CR>" :desc "Recent files"}
+                   {1 "<leader>fy" 2 ":let @*=expand('%:p') | echo @*<CR>" :desc "Copy Full File Path"}
+                   {1 "<leader>g" :group "+git"}
+                   {1 "<leader>gp" 2 "<cmd>call GhListPullRequests()<CR>" :desc "Github List PRs"}
+                   {1 "<leader>goo" 2 "<cmd>GBrowse<CR>" :desc "Git browse"}
+                   {1 "<leader>gs" 2 "<cmd>Neogit<CR>" :desc "Git status"}
+                   {1 "<leader>gb" 2 "<cmd>Git blame<CR>" :desc "Git blame"}
+                   {1 "<leader>b" :group "+buffers"}
+                   {1 "<leader>bb" 2 "<cmd>FzfLua buffers<CR>" :desc "Find buffer"}
+                   {1 "<leader>bd" 2 "<cmd>bdelete<CR>" :desc "Delete buffer"}
+                   {1 "<leader>bn" 2 "<cmd>bdelete<CR>" :desc "Next buffer"}
+                   {1 "<leader>bp" 2 "<cmd>bdelete<CR>" :desc "Previous buffer"}
+                   {1 "<leader>bh" 2 "<cmd>Startify<CR>" :desc "Home buffer"}
+                   {1 "<leader>w" :group "+windows"}
+                   {1 "<leader>wh" 2 "<cmd>wincmd h<CR>" :desc "Window left"}
+                   {1 "<leader>wl" 2 "<cmd>wincmd l<CR>" :desc "Window right"}
+                   {1 "<leader>wj" 2 "<cmd>wincmd j<CR>" :desc "Window down"}
+                   {1 "<leader>wk" 2 "<cmd>wincmd k<CR>" :desc "Window up"}
+                   {1 "<leader>w<S-h>" 2 "<cmd>wincmd <S-h><CR>" :desc "Move window far left"}
+                   {1 "<leader>w<S-l>" 2 "<cmd>wincmd <S-l><CR>" :desc "Move window far right"}
+                   {1 "<leader>w<S-j>" 2 "<cmd>wincmd <S-j><CR>" :desc "Move window very down"}
+                   {1 "<leader>w<S-k>" 2 "<cmd>wincmd <S-k><CR>" :desc "Move window very top"}
+                   {1 "<leader>ww" 2 "<cmd>wincmd w<CR>" :desc "Other window"}
+                   {1 "<leader>w=" 2 "<cmd>wincmd =<CR>" :desc "Window balance area"}
+                   {1 "<leader>wr" 2 "<cmd>wincmd r<CR>" :desc "Rotate window"}
+                   {1 "<leader>ws" 2 "<cmd>wincmd s<CR>" :desc "Window split"}
+                   {1 "<leader>wv" 2 "<cmd>wincmd v<CR>" :desc "Window vsplit"}
+                   {1 "<leader>wc" 2 "<cmd>close<CR>" :desc "Window close"}
+                   {1 "<leader>s" :group "+search"}
+                   {1 "<leader>sp" 2 "<cmd>FzfLua live_grep<CR>" :desc "Search in project"}
+                   {1 "<leader>ss" 2 "<cmd>FzfLua grep_curbuf<CR>" :desc "Search in buffer"}
+                   {1 "<leader>c" :group "+code"}
+                   {1 "<leader>cx" 2 "<cmd>lua vim.diagnostic.setqflist()<CR>" :desc "Error List"}
+                   {1 "<leader>j" :group "+jump"}
+                   {1 "<leader>jL" 2 "<cmd>AnyJumpLastResults<CR>" :desc "Jump to Last Results"}
+                   {1 "<leader>jj" 2 "<cmd>HopChar1MW<CR>" :desc "Jump to char"}
+                   {1 "<leader>jw" 2 "<cmd>HopWordMW<CR>" :desc "Jump to word"}
+                   {1 "<leader>jl" 2 "<cmd>HopLine<CR>" :desc "Jump to line"}
+                   {1 "<leader>r" :group "+registers"}
+                   {1 "<leader>re" 2 "<cmd>FzfLua registers<CR>" :desc "Registers"}
+                   {1 "<leader>t" :group "+toggle"}
+                   {1 "<leader>tl" 2 "<cmd>set nu! rnu!<CR>" :desc "Toggle Line Number"}
+                   {1 "<leader>ti" 2 "<cmd>IndentLinesToggle<CR>" :desc "Toggle indent line"}
+                   {1 "<leader>n" :group "+notes"}
+                   {1 "<leader>nr" :group "+roam"}
+                   {1 "<leader>nrS" 2 "<cmd>:RoamReset true<CR>" :desc "Sync Database"}
+                   {1 "<leader>nrf" 2 "<cmd>lua require('org-roam').api.find_node()<CR>" :desc "org-roam-find-file"}
+                   {1 "<leader>nri" 2 "<cmd>lua require('org-roam').api.insert_node()<CR>" :desc "org-roam-insert-node"}
+                   {1 "<leader>nrd" :group "+date"}
+                   {1 "<leader>nrdy" 2 "<cmd>call OrgRoamDailiesFindYesterday()<CR>" :desc "org-roam-dailies-find-yesterday"}
+                   {1 "<leader>nrdm" 2 "<cmd>call OrgRoamDailiesFindTomorrow()<CR>" :desc "org-roam-dailies-find-tomorrow"}
+                   {1 "<leader>nrdt" 2 "<cmd>call OrgRoamDailiesFindToday()<CR>" :desc "org-roam-dailies-find-today"}
+                   {1 "<leader>h" :group "+help"}
+                   {1 "<leader>h?" 2 "<cmd>FzfLua help_tags<CR>" :desc "Help tags"}
+                   {1 "<leader>he" 2 "<cmd>messages<CR>" :desc "View messages"}
+                   {1 "<leader>hdf" 2 "<cmd>FzfLua commands<CR>" :desc "Help Commands"}
+                   {1 "<leader>ht" 2 "<cmd>FzfLua colorschemes<CR>" :desc "Load theme"}])))
+
 (use-package! :mhinz/vim-startify
               :cmd "Startify"
               :config
-              (fn [] (set nvim.g.startify_change_to_vcs_root 1)))
+              (fn [] (set vim.g.startify_change_to_vcs_root 1)))
 (use-package! :windwp/nvim-autopairs
               :lazy true
               :config
@@ -27,15 +144,82 @@
                   (let [autopairs-compe (require :nvim-autopairs.completion.compe)]
                     (autopairs-compe.setup {:map_cr true :map_complete true })))))
 
+(use-package! :stevearc/dressing.nvim
+              :enabled true
+              :config
+              (fn []
+                (let [dressing (require :dressing)]
+                  (dressing.setup
+                    {:input {:enabled true
+                             :default_prompt "Input:"
+                             :title_pos "center"
+                             :insert_only true
+                             :start_in_insert true
+                             ;; :anchor "SW"
+                             :border "rounded"
+                             :relative "cursor"
+                             :prefer_width 40
+                             :width nil
+                             :max_width [140 0.9]
+                             :min_width [20 0.2]
+                             :buf_options {}
+                             :win_options {:winblend 10
+                                           :wrap false
+                                           :list true
+                                           :listchars "precedes:…,extends:…"
+                                           :sidescrolloff 0}
+                             :mappings {:n {"<Esc>" "Close"
+                                            "<CR>" "Confirm"}
+                                        :i {"<C-c>" "Close"
+                                            "<CR>" "Confirm"
+                                            "<Up>" "HistoryPrev"
+                                            "<Down>" "HistoryNext"}}
+                             :override (fn [conf]
+                                         ;; This is the config that will be passed to nvim_open_win.
+                                         ;; Change values here to customize the layout
+                                         conf)
+                             ;; :see :help dressing_get_config
+                             :get_config nil}
+                     :select {:enabled true
+                              :backend ["telescope" "fzf_lua" "fzf" "builtin" "nui"]
+                              :trim-prompt true
+                              :telescope nil
+                              :fzf {:window {:width 0.5 :height 0.4}}
+                              :fzf-lua {}
+                              :nui {:position "50%"
+                                    :relative "editor"
+                                    :border {:style "rounded"}
+                                    :buf-options {:swapfile false :filetype "DressingSelect"}
+                                    :win-options {:winblend 10}
+                                    :max-width 80
+                                    :max-height 40
+                                    :min-width 40
+                                    :min-height 10}
+                              :builtin {:override "NW"
+                                        :border "rounded"
+                                        :relative "editor"
+                                        :buf-options {}
+                                        :win-options {:winblend 10}
+                                        :max-width [140 0.8]
+                                        :min-width [40 0.2]
+                                        :max-height 0.9
+                                        :min-height [10 0.2]
+                                        :mappings {["<Esc>"] "Close"
+                                                   ["<C-c>"] "Close"
+                                                   ["<CR>"] "Confirm"}
+                                        :override (fn [conf] conf)}
+                              :format-item-override {}
+                              :get-config nil}}))))
+
 (use-package! :yggdroot/indentLine :cmd "IndentLinesToggle"
               :config
               (fn []
-                (set nvim.g.indentLine_enabled 0)
-                (set nvim.g.indentLine_concealcursor "inc")
-                (set nvim.g.indentLine_conceallevel 2)))
+                (set vim.g.indentLine_enabled 0)
+                (set vim.g.indentLine_concealcursor "inc")
+                (set vim.g.indentLine_conceallevel 2)))
 
 (use-package! :danro/rename.vim :cmd "Rename")
-(use-package! :phaazon/hop.nvim ; easy motion
+(use-package! :wsdjeg/hop.nvim ; easy motion
               :cmd ["HopChar1MW" "HopWordMW" "HopLine"]
               :config
               (fn []
@@ -47,12 +231,12 @@
               :cmd ["AnyJump"]
               :config
               (fn []
-                (set nvim.g.any_jump_references_enabled 0)))
+                (set vim.g.any_jump_references_enabled 0)))
 (use-package! :nvim-treesitter/nvim-treesitter :build ":TSUpdate")  ; We recommend updating the parsers on update
 
 ; search files/keyword
 ; :nvim-lua/popup.nvim {}
-(use-package! :nvim-lua/plenary.nvim :lazy true)
+(use-package! :nvim-lua/plenary.nvim)
 (use-package! :vijaymarupudi/nvim-fzf :lazy true)
 
 (use-package! :ibhagwan/fzf-lua
@@ -61,14 +245,16 @@
               :config
               (fn []
                 (let [fzf-lua (require :fzf-lua)]
-                  (fzf-lua.setup {:winopts {:split "belowright new"}}))))
+                  (fzf-lua.setup {})
+                  ; (fzf-lua.setup {:winopts {:split "belowright new"}})
+                  )))
 
 (use-package! :christoomey/vim-tmux-navigator
               :cmd ["TmuxNavigateLeft" "TmuxNavigateDown" "TmuxNavigateUp" "TmuxNavigateRight"]
               :config
               (fn []
-                (set nvim.g.tmux_navigator_no_mappings 1)
-                (set nvim.g.tmux_navigator_save_on_switch 1)))
+                (set vim.g.tmux_navigator_no_mappings 1)
+                (set vim.g.tmux_navigator_save_on_switch 1)))
 
 (use-package! :preservim/vimux)
 
@@ -78,7 +264,7 @@
               :config
               (fn []
                 (let [various-textobjs (require :various-textobjs)]
-                  (various-textobjs.setup {:useDefaultKeymaps false})
+                  (various-textobjs.setup {:keymaps.useDefaults false})
                   (vim.keymap.set ["o" "x"] "ig" (fn [] (various-textobjs.entireBuffer)))
                   (vim.keymap.set ["o" "x"] "ag" (fn [] (various-textobjs.entireBuffer)))
 
@@ -106,6 +292,7 @@
 ; ui
 (use-package! :joshdick/onedark.vim :lazy true)
 (use-package! :folke/tokyonight.nvim :lazy true)
+(use-package! :echasnovski/mini.icons )
 (use-package! :nvim-tree/nvim-web-devicons )
 (use-package! :nvim-tree/nvim-tree.lua
               :cmd ["NvimTreeFindFile" "NvimTreeToggle"]
@@ -139,7 +326,7 @@
 
 ; lisp
 (use-package! :guns/vim-sexp :lazy true
-              :config (fn [] (set nvim.g.sexp_filetypes "clojure,scheme,lisp,fennel")))
+              :config (fn [] (set vim.g.sexp_filetypes "clojure,scheme,lisp,fennel")))
 
 ; javascript
 (use-package! :pangloss/vim-javascript :ft ["javascript"])
@@ -147,10 +334,10 @@
 (use-package! :alvan/vim-closetag
               :config
               (fn []
-                (set nvim.g.closetag_close_shortcut "<leader>>") ; Add > at current position without closing the current tag, default is ''
-                (set nvim.g.closetag_filenames "*.html,*.xhtml,*.phtml,*.erb,*.jsx,*.js")
-                (set nvim.g.closetag_xhtml_filenames "*.xhtml,*.jsx,*.erb,*.js")
-                (set nvim.g.closetag_emptyTags_caseSensitive 1)))
+                (set vim.g.closetag_close_shortcut "<leader>>") ; Add > at current position without closing the current tag, default is ''
+                (set vim.g.closetag_filenames "*.html,*.xhtml,*.phtml,*.erb,*.jsx,*.js")
+                (set vim.g.closetag_xhtml_filenames "*.xhtml,*.jsx,*.erb,*.js")
+                (set vim.g.closetag_emptyTags_caseSensitive 1)))
 
 (use-package! :rgroli/other.nvim
               :config
@@ -164,17 +351,16 @@
 (use-package! :janko-m/vim-test
               :config
               (fn []
-                (set nvim.g.test#strategy "vimux")
-                (set nvim.g.test#preserve_screen 1)
-
-                (set nvim.test#enabled_runners ["ruby#rspec"])
-                (set nvim.test#ruby#minitest#file_pattern "_spec.rb")))
+                (set vim.g.test#strategy "vimux")
+                (set vim.g.test#preserve_screen 1)
+                (set vim.test#enabled_runners ["ruby#rspec"])
+                (set vim.test#ruby#minitest#file_pattern "_spec.rb")))
 
 ; lsp
-(use-package! :williamboman/mason.nvim
+(use-package! :mason-org/mason.nvim
               :config
               (fn []
-                (defn on-attach [client bufnr]
+                (fn on-attach [client bufnr]
                       ; (_: "command! LspDef lua vim.lsp.buf.definition()")
                       ; (_: "command! LspHover lua vim.lsp.buf.hover()")
                       (noremap-buffer bufnr :n :gD "<cmd>lua vim.lsp.buf.declaration()<CR>" {:noremap true :silent true})
@@ -195,13 +381,10 @@
                 (let [mason (require :mason)
                       mason-lspconfig (require :mason-lspconfig)]
                   (mason.setup {})
-                  (mason-lspconfig.setup {:ensure_installed ["solargraph" "tsserver"]})
-                  ; (lsp.grammarly.setup {:on_attach on-attach :filetypes ["org" "markdown"]})
-                  ; (lsp.ltex.setup {:on_attach on-attach :filetypes ["org" "markdown"]})
-                  (lsp.solargraph.setup {:on_attach on-attach})
-                  (lsp.tsserver.setup {:on_attach on-attach}))))
+                  (mason-lspconfig.setup {:ensure_installed ["solargraph" "ts_ls"]
+                                          :automatic_enable ["solargraph" "ts_ls"]}))))
 
-(use-package! :williamboman/mason-lspconfig.nvim)
+(use-package! :mason-org/mason-lspconfig.nvim)
 (use-package! :neovim/nvim-lspconfig)
 (use-package! :mhartington/formatter.nvim
               :event "BufWritePost"
@@ -218,35 +401,70 @@
                                                :typescript       prettier
                                                :javascriptreact  prettier
                                                :javascript       prettier}}))))
-(use-package! :mfussenegger/nvim-lint)
-(use-package! :github/copilot.vim)
-
-; notes
-(use-package! :kristijanhusak/orgmode.nvim
-              :ft "org"
-              :dependencies ["nvim-treesitter/nvim-treesitter" "michaelb/sniprun"]
+(use-package! :mfussenegger/nvim-lint :event "VeryLazy")
+(use-package! :github/copilot.vim :event "VeryLazy")
+(use-package! :CopilotC-Nvim/CopilotChat.nvim
+              :event "VeryLazy"
+              :dependencies ["github/copilot.vim" "nvim-lua/plenary.nvim"]
+              :opts {:debug true}
               :config
               (fn []
-                ;; org mode
-                (let [parser (require :nvim-treesitter.parsers)
-                      configs (require :nvim-treesitter.configs)
-                      sniprun (require :sniprun)
-                      orgmode (require :orgmode)]
+                (let [copilot-chat (require :CopilotChat)]
+                  (copilot-chat.setup
+                    {:debug true
+                     :prompts {:TextWording {:prompt "Please improve the grammar and wording of the following text."}
+                               :TextConcise { :prompt "Please rewrite the following text to make it more concise." }}}))
 
-                  (configs.setup {:highlight {:enable true
-                                              :disable ["org"]
-                                              :additional_vim_regex_highlighting ["org"]}
-                                  :matchup {:enable true
-                                            :include_match_words true}
-                                  :ensure_installed ["org"]})
-                  (sniprun.setup {:display ["Classic" "NvimNotify"]
-                                  :display_options {:notification_timeout 10}})
-                  (orgmode.setup_ts_grammar)
-                  (orgmode.setup {:org_todo_keywords ["TODO" "DOING" "|" "DONE"]
-                                  :mappings {:org {:org_todo "t"}}}))))
+                (noremap [:n :v] :<Leader>cch
+                           (fn []
+                               (let [actions (require :CopilotChat.actions)
+                                     fzf-lua-int (require :CopilotChat.integrations.fzflua)]
+                                 (fzf-lua-int.pick (actions.help_actions))))
+                           {:desc "Help actions"})
+                (noremap [:n :v] :<Leader>ccp
+                         (fn []
+                           (let [actions (require :CopilotChat.actions)
+                                 fzf-lua-int (require :CopilotChat.integrations.fzflua)]
+                             (fzf-lua-int.pick (actions.prompt_actions))))
+                         {:desc "Prompt actions"})
+                (noremap [:n :v] :<Leader>ccq
+                         (fn []
+                           (vim.ui.input {:prompt "Quick Chat: "}
+                                         (fn [input]
+                                           (when (not (= nil input))
+                                             (vim.cmd (.. "CopilotChat " input))))))
+                         {:desc "Quick chat"})
+                (noremap [:n :v] :<Leader>ccc
+                         "<cmd>CopilotChatToggle<CR>"
+                         {:desc "Toggle Chat"})
+                (noremap [:n :v] :<Leader>cco
+                         "<cmd>CopilotChat<CR>"
+                         {:desc "Open Chat"})))
+
+;; ; notes
+;; (use-package! :nvim-orgmode/orgmode
+;;               :dependencies ["nvim-treesitter/nvim-treesitter" "michaelb/sniprun"]
+;;               :config
+;;               (fn []
+;;                 ;; org mode
+;;                 (let [parser (require :nvim-treesitter.parsers)
+;;                       configs (require :nvim-treesitter.configs)
+;;                       sniprun (require :sniprun)
+;;                       orgmode (require :orgmode)]
+
+;;                   (configs.setup {:highlight {:enable true
+;;                                               :disable ["org"]
+;;                                               :additional_vim_regex_highlighting ["org"]}
+;;                                   :matchup {:enable true
+;;                                             :include_match_words true}
+;;                                   :ensure_installed ["org" "markdown" "diff"]})
+;;                   (sniprun.setup {:display ["Classic" "NvimNotify"]
+;;                                   :display_options {:notification_timeout 10}})
+;;                   (orgmode.setup {:org_todo_keywords ["TODO" "DOING" "|" "DONE"]
+;;                                   :mappings {:org {:org_todo "t"}}}))))
 
 (use-package! :akinsho/org-bullets.nvim
-              :dependencies ["kristijanhusak/orgmode.nvim"]
+              :dependencies [:nvim-orgmode/orgmode]
               :config
               (fn []
                 (let [orgbullets (require :org-bullets)]
@@ -254,35 +472,44 @@
                    {:concealcursor true
                     :symbols {:headlines ["◉" "○" "✸" "✿"]}}))))
 
-(use-package! :michaelb/sniprun :build "bash install.sh" :ft "org")
+; (use-package! :chipsenkbeil/org-roam.nvim
+;               :dependencies [:nvim-orgmode/orgmode]
+;               :config
+;               (fn []
+;                 (let [org-roam (require :org-roam)]
+;                     (org-roam.setup {:directory "~/notes/roam"
+;                                      :database {:path "~/.local/share/nvim/org-roam/db"}
+;                                      :extensions {:dailies {:directory "journals"}}}))))
+
+(use-package! :michaelb/sniprun :build "sh install.sh")
 (use-package! :kkharji/sqlite.lua :ft "lua")
 
-; completion
-(use-package! :hrsh7th/nvim-compe
-              :config
-              (fn []
-                (let [compe (require :compe)] ; TODO handle vsnip with TAB
-                  (set nvim.o.completeopt "menuone,noselect")
-                  (compe.setup
-                   {:enabled true
-                    :autocomplete true
-                    :debug false
-                    :min_length 1
-                    :preselect "enable"
-                    :throttle_time 80
-                    :source_timeout 200
-                    :incomplete_delay 400
-                    :max_abbr_width 100
-                    :max_kind_width 100
-                    :max_menu_width 100
-                    :documentation true
-                    :source {:path true
-                             :buffer true
-                             :calc true
-                             :nvim_lsp true
-                             :nvim_lua true
-                             :conjure true
-                             :vsnip false}}))))
+;; ; completion
+;; (use-package! :hrsh7th/nvim-compe
+;;               :config
+;;               (fn []
+;;                 (let [compe (require :compe)] ; TODO handle vsnip with TAB
+;;                   (set vim.o.completeopt "menuone,noselect")
+;;                   (compe.setup
+;;                    {:enabled true
+;;                     :autocomplete true
+;;                     :debug false
+;;                     :min_length 1
+;;                     :preselect "enable"
+;;                     :throttle_time 80
+;;                     :source_timeout 200
+;;                     :incomplete_delay 400
+;;                     :max_abbr_width 100
+;;                     :max_kind_width 100
+;;                     :max_menu_width 100
+;;                     :documentation true
+;;                     :source {:path true
+;;                              :buffer true
+;;                              :calc true
+;;                              :nvim_lsp true
+;;                              :nvim_lua true
+;;                              :conjure true
+;;                              :vsnip false}}))))
 
 ; config
 (use-package! :dstein64/vim-startuptime :cmd "StartupTime")
@@ -313,22 +540,23 @@
 ; :wlangstroth/vim-racket {}
 
 ;; default
-(set nvim.o.termguicolors true)
-(set nvim.o.clipboard :unnamed)
-(set nvim.o.autoindent true)
-(set nvim.o.smartindent true)
-(set nvim.o.expandtab true)
-(set nvim.o.softtabstop 2)
-(set nvim.o.shiftwidth 2)
-(set nvim.o.number false)
-(set nvim.o.relativenumber false)
-(set nvim.o.encoding :UTF-8)
-(set nvim.o.hlsearch true) ; enable search result highlighting
-(set nvim.o.ignorecase true)
-(set nvim.o.smartcase true)
-(set nvim.o.wrap false) ; nowrap
-(set nvim.o.ttyfast true)
-(set nvim.o.lazyredraw true)
+; (set vim.opt.clipboard :unnamedplus)
+(set vim.o.termguicolors true)
+(set vim.o.clipboard :unnamedplus)
+(set vim.o.autoindent true)
+(set vim.o.smartindent true)
+(set vim.o.expandtab true)
+(set vim.o.softtabstop 2)
+(set vim.o.shiftwidth 2)
+(set vim.o.number false)
+(set vim.o.relativenumber false)
+(set vim.o.encoding :UTF-8)
+(set vim.o.hlsearch true) ; enable search result highlighting
+(set vim.o.ignorecase true)
+(set vim.o.smartcase true)
+(set vim.o.wrap false) ; nowrap
+(set vim.o.ttyfast true)
+(set vim.o.lazyredraw true)
 
 ;; async setup
 (vim.schedule
@@ -342,7 +570,7 @@
 ;; (fn->viml :dotfiles.util :filename :LightlineFilename)
 ;; (fn->viml :dotfiles.util :readonly :LightlineReadonly)
 
-;; (set nvim.g.lightline
+;; (set vim.g.lightline
 ;;      {:colorscheme :default
 ;;       :component_function {:filename :LightlineFilename
 ;;                            :readonly :LightlineReadonly}
@@ -352,130 +580,42 @@
 ;;                        [:percent]]}
 ;;       :inactive {:left [[:filename]]
 ;;                  :right []}})
-(defn- replace-termcodes [str]
-  (nvim.replace_termcodes str true true true))
+;; (defn- replace-termcodes [str]
+;;   (nvim_replace_termcodes str true true true))
 
-(defn- check-backspace []
-  (let [col (- (nvim.fn.col ".") 1)
-        space-under-cursor? (-> (nvim.fn.getline ".")
-                                (string.sub col col)
-                                (string.match "%s")
-                                (not= nil))]
-    (or (= col 0) space-under-cursor?)))
+;; (defn- check-backspace []
+;;   (let [col (- (nvim.fn.col ".") 1)
+;;         space-under-cursor? (-> (nvim.fn.getline ".")
+;;                                 (string.sub col col)
+;;                                 (string.match "%s")
+;;                                 (not= nil))]
+;;     (or (= col 0) space-under-cursor?)))
 
-(global tab_complete (fn []
-                       (if (= (nvim.fn.pumvisible) 1)
-                         (replace-termcodes "<C-n>")
-                         (if (check-backspace)
-                           (replace-termcodes "<Tab>")
-                           ((. nvim.fn "compe#complete"))))))
+;; (global tab_complete (fn []
+;;                        (if (= (nvim.fn.pumvisible) 1)
+;;                          (replace-termcodes "<C-n>")
+;;                          (if (check-backspace)
+;;                            (replace-termcodes "<Tab>")
+;;                            ((. nvim.fn "compe#complete"))))))
 
-(global s_tab_complete (fn []
-                         (if (= (nvim.fn.pumvisible) 1)
-                           (replace-termcodes "<C-p>")
-                           (replace-termcodes "<S-Tab>"))))
+;; (global s_tab_complete (fn []
+;;                          (if (= (nvim.fn.pumvisible) 1)
+;;                            (replace-termcodes "<C-p>")
+;;                            (replace-termcodes "<S-Tab>"))))
 
-(imap :<Tab> "v:lua.tab_complete()" {:expr true})
-(imap :<S-Tab> "v:lua.s_tab_complete()" {:expr true})
+;; (imap :<Tab> "v:lua.tab_complete()" {:expr true})
+;; (imap :<S-Tab> "v:lua.s_tab_complete()" {:expr true})
 
-;; defer loading
 (defer
   1
   (fn []
-    (ex colorscheme :tokyonight-night)
     ;; (ex colorscheme :onedark)
     ;; (ex :Startify)
-
-    ;; custom commands
-    (fn->viml :dotfiles.util :gh-open-pull-request :GhOpenPullRequest)
-    (fn->viml :dotfiles.util :gh-list-pull-requests :GhListPullRequests)
-    (fn->viml :dotfiles.util :ci-open :CiOpen)
-    (fn->viml :dotfiles.util :js-insert-i18n :JsInsertI18n)
-    (fn->viml :dotfiles.util :org-roam-dailies-find-today :OrgRoamDailiesFindToday)
-    (fn->viml :dotfiles.util :org-roam-dailies-find-yesterday :OrgRoamDailiesFindYesterday)
-    (fn->viml :dotfiles.util :org-roam-dailies-find-tomorrow :OrgRoamDailiesFindTomorrow)
-    (fn->viml :dotfiles.util :org-roam-find-file :OrgRoamFindFile)
-
-    (noremap :n :gog "<cmd>call GhOpenPullRequest()<CR>" {:silent true})
-    (noremap :n :goc "<cmd>call CiOpen()<CR>" {:silent true})
-    (noremap :n :<f9> "<cmd>call OrgRoamFindFile()<CR>" {:silent true})
-
-    (which-key.register
-      {:/ ["<cmd>FzfLua live_grep<CR>" "Search project"]
-       :* ["<cmd>FzfLua grep_cword<CR>" "Search at point"]
-       :<tab> ["<C-^>" "Switch to last buffer"]
-       :q {:name "+quit/session"
-           :q ["<cmd>q<CR>" "Quit vim"]}
-       :p {:name "+projects"
-           :f ["<cmd>FzfLua files<CR>" "Find file"]
-           :g ["<cmd>FzfLua tags<CR>" "Find Tags"]
-           :a ["<cmd>:Other<CR>" "Toggle implementation and test"]}
-       :f {:name "+files"
-           :s ["<cmd>update<CR>" "File save"]
-           :f ["<cmd>NvimTreeFindFile<CR>" "Find file in directory"]
-           :t ["<cmd>NvimTreeToggle<CR>" "Toggle Tree"]
-           :R [":Rename " "Rename file"]
-           :c [":saveas <C-R>=expand(\"%:p:h\")<CR>/" "Copy file"]
-           :r ["<cmd>FzfLua oldfiles<CR>" "Recent files"]
-           :y [":let @*=expand('%:p') | echo @*<CR>" "Copy Full File Path"]}
-       :g {:name "+git"
-           :p ["<cmd>call GhListPullRequests()<CR>" "Github List PRs"]
-           :oo ["<cmd>GBrowse<CR>" "Git browse"]
-           :s ["<cmd>Neogit<CR>" "Git status"]
-           :b ["<cmd>Git blame<CR>" "Git blame"]}
-       :b {:name "+buffers"
-           :b ["<cmd>FzfLua buffers<CR>" "Find buffer"]
-           :d ["<cmd>bdelete<CR>" "Delete buffer"]
-           :n ["<cmd>bdelete<CR>" "Next buffer"]
-           :p ["<cmd>bdelete<CR>" "Previous buffer"]
-           :h ["<cmd>Startify<CR>" "Home buffer"]}
-       :w {:name "+windows"
-           :h ["<cmd>wincmd h<CR>" "Window left"]
-           :l ["<cmd>wincmd l<CR>" "Window right"]
-           :j ["<cmd>wincmd j<CR>" "Window down"]
-           :k ["<cmd>wincmd k<CR>" "Window up"]
-           :<S-h> ["<cmd>wincmd <S-h><CR>" "Move window far left"]
-           :<S-l> ["<cmd>wincmd <S-l><CR>" "Move window far right"]
-           :<S-j> ["<cmd>wincmd <S-j><CR>" "Move window very down"]
-           :<S-k> ["<cmd>wincmd <S-k><CR>" "Move window very top"]
-           :w ["<cmd>wincmd w<CR>" "Other window"]
-           := ["<cmd>wincmd =<CR>" "Window balance area"]
-           :r ["<cmd>wincmd r<CR>" "Rotate window"]
-           :s ["<cmd>wincmd s<CR>" "Window split"]
-           :v ["<cmd>wincmd v<CR>" "Window vsplit"]
-           :c ["<cmd>close<CR>" "Window close"]}
-       :s {:name "+search"
-           :p ["<cmd>FzfLua live_grep<CR>" "Search in project"]
-           :s ["<cmd>FzfLua grep_curbuf<CR>" "Search in buffer"]}
-       :c {:name "+code"
-           :x ["<cmd>lua vim.diagnostic.setqflist()<CR>" "Error List"]}
-       :j {:name "+jump"
-           :L ["<cmd>AnyJumpLastResults<CR>" "Jump to Last Results"]
-           :j ["<cmd>HopChar1MW<CR>" "Jump to char"]
-           :w ["<cmd>HopWordMW<CR>" "Jump to word"]
-           :l ["<cmd>HopLine<CR>" "Jump to line"]}
-       :r {:name "+registers"
-           :e ["<cmd>FzfLua registers<CR>" "Registers"]}
-       :t {:name "+toggle"
-           :l ["<cmd>set nu! rnu!<CR>" "Toggle Line Number"]
-           :i ["<cmd>IndentLinesToggle<CR>" "Toggle indent line"]}
-       :n {:name "+notes"
-           :r {:name "+roam"
-               :f ["<cmd>call OrgRoamFindFile()<CR>" "org-roam-find-file"]
-               :d {:name "+date"
-                   :y ["<cmd>call OrgRoamDailiesFindYesterday()<CR>" "org-roam-dailies-find-yesterday"]
-                   :m ["<cmd>call OrgRoamDailiesFindTomorrow()<CR>" "org-roam-dailies-find-tomorrow"]
-                   :t ["<cmd>call OrgRoamDailiesFindToday()<CR>" "org-roam-dailies-find-today"]}}}
-       :h {:name "+help"
-           :? ["<cmd>FzfLua help_tags<CR>" "Help tags"]
-           :e ["<cmd>messages<CR>" "View messages"]
-           :df ["<cmd>FzfLua commands<CR>" "Help Commands"]
-           :t ["<cmd>FzfLua colorschemes<CR>" "Load theme"]}}
-      {:prefix "<leader>"})))
+    (ex "colorscheme tokyonight-night")))
 
 ;; Generic mapping configuration.
-(set nvim.g.mapleader " ")
-(set nvim.g.maplocalleader ",")
+(set vim.g.mapleader " ")
+(set vim.g.maplocalleader ",")
 
 (noremap :n :<space> :<nop>)
 (noremap :n :<M-s> "<cmd>update<CR>")
@@ -483,13 +623,13 @@
 (noremap :n :<M-w> "<cmd>close<CR>")
 (noremap :n :<C-p> "<cmd>FzfLua files<CR>")
 
-;; windows
+;; wndows
 (noremap :n :<C-h> "<cmd>TmuxNavigateLeft<CR>")
 (noremap :n :<C-j> "<cmd>TmuxNavigateDown<CR>")
 (noremap :n :<C-k> "<cmd>TmuxNavigateUp<CR>")
 (noremap :n :<C-l> "<cmd>TmuxNavigateRight<CR>")
 
-(noremap :n :<Leader>! "yy:let cliptext = getreg('*') | :VimuxRunCommand(cliptext)<CR><CR>")
+(noremap :n :<Leader>! "yy:let cliptext = getreg('*') | :call VimuxRunCommand(cliptext)<CR><CR>")
 (noremap :v :<Leader>! "y:let cliptext = getreg('*') | :VimuxRunCommand(cliptext)<CR><CR>")
 
 (noremap :n :<Leader>0 "<cmd>NvimTreeFindFile<CR>")
@@ -507,44 +647,44 @@
 (noremap :v "g]" "<cmd>AnyJumpVisual<CR>")
 (noremap :n "g[" "<cmd>AnyJumpBack<CR>")
 
-(augroup
-  :MagitGit
-  (autocmd :FileType :fugitive "nmap <buffer> q gq")
-  (autocmd :FileType :fugitive "nmap <buffer> pp :Git push<CR>")
-  (autocmd :FileType :fugitiveblame "nmap <buffer> q gq")
+;; (augroup
+;;   :MagitGit
+;;   (autocmd :FileType :fugitive "nmap <buffer> q gq")
+;;   (autocmd :FileType :fugitive "nmap <buffer> pp :Git push<CR>")
+;;   (autocmd :FileType :fugitiveblame "nmap <buffer> q gq")
 
-  (autocmd :FileType :NeogitRebaseTodo "imap <buffer> <C-c><C-c> <cmd>wq<CR>")
-  (autocmd :FileType :NeogitRebaseTodo "nmap <buffer> <C-c><C-c> <cmd>wq<CR>")
-  (autocmd :FileType :NeogitRebaseTodo "imap <buffer> <C-c><C-k> <cmd>q!<CR>")
-  (autocmd :FileType :NeogitRebaseTodo "nmap <buffer> <C-c><C-k> <cmd>q!<CR>")
+;;   (autocmd :FileType :NeogitRebaseTodo "imap <buffer> <C-c><C-c> <cmd>wq<CR>")
+;;   (autocmd :FileType :NeogitRebaseTodo "nmap <buffer> <C-c><C-c> <cmd>wq<CR>")
+;;   (autocmd :FileType :NeogitRebaseTodo "imap <buffer> <C-c><C-k> <cmd>q!<CR>")
+;;   (autocmd :FileType :NeogitRebaseTodo "nmap <buffer> <C-c><C-k> <cmd>q!<CR>")
 
-  (autocmd :FileType :NeogitCommitMessage "imap <buffer> <C-c><C-c> <cmd>wq<CR>")
-  (autocmd :FileType :NeogitCommitMessage "nmap <buffer> <C-c><C-c> <cmd>wq<CR>")
-  (autocmd :FileType :NeogitCommitMessage "imap <buffer> <C-c><C-k> <cmd>q!<CR>")
-  (autocmd :FileType :NeogitCommitMessage "nmap <buffer> <C-c><C-k> <cmd>q!<CR>"))
+;;   (autocmd :FileType :NeogitCommitMessage "imap <buffer> <C-c><C-c> <cmd>wq<CR>")
+;;   (autocmd :FileType :NeogitCommitMessage "nmap <buffer> <C-c><C-c> <cmd>wq<CR>")
+;;   (autocmd :FileType :NeogitCommitMessage "imap <buffer> <C-c><C-k> <cmd>q!<CR>")
+;;   (autocmd :FileType :NeogitCommitMessage "nmap <buffer> <C-c><C-k> <cmd>q!<CR>"))
 
-(augroup
-  :FileRuby
-  (autocmd :FileType :ruby "noremap <f5> :TestNearest<CR>:TmuxNavigateDown<CR>")
-  (autocmd :FileType :ruby "nnoremap <LocalLeader>tt :TestNearest<CR>:TmuxNavigateDown<CR>")
-  (autocmd :FileType :ruby "nnoremap <LocalLeader>tb :TestFile<CR>:TmuxNavigateDown<CR>"))
+;; (augroup
+;;   :FileRuby
+;;   (autocmd :FileType :ruby "noremap <f5> :TestNearest<CR>:TmuxNavigateDown<CR>")
+;;   (autocmd :FileType :ruby "nnoremap <LocalLeader>tt :TestNearest<CR>:TmuxNavigateDown<CR>")
+;;   (autocmd :FileType :ruby "nnoremap <LocalLeader>tb :TestFile<CR>:TmuxNavigateDown<CR>"))
 
-(augroup
-  :FileJavascript
-  (autocmd :FileType :javascript "nnoremap <LocalLeader>il :call JsInsertI18n()<CR>"))
+;; (augroup
+;;   :FileJavascript
+;;   (autocmd :FileType :javascript "nnoremap <LocalLeader>il :call JsInsertI18n()<CR>"))
 
-(augroup
-  :FileOrgMode
-  (autocmd :FileType :org "nmap <buffer> <C-c><C-c> :SnipRun<CR>")
-  (autocmd :FileType :org "nmap <buffer> <LocalLeader>, :SnipRun<CR>"))
+;; (augroup
+;;   :FileOrgMode
+;;   (autocmd :FileType :org "nmap <buffer> <C-c><C-c> :SnipRun<CR>")
+;;   (autocmd :FileType :org "nmap <buffer> <LocalLeader>, :SnipRun<CR>"))
 
-(augroup
-  :Formatter
-  (autocmd :BufWritePost "*.js,*.jsx,*.ts,*.tsx,*.rb" "FormatWrite"))
+;; (augroup
+;;   :Formatter
+;;   (autocmd :BufWritePost "*.js,*.jsx,*.ts,*.tsx,*.rb" "FormatWrite"))
 
-(augroup
-  :Linter
-  (autocmd :BufWritePost "*.js,*.jsx,*.ts,*.tsx,*.rb" "lua require('lint').try_lint()"))
+;; (augroup
+;;   :Linter
+;;   (autocmd :BufWritePost "*.js,*.jsx,*.ts,*.tsx,*.rb" "lua require('lint').try_lint()"))
 
 ;; not work
 (inoremap :<C-Space> "compe#complete()" {:silent true :expr true})
@@ -554,3 +694,4 @@
 
 ;; complete with auto-import
 (inoremap :<CR> "compe#confirm({ 'keys': '<CR>', 'select': v:true })" {:expr true})
+

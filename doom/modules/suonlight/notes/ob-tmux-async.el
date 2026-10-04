@@ -1,6 +1,6 @@
 (require 'dash)
 
-(defvar ob-tmux-delimiters '((ruby . "#####") (sh . "#####")))
+(defvar ob-tmux-delimiters '((ruby . "#####") (sh . "#####") (sql . "-----")))
 (defconst ob-tmux-async-file load-file-name)
 
 (defun ob-tmux-get-delimiters (lang jid)
@@ -96,6 +96,45 @@
                         "-t" (ob-tmux--target ob-session))))
     (string-match (concat "^" finish-delimiter) raw-output)))
 
+(defun ob-tmux-format-code:sql (jid body)
+  (let* ((delimiters (ob-tmux-get-delimiters "sql" jid))
+          (start-delimiter (car delimiters))
+          (finish-delimiter (car (cdr delimiters))))
+    (format "\\echo \'%s\'\n%s;\n\\echo \'%s\'" start-delimiter
+      (->> body
+        (s-replace-regexp "[\\]\s*\n\s*" " ")
+        (s-replace-regexp "[\n\r]+" " "))
+      finish-delimiter)))
+
+(defun ob-tmux-parse-output:sql (raw-output jid body)
+  (let* ((delimiters (ob-tmux-get-delimiters "sql" jid))
+          (start-delimiter (car delimiters))
+          (finish-delimiter (car (cdr delimiters)))
+          (formatted-body (->> body
+                           (s-replace-regexp "[\\]\s*\n\s*" " ")
+                           (s-replace-regexp "[\n\r]+" " ")))
+          (after-start-delimiter (->> raw-output (s-split start-delimiter) -last-item))
+          (after-finish-delimiter (->> raw-output (s-split finish-delimiter) -last-item)))
+    (->> (s-replace after-finish-delimiter "" after-start-delimiter)
+      (s-replace start-delimiter "")
+      (s-replace-regexp (format "^.*%s.*$" finish-delimiter) "")
+      (s-replace-regexp "[\n]+" "\n")
+      s-trim
+      (s-split "\n")
+      (--remove (s-contains? formatted-body it))
+      (-map #'s-trim-right)
+      (s-join "\n"))))
+
+(defun ob-tmux-job-finish:sql (jid ob-session)
+  (let* ((delimiters (ob-tmux-get-delimiters "sql" jid))
+          (finish-delimiter (car (cdr delimiters)))
+          (raw-output (ob-tmux--execute-string ob-session
+                        "capture-pane"
+                        "-J"
+                        "-p" ;; print to stdout
+                        "-t" (ob-tmux--target ob-session))))
+    (string-match (concat "^" finish-delimiter) raw-output)))
+
 (defun ob-tmux-wait-for-job-finish (lang jid ob-session)
   (let ((job-finish (intern (concat "ob-tmux-job-finish:" lang))))
     (if (fboundp job-finish)
@@ -158,6 +197,7 @@ Argument PARAMS the org parameters of the code block."
             (finish-delimiter (car (cdr delimiters)))
             (file (cdr (assq :file params)))
             (socket (cdr (assq :socket params)))
+            (results (cdr (assq :results params)))
             (socket (when socket (expand-file-name socket)))
             (ob-session (ob-tmux--from-org-session org-session socket))
             (session-alive (ob-tmux--session-alive-p ob-session))
@@ -199,7 +239,13 @@ Argument PARAMS the org parameters of the code block."
                  (goto-char (point-min))
                  (search-forward ,jid)
                  (search-backward "src")
-                 (if (eq 'nil file)
-                   (org-babel-insert-result result '("replace"))
-                   (write-region result nil file)
-                   (org-babel-insert-result file '("file" "replace")))))))))))
+                 (if (not (eq file 'nil))
+                   (progn
+                     (write-region result nil file)
+                     (org-babel-insert-result file '("file" "replace")))
+                   (cond
+                     ((s-contains? "none" ,results) (org-babel-insert-result result '("replace")))
+                     ((s-contains? "output" ,results) (org-babel-insert-result result '("replace")))
+                     ((s-contains? "silent" ,results)
+                       (org-babel-remove-result)
+                       (message result))))))))))))

@@ -1,48 +1,145 @@
 (after! org
+  (setq org-todo-keywords '((sequence "TODO" "DOING" "DONE")))
+  (setq find-file-visit-truename t)
   (setq evil-org-key-theme '(navigation insert textobjects additional calendar todo))
-
+  (setq org-use-sub-superscripts nil)
+  (setq org-export-with-sub-superscripts nil)
   (setq org-capture-templates
     `(
+       ("e" "English")
+       ("er" "Reading")
+       ("el" "Listening")
+       ("es" "Speaking")
+       ("ew" "Writing")
+       ("a" "Application")
+       ("ews"
+         "PTE SWT"
+         entry
+         (file+headline "~/notes/roam/pages/20231023201016-summarize_written_text.org" "Learn")
+         "* Item #%:description\n** Front\n\n%:initial** Back\n\n%c")
+       ("ewe"
+         "PTE WE"
+         entry
+         (file+headline "~/notes/roam/pages/20231110200450-writing_essay.org" "Learn")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE Essay\n:ANKI_NOTE_TYPE: Basic with Hint\n:END:\n** Front\n\nItem #%:description\n\n%:initial\n\n** Back\n\n%c\n\n** Hint\n\nTotal: 10/15\n\n%(pte-phrase-hints \"%:description\" \"~/notes/roam/assets/english/pte_magic/writing_essay.json\")\n\n")
+       ("elw"
+         "PTE WFD"
+         entry
+         (file+headline "~/notes/roam/pages/20231013085723-write_from_dictation.org" "Repeated")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE WFD::Repeated\n:ANKI_NOTE_TYPE: Basic (type in the answer)\n:END:\n** Front\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n")
+       ("ell"
+         "PTE L Fill in Blanks"
+         entry
+         (file+headline "~/notes/roam/pages/20231022124135-l_fill_in_the_blanks.org" "Repeated")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE LFIB::Repeated\n:ANKI_NOTE_TYPE: Multiple FIB\n:END:\n** Audio\n\nItem #%:description\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Text\n\n%(pte-magic-fib-text \"%:description\" \"~/notes/roam/assets/english/pte_magic/listening_fib.json\")\n\n** Explain\n\n** Translation\n\n%(yank)\n\n")
+       ("elh"
+         "PTE HIW"
+         entry
+         (file+headline "~/notes/roam/pages/20231022123442-highlight_incorrect_words.org" "Learn")
+         "* Item #%:description\n\n%:initial\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n")
+       ("els"
+         "PTE SST"
+         entry
+         (file+headline "~/notes/roam/pages/20231022112746-summarize_spoken_text.org" "Learn")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE SST::Repeated\n:ANKI_NOTE_TYPE: Basic with Hint and Keywords\n:END:\n** Front\n\nItem #%:description [[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n** Keywords\n\n%(pte-phrase-hints \"%:description\" \"~/notes/roam/assets/english/pte_magic/summarize_spoken_text.json\")\n\n** Hint\n\nTotal: \n\n%c\n\n")
+       ("esr"
+         "PTE RS"
+         entry
+         (file+headline "~/notes/roam/pages/20231013165737-repeat_sentence.org" "Repeated")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RS::Repeated\n:ANKI_NOTE_TYPE: Basic (type in the answer) with Hint\n:END:\n** Front\n\nItem #%:description\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n** Hint\n\n[[../assets/english/%(covert-wav-to-mp3 \"%:description.me\").mp3]]\n\n")
+       ("esa"
+         "PTE Read Aloud"
+         entry
+         (file+headline "~/notes/roam/pages/20231016143844-read_aloud.org" "Repeated")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RA::Repeated\n:ANKI_NOTE_TYPE: Basic with Hint\n:END:\n** Front\n\nItem #%:description\n\n%:initial\n\n** Back\n\n[[../assets/english/%(covert-wav-to-mp3 \"%:description\").mp3]]\n\n** Hint\n\n%(pte-ra-hint \"%:description\")\n\n")
+       ("esd"
+         "PTE Describe Image"
+         entry
+         (file+headline "~/notes/roam/pages/20231030201035-describe_image.org" "Learn")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE DI\n:ANKI_NOTE_TYPE: Basic with Hint\n:END:\n** Front\n\nItem #%:description\n\n** Back\n\n%(pte-phrase-hints \"%:description\" \"~/notes/roam/assets/english/pte_magic/describe_image.json\")\n\n** Hint\n\n[[../assets/english/%(covert-wav-to-mp3 \"%:description\").mp3]]\n\n")
+       ("esl"
+         "PTE Retell Lecture"
+         entry
+         (file+headline "~/notes/roam/pages/20231106211343-retell_lecture.org" "Learn")
+         "* Item #%:description\n\n%:initial\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n")
+       ("erf"
+         "PTE RW Fill in Blanks"
+         entry
+         (file+headline "~/notes/roam/pages/20231014134842-rw_fill_in_the_blanks.org" "Repeated")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RWFIB::Repeated\n:ANKI_NOTE_TYPE: Cloze (FIB)\n:END:\n** Text\n\nItem #%:description\n\n%c\n\n%:initial\n\n** Explain\n\n** Translation\n\n%:initial\n\n")
+       ("erd"
+         "PTE R Fill in Blanks - Drag & Drop"
+         entry
+         (file+headline "~/notes/roam/pages/20231025201731-r_fill_in_the_blanks.org" "Repeated")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RFIB::Repeated\n:ANKI_NOTE_TYPE: Cloze (FIB)\n:END:\n** Text\n\n%c\n\n%:initial\n\n** Explain\n\n** Translation\n\n%:initial\n")
+       ("err"
+         "PTE Re-order Paragraphs"
+         entry
+         (file+headline "~/notes/roam/pages/20231101203133-reorder_paragraphs.org" "Repeated")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE ROP::Repeated\n:ANKI_NOTE_TYPE: Cloze (FIB)\n:END:\n** Text\n\n%:initial\n\n** Explain\n\n%c\n\n")
        ("v"
          "Vocabulary"
          entry
-         (file "~/org-modes/flashcards.org")
+         (file "~/notes/roam/pages/20231103220135-vocabulary.org")
          "* %i%^{prompt} :vocabulary:\n:PROPERTIES:\n:ANKI_DECK: Vocabulary\n:ANKI_NOTE_TYPE: Basic\n:END:\n** Front\n%\\1\n\n** Back\n\n")
        ("c"
          "Code Review"
          entry
-         (file ,(format-time-string "~/org-modes/roam/journals/%Y-%m-%d.org" (current-time) t))
+         (file ,(format-time-string "~/notes/roam/journals/%Y-%m-%d.org" (current-time) t))
          "* %?\n:PROPERTIES:\n:Source: %F\n:Captured_On: %U\n:END:\n\n#+BEGIN_SRC ruby\n%:initial\n#+END_SRC\n")
        ("N"
          "Notes with Browser"
          entry
-         (file ,(format-time-string "~/org-modes/roam/journals/%Y-%m-%d.org" (current-time) t))
+         (file ,(format-time-string "~/notes/roam/journals/%Y-%m-%d.org" (current-time) t))
          ;; "* %?\n\nSource: %:link\nCaptured On:%U\n\n%:description\n\n%:initial\n\n")
          "* %:description%?\n:PROPERTIES:\n:Source: %:link\n:Captured_On: %U\n:END:\n\n%:initial\n\n")
        ("n"
          "Notes with Clipboard"
          entry
-         (file ,(format-time-string "~/org-modes/roam/journals/%Y-%m-%d.org" (current-time) t))
+         (file ,(format-time-string "~/notes/roam/journals/%Y-%m-%d.org" (current-time) t))
          ;; "* %?\n\nSource: %:link\nCaptured On:%U\n\n%:description\n\n%:initial\n\n")
          "* %?\n:PROPERTIES:\n:Source: %:link\n:Captured_On: %U\n:END:\n\n%:description\n\n%c\n\n")
+       ("ac"
+         "Notes with Customisation"
+         entry
+         (file ,(format-time-string "~/notes/roam/journals/%Y-%m-%d.org" (current-time) t))
+         "* %?\n:PROPERTIES:\n:Captured_On: %U\n:END:\n\n%(shell-command-to-string \"cat /tmp/org-capture.message\")\n\n")
        ("D"
          "EH Debugger"
          entry
-         (file ,(format-time-string "~/org-modes/roam/journals/%Y-%m-%d.org" (current-time) t))
+         (file ,(format-time-string "~/notes/roam/journals/%Y-%m-%d.org" (current-time) t))
          "* %:description\n:PROPERTIES:\n:Source: %:link\n:Captured_On: %U\n:END:\n\n%:description\n\nSuggestion:\n%(hero/suggest-debuggers \"%:initial\")\n\n")
        ("E"
          "EH Task"
          entry
-         (file ,(format-time-string "~/org-modes/roam/journals/%Y-%m-%d.org" (current-time) t))
+         (file ,(format-time-string "~/notes/roam/journals/%Y-%m-%d.org" (current-time) t))
          "* TODO %(get-cleansed-title \"%:description\") \n\nGit Branch: %(git-branch-by-title (get-cleansed-title \"%:description\") \"%:link\")\nSource: %:link\nCaptured On: %U\n\n")
        ("A"
          "EH API"
          entry
-         (file "~/org-modes/roam/pages/20210513122118-eh_api.org")
+         (file "~/notes/roam/pages/20210513122118-eh_api.org")
          "* %(hero/get-api-title \"%c\")\n\n#+BEGIN_SRC shell :async :results output :var jwt_token=jwt_token\n%(hero/get-api-curl \"%c\")\n#+END_SRC")))
 
-  (add-hook 'org-mode-hook #'org-modern-mode)
+  (require 'ob-async)
   (require 'org-download))
+
+(defun copy-and-return-file-name (file-name)
+  (rename-file
+    (concat "~/Downloads/" file-name ".mp3")
+    (concat "~/notes/roam/assets/english/" file-name ".mp3")
+    t)
+  file-name)
+
+(defun covert-wav-to-mp3 (file-name)
+  (let ((command (concat "echo y | ffmpeg -i " "~/Downloads/"
+      (last-download-file-name) ".wav" " -acodec mp3 "
+      "~/notes/roam/assets/english/" file-name ".mp3")))
+    (shell-command-to-string command))
+  file-name)
+
+(defun last-download-file-name ()
+  (s-trim
+    (shell-command-to-string "ls -t ~/Downloads | head -n 1 | sed 's/\\..*//'")))
 
 (defun org-agenda-only-window ()
   (interactive)
@@ -60,6 +157,92 @@
     (puthash branch title sl/jira-cache) ;; write to cache
     branch))
 
+(defun pte-phrase-hints (orderId jsonFile)
+  (let* ((json (with-temp-buffer
+                 (insert-file-contents jsonFile)
+                 (json-read)))
+         (data (cdr (assoc 'data json)))
+         (item (car (seq-filter (lambda (item) (string= orderId (cdr (assoc 'orderId item)))) data)))
+         (value (cdr (assoc 'phraseHints item)))
+         )
+    (if (not value)
+        (message "No value")
+        (message "Value: %s" value)
+        (with-temp-buffer
+            (insert value)
+            (buffer-string)))))
+
+(defun pte-shadow-audio (orderId jsonFile)
+  (let* ((json (with-temp-buffer
+                 (insert-file-contents jsonFile)
+                 (json-read)))
+         (data (cdr (assoc 'data json)))
+         (item (car (seq-filter (lambda (item) (string= orderId (cdr (assoc 'orderId item)))) data)))
+         (shadow-audio (cdr (assoc 'shadowAudio item)))
+         (shadow-local-file (concat (file-name-directory jsonFile) orderId ".shadow.mp3")))
+    (if (not shadow-audio)
+      (message "No shadow audio")
+      (message "Downloading shadow audio %s" shadow-audio)
+      (if (not (file-exists-p shadow-local-file))
+        (url-copy-file shadow-audio shadow-local-file)))
+    shadow-local-file))
+
+(defun pte-shadow-text (orderId jsonFile)
+  (let* ((json (with-temp-buffer
+                 (insert-file-contents jsonFile)
+                 (json-read)))
+         (data (cdr (assoc 'data json)))
+         (item (car (seq-filter (lambda (item) (string= orderId (cdr (assoc 'orderId item)))) data)))
+         (shadow-text (cdr (assoc 'shadowText item)))
+         )
+    (if (not shadow-text)
+        (message "No shadow text")
+        (message "Shadow text: %s" shadow-text)
+        (with-temp-buffer
+            (insert shadow-text)
+            (goto-char (point-min))
+            (while (search-forward "<span class=\"ra-pause\">[pause]</span>" nil t)
+                (replace-match "⏸"))
+            (buffer-string)))))
+
+(defun pte-ra-hint (orderId)
+  (let* ((jsonFile "~/notes/roam/assets/english/pte_magic/read_aloud.json")
+         (shadow-audio (pte-shadow-audio orderId jsonFile))
+         (shadow-audio (replace-regexp-in-string "~/notes/roam/assets/" "../assets/" shadow-audio))
+         (shadow-text (pte-shadow-text orderId jsonFile))
+         (heading (concat
+                   (format "%s\n" shadow-text)
+                   (format "\n[[%s]]\n" shadow-audio))))
+    heading))
+
+(defun pte-magic-fib-text (orderId jsonFile)
+  (let* ((json (with-temp-buffer
+                 (insert-file-contents jsonFile)
+                 (json-read)))
+         (data (cdr (assoc 'data json)))
+         (item (car (seq-filter (lambda (item) (string= orderId (cdr (assoc 'orderId item)))) data)))
+         (text (cdr (assoc 'description item)))
+         (answer (s-split ", " (cdr (assoc 'answer item))))
+         (new-text (concat (s-join
+                            ""
+                            (seq-mapn (lambda (a b) (format "%s{{cu::%s}}" a b))
+                                      (s-split "@Blank@" text)
+                                      answer))
+                           (car (last (s-split "@Blank@" text)))))
+         (translation-text (concat (s-join
+                            ""
+                            (seq-mapn (lambda (a b) (format "%s%s" a b))
+                                      (s-split "@Blank@" text)
+                                      answer))
+                           (car (last (s-split "@Blank@" text))))))
+    (require 'google-translate)
+    (google-translate-translate "en" "vi" translation-text 'kill-ring)
+    (if (not text)
+        (message "No value")
+      (with-temp-buffer
+        (insert new-text)
+        (buffer-string)))))
+
 (defun get-cleansed-title (title)
   "Get cleansed title"
   (->> title (s-replace "- Jira" "") s-trim))
@@ -73,54 +256,38 @@
   (setq-default org-download-heading-lvl nil)
   (setq-default org-download-image-dir "../assets"))
 
-(after! ob-tmux
-  (setq org-babel-default-header-args:tmux
-    '((:results . "silent")
-       (:session . "default")
-       (:socket  . nil)))
+; (after! ob-tmux
+;   (setq org-babel-default-header-args:tmux
+;     '((:results . "none")
+;        (:session . "default")
+;        (:socket  . nil)))
 
-  (setq org-babel-tmux-session-prefix "ob-")
-  ;; (setq org-babel-tmux-terminal (if IS-MAC "iterm" "xfce4-termimal"))
-  (setq org-babel-tmux-terminal (if IS-MAC "alacritty" "xfce4-termimal"))
-  (setq org-babel-tmux-terminal-opts '("-t" "ob-tmux" "-e"))
-  (setq org-babel-tmux-location (if IS-MAC "/usr/local/bin/tmux" "/usr/bin/tmux"))
+;   (setq org-babel-tmux-session-prefix "ob-")
+;   ;; (setq org-babel-tmux-terminal (if IS-MAC "iterm" "xfce4-termimal"))
+;   (setq org-babel-tmux-terminal (if IS-MAC "alacritty" "xfce4-termimal"))
+;   (setq org-babel-tmux-terminal-opts '("-t" "ob-tmux" "-e"))
+;   (setq org-babel-tmux-location (if IS-MAC "/usr/local/bin/tmux" "/usr/bin/tmux"))
 
-  (load! "ob-tmux-async"))
+;   (load! "ob-tmux-async"))
 
 (after! ob-mermaid
   (setq ob-mermaid-cli-path "~/.asdf/shims/mmdc"))
 
-(after! org-pomodoro
-  ;; (setq org-pomodoro-long-break-sound (concat doom-private-dir "/assets/bell.wav"))
-  ;; (setq org-pomodoro-ticking-sound (concat doom-private-dir "/assets/bell.wav"))
-  (defun open-mindfulness-buffer ()
-    (interactive)
-    (make-frame '((name . "Mindfulness")))
-    (with-current-buffer (get-buffer-create "*mindfulness*")
-      (erase-buffer)
-      (text-scale-increase 0)
-      (insert-image (create-image "~/.config/doom/assets/mindfulness_1.jpg" 'jpeg nil :scale 0.6))
-      (insert "\n\nVào, ra\nSâu, chậm\nKhỏe, nhẹ\nLắng, Cười\nHiện tại, Tuyệt vời\n")
-      (switch-to-buffer (current-buffer))
-      (delete-other-windows)
-      (toggle-frame-maximized)
-      (text-scale-increase 5)
-      (set-fringe-style '(200 . 200))))
-
-  (add-hook 'org-pomodoro-finished-hook #'open-mindfulness-buffer)
-  (setq org-pomodoro-start-sound (f-join doom-private-dir "/assets/bell.wav"))
-  (setq org-pomodoro-finished-sound (f-join doom-private-dir "/assets/bell.wav"))
-  (setq org-pomodoro-overtime-sound  (f-join doom-private-dir "/assets/bell.wav"))
-  (setq org-pomodoro-short-break-sound (f-join doom-private-dir "/assets/bell.wav")))
-
 (after! org-roam
-  (setq deft-directory "~/Dropbox/org-modes/roam")
-  (setq org-roam-directory "~/Dropbox/org-modes/roam")
+  (setq deft-directory (file-truename "~/notes/roam"))
+  (setq org-roam-directory (file-truename "~/notes/roam"))
   (setq org-roam-dailies-directory "journals/")
   (setq org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox-bin")
-  (setq org-roam-db-location "~/.config/emacs/org-roam.db")
-  (setq org-roam-graph-exclude-matcher '("2020-" "2021-"))
-  (setq org-roam-file-exclude-regexp (-map #'expand-file-name '("~/Dropbox/org-modes/roam/logseq/bak/journals" "~/Dropbox/org-modes/roam/logseq/bak/pages" "~/Dropbox/org-modes/.attach/")))
+  (setq org-roam-db-location "~/.config/org-roam.db")
+  (setq org-roam-graph-exclude-matcher '("2020-" "2021-" "2022-"))
+  (setq org-roam-file-exclude-regexp (-map #'file-truename
+                                           '("~/notes/roam/logseq/bak/journals"
+                                             "~/notes/roam/logseq/bak/pages"
+                                             "~/notes/roam/assests"
+                                             "~/notes/roam/draws"
+                                             "~/notes/roam/logseq"
+                                             "~/notes/roam/whiteboards"
+                                             "~/notes/.attach/")))
   (setq! +org-roam-open-buffer-on-find-file nil)
 
   (setq org-roam-capture-templates
@@ -136,7 +303,7 @@
   (setq org-journal-enable-agenda-integration t)
   (setq org-journal-date-prefix "#+TITLE: ")
   (setq org-journal-file-format "%Y-%m-%d.org")
-  (setq org-journal-dir "~/Dropbox/org-modes/roam")
+  (setq org-journal-dir (file-truename "~/notes/roam"))
   (setq org-journal-date-format "%A, %d %B %Y")
   ;; (setq org-agenda-file-regexp "\\`\\\([^.].*\\.org\\\|[0-9]\\\{8\\\}\\\(\\.gpg\\\)?\\\)\\'")
   ;; (add-to-list 'org-agenda-files org-journal-dir)
@@ -156,8 +323,15 @@
 
 (use-package! org-excalidraw
   :after org-roam
+  :init
+  (setq org-excalidraw-directory (file-truename "~/notes/roam/draws"))
   :config
-  (setq org-excalidraw-directory "~/Dropbox/org-modes/roam/draws")
+  ;; ;; force activate app Excalidraw first
+  ;; (defun org-excalidraw--shell-cmd-open (path os-type)
+  ;;   "Construct shell cmd to open excalidraw file with PATH for OS-TYPE."
+  ;;   (if (eq os-type 'darwin)
+  ;;     (concat "open -a Excalidraw && open " (shell-quote-argument path))
+  ;;     (concat "xdg-open " (shell-quote-argument path))))
   (org-excalidraw-initialize))
 
 (use-package! nov
@@ -231,3 +405,245 @@
 
 (use-package! org-appear
   :hook (org-mode . org-appear-mode))
+
+(use-package! org-modern
+  :hook (org-mode . org-modern-mode)
+  :config
+  (setq org-modern-star 'replace))
+
+(use-package! epc
+  :ensure t)
+
+(use-package! org-node
+  :hook (org-mode . org-node-cache-mode)
+  :config
+  (setq org-node--dbg nil) ;; debug
+  (setq org-node-extra-id-dirs
+    `(,(file-truename "~/notes/roam")))
+  (setq org-node-creation-fn #'org-node-new-by-roam-capture)
+  (setq org-node-slug-fn #'org-node-slugify-like-roam)
+  (setq org-node-creation-hook nil))
+
+(use-package! org-transclusion
+  :after org
+  :init
+
+  (defun org-transclusion-toggle-active ()
+    (interactive)
+    (condition-case nil
+      (if (org-transclusion-check-add) (org-transclusion-add))
+      (error (org-transclusion-deactivate))))
+
+  (map! :map global-map "S-<f9>" #'org-transclusion-toggle-active)
+  (map! :localleader
+    :map org-mode-map
+    :prefix ("m" . "Transclusion")
+    :desc "Toggle Transclusion" "t" #'org-transclusion-mode))
+
+(use-package! org-yt
+  :after org
+  :config
+  (defun org-inline-data-image (_protocol link _description)
+    "Interpret LINK as base64-encoded image data."
+    (base64-decode-string link))
+
+  (org-link-set-parameters
+    "img"
+    :image-data-fun #'org-inline-data-image)
+
+  (defun org-image-update-overlay (file link &optional data-p refresh)
+    "Create image overlay for FILE associtated with org-element LINK.
+If DATA-P is non-nil FILE is not a file name but a string with the image data.
+If REFRESH is non-nil don't download the file but refresh the image.
+See also `create-image'.
+This function is almost a duplicate of a part of `org-display-inline-images'."
+    (when (or data-p (file-exists-p file))
+      (let ((width
+              ;; Apply `org-image-actual-width' specifications.
+              (cond
+                ((not (image-type-available-p 'imagemagick)) nil)
+                ((eq org-image-actual-width t) nil)
+                ((listp org-image-actual-width)
+                  (or
+                    ;; First try to find a width among
+                    ;; attributes associated to the paragraph
+                    ;; containing link.
+                    (let ((paragraph
+                            (let ((e link))
+                              (while (and (setq e (org-element-property
+                                                    :parent e))
+                                       (not (eq (org-element-type e)
+                                              'paragraph))))
+                              e)))
+                      (when paragraph
+                        (save-excursion
+                          (goto-char (org-element-property :begin paragraph))
+                          (when
+                            (re-search-forward
+                              "^[ \t]*#\\+attr_.*?: +.*?:width +\\(\\S-+\\)"
+                              (org-element-property
+                                :post-affiliated paragraph)
+                              t)
+                            (string-to-number (match-string 1))))))
+                    ;; Otherwise, fall-back to provided number.
+                    (car org-image-actual-width)))
+                ((numberp org-image-actual-width)
+                  org-image-actual-width)))
+             (old (get-char-property-and-overlay
+                    (org-element-property :begin link)
+                    'org-image-overlay)))
+        (if (and (car-safe old) refresh)
+          (image-refresh (overlay-get (cdr old) 'display))
+          (let ((image (create-image file
+                         (and width 'imagemagick)
+                         data-p
+                         :width width)))
+            (when image
+              (let* ((link
+                       ;; If inline image is the description
+                       ;; of another link, be sure to
+                       ;; consider the latter as the one to
+                       ;; apply the overlay on.
+                       (let ((parent
+                               (org-element-property :parent link)))
+                         (if (eq (org-element-type parent) 'link)
+                           parent
+                           link)))
+                      (ov (make-overlay
+                            (org-element-property :begin link)
+                            (progn
+                              (goto-char
+                                (org-element-property :end link))
+                              (skip-chars-backward " \t")
+                              (point)))))
+                (overlay-put ov 'display image)
+                (overlay-put ov 'face 'default)
+                (overlay-put ov 'org-image-overlay t)
+                (overlay-put
+                  ov 'modification-hooks
+                  (list 'org-display-inline-remove-overlay))
+                (push ov org-inline-image-overlays)
+                ov)))))))
+
+  (defun org-display-user-inline-images (&optional _include-linked _refresh beg end)
+    "Like `org-display-inline-images' but for image data links.
+_INCLUDE-LINKED and _REFRESH are ignored.
+Restrict to region between BEG and END if both are non-nil.
+Image data links have a :image-data-fun parameter.
+\(See `org-link-set-parameters'.)
+The value of the :image-data-fun parameter is a function
+taking the PROTOCOL, the LINK, and the DESCRIPTION as arguments.
+If that function returns nil the link is not interpreted as image.
+Otherwise the return value is the image data string to be displayed.
+
+Note that only bracket links are allowed as image data links
+with one of the formats [[PROTOCOL:LINK]] or [[PROTOCOL:LINK][DESCRIPTION]] are recognized."
+    (interactive)
+    (when (and (called-interactively-p 'any)
+            (use-region-p))
+      (setq beg (region-beginning)
+        end (region-end)))
+    (when (display-graphic-p)
+      (org-with-wide-buffer
+        (goto-char (or beg (point-min)))
+        (when-let ((image-data-link-parameters
+                     (cl-loop for link-par-entry in org-link-parameters
+                       with fun
+                       when (setq fun (plist-get (cdr link-par-entry) :image-data-fun))
+                       collect (cons (car link-par-entry) fun)))
+                    (image-data-link-re (regexp-opt (mapcar 'car image-data-link-parameters)))
+                    (re (format "\\[\\[\\(%s\\):\\([^]]+\\)\\]\\(?:\\[\\([^]]+\\)\\]\\)?\\]"
+                          image-data-link-re)))
+          (while (re-search-forward re end t)
+            (let* ((protocol (match-string-no-properties 1))
+                    (link (match-string-no-properties 2))
+                    (description (match-string-no-properties 3))
+                    (image-data-link (assoc-string protocol image-data-link-parameters))
+                    (el (save-excursion (goto-char (match-beginning 1)) (org-element-context)))
+                    image-data)
+              (when (and el
+                      (eq (org-element-type el) 'link))
+                (setq image-data
+                  (or (let ((old (get-char-property-and-overlay
+                                   (org-element-property :begin el)
+                                   'org-image-overlay)))
+                        (and old
+                          (car-safe old)
+                          (overlay-get (cdr old) 'display)))
+                    (funcall (cdr image-data-link) protocol link description)))
+                (when image-data
+                  (let ((ol (org-image-update-overlay image-data el t t)))
+                    (when (and ol description)
+                      (overlay-put ol 'after-string description)))))))))))
+
+  (advice-add #'org-display-inline-images :after #'org-display-user-inline-images)
+
+  (defun org-inline-data-image (_protocol link _description)
+    "Interpret LINK as base64-encoded image data."
+    (base64-decode-string link))
+
+  (org-link-set-parameters
+    "img"
+    :image-data-fun #'org-inline-data-image)
+
+  (require 'org-download)
+
+  (defun org-download-screenshot-img ()
+    "Capture screenshot and insert img link with base64 encoded data."
+    (interactive)
+    (let ((file (expand-file-name org-download-screenshot-file)))
+      (shell-command (format org-download-screenshot-method file))
+      (insert "[[img:"
+        (with-temp-buffer
+          (let ((coding-system-for-read 'no-conversion))
+            (insert-file-contents file)
+            (base64-encode-region (point-min) (point-max) t)
+            (buffer-string)))
+        "]]"))
+    (org-display-user-inline-images))
+
+  (defun org-activate-yank-img-links ()
+    "Activate keybinding S-C-y for yanking [[img:...]] links in function `org-mode'.
+Hook this function into `org-mode-hook'."
+    (org-defkey org-mode-map (kbd "S-C-y") #'org-download-screenshot-img))
+
+  (add-hook 'org-mode-hook #'org-activate-yank-img-links)
+
+  )
+
+(load! "ob-astmux")
+
+
+(defun my/org-roam-create-node-from-id-link ()
+  "Create a new Org-roam node from the [[id:UUID][Description]] link at point.
+Extracts the UUID and description, creates a new file named
+<timestamp>_<slug>.org with the ID and title."
+  (interactive)
+  (save-excursion
+    (unless (org-in-regexp org-link-any-re)
+      (user-error "No link found at point"))
+    (goto-char (match-beginning 0))
+    (let* ((context (org-element-context))
+           (type (org-element-property :type context))
+           (id (org-element-property :path context)))
+      (unless (and (eq (org-element-type context) 'link)
+                   (string= type "id") id)
+        (user-error "Not on an id: link"))
+      (when (org-roam-node-from-id id)
+        (user-error "Node with ID %s already exists" id))
+      (let* ((desc-begin (org-element-property :contents-begin context))
+             (desc-end (org-element-property :contents-end context))
+             (description (and desc-begin desc-end
+                               (buffer-substring-no-properties desc-begin desc-end)))
+             (slug (org-roam-node-slugify (or description "")))
+             (filename (format "pages/%s-eh_%s.org"
+                               (format-time-string "%Y%m%d%H%M%S")
+                               (if (string-empty-p slug) "untitled" slug)))
+             (node (org-roam-node-create :id id :title description)))
+        (org-roam-capture-
+         :node node
+         :props '(:finalize find-file)
+         :templates `(("d" "default" plain "%?"
+                       :target (file+head ,filename
+                                          "#+title: ${title}\n")
+                       :unnarrowed t)))))))
