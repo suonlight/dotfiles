@@ -10,7 +10,7 @@ sudo apt install -y \
   libsystemd-dev libjansson-dev gnupg \
   libcurl4-gnutls-dev \
   wl-clipboard \
-  libtool \
+  libtool libtool-bin \
   cargo
 
 echo "=== Granting User without sudo ==="
