@@ -11,32 +11,60 @@ if [ ! -d "dotfiles" ]; then
   git clone git@github.com:suonlight/dotfiles.git
 fi
 
-echo "=== Installing system packages ==="
-sudo apt update
-sudo apt install -y \
-  libncurses-dev libpq-dev libicu-dev cmake pkg-config \
-  unzip bison liblzma-dev libenchant-2-dev \
-  libsystemd-dev libjansson-dev gnupg \
-  libcurl4-gnutls-dev
+echo "=== Creating symlinks ==="
+mkdir -p ~/.config/nvim
+mkdir -p ~/.config/bat
+rm -rf ~/.zshrc ~/.tmux.conf ~/.tmux.sp ~/.ctags ~/.editorconfig ~/.config/doom ~/.config/nvim ~/.config/alacritty
+ln -sf $WORKSPACE/dotfiles/.zshrc ~/.zshrc
+ln -sf $WORKSPACE/dotfiles/.tmux.conf ~/.tmux.conf
+ln -sf $WORKSPACE/dotfiles/.tmux.sp ~/.tmux.sp
+ln -sf $WORKSPACE/dotfiles/.editorconfig ~/.editorconfig
+ln -sf $WORKSPACE/dotfiles/.ctags ~/.ctags
+ln -sf $WORKSPACE/dotfiles/nvim ~/.config/nvim
+ln -sf $WORKSPACE/dotfiles/doom ~/.config/doom
+
+ln -sf $WORKSPACE/dotfiles/ubuntu/alacritty ~/.config/alacritty
+ln -sf $WORKSPACE/dotfiles/bat.conf ~/.config/bat/config
+
+ln -sf $WORKSPACE/dotfiles/xremap ~/.config/xremap
+# ln -sf $WORKSPACE/dotfiles/systemd ~/.config/systemd
+
+# rm -rf ~/.config/polybar
+# ln -sf $WORKSPACE/dotfiles/polybar ~/.config/polybar
+
+# rm -f ~/.xinitrc ~/.xprofile
+# ln -sf $WORKSPACE/dotfiles/.xinitrc ~/.xinitrc
+# ln -sf $WORKSPACE/dotfiles/.xprofile ~/.xprofile
+
+echo "=== Installing Alacritty ==="
+sudo snap install alacritty --classic
 
 echo "=== Installing Neovim ==="
 sudo apt install -y neovim
 
-echo "=== Installing Oh My Zsh ==="
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+echo "=== Installing Zsh ==="
+sudo apt install zsh
 
-echo "=== Installing Zplug ==="
-if [ ! -d "$HOME/.zplug" ]; then
-  curl -sL https://raw.githubusercontent.com/zplug/installer/master/install.zsh | zsh
+echo "=== Installing go ==="
+if [ ! -d "$HOME/.go" ]; then
+  curl https://raw.githubusercontent.com/canha/golang-tools-install-script/master/goinstall.sh | bash
+  source ~/.zshrc
+fi
+
+echo "=== Installing Tmux ==="
+sudo apt install tmux
+
+echo "=== Installing tmux plugins ==="
+if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
 echo "=== Installing asdf ==="
 if [ ! -d "$HOME/.asdf" ]; then
-  git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.18.0
+  go install github.com/asdf-vm/asdf/cmd/asdf@v0.20.2
 fi
 
 echo "=== Setting up asdf plugins ==="
-source ~/.asdf/asdf.sh
 asdf plugin add nodejs
 asdf plugin add yarn
 asdf plugin add ruby
@@ -63,18 +91,22 @@ echo "=== Installing Node.js ==="
 asdf install nodejs latest
 asdf set nodejs $(asdf list nodejs | tail -1 | tr -d ' ')
 
-echo "=== Installing OpenCommit ==="
-npm install -g @ddediu/opencommit
+# echo "=== Installing OpenCommit ==="
+# npm install -g @ddediu/opencommit
 
-echo "=== Installing Ollama and tinyllama ==="
-if [ ! -d "$HOME/ollama" ]; then
-  curl -fsSL https://ollama.com/install.sh | sh
-fi
-ollama pull tinyllama:1.1b
-oco config set OCO_AI_PROVIDER='ollama' OCO_MODEL='tinyllama:1.1b'
+# echo "=== Installing Ollama and tinyllama ==="
+# if [ ! -d "$HOME/ollama" ]; then
+#   curl -fsSL https://ollama.com/install.sh | sh
+# fi
+# ollama pull tinyllama:1.1b
+# oco config set OCO_AI_PROVIDER='ollama' OCO_MODEL='tinyllama:1.1b'
 
-echo "=== Installing tmux plugins ==="
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+echo "=== Installing Dropbox ==="
+cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
+ln -s ~/Dropbox/org-modes/roam ~/notes
+
+echo "=== Installing Emacs ==="
+sudo apt install emacs
 
 echo "=== Installing Doom Emacs ==="
 if [ ! -d "$HOME/projects/doom-emacs" ]; then
@@ -85,33 +117,5 @@ ln -sf ~/projects/dotfiles/doom ~/.config/doom
 rm -rf ~/.config/doom/snippets
 ln -sf ~/.config/doom/private/snippets ~/.config/doom/snippets
 cd ~/.config/emacs && bin/doom install
-
-echo "=== Installing Fonts ==="
-sudo apt install -y fonts-firacode fonts-source-code-pro
-
-echo "=== Creating symlinks ==="
-mkdir -p ~/.config/nvim
-mkdir -p ~/.config/bat
-rm -rf ~/.zshrc ~/.tmux.conf ~/.tmux.sp ~/.ctags ~/.editorconfig ~/.config/doom ~/.config/nvim ~/.config/alacritty
-ln -sf $WORKSPACE/dotfiles/.zshrc ~/.zshrc
-ln -sf $WORKSPACE/dotfiles/.tmux.conf ~/.tmux.conf
-ln -sf $WORKSPACE/dotfiles/.tmux.sp ~/.tmux.sp
-ln -sf $WORKSPACE/dotfiles/.editorconfig ~/.editorconfig
-ln -sf $WORKSPACE/dotfiles/.ctags ~/.ctags
-ln -sf $WORKSPACE/dotfiles/nvim ~/.config/nvim
-ln -sf $WORKSPACE/dotfiles/doom ~/.config/doom
-
-ln -sf $WORKSPACE/dotfiles/ubuntu/alacritty ~/.config/alacritty
-ln -sf $WORKSPACE/dotfiles/bat.conf ~/.config/bat/config
-
-ln -sf $WORKSPACE/dotfiles/xremap ~/.config/xremap
-# ln -sf $WORKSPACE/dotfiles/systemd ~/.config/systemd
-
-# rm -rf ~/.config/polybar
-# ln -sf $WORKSPACE/dotfiles/polybar ~/.config/polybar
-
-# rm -f ~/.xinitrc ~/.xprofile
-# ln -sf $WORKSPACE/dotfiles/.xinitrc ~/.xinitrc
-# ln -sf $WORKSPACE/dotfiles/.xprofile ~/.xprofile
 
 echo "=== Ubuntu setup complete! ==="

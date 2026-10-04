@@ -40,28 +40,28 @@ Will extract content from BUFFER starting from the last 'Thought process' to end
       (agent-shell-attention-notify-default buffer title message)))
   ;; (setq agent-shell-google-authentication
   ;;   (agent-shell-google-make-authentication :login t))
-  (setq agent-shell-google-authentication
-    (agent-shell-google-make-authentication :api-key (getenv "GEMINI_API_KEY")))
+  ; (setq agent-shell-google-authentication
+  ;   (agent-shell-google-make-authentication :api-key (getenv "GEMINI_API_KEY")))
   (setq agent-shell-auggie-authentication
       (agent-shell-make-auggie-authentication :login t))
-  (setq agent-shell-mistral-authentication
-    (agent-shell-mistral-make-authentication :api-key (getenv "MISTRAL_API_KEY")))
-  (setq agent-shell-goose-authentication
-    (agent-shell-make-goose-authentication :openai-api-key (getenv "OPENROUTER_API_KEY")))
-  (setq agent-shell-anthropic-claude-environment
-    (agent-shell-make-environment-variables
-      ;; "ANTHROPIC_BASE_URL" "http://localhost:11434"
-      ;; "ANTHROPIC_AUTH_TOKEN" "ollama"
-      ;; "ANTHROPIC_MODEL" "crow-heretic:latest"
-      ;; https://bailian.console.alibabacloud.com/cn-beijing/?tab=model&accounttraceid=390346ff833e4f0f914694eb78765c94dzzo#/model-market/detail/qwen3-coder-next
-      "ANTHROPIC_BASE_URL" "https://dashscope.aliyuncs.com/compatible-mode/v1"
-      "ANTHROPIC_API_KEY" (getenv "DASHSCOPE_API_KEY")
-      "ANTHROPIC_MODEL" "qwen3.5-plus"))
+  ; (setq agent-shell-mistral-authentication
+  ;   (agent-shell-mistral-make-authentication :api-key (getenv "MISTRAL_API_KEY")))
+  ; (setq agent-shell-goose-authentication
+  ;   (agent-shell-make-goose-authentication :openai-api-key (getenv "OPENROUTER_API_KEY")))
+  ; (setq agent-shell-anthropic-claude-environment
+  ;   (agent-shell-make-environment-variables
+  ;     ;; "ANTHROPIC_BASE_URL" "http://localhost:11434"
+  ;     ;; "ANTHROPIC_AUTH_TOKEN" "ollama"
+  ;     ;; "ANTHROPIC_MODEL" "crow-heretic:latest"
+  ;     ;; https://bailian.console.alibabacloud.com/cn-beijing/?tab=model&accounttraceid=390346ff833e4f0f914694eb78765c94dzzo#/model-market/detail/qwen3-coder-next
+  ;     "ANTHROPIC_BASE_URL" "https://dashscope.aliyuncs.com/compatible-mode/v1"
+  ;     "ANTHROPIC_API_KEY" (getenv "DASHSCOPE_API_KEY")
+  ;     "ANTHROPIC_MODEL" "qwen3.5-plus"))
 
   ;; https://dashscope.aliyuncs.com/compatible-mode/v1
-  (add-to-list 'agent-shell-agent-configs
-    '(ollama-crow
-       :command ("ollama" "run" "crow-heretic")
-       :header-line "Ollama: Crow-9B Heretic"))
+  ; (add-to-list 'agent-shell-agent-configs
+  ;   '(ollama-crow
+  ;      :command ("ollama" "run" "crow-heretic")
+  ;      :header-line "Ollama: Crow-9B Heretic"))
 
   (emacs-remote-server-start))

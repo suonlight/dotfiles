@@ -200,3 +200,9 @@ export PATH="$PATH:/home/minh/.lmstudio/bin"
 
 # opencode
 export PATH=/home/minh/.opencode/bin:$PATH
+
+# GoLang
+export GOROOT=/home/minh/.go
+export PATH=$GOROOT/bin:$PATH
+export GOPATH=/home/minh/go
+export PATH=$GOPATH/bin:$PATH

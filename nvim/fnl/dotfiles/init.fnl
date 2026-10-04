@@ -219,7 +219,7 @@
                 (set vim.g.indentLine_conceallevel 2)))
 
 (use-package! :danro/rename.vim :cmd "Rename")
-(use-package! :phaazon/hop.nvim ; easy motion
+(use-package! :wsdjeg/hop.nvim ; easy motion
               :cmd ["HopChar1MW" "HopWordMW" "HopLine"]
               :config
               (fn []
