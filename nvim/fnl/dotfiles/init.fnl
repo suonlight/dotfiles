@@ -441,27 +441,20 @@
                          "<cmd>CopilotChat<CR>"
                          {:desc "Open Chat"})))
 
-;; ; notes
-;; (use-package! :nvim-orgmode/orgmode
-;;               :dependencies ["nvim-treesitter/nvim-treesitter" "michaelb/sniprun"]
-;;               :config
-;;               (fn []
-;;                 ;; org mode
-;;                 (let [parser (require :nvim-treesitter.parsers)
-;;                       configs (require :nvim-treesitter.configs)
-;;                       sniprun (require :sniprun)
-;;                       orgmode (require :orgmode)]
+; notes
+(use-package! :nvim-orgmode/orgmode
+              :dependencies ["nvim-treesitter/nvim-treesitter" "michaelb/sniprun"]
+              :config
+              (fn []
+                ;; org mode
+                (let [parser (require :nvim-treesitter.parsers)
+                      sniprun (require :sniprun)
+                      orgmode (require :orgmode)]
 
-;;                   (configs.setup {:highlight {:enable true
-;;                                               :disable ["org"]
-;;                                               :additional_vim_regex_highlighting ["org"]}
-;;                                   :matchup {:enable true
-;;                                             :include_match_words true}
-;;                                   :ensure_installed ["org" "markdown" "diff"]})
-;;                   (sniprun.setup {:display ["Classic" "NvimNotify"]
-;;                                   :display_options {:notification_timeout 10}})
-;;                   (orgmode.setup {:org_todo_keywords ["TODO" "DOING" "|" "DONE"]
-;;                                   :mappings {:org {:org_todo "t"}}}))))
+                  (sniprun.setup {:display ["Classic" "NvimNotify"]
+                                  :display_options {:notification_timeout 10}})
+                  (orgmode.setup {:org_todo_keywords ["TODO" "DOING" "|" "DONE"]
+                                  :mappings {:org {:org_todo "t"}}}))))
 
 (use-package! :akinsho/org-bullets.nvim
               :dependencies [:nvim-orgmode/orgmode]

@@ -187,5 +187,5 @@ export PATH="$PATH:$HOME/.lmstudio/bin"
 # GoLang
 export GOROOT="$PATH:$HOME/.go"
 export PATH=$GOROOT/bin:$PATH
-export GOPATH=="$PATH:$HOME/go"
+export GOPATH="$PATH:$HOME/go"
 export PATH=$GOPATH/bin:$PATH

@@ -19,6 +19,25 @@ modmap:
         alone: Ctrl_R
 
 keymap:
+  - name: Gnome Terminal
+    application:
+      only: org.gnome.Ptyxis
+    remap:
+      KEY_LEFTMETA-c: Super-c
+      KEY_LEFTMETA-v: Super-v
+      KEY_LEFTMETA-w: M-w
+      KEY_LEFTMETA-t: M-t
+
+      KEY_LEFTMETA-1: M-1
+      KEY_LEFTMETA-2: M-2
+      KEY_LEFTMETA-3: M-3
+      KEY_LEFTMETA-4: M-4
+      KEY_LEFTMETA-5: M-5
+      KEY_LEFTMETA-6: M-6
+      KEY_LEFTMETA-7: M-7
+      KEY_LEFTMETA-8: M-8
+      KEY_LEFTMETA-9: M-9
+
   - name: Alacritty
     application:
       only: Alacritty
@@ -39,7 +58,7 @@ keymap:
 
   - name: Firefox
     application:
-      only: firefox_firefox
+      only: [/chrome/, /firefox/]
     remap:
       # Emacs word
       KEY_LEFTMETA-b: C-left
@@ -56,6 +75,7 @@ keymap:
       KEY_LEFTMETA-9: M-9
 
       KEY_LEFTMETA-r: C-R
+      KEY_LEFTMETA-f: C-f
 
       # mouse
       # KEY_LEFTMETA-Btn_Left: C-Btn_Left

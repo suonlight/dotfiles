@@ -8,9 +8,6 @@ You need to have environment in your .zshenv first. My config is:
 
 #+begin_src shell :async :results output
 export WORKSPACE="$HOME/projects"
-#+end_src
-
-#+begin_src shell :async :results output
 mkdir -p $WORKSPACE
 cd $WORKSPACE
 git clone git@github.com:suonlight/dotfiles.git

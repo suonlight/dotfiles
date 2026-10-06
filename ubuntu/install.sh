@@ -91,6 +91,9 @@ echo "=== Installing Node.js ==="
 asdf install nodejs latest
 asdf set nodejs $(asdf list nodejs | tail -1 | tr -d ' ')
 
+echo "=== Installing Ruby ==="
+asdf install ruby latest
+asdf set ruby $(asdf list ruby | tail -1 | tr -d ' ')
 # echo "=== Installing OpenCommit ==="
 # npm install -g @ddediu/opencommit
 

@@ -1,13 +1,20 @@
 [Unit]
-Description=Start xremap
+Description=xremap (Wayland)
+After=graphical.target
+Wants=graphical.target
 
 [Service]
 Type=exec
 TimeoutStartSec=30
 WorkingDirectory=%h
 StandardOutput=journal
+Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+Environment=XDG_RUNTIME_DIR=/run/user/1000
 ExecStart=/usr/bin/xremap %h/.config/xremap/config.yml --watch=device --mouse
 Restart=always
+; Type=simple
+; KillMode=process
+; ExecStart=/home/<user>/.cargo/bin/xremap /home/<user>/.xremap/config.yml
 
 [Install]
-WantedBy=default.target
+WantedBy=graphical.target
