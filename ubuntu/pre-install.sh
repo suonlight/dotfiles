@@ -16,6 +16,12 @@ sudo apt install -y \
   ripgrep \
   cargo
 
+echo "=== Installing drivers ==="
+sudo add-apt-repository ppa:kisak/kisak-mesa -y
+sudo apt update
+sudo apt upgrade -y
+sudo apt install mesa-utils mesa-vulkan-drivers
+
 echo "=== Granting User without sudo ==="
 sudo groupadd -f input
 sudo usermod -aG input,input $USER
@@ -26,8 +32,11 @@ echo "=== Installing Fonts ==="
 sudo apt install -y fonts-firacode
 
 echo "=== Installing ibus-unikey ==="
-    sudo apt install ibus-unikey
+sudo apt install ibus-unikey
 
+sudo apt install gnome-shell-extension-manager
+# TODO: install extension xremap and enable
+# gnome-extensions enable xremap@k0kubun.com
 
 gsettings set org.gnome.desktop.wm.keybindings panel-main-menu "['<Super>space']"
 gsettings get org.gnome.desktop.wm.keybindings panel-main-menu
@@ -35,7 +44,7 @@ gsettings set org.gnome.mutter overlay-key ''
 gsettings get org.gnome.mutter overlay-key
 gsettings set org.gnome.shell.keybindings toggle-application-view "['<Super>space']"
 gsettings get org.gnome.shell.keybindings toggle-application-view
-gsettings set org.gnome.desktop.wm.keybindings switch-input-source "['<Shift><Super>period']"
+gsettings set org.gnome.desktop.wm.keybindings switch-input-source "['<Shift><Super>F12']"
 gsettings get org.gnome.desktop.wm.keybindings switch-input-source
 
 gsettings set org.gnome.shell.extensions.dash-to-dock hot-keys false

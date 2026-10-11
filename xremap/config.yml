@@ -19,6 +19,9 @@ modmap:
         alone: Ctrl_R
 
 keymap:
+  - name: Map Super+Shift+. to Super+Shift+p for Fcitx5
+    remap:
+      Super-Shift-dot: Super-Shift-F12
   - name: Gnome Terminal
     application:
       only: org.gnome.Ptyxis

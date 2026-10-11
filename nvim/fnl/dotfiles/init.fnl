@@ -144,72 +144,72 @@
                   (let [autopairs-compe (require :nvim-autopairs.completion.compe)]
                     (autopairs-compe.setup {:map_cr true :map_complete true })))))
 
-(use-package! :stevearc/dressing.nvim
-              :enabled true
-              :config
-              (fn []
-                (let [dressing (require :dressing)]
-                  (dressing.setup
-                    {:input {:enabled true
-                             :default_prompt "Input:"
-                             :title_pos "center"
-                             :insert_only true
-                             :start_in_insert true
-                             ;; :anchor "SW"
-                             :border "rounded"
-                             :relative "cursor"
-                             :prefer_width 40
-                             :width nil
-                             :max_width [140 0.9]
-                             :min_width [20 0.2]
-                             :buf_options {}
-                             :win_options {:winblend 10
-                                           :wrap false
-                                           :list true
-                                           :listchars "precedes:…,extends:…"
-                                           :sidescrolloff 0}
-                             :mappings {:n {"<Esc>" "Close"
-                                            "<CR>" "Confirm"}
-                                        :i {"<C-c>" "Close"
-                                            "<CR>" "Confirm"
-                                            "<Up>" "HistoryPrev"
-                                            "<Down>" "HistoryNext"}}
-                             :override (fn [conf]
-                                         ;; This is the config that will be passed to nvim_open_win.
-                                         ;; Change values here to customize the layout
-                                         conf)
-                             ;; :see :help dressing_get_config
-                             :get_config nil}
-                     :select {:enabled true
-                              :backend ["telescope" "fzf_lua" "fzf" "builtin" "nui"]
-                              :trim-prompt true
-                              :telescope nil
-                              :fzf {:window {:width 0.5 :height 0.4}}
-                              :fzf-lua {}
-                              :nui {:position "50%"
-                                    :relative "editor"
-                                    :border {:style "rounded"}
-                                    :buf-options {:swapfile false :filetype "DressingSelect"}
-                                    :win-options {:winblend 10}
-                                    :max-width 80
-                                    :max-height 40
-                                    :min-width 40
-                                    :min-height 10}
-                              :builtin {:override "NW"
-                                        :border "rounded"
-                                        :relative "editor"
-                                        :buf-options {}
-                                        :win-options {:winblend 10}
-                                        :max-width [140 0.8]
-                                        :min-width [40 0.2]
-                                        :max-height 0.9
-                                        :min-height [10 0.2]
-                                        :mappings {["<Esc>"] "Close"
-                                                   ["<C-c>"] "Close"
-                                                   ["<CR>"] "Confirm"}
-                                        :override (fn [conf] conf)}
-                              :format-item-override {}
-                              :get-config nil}}))))
+;; (use-package! :stevearc/dressing.nvim
+;;               :enabled true
+;;               :config
+;;               (fn []
+;;                 (let [dressing (require :dressing)]
+;;                   (dressing.setup
+;;                     {:input {:enabled true
+;;                              :default_prompt "Input:"
+;;                              :title_pos "center"
+;;                              :insert_only true
+;;                              :start_in_insert true
+;;                              ;; :anchor "SW"
+;;                              :border "rounded"
+;;                              :relative "cursor"
+;;                              :prefer_width 40
+;;                              :width nil
+;;                              :max_width [140 0.9]
+;;                              :min_width [20 0.2]
+;;                              :buf_options {}
+;;                              :win_options {:winblend 10
+;;                                            :wrap false
+;;                                            :list true
+;;                                            :listchars "precedes:…,extends:…"
+;;                                            :sidescrolloff 0}
+;;                              :mappings {:n {"<Esc>" "Close"
+;;                                             "<CR>" "Confirm"}
+;;                                         :i {"<C-c>" "Close"
+;;                                             "<CR>" "Confirm"
+;;                                             "<Up>" "HistoryPrev"
+;;                                             "<Down>" "HistoryNext"}}
+;;                              :override (fn [conf]
+;;                                          ;; This is the config that will be passed to nvim_open_win.
+;;                                          ;; Change values here to customize the layout
+;;                                          conf)
+;;                              ;; :see :help dressing_get_config
+;;                              :get_config nil}
+;;                      :select {:enabled true
+;;                               :backend ["telescope" "fzf_lua" "fzf" "builtin" "nui"]
+;;                               :trim-prompt true
+;;                               :telescope nil
+;;                               :fzf {:window {:width 0.5 :height 0.4}}
+;;                               :fzf-lua {}
+;;                               :nui {:position "50%"
+;;                                     :relative "editor"
+;;                                     :border {:style "rounded"}
+;;                                     :buf-options {:swapfile false :filetype "DressingSelect"}
+;;                                     :win-options {:winblend 10}
+;;                                     :max-width 80
+;;                                     :max-height 40
+;;                                     :min-width 40
+;;                                     :min-height 10}
+;;                               :builtin {:override "NW"
+;;                                         :border "rounded"
+;;                                         :relative "editor"
+;;                                         :buf-options {}
+;;                                         :win-options {:winblend 10}
+;;                                         :max-width [140 0.8]
+;;                                         :min-width [40 0.2]
+;;                                         :max-height 0.9
+;;                                         :min-height [10 0.2]
+;;                                         :mappings {["<Esc>"] "Close"
+;;                                                    ["<C-c>"] "Close"
+;;                                                    ["<CR>"] "Confirm"}
+;;                                         :override (fn [conf] conf)}
+;;                               :format-item-override {}
+;;                               :get-config nil}}))))
 
 (use-package! :yggdroot/indentLine :cmd "IndentLinesToggle"
               :config
@@ -241,7 +241,7 @@
 
 (use-package! :ibhagwan/fzf-lua
               :cmd "FzfLua"
-              :dependencies ["nvim-tree/nvim-web-devicons" "vijaymarupudi/nvim-fzf"]
+              :dependencies ["nvim-tree/nvim-web-devicons"]
               :config
               (fn []
                 (let [fzf-lua (require :fzf-lua)]
@@ -402,44 +402,44 @@
                                                :javascriptreact  prettier
                                                :javascript       prettier}}))))
 (use-package! :mfussenegger/nvim-lint :event "VeryLazy")
-(use-package! :github/copilot.vim :event "VeryLazy")
-(use-package! :CopilotC-Nvim/CopilotChat.nvim
-              :event "VeryLazy"
-              :dependencies ["github/copilot.vim" "nvim-lua/plenary.nvim"]
-              :opts {:debug true}
-              :config
-              (fn []
-                (let [copilot-chat (require :CopilotChat)]
-                  (copilot-chat.setup
-                    {:debug true
-                     :prompts {:TextWording {:prompt "Please improve the grammar and wording of the following text."}
-                               :TextConcise { :prompt "Please rewrite the following text to make it more concise." }}}))
+; (use-package! :github/copilot.vim :event "VeryLazy")
+; (use-package! :CopilotC-Nvim/CopilotChat.nvim
+;               :event "VeryLazy"
+;               :dependencies ["github/copilot.vim" "nvim-lua/plenary.nvim"]
+;               :opts {:debug true}
+;               :config
+;               (fn []
+;                 (let [copilot-chat (require :CopilotChat)]
+;                   (copilot-chat.setup
+;                     {:debug true
+;                      :prompts {:TextWording {:prompt "Please improve the grammar and wording of the following text."}
+;                                :TextConcise { :prompt "Please rewrite the following text to make it more concise." }}}))
 
-                (noremap [:n :v] :<Leader>cch
-                           (fn []
-                               (let [actions (require :CopilotChat.actions)
-                                     fzf-lua-int (require :CopilotChat.integrations.fzflua)]
-                                 (fzf-lua-int.pick (actions.help_actions))))
-                           {:desc "Help actions"})
-                (noremap [:n :v] :<Leader>ccp
-                         (fn []
-                           (let [actions (require :CopilotChat.actions)
-                                 fzf-lua-int (require :CopilotChat.integrations.fzflua)]
-                             (fzf-lua-int.pick (actions.prompt_actions))))
-                         {:desc "Prompt actions"})
-                (noremap [:n :v] :<Leader>ccq
-                         (fn []
-                           (vim.ui.input {:prompt "Quick Chat: "}
-                                         (fn [input]
-                                           (when (not (= nil input))
-                                             (vim.cmd (.. "CopilotChat " input))))))
-                         {:desc "Quick chat"})
-                (noremap [:n :v] :<Leader>ccc
-                         "<cmd>CopilotChatToggle<CR>"
-                         {:desc "Toggle Chat"})
-                (noremap [:n :v] :<Leader>cco
-                         "<cmd>CopilotChat<CR>"
-                         {:desc "Open Chat"})))
+;                 (noremap [:n :v] :<Leader>cch
+;                            (fn []
+;                                (let [actions (require :CopilotChat.actions)
+;                                      fzf-lua-int (require :CopilotChat.integrations.fzflua)]
+;                                  (fzf-lua-int.pick (actions.help_actions))))
+;                            {:desc "Help actions"})
+;                 (noremap [:n :v] :<Leader>ccp
+;                          (fn []
+;                            (let [actions (require :CopilotChat.actions)
+;                                  fzf-lua-int (require :CopilotChat.integrations.fzflua)]
+;                              (fzf-lua-int.pick (actions.prompt_actions))))
+;                          {:desc "Prompt actions"})
+;                 (noremap [:n :v] :<Leader>ccq
+;                          (fn []
+;                            (vim.ui.input {:prompt "Quick Chat: "}
+;                                          (fn [input]
+;                                            (when (not (= nil input))
+;                                              (vim.cmd (.. "CopilotChat " input))))))
+;                          {:desc "Quick chat"})
+;                 (noremap [:n :v] :<Leader>ccc
+;                          "<cmd>CopilotChatToggle<CR>"
+;                          {:desc "Toggle Chat"})
+;                 (noremap [:n :v] :<Leader>cco
+;                          "<cmd>CopilotChat<CR>"
+;                          {:desc "Open Chat"})))
 
 ; notes
 (use-package! :nvim-orgmode/orgmode
@@ -508,6 +508,13 @@
 (use-package! :dstein64/vim-startuptime :cmd "StartupTime")
 
 (use-package-setup!)
+
+;; Ensure vim.ui exists, then set progress_status if missing
+(when (not vim.ui)
+  (set vim.ui {}))
+
+(when (not vim.ui.progress_status)
+  (tset vim.ui :progress_status (fn [] "")))
 
 ;; TODO research each plugin
 ; :tpope/vim-abolish {}
@@ -687,4 +694,3 @@
 
 ;; complete with auto-import
 (inoremap :<CR> "compe#confirm({ 'keys': '<CR>', 'select': v:true })" {:expr true})
-

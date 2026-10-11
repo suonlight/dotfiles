@@ -189,3 +189,6 @@ export GOROOT="$PATH:$HOME/.go"
 export PATH=$GOROOT/bin:$PATH
 export GOPATH="$PATH:$HOME/go"
 export PATH=$GOPATH/bin:$PATH
+
+# opencode
+export PATH=/home/minh/.opencode/bin:$PATH
