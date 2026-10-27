@@ -1,0 +1,3 @@
+#!/bin/bash
+# Wrapper to prevent AMD Polaris GPU ring sdma0 timeout / GPU crash during video decode
+exec /opt/google/chrome/chrome --disable-accelerated-video-decode "$@"

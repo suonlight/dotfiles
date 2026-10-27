@@ -192,3 +192,7 @@ export PATH=$GOPATH/bin:$PATH
 
 # opencode
 export PATH=/home/minh/.opencode/bin:$PATH
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/minh/.local/bin:$PATH"

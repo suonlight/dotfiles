@@ -47,6 +47,7 @@ gsettings get org.gnome.shell.keybindings toggle-application-view
 gsettings set org.gnome.desktop.wm.keybindings switch-input-source "['<Shift><Super>F12']"
 gsettings get org.gnome.desktop.wm.keybindings switch-input-source
 
+
 gsettings set org.gnome.shell.extensions.dash-to-dock hot-keys false
 gsettings set org.gnome.shell.keybindings switch-to-application-1 "[]"
 gsettings set org.gnome.shell.keybindings switch-to-application-2 "[]"
@@ -58,6 +59,7 @@ gsettings set org.gnome.shell.keybindings switch-to-application-7 "[]"
 gsettings set org.gnome.shell.keybindings switch-to-application-8 "[]"
 gsettings set org.gnome.shell.keybindings switch-to-application-9 "[]"
 gsettings set org.gnome.shell.keybindings toggle-message-tray "[]"
+gsettings set org.gnome.shell.keybindings toggle-quick-settings "[]"
 
 # check: $ gsettings get org.gnome.shell.keybindings switch-to-application-1
 # reset: $ gsettings reset-recursively org.gnome.shell.keybindings

@@ -7,10 +7,6 @@
   (setq org-capture-templates
     `(
        ("e" "English")
-       ("er" "Reading")
-       ("el" "Listening")
-       ("es" "Speaking")
-       ("ew" "Writing")
        ("a" "Application")
        ("ews"
          "PTE SWT"
@@ -22,11 +18,11 @@
          entry
          (file+headline "~/notes/roam/pages/20231110200450-writing_essay.org" "Learn")
          "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE Essay\n:ANKI_NOTE_TYPE: Basic with Hint\n:END:\n** Front\n\nItem #%:description\n\n%:initial\n\n** Back\n\n%c\n\n** Hint\n\nTotal: 10/15\n\n%(pte-phrase-hints \"%:description\" \"~/notes/roam/assets/english/pte_magic/writing_essay.json\")\n\n")
-       ("elw"
+       ("ewfd"
          "PTE WFD"
          entry
-         (file+headline "~/notes/roam/pages/20231013085723-write_from_dictation.org" "Repeated")
-         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE WFD::Repeated\n:ANKI_NOTE_TYPE: Basic (type in the answer)\n:END:\n** Front\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n")
+         (file+headline "~/notes/roam/pages/20231013085723-write_from_dictation.org" "Learn")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE WFD\n:ANKI_NOTE_TYPE: Basic (type in the answer)\n:END:\n** Front\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n")
        ("ell"
          "PTE L Fill in Blanks"
          entry
@@ -43,10 +39,10 @@
          (file+headline "~/notes/roam/pages/20231022112746-summarize_spoken_text.org" "Learn")
          "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE SST::Repeated\n:ANKI_NOTE_TYPE: Basic with Hint and Keywords\n:END:\n** Front\n\nItem #%:description [[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n** Keywords\n\n%(pte-phrase-hints \"%:description\" \"~/notes/roam/assets/english/pte_magic/summarize_spoken_text.json\")\n\n** Hint\n\nTotal: \n\n%c\n\n")
        ("esr"
-         "PTE RS"
+         "PTE Repeat Sentence"
          entry
-         (file+headline "~/notes/roam/pages/20231013165737-repeat_sentence.org" "Repeated")
-         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RS::Repeated\n:ANKI_NOTE_TYPE: Basic (type in the answer) with Hint\n:END:\n** Front\n\nItem #%:description\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n** Hint\n\n[[../assets/english/%(covert-wav-to-mp3 \"%:description.me\").mp3]]\n\n")
+         (file+headline "~/notes/roam/pages/20231013165737-repeat_sentence.org" "Learn")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RS\n:ANKI_NOTE_TYPE: Basic (type in the answer)\n:END:\n** Front\n\nItem #%:description\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n")
        ("esa"
          "PTE Read Aloud"
          entry
@@ -57,11 +53,16 @@
          entry
          (file+headline "~/notes/roam/pages/20231030201035-describe_image.org" "Learn")
          "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE DI\n:ANKI_NOTE_TYPE: Basic with Hint\n:END:\n** Front\n\nItem #%:description\n\n** Back\n\n%(pte-phrase-hints \"%:description\" \"~/notes/roam/assets/english/pte_magic/describe_image.json\")\n\n** Hint\n\n[[../assets/english/%(covert-wav-to-mp3 \"%:description\").mp3]]\n\n")
-       ("esl"
+       ("erl"
          "PTE Retell Lecture"
          entry
          (file+headline "~/notes/roam/pages/20231106211343-retell_lecture.org" "Learn")
-         "* Item #%:description\n\n%:initial\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE RL\n:ANKI_NOTE_TYPE: Basic FB\n:END:\n** Front\n\nItem #%:description\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n")
+       ("esgd"
+         "PTE Summarize Group Discussion"
+         entry
+         (file+headline "~/notes/roam/pages/20261009181733-summarize_group_discussion.org" "Learn")
+         "* Item #%:description\n:PROPERTIES:\n:ANKI_DECK: PTE SDG\n:ANKI_NOTE_TYPE: Basic with Hint\n:END:\n** Front\n\nItem #%:description\n\n[[../assets/english/%(copy-and-return-file-name \"%:description\").mp3]]\n\n** Back\n\n%:initial\n\n** Hint\n\n")
        ("erf"
          "PTE RW Fill in Blanks"
          entry
@@ -119,6 +120,8 @@
          entry
          (file "~/notes/roam/pages/20210513122118-eh_api.org")
          "* %(hero/get-api-title \"%c\")\n\n#+BEGIN_SRC shell :async :results output :var jwt_token=jwt_token\n%(hero/get-api-curl \"%c\")\n#+END_SRC")))
+
+  (when IS-LINUX (add-to-list 'org-file-apps '("\\.mp3\\'" . "mpv %s")))
 
   (require 'ob-async)
   (require 'org-download))

@@ -24,6 +24,7 @@ ln -sf $WORKSPACE/dotfiles/nvim ~/.config/nvim
 ln -sf $WORKSPACE/dotfiles/doom ~/.config/doom
 
 ln -sf $WORKSPACE/dotfiles/ubuntu/alacritty ~/.config/alacritty
+ln -sf $WORKSPACE/dotfiles/ubuntu/applications/org-protocol.desktop ~/.local/share/applications/org-protocol.desktop
 ln -sf $WORKSPACE/dotfiles/bat.conf ~/.config/bat/config
 
 ln -sf $WORKSPACE/dotfiles/xremap ~/.config/xremap

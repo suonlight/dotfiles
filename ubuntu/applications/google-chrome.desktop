@@ -1,0 +1,26 @@
+[Desktop Entry]
+Version=1.0
+Name=Google Chrome
+GenericName=Web Browser
+GenericName[vi]=Bộ duyệt Web
+Comment=Access the Internet
+Comment[vi]=Truy cập Internet
+Exec=/usr/bin/google-chrome-stable --disable-accelerated-video-decode %U
+StartupNotify=true
+StartupWMClass=google-chrome
+Terminal=false
+Icon=google-chrome
+Type=Application
+Categories=Network;WebBrowser;
+MimeType=application/pdf;application/rdf+xml;application/rss+xml;application/xhtml+xml;application/xhtml_xml;application/xml;image/gif;image/jpeg;image/png;image/webp;text/html;text/xml;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/google-chrome;
+Actions=new-window;new-private-window;
+
+[Desktop Action new-window]
+Name=New Window
+Name[vi]=Cửa sổ Mới
+Exec=/usr/bin/google-chrome-stable --disable-accelerated-video-decode
+
+[Desktop Action new-private-window]
+Name=New Incognito Window
+Name[vi]=Cửa sổ ẩn danh mới
+Exec=/usr/bin/google-chrome-stable --disable-accelerated-video-decode --incognito

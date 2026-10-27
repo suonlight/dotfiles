@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Org Protocol
+Exec=emacsclient -c -F '((name . "doom-capture") (width . 70) (height . 25) (transient . t))' -e '(org-protocol-open-frame "%u")'
+Type=Application
+Terminal=false
+MimeType=x-scheme-handler/org-protocol;

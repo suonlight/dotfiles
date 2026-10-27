@@ -59,7 +59,7 @@ keymap:
       KEY_LEFTMETA-8: M-8
       KEY_LEFTMETA-9: M-9
 
-  - name: Firefox
+  - name: Browser
     application:
       only: [/chrome/, /firefox/]
     remap:
@@ -79,6 +79,7 @@ keymap:
 
       KEY_LEFTMETA-r: C-R
       KEY_LEFTMETA-f: C-f
+      KEY_LEFTMETA-Shift-4: KEY_LEFTMETA-Shift-4
 
       # mouse
       # KEY_LEFTMETA-Btn_Left: C-Btn_Left
